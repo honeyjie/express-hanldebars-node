@@ -1,0 +1,7 @@
+{
+    "host": "http://utuotu.com",
+    "/opencode": {
+        "mehtod": "GET",
+        "url": "/v1/login/opencode.action"
+    }
+}

@@ -1,0 +1,6 @@
+.impowerBox .qrcode {width: 180px;}
+.impowerBox .title {display: none;}
+.impowerBox .info {width: 180px;}
+.status_icon {display：none}
+.impowerBox .status {text-align: center;}
+.impowerBox {background: orange;} 
