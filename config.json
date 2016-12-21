@@ -1,7 +1,183 @@
 {
     "host": "http://utuotu.com",
-    "/opencode": {
+    "/login/try": {
+        "mehtod": "GET",
+        "url": "/v1/login/try.action"
+    },
+    "/login/image": {
+        "mehtod": "GET",
+        "url": "/v1/login/image.action"
+    },
+    "/login/start": {
+        "mehtod": "GET",
+        "url": "/v1/login/start.action"
+    },
+    "/login/opencode": {
         "mehtod": "GET",
         "url": "/v1/login/opencode.action"
+    },
+    "/login/logout": {
+        "mehtod": "GET",
+        "url": "/v1/login/logout.action"
+    },
+    "/login/validphone": {
+        "mehtod": "POST",
+        "url": "/v1/login/validphone.action"
+    },
+    "/login/validemail": {
+        "mehtod": "POST",
+        "url": "/v1/login/validemail.action"
+    },
+    "/login/validname": {
+        "mehtod": "POST",
+        "url": "/v1/login/validname.action"
+    },
+    "/login/login": {
+        "mehtod": "POST",
+        "url": "/v1/login/login.action"
+    },
+    "/login/register": {
+        "mehtod": "POST",
+        "url": "/v1/login/register.action"
+    },
+    "/user/cache": {
+        "mehtod": "POST",
+        "url": "/v1/user/cache.action"
+    },
+    "/help/qiqiuauth": {
+        "mehtod": "GET",
+        "url": "/v1/help/qiqiuauth.action"
+    },
+    "/help/redirect": {
+        "mehtod": "GET",
+        "url": "/v1/help/redirect.action"
+    },
+    "/help/encode": {
+        "mehtod": "GET",
+        "url": "/v1/help/encode.action"
+    },
+    "/User/invitenum": {
+        "mehtod": "GET",
+        "url": "/v1/User/invitenum.action"
+    },
+    "/User/mission": {
+        "mehtod": "GET",
+        "url": "/v1/User/mission.action"
+    },
+    "/user/userinfo": {
+        "mehtod": "POST",
+        "url": "/v1/user/userinfo.action"
+    },
+    "/user/sendvaildemail": {
+        "mehtod": "GET",
+        "url": "/v1/user/sendvaildemail.action"
+    },
+    "/user/isvalid": {
+        "mehtod": "GET",
+        "url": "/v1/user/isvalid.action"
+    },
+    "/User/delallmsg": {
+        "mehtod": "GET",
+        "url": "/v1/User/delallmsg.action"
+    },
+    "/msg/forget": {
+        "mehtod": "GET",
+        "url": "/v1/msg/forget.action"
+    },
+    "/User/saveuserbase": {
+        "mehtod": "POST",
+        "url": "/v1/User/saveuserbase.action"
+    },
+    "/User/saveuser": {
+        "mehtod": "POST",
+        "url": "/v1/User/saveuser.action"
+    },
+    "/User/invite": {
+        "mehtod": "GET",
+        "url": "/v1/User/invite.action"
+    },
+    "/User/feedback": {
+        "mehtod": "GET",
+        "url": "/v1/User/feedback.action"
+    },
+    "/User/delmsg": {
+        "mehtod": "GET",
+        "url": "/v1/User/delmsg.action"
+    },
+    "/User/isread": {
+        "mehtod": "GET",
+        "url": "/v1/User/isread.action"
+    },
+    "/User/getsendmsg": {
+        "mehtod": "GET",
+        "url": "/v1/User/getsendmsg.action"
+    },
+    "/User/getmsg": {
+        "mehtod": "GET",
+        "url": "/v1/User/getmsg.action"
+    },
+    "/User/sendmsg": {
+        "mehtod": "GET",
+        "url": "/v1/User/sendmsg.action"
+    },
+    "/User/creditlog": {
+        "mehtod": "GET",
+        "url": "/v1/User/creditlog.action"
+    },
+    "/User/currnetcredit": {
+        "mehtod": "GET",
+        "url": "/v1/User/currnetcredit.action"
+    },
+    "/schoolmajor/filterschool": {
+        "mehtod": "GET",
+        "url": "/v1/schoolmajor/filterschool.action"
+    },
+    "/schoolmajor/searchschool": {
+        "mehtod": "GET",
+        "url": "/v1/schoolmajor/searchschool.action"
+    },
+    "/completeform/intelligentselection": {
+        "mehtod": "GET",
+        "url": "/v1/completeform/intelligentselection.action"
+    },
+    "/schoolmajor/getrank": {
+        "mehtod": "GET",
+        "url": "/v1/schoolmajor/getrank.action"
+    },
+    "/schoolmajor/historyoffer": {
+        "mehtod": "GET",
+        "url": "/v1/schoolmajor/historyoffer.action"
+    },
+    "/completeform/saveform": {
+        "mehtod": "POST",
+        "url": "/v1/completeform/saveform.action"
+    },
+    "/completeform/form": {
+        "mehtod": "GET",
+        "url": "/v1/completeform/form.action"
+    },
+    "/completeform/chinamajor": {
+        "mehtod": "POST",
+        "url": "/v1/completeform/chinamajor.action"
+    },
+    "/completeform/chinaschool": {
+        "mehtod": "POST",
+        "url": "/v1/completeform/chinaschool.action"
+    },
+    "/SchoolInfo/add_group": {
+        "mehtod": "GET",
+        "url": "/v1/SchoolInfo/add_group.action"
+    },
+    "/schoolinfo/getschoolmajorinfo": {
+        "mehtod": "GET",
+        "url": "/v1/schoolinfo/getschoolmajorinfo.action"
+    },
+    "/schoolinfo/getallschoolmajor": {
+        "mehtod": "GET",
+        "url": "/v1/schoolinfo/getallschoolmajor.action"
+    },
+    "/schoolinfo/getschoolbase": {
+        "mehtod": "GET",
+        "url": "/v1/schoolinfo/getschoolbase.action"
     }
 }

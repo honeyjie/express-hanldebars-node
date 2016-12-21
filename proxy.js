@@ -1,9 +1,12 @@
-var request = require("request");
+var request = require("request");  //这个才是request
+
 var path = require("path");
 
 function Proxy() {
     this.config = require("./config.json");
 }
+
+//这个request只不过把request库封装了一下
 Proxy.prototype.request = function(apiName, options, callback) {
     var item = this.config[apiName];
     if (!item) {
@@ -14,7 +17,6 @@ Proxy.prototype.request = function(apiName, options, callback) {
     options = options || {}
     Object.assign(options, item);
     options.url = this.config["host"] + options.url;
-
     request(options, callback);
 }
 

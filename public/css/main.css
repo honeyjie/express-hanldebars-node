@@ -268,7 +268,6 @@
     text-align: center;
     border-radius: 5px;
     overflow: hidden;
-    z-index: -1;
 }
 .login-switch{
     position: absolute;
@@ -277,6 +276,9 @@
     top: 0;
     right: 0;
     cursor: pointer;
+    index: 10;
+    display：block;
+    background: orange;
 }
 // .login-title{
 //     font-size: 16px;

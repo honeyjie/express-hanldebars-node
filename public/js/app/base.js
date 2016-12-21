@@ -34,7 +34,7 @@ define(['jquery'],function(jquery){
     //检查用户名是否重复
     function testUsername(dom){
         $.ajax({
-            url:'http://utuotu.com/v1/login/validname.action',
+            url:'/login/validname',
             data:{
                 value : userInfo.username
             },
@@ -58,7 +58,7 @@ define(['jquery'],function(jquery){
     //检查邮箱是否重复
     function testEmail(dom){
         $.ajax({
-            url:'http://utuotu.com/v1/login/validemail.action',
+            url:'/login/validemail',
             data:{
                 value : userInfo.email
             },
@@ -82,7 +82,7 @@ define(['jquery'],function(jquery){
     //检查手机号是否重复
     function testPhone(dom){
         $.ajax({
-            url:'http://utuotu.com/v1/login/validphone.action',
+            url:'/login/validphone',
             data:{
                 value : userInfo.phone
             },
@@ -106,7 +106,7 @@ define(['jquery'],function(jquery){
     //验证密码是否正确
     function testOldpassword(dom){
         $.ajax({
-            url:'http://utuotu.com/v1/login/validpassword.action',
+            url:'/login/validpassword',
             data:{
                 password : userInfo.oldpassword
             },
@@ -130,7 +130,7 @@ define(['jquery'],function(jquery){
     //验证学校
     function testSchool(dom){
         $.ajax({
-            url:'http://utuotu.com/v1/login/validschool.action',
+            url:'/login/validschool',
             data:{
                 school : userInfo.school
             },
@@ -155,7 +155,7 @@ define(['jquery'],function(jquery){
     //验证专业
     function testMajor(dom){
         $.ajax({
-            url:'http://utuotu.com/v1/login/validmajor.action',
+            url:'/login/validmajor',
             data:{
                 major : userInfo.major
             },
@@ -240,7 +240,7 @@ define(['jquery'],function(jquery){
     //发送验证邮件
     function sendTestEmail(){
         $.ajax({
-            url:'http://localhost/v1/user/sendvaildemail.action',
+            url:'/user/sendvaildemail',
             data:{
 
             },

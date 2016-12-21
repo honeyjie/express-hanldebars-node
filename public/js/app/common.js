@@ -112,7 +112,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             e.stopPropagation();
             $('.login').removeClass('index');
             base.openLogin();
-            $.get('/opencode', function(res) {
+            $.get('/login/opencode', function(res) {
                 var obj = new WxLogin({
                   id:"login_container",
                   appid: res.data.appid,
@@ -120,17 +120,19 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
                   redirect_uri: encodeURIComponent(res.data.redirect_uri),
                   state: res.data.state,
                   style: "black",
-                  href: "css/wechat.css"
+                  href: "https://coding.net/u/xiongjie/p/myapp1.0/git/raw/master/public/css/wechat.css"
                 });
             })
+        });
+
+        $('.login').on('click',function(e){
+            e.stopPropagation();
         });
         $('.login-switch').on('click',function(e){
             e.stopPropagation();
             tabLogin($(this))
         });
-        $('.login').on('click',function(e){
-            e.stopPropagation();
-        });
+        
         //判断登录按钮
         $('.login-box input').on('input propertychange',function(){
             if(!$('.login-username').val()||!$('.login-password').val()){
@@ -148,11 +150,6 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             e.stopPropagation();
             logout();
         })
-
-    // });
-
-    // $('.footer').load('/partials/footer.hbs');  //公共底部 测试用
-
 
     function openSearch(){
         $('.header-search-icon').fadeOut(200);
@@ -214,8 +211,9 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
     }
     //获取用户信息
     function userInfo(){
+        console.log("userInfo")
         $.ajax({
-            url:'http://utuotu.com/v1/user/cache.action',
+            url:'/user/cache',
             data:{
 
             },
@@ -246,9 +244,10 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
     }
 
     //账号密码登录
-    function login(){
+    function login() {
         base.userInfo.username = $('.login-username').val();
         base.userInfo.password = $('.login-password').val();
+        console.log(base.userInfo.username + "," + base.userInfo.password)
         if(!base.userInfo.username){
             $('.login-message').removeClass('hidden').html('用户名不能为空');
             return;
@@ -258,11 +257,11 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             return;
         }
         $.ajax({
-            url:'http://utuotu.com/v1/login/login.action',
+            url:'/login/login',
             data:{
                 name : base.userInfo.username,
                 password : base.userInfo.password
-            },
+            }, 
             type:'post',
             cache:false,
             dataType:'json',
@@ -286,12 +285,13 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
                 base.notice('网络错误');
             }
         });
+
     }
 
     //退出登录
     function logout(){
         $.ajax({
-            url:'http://utuotu.com/v1/login/logout.action',
+            url:'/login/logout',
             data:{
 
             },

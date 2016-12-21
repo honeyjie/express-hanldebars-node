@@ -13,7 +13,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 var hbs = exphbs.create({
     defaultLayout: 'main',
-    extname:      "hbs",
+    extname: "hbs",
     partialsDir: [
         'shared/templates/',
         'views/partials/'
