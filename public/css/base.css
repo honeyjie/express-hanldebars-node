@@ -150,6 +150,16 @@ img{
 .list-page li:hover .list-page-next{
     border-left: 10px solid #666666;
 }
+.list-page-total{
+    display: inline-block;
+    margin-left: 10px;
+    height: 26px;
+    line-height: 26px;
+    vertical-align: top;
+}
+.list-page-total span{
+    margin: 0 5px;
+}
 .button-solid{
     background: #25baf4;
     color: #ffffff;

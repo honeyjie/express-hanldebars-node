@@ -34,7 +34,7 @@ define(['jquery'],function(jquery){
     //检查用户名是否重复
     function testUsername(dom){
         $.ajax({
-            url:'/login/validname',
+            url:'/v1/login/validname.action',
             data:{
                 value : userInfo.username
             },
@@ -58,7 +58,7 @@ define(['jquery'],function(jquery){
     //检查邮箱是否重复
     function testEmail(dom){
         $.ajax({
-            url:'/login/validemail',
+            url:'/v1/login/validemail.action',
             data:{
                 value : userInfo.email
             },
@@ -82,7 +82,7 @@ define(['jquery'],function(jquery){
     //检查手机号是否重复
     function testPhone(dom){
         $.ajax({
-            url:'/login/validphone',
+            url:'/v1/login/validphone.action',
             data:{
                 value : userInfo.phone
             },
@@ -106,7 +106,7 @@ define(['jquery'],function(jquery){
     //验证密码是否正确
     function testOldpassword(dom){
         $.ajax({
-            url:'/login/validpassword',
+            url:'/v1/login/validpassword.action',
             data:{
                 password : userInfo.oldpassword
             },
@@ -130,7 +130,7 @@ define(['jquery'],function(jquery){
     //验证学校
     function testSchool(dom){
         $.ajax({
-            url:'/login/validschool',
+            url:'/v1/login/validschool.action',
             data:{
                 school : userInfo.school
             },
@@ -155,7 +155,7 @@ define(['jquery'],function(jquery){
     //验证专业
     function testMajor(dom){
         $.ajax({
-            url:'/login/validmajor',
+            url:'/v1/login/validmajor.action',
             data:{
                 major : userInfo.major
             },
@@ -240,7 +240,7 @@ define(['jquery'],function(jquery){
     //发送验证邮件
     function sendTestEmail(){
         $.ajax({
-            url:'/user/sendvaildemail',
+            url:'/v1/user/sendvaildemail.action',
             data:{
 
             },
@@ -262,7 +262,6 @@ define(['jquery'],function(jquery){
         $('.login').removeClass('hidden').addClass('animated fadeInDown').one(animationend,function(){
             $('.login').removeClass('animated fadeInDown');
         });
-        
     }
     //jquery方法扩展
     $.fn.extend({
@@ -322,7 +321,7 @@ define(['jquery'],function(jquery){
             });
         }
     });
-
+    console.log()
     return {
         userInfo : userInfo,
         closeAll : closeAll,

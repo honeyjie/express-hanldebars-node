@@ -10,12 +10,12 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         $('.page1-button').on('click',function(e){
             e.stopPropagation();
             $('.login').addClass('index');
-            common.openLogin();
+            base.openLogin();
         });
         $('.page7-button').on('click',function(e){
             e.stopPropagation();
             $('.login').addClass('index');
-            common.openLogin();
+            base.openLogin();
         });
     });
     var isAnimateRun = [false,false,false,false,false,false,false];

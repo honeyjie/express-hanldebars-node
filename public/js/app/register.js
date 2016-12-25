@@ -112,7 +112,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
                 rule : base.emailRule,
                 success : function(dom){
                     base.userInfo.email = dom.val();
-                    base.testEmail();
+                    base.testEmail(dom);
                 },
                 fail : function(dom){
                     base.userInfo.email = '';

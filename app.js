@@ -1,11 +1,13 @@
 var express = require('express');
 var path = require('path');
+var url = require('url');
 var index = require('./routes/index');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var exphbs  = require('express-handlebars');
+var proxy = require("./proxy").proxy;
 
 var app = express();
 
@@ -31,13 +33,36 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use(function(req, res, next) {
+  req.proxy = new proxy();
+  req.proxy.req = req;
+  next();
+});
 
 app.use('/', index);
 
+//前端可以通过node向服务器发送请求，格式规定：/v1/login/opencode.action
+//前端也可以直接向PHP发送请求（本地服务器会出现跨域），格式规定：http://utuotu.com/v1/login/opencode.action
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+  var f = (/^(\/v1).*action$/).test(req.path);
+    if (!f) {
+        return;
+    }
+    req.proxy.request(null, function(err, response, body) {
+        if (!!err) {
+            next(err)
+        } else {
+            res.headers = response.headers;
+
+            res.cookie(response.headers['set-cookie'])
+            try {
+                body = JSON.parse(body);
+            } catch(e) {
+                console.log(e)
+            }
+           res.send(body)
+        }
+    });
 });
 
 // error handler

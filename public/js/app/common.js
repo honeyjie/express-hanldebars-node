@@ -1,8 +1,9 @@
 define(['jquery','base','iscroll'],function(jquery,base,iscroll){
     var scroll = [];
-    // $('.header').load('/partials/header.hbs',function(){  //公共头部 测试用
+    // $('.header').load('header.html',function(){  //公共头部 测试用
 
-        //userInfo();  获取用户信息
+    //     //userInfo();  获取用户信息
+
         //关闭所有弹出层
         $(document).on('click',function(){
             //关闭搜索
@@ -112,27 +113,26 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             e.stopPropagation();
             $('.login').removeClass('index');
             base.openLogin();
-            $.get('/login/opencode', function(res) {
+            $.get('/v1/login/opencode.action', function(res) {
+                console.log(res);
                 var obj = new WxLogin({
-                  id:"login_container",
+                  id: "login_container",
                   appid: res.data.appid,
                   scope: res.data.scope,
                   redirect_uri: encodeURIComponent(res.data.redirect_uri),
                   state: res.data.state,
                   style: "black",
-                  href: "https://coding.net/u/xiongjie/p/myapp1.0/git/raw/master/public/css/wechat.css"
+                  href: ""
                 });
             })
-        });
-
-        $('.login').on('click',function(e){
-            e.stopPropagation();
         });
         $('.login-switch').on('click',function(e){
             e.stopPropagation();
             tabLogin($(this))
         });
-        
+        $('.login').on('click',function(e){
+            e.stopPropagation();
+        });
         //判断登录按钮
         $('.login-box input').on('input propertychange',function(){
             if(!$('.login-username').val()||!$('.login-password').val()){
@@ -150,6 +150,11 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             e.stopPropagation();
             logout();
         })
+
+    // });
+
+    // $('.footer').load('footer.html');  //公共底部 测试用
+
 
     function openSearch(){
         $('.header-search-icon').fadeOut(200);
@@ -211,9 +216,8 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
     }
     //获取用户信息
     function userInfo(){
-        console.log("userInfo")
         $.ajax({
-            url:'/user/cache',
+            url:'/v1/user/cache.action',
             data:{
 
             },
@@ -244,10 +248,9 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
     }
 
     //账号密码登录
-    function login() {
+    function login(){
         base.userInfo.username = $('.login-username').val();
         base.userInfo.password = $('.login-password').val();
-        console.log(base.userInfo.username + "," + base.userInfo.password)
         if(!base.userInfo.username){
             $('.login-message').removeClass('hidden').html('用户名不能为空');
             return;
@@ -257,11 +260,11 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             return;
         }
         $.ajax({
-            url:'/login/login',
+            url:'/v1/login/login.action',
             data:{
                 name : base.userInfo.username,
                 password : base.userInfo.password
-            }, 
+            },
             type:'post',
             cache:false,
             dataType:'json',
@@ -285,13 +288,12 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
                 base.notice('网络错误');
             }
         });
-
     }
 
     //退出登录
     function logout(){
         $.ajax({
-            url:'/login/logout',
+            url:'/v1/login/logout.action',
             data:{
 
             },
@@ -307,5 +309,9 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
                 base.notice('网络错误');
             }
         });
+    }
+
+    return {
+
     }
 });

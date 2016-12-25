@@ -1,23 +1,24 @@
-var request = require("request");  //这个才是request
-
-var path = require("path");
+var request = require("request")
+var j = request.jar();
 
 function Proxy() {
-    this.config = require("./config.json");
+    this.host = "http://www.utuotu.com";
 }
 
-//这个request只不过把request库封装了一下
-Proxy.prototype.request = function(apiName, options, callback) {
-    var item = this.config[apiName];
-    if (!item) {
-        callback("'api " + apiName + " not exist'", null, null);
-        return;
+Proxy.prototype.request = function(options, callback) {
+    _options = {
+        form: this.req.body,
+        qs: this.req.query,
+        method: this.req.method,
+        url: this.host + this.req.path,
+        headers: this.req.headers,
+        jar: j
     }
-    
-    options = options || {}
-    Object.assign(options, item);
-    options.url = this.config["host"] + options.url;
-    request(options, callback);
+    options = options || {};
+    for (var k in options) {
+        _options[k] = options[k];
+    }
+    request(_options, callback);
 }
 
-exports.proxy = new Proxy();
+exports.proxy = Proxy;

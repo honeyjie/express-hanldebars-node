@@ -12,6 +12,7 @@ requirejs.config({
         index : '../app/index',
         register : '../app/register',
         user : '../app/user',
+        school : '../app/school',
         help : '../app/help'
     },
     shim : {
@@ -23,10 +24,11 @@ requirejs.config({
         index : ['jquery','base','common'],
         register : ['jquery','base','common'],
         user : ['jquery','base','common'],
+        school : ['jquery','base','common'],
         help : ['jquery','base','common']
     }
 
 });
-requirejs(['jquery','fullpage','iscroll','captcha','base','common','index','register','user','help'],function(jquery,fullpage,iscroll,captcha,base,common,index,register,user,help){
+requirejs(['jquery','fullpage','iscroll','captcha','base','common','index','register','user','school','help'],function(jquery,fullpage,iscroll,captcha,base,common,index,register,user,school,help){
 
 });

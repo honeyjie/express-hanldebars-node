@@ -1,12 +1,12 @@
 <div class="main clear">
-    <a href="/"><img class="header-logo" src="img/logo.png" alt=""/></a>
-    <a href="/"><img class="header-logo2" src="img/logo2.png" alt=""/></a>
+    <img class="header-logo" src="img/logo.png" alt=""/>
+    <img class="header-logo2" src="img/logo2.png" alt=""/>
     <ul class="header-nav clear">
         <li class="header-nav-school">
             <a href="#">选校定位</a>
             <ul class="header-nav-select hidden">
                 <li><a href="#">智能选校</a></li>
-                <li><a href="#">院校库</a></li>
+                <li><a href="/school-screen">院校库</a></li>
             </ul>
         </li>
         <li><a href="#">申请管理</a></li>
@@ -17,10 +17,13 @@
         <div class="header-user-login">
             <div class="header-user-login-title"><a href="#">注册</a>/<a href="#">登录</a></div>
             <div class="login hidden">
-                <div class="view login-box login-wechat ">
+                <div class="view login-box login-wechat">
                     <img class="login-switch" src="img/login-wechat-switch.png" alt=""/>
+                    <div class="login-title">微信登录</div>
                     <div id="login_container">
+                        <img class="login-qrcode" src="img/qrcode.png" alt=""/>
                     </div>
+                    <div class="login-notice">打开微信扫一扫</div>
                 </div>
                 <div class="view login-box login-account hidden">
                     <img class="login-switch" src="img/login-account-switch.png" alt=""/>
@@ -124,5 +127,7 @@
         </p>
     </div>
 </div>
+
+
 <div class="mask hidden"></div>
 <div class="notice hidden"></div>
