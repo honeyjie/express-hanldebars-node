@@ -53,7 +53,6 @@ app.use(function(req, res, next) {
             next(err)
         } else {
             res.headers = response.headers;
-
             res.cookie(response.headers['set-cookie'])
             try {
                 body = JSON.parse(body);

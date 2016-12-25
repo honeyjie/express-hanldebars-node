@@ -39,24 +39,31 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
             }
         });
         $('.complete-email').on('blur',function(){
+            console.log("离开邮箱输入框")
             $('.complete-email').testInput({
                 rule : base.emailRule,
                 success : function(dom){
+                    console.log(dom);
+                    console.log("邮箱值" + dom.val());
                     base.userInfo.email = dom.val();
-                    base.testEmail();
+                    base.testEmail(dom);//前端代码此处有误补充参数
                 },
                 fail : function(dom){
                     base.userInfo.email = '';
+                    console.log("验证邮箱失败："+ base.userInfo.email);
                     base.testFail(dom,'请输入有效的 Email 地址');
                 }
             });
         });
         $('.complete-phone').on('blur',function(){
+            console.log("验证手机1")
             $('.complete-phone').testInput({
                 rule : base.phoneRule,
                 success : function(dom){
                     base.userInfo.phone = dom.val();
-                    base.testPhone();
+                    console.log("验证手机2")
+                    base.testPhone(dom);//前端代码此处有误补充参数
+                    console.log("手机验证成功")
                 },
                 fail : function(dom){
                     base.userInfo.phone = '';
@@ -80,6 +87,8 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
 
         //补全信息判断提交
         $('.register.complete input').on('blur',function(){
+            //前端补充代码
+             $('.complete-submit').removeClass('button-solid').addClass('button-solid-ban');
             if(!base.userInfo.username||!base.userInfo.password||!base.userInfo.repassword||!base.userInfo.email){
                 return;
             }
@@ -88,6 +97,10 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
 
         //提交信息
         $('.register-submit').on('click',function(){
+            register();
+        });
+        //补充前端代码
+        $('.complete-submit').on('click',function(){
             register();
         });
 
@@ -104,15 +117,22 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         //重新发送
         $('.noreceive-content-resend').on('click',function(){
             base.sendTestEmail();
+            //补充前端代码
+            openSend();
+            $('.noreceive').addClass('animated fadeOutUp').addClass('hidden');
+            $('.send').removeClass('hidden').addClass('animated fadeInDown')
+  
         });
 
         //忘记密码验证邮箱
         $('.email-email').on('blur',function(){
+            //缺少向服务器发送验证邮箱是否存在的判断
             $('.email-email').testInput({
                 rule : base.emailRule,
                 success : function(dom){
                     base.userInfo.email = dom.val();
-                    base.testEmail(dom);
+                    //前端修改
+                    base.forgettestEmail(dom);
                 },
                 fail : function(dom){
                     base.userInfo.email = '';
@@ -128,6 +148,36 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
             }
             $('.email-submit').removeClass('button-solid-ban').addClass('button-solid');
         });
+
+        
+        //补充前端代码：验证忘记密码输入邮箱是否存在
+        // $('.email-email').on('blur',function(){
+        //     console.log("验证输入邮箱是否已注册")
+        //     function forgettestEmail(dom){
+        //         $.ajax({
+        //             url:'/v1/login/validemail.action',
+        //             data:{
+        //                 value : userInfo.email
+        //             },
+        //             type:'post',
+        //             cache:false,
+        //             dataType:'json',
+        //             success:function(data){
+        //                 console.log("邮箱验证，存在" + data);
+        //                 if(!data.valid){//不存在时后端返回true
+        //                     testSuccess(dom);
+        //                 }
+        //                 else{
+        //                     userInfo.email = '';
+        //                     testFail(dom,'该邮箱未注册');
+        //                 }
+        //             },
+        //             error : function() {
+        //                 notice('网络错误');
+        //             }
+        //         });
+        //     } 
+        // });
 
         //发送邮箱
         $('.email-submit').on('click',function(){
@@ -181,33 +231,35 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
     });
 
     function register(){
+        console.log("点击注册")
         if(!base.userInfo.username||!base.userInfo.password||!base.userInfo.repassword||!base.userInfo.email){
             return;
         }
-        openSend(); //测试
-        //$.ajax({
-        //    url:'http://utuotu.com/v1/login/register.action',
-        //    data:{
-        //        name : base.userInfo.username,
-        //        password : base.userInfo.password,
-        //        email : base.userInfo.email,
-        //        phone : base.userInfo.phone?base.userInfo.phone:'',
-        //        invite : base.userInfo.code?base.userInfo.phone:''
-        //    },
-        //    type:'post',
-        //    cache:false,
-        //    dataType:'json',
-        //    success:function(data){
-        //       base.sendTestEmail();
-        //       openSend();
-        //    },
-        //    error : function() {
-        //        base.notice('网络错误');
-        //    }
-        //});
+        // openSend(); //测试
+        $.ajax({
+           url:'/v1/login/register.action',
+           data:{
+               name : base.userInfo.username,
+               password : base.userInfo.password,
+               email : base.userInfo.email,
+               phone : base.userInfo.phone ? base.userInfo.phone : '',
+               invite : base.userInfo.code ? base.userInfo.phone : ''
+           },
+           type:'post',
+           cache:false,
+           dataType:'json',
+           success:function(data){
+              base.sendTestEmail();
+              openSend();
+           },
+           error : function() {
+               base.notice('网络错误');
+           }
+        });
     }
 
     function openRegister(){
+        console.log("重新填写注册")
         $('.noreceive').addClass('animated fadeOutUp').one(base.animationend,function(){
             $('.noreceive').removeClass('animated fadeOutUp').addClass('hidden');
         });
@@ -217,18 +269,25 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
     }
 
     function openSend(){
+        console.log("发送邮件");
         $('.send-button-jump').attr('href',base.jumpEmail(base.userInfo.email));
         $('.complete').addClass('animated fadeOutUp').one(base.animationend,function(){
-            $('.complete').removeClass('animated fadeOutUp').addClass('hidden');
+            console.log("我要隐藏")
+            $('.complete').removeClass('animated fadeOutUp')
+            .addClass('hidden');
         });
         $('.send').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
             $('.send').removeClass('animated fadeInDown');
+            console.log("我要显示")
         });
     }
 
     function openNoreceive(){
+        console.log('点击了未收到邮件')
+        //点击未收到邮件后重新发送邮件显示内容错误
         $('.send').addClass('animated fadeOutUp').one(base.animationend,function(){
-            $('.send').removeClass('animated fadeOutUp').addClass('hidden');
+            $('.send').removeClass('animated fadeOutUp')
+            .addClass('hidden');
         });
         $('.noreceive').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
             $('.noreceive').removeClass('animated fadeInDown');
@@ -240,7 +299,8 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
             return;
         }
         openForgetSend(); //测试
-        //$.ajax({
+        //前端修改删除以下代码
+        // $.ajax({
         //    url:'',
         //    data:{
         //        email : base.userInfo.email
@@ -256,7 +316,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         //    error : function() {
         //        alert('网络错误');
         //    }
-        //});
+        // });
     }
 
     function openForgetSend(){
@@ -275,23 +335,23 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         if(!base.userInfo.password||!base.userInfo.repassword){
             return;
         }
-        //$.ajax({
-        //    url:'http://utuotu.com/v1/User/saveuserbase.action',
-        //    data:{
-        //        password : base.userInfo.password
-        //    },
-        //    type:'post',
-        //    cache:false,
-        //    dataType:'json',
-        //    success:function(data) {
-        //        if(data.code==0){
-        //            base.notice('密码重置成功');
-        //        }
-        //    },
-        //    error : function() {
-        //        base.notice('网络错误');
-        //    }
-        //});
+        $.ajax({
+           url:'http://utuotu.com/v1/User/saveuserbase.action',
+           data:{
+               password : base.userInfo.password
+           },
+           type:'post',
+           cache:false,
+           dataType:'json',
+           success:function(data) {
+               if(data.code==0){
+                   base.notice('密码重置成功');
+               }
+           },
+           error : function() {
+               base.notice('网络错误');
+           }
+        });
     }
 
     return{

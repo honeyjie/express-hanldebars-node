@@ -20,6 +20,7 @@ define(['jquery'],function(jquery){
     var animationend = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
     //inoput验证成功
     function testSuccess(dom){
+        console.log(dom);
         dom.removeClass('error');
         dom.parents('.form-item').find('.form-item-notice').fadeOut(200);
     }
@@ -66,12 +67,14 @@ define(['jquery'],function(jquery){
             cache:false,
             dataType:'json',
             success:function(data){
-                if(!data.valid){
-                    testSuccess(dom);
+                console.log(data);
+                if(!data.data.valid){ 
+                   userInfo.email = '';
+                   testFail(dom,'该邮箱已注册'); 
                 }
                 else{
-                    userInfo.email = '';
-                    testFail(dom,'该邮箱已注册');
+                    console.log("邮箱未被注册，可用")
+                    testSuccess(dom);
                 }
             },
             error : function() {
@@ -79,6 +82,33 @@ define(['jquery'],function(jquery){
             }
         });
     }
+
+    //忘记密码邮箱验证
+    function forgettestEmail(dom){
+    $.ajax({
+        url:'/v1/login/validemail.action',
+        data:{
+            value : userInfo.email
+        },
+        type:'post',
+        cache:false,
+        dataType:'json',
+        success:function(data){
+            console.log("邮箱验证，存在" + data);
+            if(!data.valid){//不存在时后端返回true
+                testSuccess(dom);
+            }
+            else{
+                userInfo.email = '';
+                testFail(dom,'该邮箱未注册');
+            }
+        },
+        error : function() {
+            notice('网络错误');
+        }
+    });
+} 
+
     //检查手机号是否重复
     function testPhone(dom){
         $.ajax({
@@ -90,6 +120,7 @@ define(['jquery'],function(jquery){
             cache:false,
             dataType:'json',
             success:function(data){
+                console.log("手机验证成功" + data)
                 if(!data.valid){
                     testSuccess(dom);
                 }
@@ -248,7 +279,9 @@ define(['jquery'],function(jquery){
             cache:false,
             dataType:'json',
             success:function(data){
+                console.log("发送邮件成功：" + data);
                 if(data.code==0){
+                    console.log("发送邮件成功编码" + data.code);
                     notice('已向'+email+'发送了一封验证邮件，请查收');
                 }
             },
@@ -266,11 +299,15 @@ define(['jquery'],function(jquery){
     //jquery方法扩展
     $.fn.extend({
         testInput:function(config){
-            if(!config.rule.test($(this).val())){
-                config.fail($(this));
+            if(config.rule.test($(this).val())){
+                console.log("验证成功")
+                config.success($(this));
+                // config.fail($(this));
             }
             else{
-                config.success($(this));
+                console.log("验证失败")
+                // config.success($(this));
+                config.fail($(this));
             }
         },
         tab:function(cb1,cb2){
@@ -335,6 +372,7 @@ define(['jquery'],function(jquery){
         testFail : testFail,
         testUsername : testUsername,
         testEmail : testEmail,
+        forgettestEmail: forgettestEmail,
         testPhone : testPhone,
         testOldpassword : testOldpassword,
         testSchool : testSchool,
