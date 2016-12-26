@@ -11,19 +11,23 @@ router.use(cookieParser());
 
 //渲染页面
 router.get('/', function (req, res) {
+    if (req.user) {
+        // 一登录
+    } else {
+    }
     request('http://www.utuotu.com/v1/user/cache.action', function(err, response, body) {
-          if (!!err) {
-              next(err)
-          } else {
-              var header = response.headers;
-              res.headers = header;
-              try {
-                  var body = JSON.parse(body);
-              } catch(e) {
-                  console.log(e)
-              }
-              res.render('index', body);
-          }
+        if (!!err) {
+            next(err)
+        } else {
+            var header = response.headers;
+            res.headers = header;
+            try {
+                var body = JSON.parse(body);
+            } catch(e) {
+                console.log(e)
+            }
+            res.render('index', body);
+        }
     })   
 });
 
@@ -72,37 +76,43 @@ router.get('/email-reset', function(req, res, next) {
 
   res.render('email-reset')
 });
+
 router.get('/email-test', function(req, res, next) {
-  res.render('email-test')
+    res.render('email-test')
 });
+
 router.get('/school-all', function(req, res, next) {
-  res.render('school-all')
+    res.render('school-all')
 });
+
 router.get('/school-major', function(req, res, next) {
   request('http://www.utuotu.com/v1/user/cache.action', function(err, response, body) {
-          if (!!err) {
-              next(err)
-          } else {
-              var header = response.headers;
-              res.headers = header;
-              try {
-                  var body = JSON.parse(body);
-              } catch(e) {
-                  console.log(e)
-              }
-              res.render('school-major', body)
-          }
+        if (!!err) {
+            next(err)
+        } else {
+            var header = response.headers;
+            res.headers = header;
+            try {
+                var body = JSON.parse(body);
+            } catch(e) {
+                console.log(e)
+            }
+            res.render('school-major', body)
+        }
     })   
   
 });
+
 router.get('/school-recommend', function(req, res, next) {
   res.render('school-recommend')
 });
+
 router.get('/school-screen', function(req, res, next) {
   res.render('school-screen')
 });
+
 router.get('/test', function(req, res, next) {
   res.render('test')
 });
 
-module.exports = router
+module.exports = router;

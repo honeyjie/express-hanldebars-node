@@ -275,13 +275,17 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
                     }
                 }
                 else if(data.code==111001004){
-                    $('.login-message').removeClass('hidden').html('data.data.msg');
+                    $('.login-message').removeClass('hidden').html(data.data.msg);
                 }
                 else if(data.code==111001005){
-                    $('.login-message').removeClass('hidden').html('data.data.msg');
+                    console.log(data);
+                    $('.login-message').removeClass('hidden').html(data.data.msg);
                     if(data.data.valid){
                         //实例化验证码
                     }
+                } else {
+                    // 登录成功后刷新当前页面
+                    window.location.href = "/";
                 }
             },
             error : function() {

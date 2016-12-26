@@ -358,7 +358,6 @@ define(['jquery'],function(jquery){
             });
         }
     });
-    console.log()
     return {
         userInfo : userInfo,
         closeAll : closeAll,

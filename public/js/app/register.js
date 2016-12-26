@@ -88,7 +88,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         //补全信息判断提交
         $('.register.complete input').on('blur',function(){
             //前端补充代码
-             $('.complete-submit').removeClass('button-solid').addClass('button-solid-ban');
+            $('.complete-submit').removeClass('button-solid').addClass('button-solid-ban');
             if(!base.userInfo.username||!base.userInfo.password||!base.userInfo.repassword||!base.userInfo.email){
                 return;
             }
@@ -96,9 +96,9 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         });
 
         //提交信息
-        $('.register-submit').on('click',function(){
-            register();
-        });
+        // $('.register-submit').on('click',function(){
+        //     register();
+        // });
         //补充前端代码
         $('.complete-submit').on('click',function(){
             register();
@@ -272,18 +272,15 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         console.log("发送邮件");
         $('.send-button-jump').attr('href',base.jumpEmail(base.userInfo.email));
         $('.complete').addClass('animated fadeOutUp').one(base.animationend,function(){
-            console.log("我要隐藏")
             $('.complete').removeClass('animated fadeOutUp')
             .addClass('hidden');
         });
         $('.send').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
             $('.send').removeClass('animated fadeInDown');
-            console.log("我要显示")
         });
     }
 
     function openNoreceive(){
-        console.log('点击了未收到邮件')
         //点击未收到邮件后重新发送邮件显示内容错误
         $('.send').addClass('animated fadeOutUp').one(base.animationend,function(){
             $('.send').removeClass('animated fadeOutUp')
