@@ -101,10 +101,15 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         // });
         //补充前端代码
         $('.complete-submit').on('click',function(){
+            console.log("注册")
             register();
         });
 
         //未收到邮件
+        $(document).on('click',function(e){
+            e.stopPropagation();
+        });
+
         $('.send-noreceive').on('click',function(){
             openNoreceive();
         });
@@ -260,12 +265,15 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
 
     function openRegister(){
         console.log("重新填写注册")
-        $('.noreceive').addClass('animated fadeOutUp').one(base.animationend,function(){
-            $('.noreceive').removeClass('animated fadeOutUp').addClass('hidden');
-        });
-        $('.complete').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
-            $('.complete').removeClass('animated fadeInDown');
-        });
+        $('.noreceive').addClass('animated fadeOutUp').addClass('hidden');
+        $('.complete').addClass('animated fadeInDown').removeClass('hidden');
+        // $('.noreceive').addClass('animated fadeOutUp').one(base.animationend,function(){
+        //     $('.noreceive').removeClass('animated fadeOutUp').addClass('hidden');
+        // });
+        // $('.complete').addClass('animated fadeInDown').removeClass('hidden')
+        // .one(base.animationend,function(){
+        //     $('.complete').removeClass('animated fadeInDown');
+        // });
     }
 
     function openSend(){

@@ -262,7 +262,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
     //邮件是否验证
     function isTestEmail(){
         $.ajax({
-            url:'http://utuotu.com/v1/user/isvalid.action',
+            url:'/v1/user/isvalid.action',
             data:{
 
             },
@@ -289,7 +289,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
     //保存个人信息
     function saveInfo(){
         $.ajax({
-            url:'http://utuotu.com/v1/User/saveuser.action',
+            url:'/v1/User/saveuser.action',
             data:{
                 email : info.user.email,
                 phone : info.user.phone,
@@ -316,7 +316,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
     //保存密码
     function savePassword(){
         $.ajax({
-            url:'http://utuotu.com/v1/User/saveuserbase.action',
+            url:'/v1/User/saveuserbase.action',
             data:{
                 password : info.user.password
             },
@@ -370,7 +370,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
 //获取邀请码
     function getCode(){
         $.ajax({
-            url:'http://utuotu.com/v1/User/invite.action',
+            url:'/v1/User/invite.action',
             data:{
 
             },

@@ -43,13 +43,21 @@ define(['jquery'],function(jquery){
             cache:false,
             dataType:'json',
             success:function(data){
-                if(!data.valid){
-                    testSuccess(dom);
-                }
-                else{
+                if(data.data.valid){
+                    console.log(data);
                     userInfo.username = '';
                     testFail(dom,'该用户名已注册');
                 }
+                else{
+                    testSuccess(dom);
+                }
+                // if(!data.data.valid){
+                //     testSuccess(dom);
+                // }
+                // else{
+                //     userInfo.username = '';
+                //     testFail(dom,'该用户名已注册');
+                // }
             },
             error : function() {
                 notice('网络错误');
@@ -68,7 +76,8 @@ define(['jquery'],function(jquery){
             dataType:'json',
             success:function(data){
                 console.log(data);
-                if(!data.data.valid){ 
+                if(data.data.valid){
+                    console.log(data);
                    userInfo.email = '';
                    testFail(dom,'该邮箱已注册'); 
                 }
@@ -95,7 +104,7 @@ define(['jquery'],function(jquery){
         dataType:'json',
         success:function(data){
             console.log("邮箱验证，存在" + data);
-            if(!data.valid){//不存在时后端返回true
+            if(data.data.valid){
                 testSuccess(dom);
             }
             else{
@@ -121,12 +130,12 @@ define(['jquery'],function(jquery){
             dataType:'json',
             success:function(data){
                 console.log("手机验证成功" + data)
-                if(!data.valid){
-                    testSuccess(dom);
+                if(data.data.valid){
+                    userInfo.phone = '';
+                    testFail(dom,'改手机号已注册'); 
                 }
                 else{
-                    userInfo.phone = '';
-                    testFail(dom,'改手机号已注册');
+                    testSuccess(dom);
                 }
             },
             error : function() {

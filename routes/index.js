@@ -15,6 +15,7 @@ router.get('/', function (req, res) {
         // 一登录
     } else {
     }
+    // {qs: {id: req.query.id}}
     request('http://www.utuotu.com/v1/user/cache.action', function(err, response, body) {
         if (!!err) {
             next(err)
@@ -26,7 +27,12 @@ router.get('/', function (req, res) {
             } catch(e) {
                 console.log(e)
             }
-            res.render('index', body);
+            request.qr
+            res.render('index', {
+              // success: !!(body.code == 0),
+              // done: !!(body.code == 111001007),
+              // invalid: !!(body.code == 111001003),
+            });
         }
     })   
 });
@@ -58,7 +64,33 @@ router.get('/register-reset', function(req, res, next) {
 });
 
 router.get('/register-test', function(req, res, next) {
+  // {qs: {id: req.query.id}}
   res.render('register-test')
+});
+
+router.get('/register-test', function(req, res, next) {
+  console.log(req.query.token);
+
+  request('http://utuotu.com/v1/msg/validemail.action', {qs: {token: eq.query.token}}, function(err, response, body) {
+    console.log("获取参数请求");
+    var success = false,
+        done = false,
+        invalid = false;
+    if (body.code == 0) {
+      success = true;
+    } else if (body.code == 111001007) {
+      done = true;
+    } else {
+      invalid = true;
+    }
+    res.render('register-test', {
+      success: success,
+      done: done,
+      invalid : invalid
+    })
+  })
+
+
 });
 
 //帮助
@@ -73,12 +105,14 @@ router.get('/layouts/main', function(req, res, next) {
 
 //院校库
 router.get('/email-reset', function(req, res, next) {
-
   res.render('email-reset')
 });
 
 router.get('/email-test', function(req, res, next) {
-    res.render('email-test')
+    request('http://utuotu.com/v1/msg/validemail.action', function(err, response, body) {
+      console.log("email-test" + body);
+      res.render('email-test', body);
+   });
 });
 
 router.get('/school-all', function(req, res, next) {
