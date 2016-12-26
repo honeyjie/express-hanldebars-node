@@ -130,9 +130,9 @@ define(['jquery'],function(jquery){
             dataType:'json',
             success:function(data){
                 console.log("手机验证成功" + data)
-                if(data.data.valid){
+                if(data.valid){
                     userInfo.phone = '';
-                    testFail(dom,'改手机号已注册'); 
+                    testFail(dom,'该手机号已注册'); 
                 }
                 else{
                     testSuccess(dom);
@@ -291,7 +291,7 @@ define(['jquery'],function(jquery){
                 console.log("发送邮件成功：" + data);
                 if(data.code==0){
                     console.log("发送邮件成功编码" + data.code);
-                    notice('已向'+email+'发送了一封验证邮件，请查收');
+                    notice('已向'+ userInfo.email+'发送了一封验证邮件，请查收');
                 }
             },
             error : function() {
