@@ -8,24 +8,29 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var exphbs  = require('express-handlebars');
 var proxy = require("./proxy").proxy;
-
+var request = require('request');
 var app = express();
+var helpers = require('./lib/helpers');
 
 //设置视图位置
 app.set('views', path.join(__dirname, 'views'));
 var hbs = exphbs.create({
     defaultLayout: 'main',
     extname: "hbs",
+    helpers: helpers,
     partialsDir: [
         'shared/templates/',
         'views/partials/'
     ]
 });
 
+
+
 app.set('view engine', 'hbs');
 app.engine('hbs', hbs.engine);
 app.set('port', process.env.PORT || 3000);
 
+// app.disable('view cache');
 app.use(favicon(__dirname + '/public/img/favicon.ico'));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -42,14 +47,49 @@ app.use(function(req, res, next) {
 
 app.use(function(req, res, next) {
     req.proxy.request({
-        url: "http://utuotu.com/v1/user/cache.action"
+        method: "GET",
+        url: "http://www.utuotu.com/v1/user/cache.action"
     }, function(err, response, body) {
-        // 看body是否需要parse
-        if (!err && body.code == 0) {
-            req.user = body.data;
+        var data = body;
+        try {
+           data = JSON.parse(body); //需要解析
+        } catch (e) {
+            console.log(e);
         }
+        if (!res.locals.partials) { res.locals.partials = {} };
+        res.locals.partials.userState = data;
         next();
     });
+});
+
+app.use('/school*', function(req, res, next) {
+    req.proxy.request({
+        method: "GET", 
+        url: "http://www.utuotu.com/v1/schoolinfo/getschoolbase.action", 
+        qs: req.query
+    }, function(err, response, body) {
+      var data = JSON.parse(body);
+      res.locals.partials.schooldetail = data.data;
+    });
+    console.log("学校基本信息");
+
+    next();
+});
+
+app.use('/school*', function(req, res, next) {
+    req.proxy.request({
+        method: "GET", 
+        url: "http://www.utuotu.com/v1/schoolinfo/getallschoolmajor.action", 
+        qs: req.query
+    },function(err, response, body) {
+      // console.log(req.host);
+      var data = JSON.parse(body);
+      // console.log(data);
+      res.locals.partials.schoolmajor = data
+    });
+    console.log("学校下的专业");
+    
+    next();
 });
 
 app.use('/', index);
@@ -57,6 +97,7 @@ app.use('/', index);
 //前端可以通过node向服务器发送请求，格式规定：/v1/login/opencode.action
 //前端也可以直接向PHP发送请求（本地服务器会出现跨域），格式规定：http://utuotu.com/v1/login/opencode.action
 app.use(function(req, res, next) {
+    console.log(req.path);
     var f = (/^(\/v1).*action$/).test(req.path);
     if (!f) {
         return;
@@ -65,14 +106,9 @@ app.use(function(req, res, next) {
         if (!!err) {
             next(err)
         } else {
-            // 明天问：http://utuotu.com/v1/login/login.action 登录接口返回json的同时
-            // 有没有设置cookie，一定要后端设置！
-            // console.log(response.headers);
             for (var key in response.headers) {
                 res.set(key, response.headers[key])
             }
-
-            // res.cookie(response.headers['set-cookie'])
             try {
                 body = JSON.parse(body);
             } catch(e) {

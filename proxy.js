@@ -5,6 +5,7 @@ function Proxy() {
 }
 
 Proxy.prototype.request = function(options, callback) {
+    // console.log(this.req.query);
     var _options = {
         form: this.req.body,
         qs: this.req.query,
@@ -16,6 +17,7 @@ Proxy.prototype.request = function(options, callback) {
     for (var k in options) {
         _options[k] = options[k];
     }
+    // console.log(_options);
     request(_options, callback);
 }
 

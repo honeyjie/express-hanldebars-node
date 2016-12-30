@@ -1,3 +1,7 @@
+'use strict';
+
+var Promise = global.Promise || require('promise');
+
 var express = require('express');
 var router = express.Router();
 var path = require('path');
@@ -9,32 +13,10 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(cookieParser());
 
+
 //渲染页面
 router.get('/', function (req, res) {
-    if (req.user) {
-        // 一登录
-    } else {
-    }
-    // {qs: {id: req.query.id}}
-    request('http://www.utuotu.com/v1/user/cache.action', function(err, response, body) {
-        if (!!err) {
-            next(err)
-        } else {
-            var header = response.headers;
-            res.headers = header;
-            try {
-                var body = JSON.parse(body);
-            } catch(e) {
-                console.log(e)
-            }
-            request.qr
-            res.render('index', {
-              // success: !!(body.code == 0),
-              // done: !!(body.code == 111001007),
-              // invalid: !!(body.code == 111001003),
-            });
-        }
-    })   
+    res.render('index');  
 });
 
 //用户
@@ -64,15 +46,11 @@ router.get('/register-reset', function(req, res, next) {
 });
 
 router.get('/register-test', function(req, res, next) {
-  // {qs: {id: req.query.id}}
   res.render('register-test')
 });
 
 router.get('/register-test', function(req, res, next) {
-  console.log(req.query.token);
-
-  request('http://utuotu.com/v1/msg/validemail.action', {qs: {token: eq.query.token}}, function(err, response, body) {
-    console.log("获取参数请求");
+  request('http://www.utuotu.com/v1/msg/validemail.action', {qs: {token: req.query.token}}, function(err, response, body) {
     var success = false,
         done = false,
         invalid = false;
@@ -98,11 +76,6 @@ router.get('/help', function(req, res, next) {
   res.render('help')
 });
 
-//模板 
-router.get('/layouts/main', function(req, res, next) {
-  res.render('layouts/main')
-});
-
 //院校库
 router.get('/email-reset', function(req, res, next) {
   res.render('email-reset')
@@ -110,42 +83,62 @@ router.get('/email-reset', function(req, res, next) {
 
 router.get('/email-test', function(req, res, next) {
     request('http://utuotu.com/v1/msg/validemail.action', function(err, response, body) {
-      console.log("email-test" + body);
       res.render('email-test', body);
    });
 });
 
 router.get('/school-all', function(req, res, next) {
-    res.render('school-all')
+  req.proxy.request({method: "GET", qs: {sid: req.query.sid}, url: "http://www.utuotu.com/v1/schoolinfo/getallschoolmajor.action"}, function(err, response, body) {
+      var data = JSON.parse(body);
+      res.render('school-all', data.data);
+  });
+});
+
+router.get('/school-screen', function (req, res) {
+    req.proxy.request({
+        method: "GET",
+        url: "http://www.utuotu.com/v1/schoolmajor/searchschool.action",
+        qs: req.query
+    }, function(err, response, body) {
+        var data = JSON.parse(body); 
+        res.render('school-screen', {
+            data: data.data
+        });
+    })
 });
 
 router.get('/school-major', function(req, res, next) {
-  request('http://www.utuotu.com/v1/user/cache.action', function(err, response, body) {
-        if (!!err) {
-            next(err)
-        } else {
-            var header = response.headers;
-            res.headers = header;
-            try {
-                var body = JSON.parse(body);
-            } catch(e) {
-                console.log(e)
-            }
-            res.render('school-major', body)
-        }
-    })   
-  
+  req.proxy.request({
+      method: "GET",
+      url: "http://www.utuotu.com/v1/schoolinfo/getschoolmajorinfo.action",
+      qs: req.query
+  }, function(err, response, body) {
+    var data = JSON.parse(body);
+    console.log(data.data);
+      res.render('school-major', {
+            data: data.data
+      });
+  });
 });
 
 router.get('/school-recommend', function(req, res, next) {
-  res.render('school-recommend')
+    req.proxy.request({
+        method: "GET",
+        url: "http://www.utuotu.com/v1/schoolinfo/getrecommend.action",
+        qs: req.query
+    }, function(err, response, body) {
+      var data = JSON.parse(body);
+        res.render('school-recommend', {
+              data: data
+        });
+    });
 });
 
-router.get('/school-screen', function(req, res, next) {
-  res.render('school-screen')
+router.get('/select', function(req, res) {
+  res.render('select')
 });
 
-router.get('/test', function(req, res, next) {
+router.get('/test', function(req, res) {
   res.render('test')
 });
 

@@ -264,6 +264,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
     }
 
     function openRegister(){
+        
         console.log("重新填写注册")
         $('.noreceive').addClass('animated fadeOutUp').addClass('hidden');
         $('.complete').addClass('animated fadeInDown').removeClass('hidden');

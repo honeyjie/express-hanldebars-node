@@ -1,251 +1,237 @@
-    <div class="school main clear">
-        <div class="school-info">
-            <img class="school-info-logo" src="img/school-logo.png" alt=""/>
-            <div class="school-info-name">加州大学洛杉矶分校<span class="school-info-address">Los angeles, CA, USA </span></div>
-            <div class="school-info-english">University of California-Los Angeles (UCLA) </div>
-            <div class="school-info-link"><a href="#">www.UCLA.com</a></div>
-            <div class="school-info-rank">U.S. NEWS排名：24 </div>
+<div class="school main clear">
+    {{> Inslibrary/schooldetail}}
+    <ul class="school-side">
+        <li class="active"><a href="#">推荐专业</a></li>
+        <li><a href="#">全部专业</a></li>
+        <li class="school-side-revise"><a href="#">修改专业</a></li>
+    </ul>
+    {{#with data}} 
+    <div class="school-box school-major">
+        <div class="school-box-title">
+            {{major_name_zh}}
+            <div class="school-major-rank"> U.S. NEWS专业排名：{{rank}}</div>
+            <img class="school-box-up" src="/img/icon-up.png" alt=""/>
+            <img class="school-box-down hidden" src="/img/icon-down.png" alt=""/>
         </div>
-        <div class="school-box school-brief">
-            <div class="school-box-title school-brief-title">
-                学校简介
-                <img class="school-box-up" src="img/icon-up.png" alt=""/>
-                <img class="school-box-down hidden" src="img/icon-down.png" alt=""/>
-            </div>
-            <div class="school-box-content school-brief-content">
-                <img src="img/school-map.png" alt=""/>
-                <div class="school-brief-describe">
+        <div class="school-box-content major-tab">
+            <ul class="tab-title clear">
+                <li class="active">{{degree}}</li>
+                {{#each otherDegree}}
+                <li>{{degree}}</li>
+                {{/each}}
+            </ul>
+            <div class="tab-box">
+                <ul class="major-info clear">
+                    <li>
+                        <img src="/img/major-start.png" alt=""/>
+                        <span>入学时间</span>
+                        <div class="form-select major-info-start">
+                            <div class="form-select-value">选择入学时间</div>
+                            <div class="form-select-option hidden">
+                                <ul>
+                                    {{#each term}}
+                                    <li>{{term}}</li>
+                                    {{/each}}
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="/img/major-end.png" alt=""/>
+                        <span>申请截止日期</span>
+                        <span>{{term.[0].deadline}}</span>
+                    </li>
+                    <li>
+                        <img src="/img/major-cost.png" alt=""/>
+                        <span>申请费用</span>
+                        <span>{{apply_fee}}</span>
+                    </li>
+                    <li>
+                        <img src="/img/major-email.png" alt=""/>
+                        <span>招生邮箱</span>
+                        <span>{{email}}</span>
+                    </li>
+                    <li>
+                        <img src="/img/major-start.png" alt=""/>
+                        <a href="{{apply_entrance}}">官方Q&A</a>
+                    </li>
+                    <li>
+                        <img src="/img/major-direction.png" alt=""/>
+                        <span>研究方向</span>
+                        <div class="form-select major-info-direction">
+                            <div class="form-select-value">选择研究方向</div>
+                            <div class="form-select-option hidden">
+                                <ul>
+                                    {{#each under_project}}
+                                    <li>{{this}}</li>
+                                    {{/each}}
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="major-require">
+                    <div class="major-require-title">申请要求</div>
+                    <ul class="major-require-list clear">
+                        {{qs}}
+                        <li class="active">
+                            <img src="/img/require1.png" alt=""/>
+                            <div class="major-require-list-name">研究报告</div>
+                            <div class="major-require-list-arrow"></div>
+                        </li>
+                        {{resume}}
+                        <li>
+                            <img src="/img/require2.png" alt=""/>
+                            <div class="major-require-list-name">个人简历</div>
+                            <div class="major-require-list-arrow"></div>
+                        </li>
+                        {{recommend_number}}
+                        <li>
+                            <img src="/img/require3.png" alt=""/>
+                            <div class="major-require-list-name">推荐信</div>
+                            <div class="major-require-list-arrow"></div>
+                        </li>
+                        <li>
+                            <img src="/img/require4.png" alt=""/>
+                            <div class="major-require-list-name">成绩单</div>
+                            <div class="major-require-list-arrow"></div>
+                        </li>
+                        <li>
+                            <img src="/img/require5.png" alt=""/>
+                            <div class="major-require-list-name">语言成绩</div>
+                            <div class="major-require-list-arrow"></div>
+                        </li>
+                        <li>
+                            <img src="/img/require6.png" alt=""/>
+                            <div class="major-require-list-name">标准化考试</div>
+                            <div class="major-require-list-arrow"></div>
+                        </li>
+                        {{additional_requirements}}
+                        <li>
+                            <img src="/img/require7.png" alt=""/>
+                            <div class="major-require-list-name">附加要求</div>
+                        </li>
+                    </ul>
+                    <div class="major-require-content" id="require-content1">
+                        <div>
+                            <div class="major-require-content-name">研究报告</div>
+                            <p>
+                            {{qs}}
+{{!--                                 随着社会经济的发展需要，著作权法所保护作品的种类和范围往往会不断扩张。由于保护计算机软件的需要，一些国家开始以著作权
+                                以保护，根据世界贸易组织的TRIPs协议，成员国均承诺以著作权方式对软件予以保护，著作权方式保护软件有其不足之处。 随着社会经济的发展需要，著作权法所保护作品的种类和范围往往会不断扩张。由于保护计算机软件的需要，一些国家开始以著作权
+                                以保护，根据世界贸易组织的TRIPs协议，成员国均承诺以著作权方式对软件予以保护，著作权方式保护软件有其不足之处。 --}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <button class="major-join button-solid">加入申请</button>
+                <div class="major-from">
+                    <div class="major-from-title">数据来源</div>
                     <p>
-                        位于美国加州旧金山湾区南部的帕拉阿图市（Palo Alto），临近世界著名高科技园区硅谷，是世界著名私立研
-                        究型大学。斯坦福占地约33平方公里，是美国面积第六大的大学。<br/>
-                        斯坦福大学培养了众多高科技产品的领导者及创业精神的人才，这其中就包括惠普、谷歌、雅虎、耐克、罗
-                        技、特斯拉汽车、Firefox、艺电、太阳微系统、NVIDIA、思科、硅谷图形及eBay等公司的创办人，校友涵盖30名
-                        富豪企业家及17名太空员，亦为培养最多美国国会成员的院校之一。
+                        {{#each reference}}
+                        <a href="#">{{this}}<br/>
+                        {{/each}} 
                     </p>
                 </div>
             </div>
-        </div>
-        <ul class="school-side">
-            <li class="active"><a href="#">推荐专业</a></li>
-            <li><a href="#">全部专业</a></li>
-            <li class="school-side-revise"><a href="#">修改专业</a></li>
-        </ul>
-        <div class="school-box school-major">
-            <div class="school-box-title">
-                学校简介
-                <div class="school-major-rank"> U.S. NEWS专业排名：11</div>
-                <img class="school-box-up" src="img/icon-up.png" alt=""/>
-                <img class="school-box-down hidden" src="img/icon-down.png" alt=""/>
-            </div>
-            <div class="school-box-content major-tab">
-                <ul class="tab-title clear">
-                    <li class="active">Master</li>
-                    <li>Doctor</li>
+{{!--             <div class="tab-box hidden">
+                <ul class="major-info clear">
+                    <li>
+                        <img src="/img/major-start.png" alt=""/>
+                        <span>入学时间</span>
+                        <div class="form-select major-info-start">
+                            <div class="form-select-value">选择入学时间</div>
+                            <div class="form-select-option hidden">
+                                <ul>
+                                    <li>2017 Fall</li>
+                                    <li>2017 Summer</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="/img/major-end.png" alt=""/>
+                        <span>申请截止日期</span>
+                        <span>December 15</span>
+                    </li>
+                    <li>
+                        <img src="/img/major-cost.png" alt=""/>
+                        <span>申请费用</span>
+                        <span>$90</span>
+                    </li>
+                    <li>
+                        <img src="/img/major-email.png" alt=""/>
+                        <span>招生邮箱</span>
+                        <span>ugadm@saonet.ucla.edu</span>
+                    </li>
+                    <li>
+                        <img src="/img/major-start.png" alt=""/>
+                        <a href="#">官方Q&A</a>
+                    </li>
+                    <li>
+                        <img src="/img/major-direction.png" alt=""/>
+                        <span>研究方向</span>
+                        <div class="form-select major-info-direction">
+                            <div class="form-select-value">选择研究方向</div>
+                            <div class="form-select-option hidden">
+                                <ul>
+                                    <li>Engineering Cost</li>
+                                    <li>engineering</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
                 </ul>
-                <div class="tab-box">
-                    <ul class="major-info clear">
-                        <li>
-                            <img src="img/major-start.png" alt=""/>
-                            <span>入学时间</span>
-                            <div class="form-select major-info-start">
-                                <div class="form-select-value">选择入学时间</div>
-                                <div class="form-select-option hidden">
-                                    <ul>
-                                        <li>2017 Fall</li>
-                                        <li>2017 Summer</li>
-                                    </ul>
-                                </div>
-                            </div>
+                <div class="major-require">
+                    <div class="major-require-title">申请要求</div>
+                    <ul class="major-require-list clear">
+                        <li class="active">
+                            <img src="/img/require1.png" alt=""/>
+                            <div class="major-require-list-name">研究报告</div>
+                            <div class="major-require-list-arrow"></div>
                         </li>
                         <li>
-                            <img src="img/major-end.png" alt=""/>
-                            <span>申请截止日期</span>
-                            <span>December 15</span>
+                            <img src="/img/require2.png" alt=""/>
+                            <div class="major-require-list-name">个人简历</div>
+                            <div class="major-require-list-arrow"></div>
                         </li>
                         <li>
-                            <img src="img/major-cost.png" alt=""/>
-                            <span>申请费用</span>
-                            <span>$90</span>
+                            <img src="/img/require5.png" alt=""/>
+                            <div class="major-require-list-name">语言成绩</div>
+                            <div class="major-require-list-arrow"></div>
                         </li>
                         <li>
-                            <img src="img/major-email.png" alt=""/>
-                            <span>招生邮箱</span>
-                            <span>ugadm@saonet.ucla.edu</span>
+                            <img src="/img/require6.png" alt=""/>
+                            <div class="major-require-list-name">标准化考试</div>
+                            <div class="major-require-list-arrow"></div>
                         </li>
                         <li>
-                            <img src="img/major-start.png" alt=""/>
-                            <a href="#">官方Q&A</a>
-                        </li>
-                        <li>
-                            <img src="img/major-direction.png" alt=""/>
-                            <span>研究方向</span>
-                            <div class="form-select major-info-direction">
-                                <div class="form-select-value">选择研究方向</div>
-                                <div class="form-select-option hidden">
-                                    <ul>
-                                        <li>Engineering Cost</li>
-                                        <li>engineering</li>
-                                    </ul>
-                                </div>
-                            </div>
+                            <img src="/img/require7.png" alt=""/>
+                            <div class="major-require-list-name">附加要求</div>
                         </li>
                     </ul>
-                    <div class="major-require">
-                        <div class="major-require-title">申请要求</div>
-                        <ul class="major-require-list clear">
-                            <li class="active">
-                                <img src="img/require1.png" alt=""/>
-                                <div class="major-require-list-name">研究报告</div>
-                                <div class="major-require-list-arrow"></div>
-                            </li>
-                            <li>
-                                <img src="img/require2.png" alt=""/>
-                                <div class="major-require-list-name">个人简历</div>
-                                <div class="major-require-list-arrow"></div>
-                            </li>
-                            <li>
-                                <img src="img/require3.png" alt=""/>
-                                <div class="major-require-list-name">推荐信</div>
-                                <div class="major-require-list-arrow"></div>
-                            </li>
-                            <li>
-                                <img src="img/require4.png" alt=""/>
-                                <div class="major-require-list-name">成绩单</div>
-                                <div class="major-require-list-arrow"></div>
-                            </li>
-                            <li>
-                                <img src="img/require5.png" alt=""/>
-                                <div class="major-require-list-name">语言成绩</div>
-                                <div class="major-require-list-arrow"></div>
-                            </li>
-                            <li>
-                                <img src="img/require6.png" alt=""/>
-                                <div class="major-require-list-name">标准化考试</div>
-                                <div class="major-require-list-arrow"></div>
-                            </li>
-                            <li>
-                                <img src="img/require7.png" alt=""/>
-                                <div class="major-require-list-name">附加要求</div>
-                            </li>
-                        </ul>
-                        <div class="major-require-content" id="require-content1">
-                            <div>
-                                <div class="major-require-content-name">研究报告</div>
-                                <p>
-                                    随着社会经济的发展需要，著作权法所保护作品的种类和范围往往会不断扩张。由于保护计算机软件的需要，一些国家开始以著作权
-                                    以保护，根据世界贸易组织的TRIPs协议，成员国均承诺以著作权方式对软件予以保护，著作权方式保护软件有其不足之处。 随着社会经济的发展需要，著作权法所保护作品的种类和范围往往会不断扩张。由于保护计算机软件的需要，一些国家开始以著作权
-                                    以保护，根据世界贸易组织的TRIPs协议，成员国均承诺以著作权方式对软件予以保护，著作权方式保护软件有其不足之处。
-                                </p>
-                            </div>
+                    <div class="major-require-content" id="require-content2">
+                        <div>
+                            <div class="major-require-content-name">研究报告</div>
+                            <p>
+                                随着社会经济的发展需要，著作权法所保护作品的种类和范围往往会不断扩张。由于保护计算机软件的需要，一些国家开始以著作权
+                                以保护，根据世界贸易组织的TRIPs协议，成员国均承诺以著作权方式对软件予以保护，著作权方式保护软件有其不足之处。 随着社会经济的发展需要，著作权法所保护作品的种类和范围往往会不断扩张。由于保护计算机软件的需要，一些国家开始以著作权
+                                以保护，根据世界贸易组织的TRIPs协议，成员国均承诺以著作权方式对软件予以保护，著作权方式保护软件有其不足之处。
+                            </p>
                         </div>
                     </div>
-                    <button class="major-join button-solid">加入申请</button>
-                    <div class="major-from">
-                        <div class="major-from-title">数据来源</div>
-                        <p>
-                            <a href="#">Degree-granting Departments: Application Requirements</a><br/>
-                            Princeton University Graduate Student Cost of Attendance 2014-15<br/>
-                            Graduate Deadlines & Fees<br/>
-                        </p>
-                    </div>
                 </div>
-                <div class="tab-box hidden">
-                    <ul class="major-info clear">
-                        <li>
-                            <img src="img/major-start.png" alt=""/>
-                            <span>入学时间</span>
-                            <div class="form-select major-info-start">
-                                <div class="form-select-value">选择入学时间</div>
-                                <div class="form-select-option hidden">
-                                    <ul>
-                                        <li>2017 Fall</li>
-                                        <li>2017 Summer</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <img src="img/major-end.png" alt=""/>
-                            <span>申请截止日期</span>
-                            <span>December 15</span>
-                        </li>
-                        <li>
-                            <img src="img/major-cost.png" alt=""/>
-                            <span>申请费用</span>
-                            <span>$90</span>
-                        </li>
-                        <li>
-                            <img src="img/major-email.png" alt=""/>
-                            <span>招生邮箱</span>
-                            <span>ugadm@saonet.ucla.edu</span>
-                        </li>
-                        <li>
-                            <img src="img/major-start.png" alt=""/>
-                            <a href="#">官方Q&A</a>
-                        </li>
-                        <li>
-                            <img src="img/major-direction.png" alt=""/>
-                            <span>研究方向</span>
-                            <div class="form-select major-info-direction">
-                                <div class="form-select-value">选择研究方向</div>
-                                <div class="form-select-option hidden">
-                                    <ul>
-                                        <li>Engineering Cost</li>
-                                        <li>engineering</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                    <div class="major-require">
-                        <div class="major-require-title">申请要求</div>
-                        <ul class="major-require-list clear">
-                            <li class="active">
-                                <img src="img/require1.png" alt=""/>
-                                <div class="major-require-list-name">研究报告</div>
-                                <div class="major-require-list-arrow"></div>
-                            </li>
-                            <li>
-                                <img src="img/require2.png" alt=""/>
-                                <div class="major-require-list-name">个人简历</div>
-                                <div class="major-require-list-arrow"></div>
-                            </li>
-                            <li>
-                                <img src="img/require5.png" alt=""/>
-                                <div class="major-require-list-name">语言成绩</div>
-                                <div class="major-require-list-arrow"></div>
-                            </li>
-                            <li>
-                                <img src="img/require6.png" alt=""/>
-                                <div class="major-require-list-name">标准化考试</div>
-                                <div class="major-require-list-arrow"></div>
-                            </li>
-                            <li>
-                                <img src="img/require7.png" alt=""/>
-                                <div class="major-require-list-name">附加要求</div>
-                            </li>
-                        </ul>
-                        <div class="major-require-content" id="require-content2">
-                            <div>
-                                <div class="major-require-content-name">研究报告</div>
-                                <p>
-                                    随着社会经济的发展需要，著作权法所保护作品的种类和范围往往会不断扩张。由于保护计算机软件的需要，一些国家开始以著作权
-                                    以保护，根据世界贸易组织的TRIPs协议，成员国均承诺以著作权方式对软件予以保护，著作权方式保护软件有其不足之处。 随着社会经济的发展需要，著作权法所保护作品的种类和范围往往会不断扩张。由于保护计算机软件的需要，一些国家开始以著作权
-                                    以保护，根据世界贸易组织的TRIPs协议，成员国均承诺以著作权方式对软件予以保护，著作权方式保护软件有其不足之处。
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="major-join button-solid">加入申请</button>
-                    <div class="major-from">
-                        <div class="major-from-title">数据来源</div>
-                        <p>
-                            <a href="#">Degree-granting Departments: Application Requirements</a><br/>
-                            Princeton University Graduate Student Cost of Attendance 2014-15<br/>
-                            Graduate Deadlines & Fees<br/>
-                        </p>
-                    </div>
+                <button class="major-join button-solid">加入申请</button>
+                <div class="major-from">
+                    <div class="major-from-title">数据来源</div>
+                    <p>
+                        {{#each reference}}
+                        <a href="#">{{this}}<br/>
+                        {{/each}} 
+                    </p>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
+  {{/with}}  
+</div>

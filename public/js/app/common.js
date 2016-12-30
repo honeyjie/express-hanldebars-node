@@ -16,9 +16,9 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             $('.form-select').removeClass('focus');
             $('.form-select-option').addClass('hidden');
             //关闭弹窗
-            if(!$('.point-view').hasClass('hidden')){
-                base.closeAll.closePointView();
-            }
+            // if(!$('.point-view').hasClass('hidden')){
+            //     base.closeAll.closePointView();
+            // }
             //关闭消息
             if(!$('.news-article').hasClass('hidden')){
                 base.closeAll.closeNewsArticle();
@@ -111,8 +111,6 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
         //注册登录
         $('.header-user-login-title').on('click',function(e){
             e.stopPropagation();
-            $('.login').removeClass('index');
-            base.openLogin();
             $.get('/v1/login/opencode.action', function(res) {
                 console.log(res);
                 var obj = new WxLogin({
@@ -125,6 +123,8 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
                   href: ""
                 });
             })
+            $('.login').removeClass('index');
+            base.openLogin();
         });
         $('.login-switch').on('click',function(e){
             e.stopPropagation();
@@ -174,6 +174,28 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
     }
 
     function search(){
+        $.ajax({
+            url:'/v1/login/validname.action',
+            data:{
+                value : userInfo.username
+            },
+            type:'post',
+            cache:false,
+            dataType:'json',
+            success:function(data){
+                if(data.data.valid){
+                    console.log(data);
+                    userInfo.username = '';
+                    testFail(dom,'该用户名已注册');
+                }
+                else{
+                    testSuccess(dom);
+                }
+            },
+            error : function() {
+                notice('网络错误');
+            }
+        });
         if(!$('.header-search input').val()){
             $('.header-search-result').fadeOut(200);
         }
@@ -216,10 +238,10 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
     }
     //获取用户信息
     function userInfo(){
+        console.log("获取用户信息")
         $.ajax({
             url:'/v1/user/cache.action',
             data:{
-
             },
             type:'get',
             cache:false,
@@ -230,15 +252,15 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
                     base.userInfo.id = data.data.id;
                     base.userInfo.username = data.data.name;
                     base.userInfo.headerImg = data.data.headerImg;
-                    $('.header-user-info-avatar').attr('src',base.userInfo.headerImg);
-                    $('.header-user-login').addClass('hidden');
-                    $('.header-user-info').removeClass('hidden');
+                    // $('.header-user-info-avatar').attr('src',base.userInfo.headerImg);
+                    // $('.header-user-login').addClass('hidden');
+                    // $('.header-user-info').removeClass('hidden');
                 }
                 else if(data.code==111001006){
                     base.userInfo = {};
                     base.userInfo.login = false;
-                    $('.header-user-info').addClass('hidden');
-                    $('.header-user-login').removeClass('hidden');
+                    // $('.header-user-info').addClass('hidden');
+                    // $('.header-user-login').removeClass('hidden');
                 }
             },
             error : function() {
@@ -271,21 +293,25 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             success:function(data){
                 if(data.code==0){
                     if(data.data.headerImg){
+                        //成功登陆后记录用户信息
                         userInfo();
-                    }
-                }
-                else if(data.code==111001004){
-                    $('.login-message').removeClass('hidden').html(data.data.msg);
-                }
-                else if(data.code==111001005){
+                        window.location.href = "/";
+                        window.reload(true);
+                    };
+
+                }else if(data.code==111001004){
+                    $('.login-message').removeClass('hidden').html(data.msg);
+                }else if(data.code==111001005){
                     console.log(data);
-                    $('.login-message').removeClass('hidden').html(data.data.msg);
-                    if(data.data.valid){
-                        //实例化验证码
-                    }
-                } else {
-                    // 登录成功后刷新当前页面
-                    window.location.href = "/";
+                    $('.login-message').removeClass('hidden').html(data.msg);
+                    // if(data.data.valid){
+                    //     console.log(实例化验证码);
+                    // }
+                }else if(data.code==111001010){
+                    //验证失败
+                    $('.login-message').removeClass('hidden').html(data.msg);
+                }else{
+                    console.log(登陆出错);
                 }
             },
             error : function() {
@@ -306,7 +332,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             dataType:'json',
             success:function(data){
                 if(data.code==0){
-                    userInfo();
+                    window.location.href = "/";
                 }
             },
             error : function() {

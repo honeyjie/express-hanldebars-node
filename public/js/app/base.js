@@ -20,7 +20,6 @@ define(['jquery'],function(jquery){
     var animationend = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
     //inoput验证成功
     function testSuccess(dom){
-        console.log(dom);
         dom.removeClass('error');
         dom.parents('.form-item').find('.form-item-notice').fadeOut(200);
     }
@@ -365,6 +364,23 @@ define(['jquery'],function(jquery){
                 $('.form-select-option').addClass('hidden');
                 $('.form-select').removeClass('focus');
             });
+        },
+        radio:function(){
+            $(this).find('.form-radio').on('click',function(){
+                $(this).parents('.form-item').find('.form-radio').removeClass('selected');
+                $(this).addClass('selected');
+            });
+        },
+        check:function(){
+            _this = $(this);
+            _this.find('.form-check').on('click',function(){
+                if($(this).hasClass('selected')){
+                    $(this).removeClass('selected');
+                }
+                else{
+                    $(this).addClass('selected');
+                }
+            })
         }
     });
     return {
@@ -376,6 +392,7 @@ define(['jquery'],function(jquery){
         emailRule : /^[\w\.\_\-]+@(\w-?)+(\.\w{2,})$/, //邮箱正则
         phoneRule : /^(|1\d{10})$/,  //手机号正则
         codeRule : /^(|[0-9a-zA-Z]{4})$/,  //邀请码正则
+        isScore: /^\d+(?=\.{0,1}\d+$|$)/ ,  //分数正则
         testSuccess : testSuccess,
         testFail : testFail,
         testUsername : testUsername,
