@@ -2,8 +2,8 @@
     {{> Inslibrary/schooldetail}}
     <ul class="school-side">
         <li class="active"><a href="#">推荐专业</a></li>
-        <li><a href="#">全部专业</a></li>
-        <li class="school-side-revise"><a href="#">修改专业</a></li>
+        <li><a href="/school-all?sid={{sid}}">全部专业</a></li>
+        <li class="school-side-revise"><a href="/school-recommend?sid={{sid}}">修改专业</a></li>
     </ul>
     {{#with data}} 
     <div class="school-box school-major">

@@ -1,6 +1,16 @@
     <div class="school main clear">
         {{> Inslibrary/schooldetail}}
-        {{> Inslibrary/majornum}}
+        <ul class="school-side">
+            <li><a href="/school-recommend?sid={{sid}}">推荐专业</a></li>
+            <li class="active">
+                <a href="/school-major?sid={{sid}}">全部专业</a>
+            </li>
+            <ul class="school-side-son">
+                {{#each data.data}}
+                <li><a href="/school-all?sid={{school_id}}">{{academy}}</a></li>
+                {{/each}}
+            </ul>
+        </ul>
         <div class="school-box school-all">
             <div class="school-box-title">
                 A-Z list

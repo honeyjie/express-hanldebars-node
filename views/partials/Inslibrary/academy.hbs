@@ -1,8 +1,10 @@
 <ul class="all-list clear">
-    <li class="all-list-type">A</li>
-    {{#each partials.schoolmajor.data}}
-        {{#each major}}
-        <li><a href="#">{{major_name}}</a></li>
-        {{/each}} 
+    {{#each data.data}}
+            {{#each major}}
+            <li class="all-list-type">{{@key}}</li>
+                {{#each this}}
+                    <li><a href="/school-major?sid={{school_id}}&mid={{major_id}}">{{major_name}}</a></li>
+                {{/each}}
+            {{/each}}         
     {{/each}}
 </ul>

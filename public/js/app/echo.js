@@ -8,10 +8,12 @@
     var button = document.getElementById('say');
 
     button.addEventListener('click', function (e) {
-        var message = prompt('Say Something:', 'Yo yo'),
-            echo    = document.createElement('div');
+        var message = prompt('Say Something:', 'Yo yo');
+        var ec = document.getElementById('ec');
+        ec.innerHTML = Handlebars.templates.echo({message: message});
+        document.body.appendChild(ec);
 
-        echo.innerHTML = Handlebars.templates.echo({message: message});
-        document.body.appendChild(echo);
     }, false);
 }());
+
+

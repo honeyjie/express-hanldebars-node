@@ -1,0 +1,26 @@
+<ul class="screen-list" id="screen-school">
+    <li class="screen-list-total">共{{data.data.length}}所大学</li>
+    {{#each data.data}}
+    <li>
+        <a href="/school-recommend?sid={{id}}"><img class="screen-list-logo" src="{{logo}}?imageView2/2/w/200/h/200/format/jpg/interlace/0/q/100" alt="{{school_name}}"/></a>
+        <a href="/school-recommend?sid={{id}}"><div class="screen-list-name">{{school_name_zh}}</div></a>
+        <div class="screen-list-english">{{school_name}} ({{school_name_short}}) </div>
+        <div class="screen-list-address">{{city}}, {{state}}, {{nation}} </div>
+        <div class="screen-list-rank">U.S. NEWS排名：{{rank}} </div>
+        <a class="screen-list-join button-solid" href="/select?sid={{id}}">加入选校</a>
+    </li>
+    {{/each}}
+</ul>
+<div class="list-page">
+    <ul class="clear">
+        <li><a href="#"><span class="list-page-pre"></span></a></li>
+        <li class="active"><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#"><span class="list-page-next"></span></a></li>
+    </ul>
+    <div class="list-page-total">
+        <span>1</span>/<span>300</span>
+    </div>
+</div>

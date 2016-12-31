@@ -147,56 +147,50 @@ define(['jquery','fullpage','iscroll','base','common','countries','handlebars'],
     }
 
     //搜索院校
-    // function searchSchool(school){
-    //     if(!school){
-    //         $.ajax({
-    //             url:'/v1/schoolmajor/filterschool.action',
-    //             data:{
-    //                 nation: screen.nation,
-    //                 state: screen.state,
-    //                 location: screen.location,
-    //                 major_name: screen.major,
-    //                 degree: screen.degree,
-    //                 page: 0
-    //             },
-    //             type:'get',
-    //             cache:false,
-    //             dataType:'json',
-    //             success:function(data){
-    //                 var source = $('#template-school').html();
-    //                 var template = Handlebars.compile(source);
-    //                 var html = template(data.data);
-    //                 console.log(data.data);
-    //                 $('#screen-state ul').html(html);
-    //             },
-    //             error : function() {
-    //                 base.notice('网络错误');
-    //             }
-    //         });
-    //         return;
-    //     }
-    //     //表单搜索
-    //     $.ajax({
-    //         url:'/v1/schoolmajor/searchschool.action',
-    //         data:{
-    //             search: school,
-    //             page: 0
-    //         },
-    //         type:'get',
-    //         cache:false,
-    //         dataType:'json',
-    //         success:function(data){
-    //             var source = $('#screen-school').html();
-    //             var template = Handlebars.compile(source);
-    //             var html = template(data.data);
-    //             console.log(data.data);
-    //             $('#screen-state ul').html(html);
-    //         },
-    //         error : function() {
-    //             base.notice('网络错误');
-    //         }
-    //     });
-    // }
+    function searchSchool(school){
+        if(!school){
+            $.ajax({
+                url:'/v1/schoolmajor/filterschool.action',
+                data:{
+                    nation: screen.nation,
+                    state: screen.state,
+                    location: screen.location,
+                    major_name: screen.major,
+                    degree: screen.degree,
+                    page: 0
+                },
+                type:'get',
+                cache:false,
+                dataType:'html',
+                success:function(data){
+                    console.log(data);
+                    $("#search-result").html(data);
+                },
+                error : function() {
+                    base.notice('网络错误');
+                }
+            });
+            return;
+        }
+        //表单搜索
+        $.ajax({
+            url:'/v1/schoolmajor/searchschool.action',
+            data:{
+                search: school,
+                page: 0
+            },
+            type:'get',
+            cache:false,
+            dataType:'html',
+            success:function(data){
+                console.log(data);
+                $("#search-result").html(data);
+            },
+            error : function() {
+                base.notice('网络错误');
+            }
+        });
+    }
 
     function searchReset(){
         screen.country = '';

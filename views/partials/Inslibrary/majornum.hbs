@@ -1,13 +1,11 @@
 <ul class="school-side">
-    <li><a href="/school-recommend">推荐专业</a></li>
+    <li><a href="/school-recommend?sid={{sid}}">推荐专业</a></li>
     <li class="active">
-        <a href="/school-major">全部专业</a>
+        <a href="/school-major?sid={{sid}}">全部专业</a>
     </li>
-
     <ul class="school-side-son">
-        {{#each partials.schoolmajor.data}}
-        <li><a href="#">{{academy}}</a></li>
+        {{#each data.data}}
+        <li><a href="/school-all?sid={{sid}}">{{academy}}</a></li>
         {{/each}}
     </ul>
-    <li class="school-side-revise" hidden><a href="#">修改专业</a></li>
 </ul>

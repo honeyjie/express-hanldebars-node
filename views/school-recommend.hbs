@@ -1,33 +1,30 @@
-    <div class="school main clear">
-        {{> Inslibrary/schooldetail}}
-        <ul class="school-side">
-            <li class="active"><a href="/school-recommend">推荐专业</a></li>
-            <li ><a href="/school-all">全部专业</a></li>
-        </ul>
-        <div class="school-recommend">
-            <div class="recommend-major clear">
-                <div class="recommen-major-total">
-                    可申请项目总数：250
-                    <div class="recommen-major-item">
-                        <span>硕士学位</span>100
-                    </div>
-                    <div class="recommen-major-item">
-                        <span>博士学位</span>150
-                    </div>
-                </div>
-                <div class="recommend-major-form form-item">
-                    <input type="text" placeholder="填写你的专业"/>
-                    <button class="recommend-major-get button-solid-ban">获取推荐</button>
-                    <div class="recommend-major-notice">* 内含可申请学位、申请费用、截止时间、具体要求</div>
-                </div>
+<div class="school main clear">
+{{> Inslibrary/schooldetail}}
+<ul class="school-side">
+    <li class="active"><a href="/school-recommend?sid={{sid}}">推荐专业</a></li>
+    <li ><a href="/school-all?sid={{sid}}">全部专业</a></li>
+</ul>
+<div class="school-recommend">
+    <div class="recommend-major clear">
+        <div class="recommen-major-total">
+            可申请项目总数：{{total}}
+            <div class="recommen-major-item">
+                <span>硕士学位</span>{{data.Count.doctor}}
             </div>
-            <div class="recommend-major-title">该校热门专业</div>
-            <ul class="recommend-major-list clear">
-                <li><a href="#"><img src="/img/major1.png" alt=""/></a></li>
-                <li><a href="#"><img src="/img/major2.png" alt=""/></a></li>
-                <li><a href="#"><img src="/img/major3.png" alt=""/></a></li>
-                <li><a href="#"><img src="/img/major4.png" alt=""/></a></li>
-            </ul>
+            <div class="recommen-major-item">
+                <span>博士学位</span>{{data.Count.master}}
+            </div>
         </div>
-
+        <div class="recommend-major-form form-item">
+            <input type="text" placeholder="填写你的专业"/>
+            <button class="recommend-major-get button-solid-ban">获取推荐</button>
+            <div class="recommend-major-notice">* 内含可申请学位、申请费用、截止时间、具体要求</div>
+        </div>
     </div>
+    <div class="recommend-major-title">该校热门专业</div>
+    <ul class="recommend-major-list clear">
+        {{#each data.hot}}
+        <li><a href="#"><img src="/img/major1.png" alt="{{category}}"/>{{category}}</a></li>
+        {{/each}}
+    </ul>
+</div>
