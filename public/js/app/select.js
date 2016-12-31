@@ -1,4 +1,61 @@
-define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,iscroll,base,common){
+define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,fullpage,iscroll,base,common,d3){
+    //图表测试数据开始
+
+    function random(){
+        var randomData = [];
+        randomData[0] = {
+            score:0,
+            number:0
+        };
+        for(var i=1;i<=25;i++){
+            randomData[i] = {};
+            randomData[i].score = (0.2*i).toFixed(1);
+            randomData[i].number = Math.floor(Math.random()*40+10);
+        }
+        return randomData;
+    }
+    //图表测试数据结束
+
+    var gpaDate = {
+        before : null ,
+        now : {
+            data : random(),  //测试数据
+            myScore : 2.4     //测试数据
+        }
+    };
+    var tofelDate = {
+        before : null ,
+        now : {
+            data : random(),  //测试数据
+            myScore : 3.2     //测试数据
+        }
+    };
+    var greDate = {
+        before : null ,
+        now : {
+            data : random(),  //测试数据
+            myScore : 1.2     //测试数据
+        }
+    };
+    var learningDate = {
+        before : null ,
+        now : {
+            ratio : '30%'   //测试数据
+        }
+    };
+    var recommendDate = {
+        before : null ,
+        now : {
+            ratio : '50%'  //测试数据
+        }
+    };
+    var prizeDate = {
+        before : null ,
+        now : {
+            ratio : '80%'  //测试数据
+        }
+    };
+
 
     var select = {};
         select.nation = 'US';                   //国家
@@ -32,6 +89,9 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
     var height = [];  //每个模块的高度
 
     $(function(){
+
+        chart();
+
         //模拟下拉
         $('.select-special').select();
         $('.science-select1').select();
@@ -53,6 +113,17 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         $('.select-achievement').check();
         $('.select-work').check();
         $('.select-prize').check();
+
+        //浮层
+        if($('.select-form-view')[0]){
+            openSelectView();
+        }
+        $('.select-form-view').on('click',function(e){
+            e.stopPropagation();
+        });
+        $('.select-form-view button').on('click',function(){
+            closeSelectView();
+        });
         //模块展开/收缩
         $('.select-title-control').on('click',function(){
             var content = $(this).parents('.select-box').find('.select-content');
@@ -590,18 +661,56 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
             });
         });
 
-
-
-
         $('.select-submit').on('click',function(){
             submitSelect();
         });
+
+
+        //切换学校类型
+        $('.select-school').tab();
+        //切换学校图表
+        $('.select-school-list li').on('click',function(){
+            $('.select-school-list li').removeClass('active');
+            $(this).addClass('active');
+            gpaDate.now = {
+                data : random(),  //测试数据
+                myScore : 2.0     //测试数据
+            };
+            tofelDate.now = {
+                data : random(),  //测试数据
+                myScore : 3.2     //测试数据
+            };
+            greDate.now = {
+                data : random(),  //测试数据
+                myScore : 2.4     //测试数据
+            };
+            learningDate.now = {
+                ratio : '70%'   //测试数据
+            };
+            recommendDate.now = {
+                ratio : '0'   //测试数据
+            };
+            prizeDate.now = {
+                ratio : '20%'   //测试数据
+            };
+            chart();
+        });
+        //加入申请
+        $('.select-school-switch').on('click',function(e){
+            e.stopPropagation();
+            if($(this).hasClass('active')){
+                $(this).removeClass('active');
+            }
+            else{
+                $(this).addClass('active');
+            }
+        })
 
     });
 
     function selectSchool(school){
         $.ajax({
-            url:'/v1/completeform/chinaschool.action',
+            url:'http://utuotu.com/v1/completeform/chinaschool.action',
             data:{
                 schoolname : school
             },
@@ -619,7 +728,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
 
     function selectMajor(major,n){
         $.ajax({
-            url:'/v1/completeform/chinamajor.action',
+            url:'http://utuotu.com/v1/completeform/chinamajor.action',
             data:{
                 majorname : major
             },
@@ -678,7 +787,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
             select.exam_score.gmat = exam;
         }
         $.ajax({
-            url:'/v1/completeform/chinamajor.action',
+            url:'http://utuotu.com/v1/completeform/chinamajor.action',
             data:{
                 token : '',
                 nation : select.nation,
@@ -710,6 +819,408 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                 base.notice('网络错误');
             }
         });
+    }
+
+    function openSelectView(){
+        base.openMask();
+        $('.select-form-view').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
+            $('.select-form-view').removeClass('animated fadeInDown');
+        });
+    }
+    function closeSelectView(){
+        $('.select-form-view').addClass('animated fadeOutUp').one(base.animationend,function(){
+            $('.select-form-view').removeClass('animated fadeOutUp').addClass('hidden');
+            base.closeMask();
+        });
+    }
+
+    //生成图表
+    function chart(){
+        chartArea('.select-svg-gpa',gpaDate.before,gpaDate.now,5,50,function(){
+            gpaDate.before = gpaDate.now;
+        });
+        chartArea('.select-svg-tofel',tofelDate.before,tofelDate.now,5,50,function(){
+            tofelDate.before = tofelDate.now;
+        });
+        chartArea('.select-svg-gre',greDate.before,greDate.now,5,50,function(){
+            greDate.before = greDate.now;
+        });
+
+        chartRound('.select-svg-learning',learningDate.before,learningDate.now,function(){
+            learningDate.before = learningDate.now;
+        });
+        chartRound('.select-svg-recommend',recommendDate.before,recommendDate.now,function(){
+            recommendDate.before = recommendDate.now;
+        });
+        chartRound('.select-svg-prize',prizeDate.before,prizeDate.now,function(){
+            prizeDate.before = prizeDate.now;
+        });
+    }
+
+
+    function chartArea(dom,data1,data2,maxScore,maxNumber,cb){  //dom 数据1 数据2 满分 最多人数 cb
+        if($(dom).find('svg')){
+            $(dom).find('svg').remove();
+        }
+        if(!data1){
+            data1 = {};
+            data1.data = [];
+            data1.lessMe = [];
+            data1.dotMax = {};
+            data1.dotMe = {};
+            data1.dotMax.score = 0;
+            data1.dotMax.number = 0;
+            data1.dotMe.score = 0;
+            data1.dotMe.number = 0;
+            data1.color = {
+                stroke : '#ffffff',
+                fill : '#ffffff'
+            };
+            for(var i=0;i<data2.data.length;i++){
+                data1.data.push({
+                    score : 0,
+                    number : 0
+                });
+                data1.lessMe.push({
+                    score : 0,
+                    number : 0
+                })
+            }
+        }
+        else{
+            data1.lessMe = lessArr(data1);
+            data1.dotMax = maxObj(data1);
+            data1.dotMe = meObj(data1);
+            data1.color = color(data1);
+        }
+        data2.lessMe = lessArr(data2);
+        data2.dotMax = maxObj(data2);
+        data2.dotMe = meObj(data2);
+        data2.color = color(data2);
+
+
+        //得分小于我的数据
+        function lessArr(data){
+            var less = [];
+            for(var i=0;i<data.data.length;i++){
+                if(data.data[i].score<=data.myScore){
+                    less.push(data.data[i])
+                }
+            }
+            return less;
+        }
+        //最高分数据
+        function maxObj(data){
+            var max = [];
+            for(var i=0;i<data.data.length;i++){
+                max.push(data.data[i].number)
+            }
+            var maxY = d3.max(max);
+            for(var n=0;n<data.data.length;n++){
+                if(data.data[n].number==maxY){
+                    return data.data[n];
+                }
+            }
+        }
+        //我的得分数据
+        function meObj(data){
+            for(var i=0;i<data.data.length;i++){
+                if(data.data[i].score==data.myScore){
+                    return data.data[i];
+                }
+            }
+        }
+
+        //颜色
+        function color(data){
+            var color = {
+                stroke : '',
+                fill : ''
+            };
+            if(data.myScore>parseInt(data.dotMax.score)+parseInt((maxScore-data.dotMax.score)/2)){
+                color.stroke = '#55ccff';
+                color.fill = '#bdeafc';
+            }
+            else if(data.myScore>data.dotMax.score&&data.myScore<=parseInt(data.dotMax.score)+parseInt((maxScore-data.dotMax.score)/2)){
+                color.stroke = '#72d38a';
+                color.fill = '#c7f6d5';
+            }
+            else if(data.myScore<=data.dotMax.score){
+                color.stroke = '#f14141';
+                color.fill = '#ffcccc';
+            }
+            return color;
+        }
+
+        var width = 500;
+        var height = 250;
+        var margin = {left:50,top:50,right:50,bottom:25};
+        var g_width = width - margin.left - margin.right;
+        var g_height = height - margin.top - margin.bottom;
+
+        var svg = d3.select(dom).append('svg')
+            .attr('width', width)
+            .attr('height', height)
+            .append('g')
+            .attr('transform','translate('+margin.left+','+margin.top+')');
+        //缩放比例
+        var x = d3.scaleLinear()
+            .domain([0,maxScore])
+            .range([0,g_width]);
+        var y = d3.scaleLinear()
+            .domain([0,maxNumber])
+            .range([g_height,0]);
+        //面积生成器
+        var area = d3.area()
+            .x(function(d){
+                return x(d.score);
+            })
+            .y0(g_height)
+            .y1(function(d){
+                return y(d.number);
+            })
+            .curve(d3.curveCatmullRom.alpha(0.5));
+        //线条生成器
+        var line = d3.line()
+            .x(function(d){
+                return x(d.score);
+            })
+            .y(function(d) {
+                return y(d.number)-1;
+            })
+            .curve(d3.curveCatmullRom.alpha(0.5));
+
+        svg.append('path')  //画面
+            .attr('class','svg-area')
+            .style('fill',data1.color.fill)
+            .attr('d',area(data1.lessMe))
+            .transition()
+            .duration(1000)
+            .style('fill',data2.color.fill)
+            .attr('d',area(data2.lessMe));
+        svg.append('path')  //画线
+            .attr('class','svg-line')
+            .style('stroke',data1.color.stroke)
+            .attr('d',line(data1.data))
+            .transition()
+            .duration(1000)
+            .style('stroke',data2.color.stroke)
+            .attr('d',line(data2.data));
+        svg    //最高点
+            .append('g')
+            .append('circle')
+            .style('fill',data1.color.fill)
+            .attr('cx', x(data1.dotMax.score))
+            .attr('cy', y(data1.dotMax.number))
+            .transition()
+            .duration(1000)
+            .style('fill',data2.color.fill)
+            .attr('cx', x(data2.dotMax.score))
+            .attr('cy', y(data2.dotMax.number))
+            .attr('r', 5);
+        svg     //自己
+            .append('g')
+            .append('circle')
+            .attr('class','svg-dot')
+            .style('stroke',data1.color.stroke)
+            .attr('cx', x(data1.dotMe.score))
+            .attr('cy', y(data1.dotMe.number))
+            .transition()
+            .duration(1000)
+            .style('stroke',data2.color.stroke)
+            .attr('cx', x(data2.dotMe.score))
+            .attr('cy', y(data2.dotMe.number))
+            .attr('r', 4);
+        svg     //最高点线
+            .append('g')
+            .append('line')
+            .style('stroke','#ffffff')
+            .style('stroke-width',1)
+            .attr('x1', x(data1.dotMax.score))
+            .attr('y1', y(data1.dotMax.number)+5)
+            .attr('x2', x(data1.dotMax.score))
+            .transition()
+            .duration(1000)
+            .attr('x1', x(data2.dotMax.score))
+            .attr('y1', y(data2.dotMax.number)+5)
+            .attr('x2', x(data2.dotMax.score))
+            .attr('y2', g_height);
+        svg     //底线
+            .append('g')
+            .append('line')
+            .style('stroke','#dcdcdc')
+            .style('stroke-width',1)
+            .attr('x1', 0)
+            .attr('y1', g_height+2)
+            .attr('x2', g_width)
+            .attr('y2', g_height+2);
+        svg     //大多数人得分文字
+            .append('g')
+            .append('text')
+            .attr('x', x(data1.dotMax.score)-36)
+            .attr('y', y(data1.dotMax.number)-15)
+            .transition()
+            .duration(1000)
+            .attr('x', x(data2.dotMax.score)-36)
+            .attr('y', y(data2.dotMax.number)-15)
+            .text('大多数人得分');
+        svg     //我的得分文字
+            .append('g')
+            .append('text')
+            .attr('x', x(data1.dotMe.score)-24)
+            .attr('y', y(data1.dotMe.number)-15)
+            .transition()
+            .duration(1000)
+            .attr('x', x(data2.dotMe.score)-24)
+            .attr('y', y(data2.dotMe.number)-15)
+            .text('我的得分');
+        svg     //大多数人得分
+            .append('g')
+            .append('text')
+            .attr('x', x(data1.dotMax.score)-8)
+            .attr('y', g_height-5)
+            .text(data1.dotMax.score)
+            .transition()
+            .duration(1000)
+            .attr('x', x(data2.dotMax.score)-8)
+            .attr('y', g_height-5)
+            .text(data2.dotMax.score);
+        svg     //我的得分
+            .append('g')
+            .append('text')
+            .attr('x', x(data1.dotMe.score)-8)
+            .attr('y', g_height-5)
+            .text(data1.dotMax.score)
+            .transition()
+            .duration(1000)
+            .attr('x', x(data2.dotMe.score)-8)
+            .attr('y', g_height-5)
+            .text(data2.dotMe.score);
+
+        svg     //最低分文字
+            .append('g')
+            .append('text')
+            .attr('x', 0)
+            .attr('y', g_height+20)
+            .text('最低分');
+        svg     //最高分文字
+            .append('g')
+            .append('text')
+            .attr('x', g_width-36)
+            .attr('y', g_height+20)
+            .text('最高分');
+        svg     //最高分
+            .append('g')
+            .append('text')
+            .attr('x', g_width-8)
+            .attr('y', g_height-5)
+            .text(maxScore);
+        if(cb){
+            cb();
+        }
+    }
+
+    function chartRound(dom,data1,data2,cb){
+        if($(dom).find('svg')){
+            $(dom).find('svg').remove();
+        }
+        var width = 500;
+        var height = 250;
+        var r_width = 180;
+        var r_height = 180;
+        var center_x = width/2;
+        var center_y = height/2+20;
+        if(!data1){
+            data1 = {
+                angle : 0,
+                color : '#f2f2f2'
+            }
+        }
+        else{
+            data1.angle = 2*Math.PI*toPoint(data1.ratio);
+            data1.color = color(toPoint(data1.ratio));
+        }
+        data2.angle = 2*Math.PI*toPoint(data2.ratio);
+        data2.color = color(toPoint(data2.ratio));
+
+        var chartNumber = parseInt(toPoint(data1.ratio)*100);
+        var numberTimer = setInterval(function(){
+            if(data2.angle>data1.angle){
+                chartNumber = chartNumber+5;
+            }
+            else if(data2.angle<data1.angle){
+                chartNumber = chartNumber-5;
+            }
+            $(dom).find('.select-svg-number').html(chartNumber+'%');
+            if(chartNumber>=parseInt(toPoint(data2.ratio)*100)){
+                clearInterval(numberTimer);
+                chartNumber = parseInt(toPoint(data2.ratio)*100);
+            }
+            $(dom).find('.select-svg-number').html(chartNumber+'%');
+            if(chartNumber<=0){
+                clearInterval(numberTimer);
+                $(dom).find('.select-svg-number').html('有待提升');
+            }
+            $(dom).find('.select-svg-number').css('color',color(toPoint(data2.ratio)));
+        },100);
+
+        function toPoint(percent){
+            if(percent=='0'){
+                return  0;
+            }
+            if(!percent){
+                return 0;
+            }
+            var str = percent.replace("%","")/100;
+            return str;
+        }
+
+        function color(ratio){
+            if(ratio==0){
+                return '#999999';
+            }
+            else if(ratio>0.5){
+                return '#25baf4';
+            }
+            else if(ratio<=0.5){
+                return '#ff5555';
+            }
+        }
+
+        var svg = d3.select(dom).append('svg')
+            .attr('width', width)
+            .attr('height', height)
+            .append('g')
+            .attr('transform','translate('+center_x+','+center_y+')');
+        var arc1 = d3.arc()
+            .innerRadius(r_width/2-2)
+            .outerRadius(r_width/2+2)
+            .startAngle(0)
+            .endAngle(2*Math.PI);
+        var arc2 = d3.arc()
+            .innerRadius(r_width/2-4)
+            .outerRadius(r_width/2+4)
+            .startAngle(0)
+            .endAngle(function(d){
+                return d;
+            });
+        svg.append('path')  //画面
+            .style('fill','#f2f2f2')
+            .attr('d',arc1);
+        svg.append('path')  //画面
+            .style('fill',data1.color)
+            .attr('d',arc2(data1.angle))
+            .transition()
+            .duration(1000)
+            .style('fill',data2.color)
+            .attrTween('d',function(){
+                return function(t){
+                    return arc2(t*data2.angle);
+                };
+            });
+        if(cb){
+            cb();
+        }
     }
 
     return{

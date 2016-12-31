@@ -317,25 +317,5 @@ img{
 .form-select-option li:hover{
     background: #e9e9e9;
 }
-.form-radio{
-    cursor: pointer;
-}
-.form-radio img{
-    vertical-align: top;
-}
-.form-radio img:nth-child(1){
-    display: inline;
-}
-.form-radio img:nth-child(2){
-    display: none;
-}
-.form-radio.selected img:nth-child(1){
-    display: none;
-}
-.form-radio.selected img:nth-child(2){
-    display: inline;
-}
-.form-radio-value{
-    font-size: 14px;
-    margin-left: 10px;
-}
+
+

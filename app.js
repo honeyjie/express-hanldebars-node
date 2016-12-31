@@ -25,14 +25,6 @@ var hbs = exphbs.create({
     ]
 });
 
-// hbs.getPartials().then(function(partials){
-//     console.log(partials);
-//     var partialsArr = [];
-//     for (i in partials) {
-//         partialsArr.push({i: partials[prop]});
-//         console.log(i)
-//     }
-// })
 
 app.set('view engine', 'hbs');
 app.engine('hbs', hbs.engine);
@@ -62,23 +54,10 @@ app.use(function(req, res, next) {
       if (!res.locals.partials) {
         res.locals.partials = {}
       }
-      console.log(data);
       res.locals.partials.schooldetail = data.data;
     });
     next();
 });
-
-// app.use(function(req, res, next) {
-//     req.proxy.request({
-//         method: "GET",
-//         url: "http://www.utuotu.com/v1/schoolinfo/getallschoolmajor.action",
-//         qs: req.query
-//     },function(err, response, body) {
-//       var data = JSON.parse(body);
-//       res.locals.partials.schoolmajor = data
-//     });
-//     next();
-// });
 
 app.use('/', index);
 
@@ -92,7 +71,10 @@ app.use(function(req, res, next) {
       if (!res.locals.partials) {
         res.locals.partials = {}
       }
+      console.log(data);
       res.locals.partials.loginstate = data;
+      console.log(res.locals.partials.loginstate);
+      console.log(res.locals.partials.loginstate.data.headerImg);
       next();
     });
 });
@@ -114,7 +96,7 @@ app.use(function(req, res, next) {
             try {
                 body = JSON.parse(body);
             } catch(e) {
-                // console.log(e)
+                console.log(e)
             }
             res.send(body)
         }
@@ -125,9 +107,7 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-    res.status(err.status || 500);
-    // console.log(err)
+    res.status(err.status || 500)
     res.render('error.hbs');
 });
 

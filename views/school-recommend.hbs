@@ -24,7 +24,13 @@
     <div class="recommend-major-title">该校热门专业</div>
     <ul class="recommend-major-list clear">
         {{#each data.hot}}
-        <li><a href="#"><img src="/img/major1.png" alt="{{category}}"/>{{category}}</a></li>
+        <li clear>
+            <a href="/school-major?mid={{major_id}}&sid={{school_id}}">
+                <img src="http://oj17skvs5.bkt.clouddn.com/{{category}}.png" alt="{{category}}"/>
+                <span>{{major_name}}</span>
+            </a>
+
+        </li>
         {{/each}}
     </ul>
 </div>

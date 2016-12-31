@@ -1759,17 +1759,17 @@
     font-size: 14px;
     margin-bottom: 20px;
 }
-.school .screen-form-radio button{
+.school .select-form-radio button{
     width: 90px;
     height: 37px;
     line-height: 35px;
     font-size: 14px;
     margin-bottom: 20px;
 }
-.school .screen-form-radio button:nth-child(2n+1){
+.school .select-form-radio button:nth-child(2n+1){
     float: left;
 }
-.school .screen-form-radio button:nth-child(2n){
+.school .select-form-radio button:nth-child(2n){
     float: right;
 }
 .school .screen-side-button{
@@ -2099,6 +2099,22 @@
 .school .recommend-major-list li:nth-child(1){
     margin-left: 0;
 }
+.school .recommend-major-list li img{
+    width: 215px;
+    height: 110px;
+}
+.school .recommend-major-list li a {
+    color: #25baf4;
+    position: relative;
+}
+.school .recommend-major-list li a span {
+    position: absolute;
+    text-align: left;
+    left: 110px;
+    left: 100px;
+    vertical-align: center;
+    z-index: 10;
+} 
 .school .school-major{
     width: 980px;
     float: right;
@@ -2290,332 +2306,4 @@
 }
 .school .major-from a{
     text-decoration: underline;
-}
-.select{
-    padding-top: 60px;
-    padding-bottom: 70px;
-}
-.select .select-box{
-    margin-top: 20px;
-    border: 1px solid #dcdcdc;
-    border-radius: 5px;
-    overflow: hidden;
-}
-.select .select-title{
-    position: relative;
-    height: 40px;
-    line-height: 40px;
-    background: #25baf4;
-    font-size: 14px;
-    color: #ffffff;
-    font-weight: 600;
-    padding: 0 30px;
-}
-.select .select-title.error{
-    background: #ff3f3f;
-}
-.select .select-title-control{
-    position: absolute;
-    top: 9px;
-    right: 9px;
-    cursor: pointer;
-}
-.select .select-content{
-    background: #ffffff;
-    padding: 0 30px;
-    overflow: hidden;
-}
-.select .select-country{
-    padding: 30px 0;
-    border-bottom: 1px solid #dcdcdc;
-}
-.select .select-position{
-    padding: 30px 0;
-}
-.select .select-preference li{
-    float: left;
-    cursor: pointer;
-}
-.select .select-preference-title{
-    font-size: 14px;
-    color: #333333;
-    font-weight: 600;
-    line-height: 100px;
-    margin-right: 30px;
-}
-.select .select-preference-radio{
-    width: 280px;
-    height: 100px;
-    border: 1px solid #dcdcdc;
-    box-shadow: 0 0 5px rgba(220,220,220,0.5);
-    margin-right: 80px;
-    border-radius: 5px;
-    overflow: hidden;
-}
-.select .select-preference-radio.active{
-    width: 280px;
-    height: 100px;
-    border: 2px solid #25baf4;
-    box-shadow: 0 0 5px rgba(37,186,244,0.5);
-    margin-right: 80px;
-    border-radius: 5px;
-    overflow: hidden;
-}
-.select .select-preference-radio img{
-    width: 100%;
-    height: 100%;
-}
-.select .select-preference-radio .grey{
-    display: block;
-}
-.select .select-preference-radio .blue{
-    display: none;
-}
-.select .select-preference-radio.active .grey{
-    display: none;
-}
-.select .select-preference-radio.active .blue{
-    display: block;
-}
-.select .form-item{
-    padding-top: 20px;
-}
-.select .form-item input{
-    width: 200px;
-    height: 30px;
-    padding: 5px 10px;
-    background: #fbfbfb;
-    font-size: 14px;
-}
-.select .form-item .form-item-notice{
-    left: 300px;
-    top: 15px;
-    z-index: 2;
-}
-.select .form-item-name{
-    display: inline-block;
-    min-width: 56px;
-    font-size: 14px;
-    text-align: right;
-    color: #333333;
-    font-weight: 600;
-    line-height: 30px;
-    margin-right: 30px;
-}
-.select .select-info-input{
-    border-bottom: 1px solid #dcdcdc;
-}
-.select .select-info-major{
-    float: left;
-}
-.select .select-info-major2{
-    float: left;
-    padding-left: 86px;
-    margin-left: 34px;
-}
-.select .select-info-major2 .form-item-name{
-    font-size: 12px;
-    font-weight: 500;
-    position: absolute;
-    color: red;
-    top: -10px;
-    left: 86px;
-}
-.select .select-info-input{
-    padding-bottom: 20px;
-}
-.select .select-info-input .form-item-name{
-    float: left;
-}
-.select .select-info-input .form-select-option{
-    left: 86px;
-    width: 200px;
-    top: 50px;
-}
-.select .select-info-radio{
-    padding: 10px 0 20px;
-}
-.select .select-info-radio .form-item{
-    float: left;
-    width: 379px;
-    padding-left: 30px;
-}
-.select .select-info-radio .form-item:nth-child(1){
-    padding: 0;
-}
-.select .select-info-radio .form-radio{
-    margin-top: 10px;
-}
-.select .select-score .form-radio{
-    float: left;
-    margin: 5px 30px 5px 0;
-}
-.select .select-score .form-item-name{
-    float: left;
-}
-.select .select-language-input{
-    padding-bottom: 20px;
-}
-.select .select-exam{
-    border-top: 1px solid #dcdcdc;
-}
-.select .select-language-input,.select .select-exam-input{
-    padding-left: 86px;
-}
-.select .select-exam-input{
-    padding-bottom: 20px;
-}
-.select .select-language-input input,.select .select-exam-input input{
-    width: 100px;
-    margin-right: 20px;
-}
-.select .select-language-input .form-item-notice{
-    left: 700px;
-}
-.select .select-exam-input .form-item-notice{
-    left: 575px;
-}
-.select .select-exam .form-item-name{
-    margin-left: -13px;
-}
-.select .select-gresub{
-    padding-bottom: 20px;
-}
-.select .select-gresub .form-item{
-    padding-top: 0;
-}
-.select .select-form-special{
-    margin-left: 86px;
-    width: 225px;
-    float: left;
-}
-.select .select-form-special .form-select-option{
-    top: auto;
-    bottom: 31px;
-    z-index: 2;
-    border-bottom: 0;
-    border-top: 1px solid #dcdcdc;
-    border-radius: 0;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-}
-.select .select-special .form-select-value{
-    padding: 5px 10px;
-    font-size: 14px;
-}
-.select .select-form-special{
-    float: left;
-}
-.select .select-form-special-score{
-    float: left;
-}
-.select .select-form-special-score input{
-    width: 100px;
-    margin-left: 21px;
-}
-.select .select-form-special-score .form-item-notice{
-    left: 450px;
-}
-.select .select-form-last{
-    padding-top: 0;
-    padding-bottom: 20px;
-}
-.select .select-form-last input{
-    width: 225px;
-}
-.select .select-form-last .form-item-notice{
-    left: 330px;
-}
-.select .select-other .form-item{
-    width: 379px;
-    float: left;
-    padding-left: 30px;
-}
-.select .select-other .form-item:nth-child(3n+1){
-    padding-left: 0;
-}
-.select .form-check{
-    margin-top: 10px;
-    cursor: pointer;
-}
-.select .form-check img{
-    float: left;
-    margin: 5px 10px 5px 0;
-}
-.select .form-check img:nth-child(1){
-    display: inline;
-}
-.select .form-check img:nth-child(2){
-    display: none;
-}
-.select .form-check.selected img:nth-child(1){
-    display: none;
-}
-.select .form-check.selected img:nth-child(2){
-    display: inline;
-}
-.select .form-check-value{
-    width: 280px;
-    display: table;
-    float: left;
-    height: 30px;
-}
-.select .form-check-value span{
-    display: table-cell;
-    vertical-align: middle;
-    line-height: 15px;
-}
-.select .select-other .form-select{
-    width: 140px;
-    margin-top: 10px;
-    margin-left: 30px;
-}
-.select .select-other .form-select-value{
-    padding: 2px 10px;
-}
-.select .select-other .form-check-input{
-    padding-left: 30px;
-    margin-top: 10px;
-}
-.select .form-check-input li{
-    margin-top: 10px;
-}
-.select .select-other .form-check-input .form-item-name{
-    font-size: 12px;
-    color: #666666;
-    font-weight: 500;
-    text-align: left;
-    width: 90px;
-    margin-right: 10px;
-}
-.select .select-other .form-check-input input{
-    text-align: center;
-    width: 60px;
-    font-size: 12px;
-    padding: 3px 0;
-    height: 26px;
-}
-.select-achievement{
-    clear: left;
-}
-.select-achievement,.select-work,.select-prize{
-    margin-bottom: 20px;
-}
-.select .work-select2 .form-select-option,.select .prize-select1 .form-select-option,.select .prize-select2 .form-select-option{
-    top: auto;
-    bottom: 25px;
-    border-bottom: none;
-    border-top: 1px solid #dcdcdc;
-    border-radius: 0;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-}
-.select .select-submit{
-    display: block;
-    margin: 20px auto;
-    width: 150px;
-    height: 40px;
-    line-height: 40px;
-    font-size: 16px;
-    font-weight: 600;
 }

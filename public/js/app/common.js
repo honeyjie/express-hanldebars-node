@@ -1,9 +1,5 @@
 define(['jquery','base','iscroll'],function(jquery,base,iscroll){
     var scroll = [];
-    // $('.header').load('header.html',function(){  //公共头部 测试用
-
-    //     //userInfo();  获取用户信息
-
         //关闭所有弹出层
         $(document).on('click',function(){
             //关闭搜索
@@ -53,9 +49,9 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             mouseWheel : true,
             scrollbars : true
         });
-        //验证码
-        //var captcha = $('#sample-captcha').visualCaptcha({
-        //    imgPath: 'img/',
+        // //验证码
+        // var captcha = $('#sample-captcha').visualCaptcha({
+        //    imgPath: '/img/',
         //    request:'xhrRequest',
         //    url:'http://utuotu.com',
         //    routes:{
@@ -72,7 +68,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
         //            }
         //        }
         //    }
-        //});
+        // });
         //选校定位下拉列表
         $('.header-nav-school').on('mouseenter',function(){
             $('.header-nav-select').fadeIn(200);
@@ -120,7 +116,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
                   redirect_uri: encodeURIComponent(res.data.redirect_uri),
                   state: res.data.state,
                   style: "black",
-                  href: ""
+                  href: "https://coding.net/u/xiongjie/p/myapp1.0/git/raw/master/public/css/wechat.css"
                 });
             })
             $('.login').removeClass('index');
@@ -150,11 +146,6 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             e.stopPropagation();
             logout();
         })
-
-    // });
-
-    // $('.footer').load('footer.html');  //公共底部 测试用
-
 
     function openSearch(){
         $('.header-search-icon').fadeOut(200);
@@ -198,8 +189,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
         });
         if(!$('.header-search input').val()){
             $('.header-search-result').fadeOut(200);
-        }
-        else{
+        }else{
             $('.header-search-result').fadeIn(200);
             scroll[0].refresh();
             scroll[1].refresh();
@@ -208,30 +198,23 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
 
     function openArticle(){
         closeSearch();
-        $('.mask').removeClass('hidden').addClass('animated fadeIn').one(base.animationend,function(){
-            $('.mask').removeClass('animated fadeIn');
-        });
+        base.openMask();
         $('.view-article').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
             scroll[2].refresh();
             $('.view-article').removeClass('animated fadeInDown');
         });
     }
-
     function closeArticle(){
-        $('.mask').addClass('animated fadeOut').one(base.animationend,function(){
-            $('.mask').removeClass('animated fadeOut').addClass('hidden');
-        });
+        base.closeMask()
         $('.view-article').addClass('animated fadeOutUp').one(base.animationend,function(){
             $('.view-article').removeClass('animated fadeOutUp').addClass('hidden');
         });
     }
-
     function closeLogin(){
         $('.login').addClass('animated fadeOutUp').one(base.animationend,function(){
             $('.login').removeClass('animated fadeOutUp index').addClass('hidden');
         });
     }
-
     function tabLogin(_this){
         $('.login-box').removeClass('hidden');
         _this.parents('.login-box').addClass('hidden');
@@ -291,6 +274,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             cache:false,
             dataType:'json',
             success:function(data){
+                console.log(data);
                 if(data.code==0){
                     if(data.data.headerImg){
                         //成功登陆后记录用户信息

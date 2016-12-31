@@ -276,6 +276,21 @@ define(['jquery'],function(jquery){
             },1000);
         });
     }
+
+    //打开遮罩层
+    function openMask(){
+        $('.mask').removeClass('hidden').addClass('animated fadeIn').one(animationend,function(){
+            $('.mask').removeClass('animated fadeIn');
+        });
+    }
+    //关闭遮罩层
+    function closeMask(){
+        $('.mask').addClass('animated fadeOut').one(animationend,function(){
+            $('.mask').removeClass('animated fadeOut').addClass('hidden');
+        });
+    }
+
+
     //发送验证邮件
     function sendTestEmail(){
         $.ajax({
@@ -404,6 +419,8 @@ define(['jquery'],function(jquery){
         testMajor : testMajor,
         jumpEmail : jumpEmail,
         notice : notice,
+        openMask : openMask,
+        closeMask : closeMask,
         sendTestEmail : sendTestEmail,
         openLogin : openLogin
     }
