@@ -236,16 +236,15 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
                     base.userInfo.id = data.data.id;
                     base.userInfo.username = data.data.name;
                     base.userInfo.headerImg = data.data.headerImg;
-                    console.log("显示网页")
-                    $('.header-user-info-avatar').attr('src',base.userInfo.headerImg);
-                    $('.header-user-login').addClass('hidden');
-                    $('.header-user-info').removeClass('hidden');
+                    // $('.header-user-info-avatar').attr('src',base.userInfo.headerImg);
+                    // $('.header-user-login').addClass('hidden');
+                    // $('.header-user-info').removeClass('hidden');
                 }
                 else if(data.code==111001006){
                     base.userInfo = {};
                     base.userInfo.login = false;
-                    $('.header-user-info').addClass('hidden');
-                    $('.header-user-login').removeClass('hidden');
+                    // $('.header-user-info').addClass('hidden');
+                    // $('.header-user-login').removeClass('hidden');
                 }
             },
             error : function() {
@@ -282,7 +281,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
                     if(data.data.headerImg){
                         //成功登陆后记录用户信息
                         userInfo();
-                        // window.location.href = "/";
+                        window.location.href = "/";
                     };
 
                 }else if(data.code==111001004){
