@@ -68,12 +68,10 @@ app.use(function(req, res, next) {
       if (!res.locals.partials) {
         res.locals.partials = {}
       }
-      console.log(data);
       res.locals.partials.loginstate = data;
-      console.log(res.locals.partials.loginstate);
-      console.log(res.locals.partials.loginstate.data.headerImg);
+      next();
     });
-    next();
+    
 });
 app.use('/', index);
 

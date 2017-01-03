@@ -192,21 +192,19 @@ router.get("/v1/schoolmajor/searchschool.action", function(req, res) {
         });
     });
 });
-
-// router.get("/v1/login/login.action", function(req, res) {
+// router.get("/v1/schoolmajor/searchschool.action", function(req, res) {
 //     req.proxy.request({
 //         method: "GET",
-//         url: "http://www.utuotu.com/v1/login/login.action",
+//         url: "http://www.utuotu.com/v1/schoolmajor/searchschool.action",
 //     }, function(err, response, body) {
 //         var data = JSON.parse(body);
 //         if (!data) {
 //             return
 //         }
-//         res.send(data);
-//         // res.render('header', {
-//         //     data: data.data,
-//         //     layout: "naked"
-//         // });
+//         res.render('partials/search-result', {
+//             data: data.data,
+//             layout: "naked"
+//         });
 //     });
 // });
 module.exports = router;
