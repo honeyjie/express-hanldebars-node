@@ -8,54 +8,16 @@
             </ul>
             <div class="tab-box">
                 <ul class="news-list news-system-list">
+                    {{#each getmsg.data}}
                     <li class="noread">
-                        <a class="news-title" href="#">Draven 通过您的邀请链接注册成功，您已获得50积分奖励。</a>
-                        <div class="news-date">今天12：23</div>
+                        <a class="news-title" href="#">{{msg}}</a>
+                        <div class="news-date">{{date}}</div>
                         <div class="news-operation">
                             <a href="#">查看</a>
                             <img class="news-list-delete" src="/img/icon-delete.png" alt=""/>
                         </div>
                     </li>
-                    <li class="noread">
-                        <a class="news-title" href="#">Draven 通过您的邀请链接注册成功，您已获得50积分奖励。</a>
-                        <div class="news-date">今天12：23</div>
-                        <div class="news-operation">
-                            <a href="#">查看</a>
-                            <img class="news-list-delete" src="/img/icon-delete.png" alt=""/>
-                        </div>
-                    </li>
-                    <li class="noread">
-                        <a class="news-title" href="#">Draven 通过您的邀请链接注册成功，您已获得50积分奖励。</a>
-                        <div class="news-date">今天12：23</div>
-                        <div class="news-operation">
-                            <a href="#">查看</a>
-                            <img class="news-list-delete" src="/img/icon-delete.png" alt=""/>
-                        </div>
-                    </li>
-                    <li>
-                        <a class="news-title" href="#">Draven 通过您的邀请链接注册成功，您已获得50积分奖励。</a>
-                        <div class="news-date">今天12：23</div>
-                        <div class="news-operation">
-                            <a href="#">查看</a>
-                            <img class="news-list-delete" src="/img/icon-delete.png" alt=""/>
-                        </div>
-                    </li>
-                    <li>
-                        <a class="news-title" href="#">Draven 通过您的邀请链接注册成功，您已获得50积分奖励。</a>
-                        <div class="news-date">今天12：23</div>
-                        <div class="news-operation">
-                            <a href="#">查看</a>
-                            <img class="news-list-delete" src="/img/icon-delete.png" alt=""/>
-                        </div>
-                    </li>
-                    <li>
-                        <a class="news-title" href="#">Draven 通过您的邀请链接注册成功，您已获得50积分奖励。</a>
-                        <div class="news-date">今天12：23</div>
-                        <div class="news-operation">
-                            <a href="#">查看</a>
-                            <img class="news-list-delete" src="/img/icon-delete.png" alt=""/>
-                        </div>
-                    </li>
+                    {{/each}}
                 </ul>
                 <div class="list-button">
                     <button class="button-hollow news-system-read">全部已读</button>
@@ -74,54 +36,16 @@
             </div>
             <div class="tab-box hidden">
                 <ul class="news-list news-user-list hidden">
-                    <li>
-                        <a class="news-title" href="#">lsy 通过您的邀请链接注册成功，您已获得50积分奖励。</a>
-                        <div class="news-date">今天12：23</div>
+                    {{#each getmsg.data}}
+                    <li class="noread">
+                        <a class="news-title" href="#">{{msg}}</a>
+                        <div class="news-date">{{date}}</div>
                         <div class="news-operation">
                             <a href="#">查看</a>
                             <img class="news-list-delete" src="/img/icon-delete.png" alt=""/>
                         </div>
                     </li>
-                    <li>
-                        <a class="news-title" href="#">lsy 通过您的邀请链接注册成功，您已获得50积分奖励。</a>
-                        <div class="news-date">今天12：23</div>
-                        <div class="news-operation">
-                            <a href="#">查看</a>
-                            <img class="news-list-delete" src="/img/icon-delete.png" alt=""/>
-                        </div>
-                    </li>
-                    <li>
-                        <a class="news-title" href="#">lsy 通过您的邀请链接注册成功，您已获得50积分奖励。</a>
-                        <div class="news-date">今天12：23</div>
-                        <div class="news-operation">
-                            <a href="#">查看</a>
-                            <img class="news-list-delete" src="/img/icon-delete.png" alt=""/>
-                        </div>
-                    </li>
-                    <li>
-                        <a class="news-title" href="#">lsy 通过您的邀请链接注册成功，您已获得50积分奖励。</a>
-                        <div class="news-date">今天12：23</div>
-                        <div class="news-operation">
-                            <a href="#">查看</a>
-                            <img class="news-list-delete" src="/img/icon-delete.png" alt=""/>
-                        </div>
-                    </li>
-                    <li>
-                        <a class="news-title" href="#">lsy 通过您的邀请链接注册成功，您已获得50积分奖励。</a>
-                        <div class="news-date">今天12：23</div>
-                        <div class="news-operation">
-                            <a href="#">查看</a>
-                            <img class="news-list-delete" src="/img/icon-delete.png" alt=""/>
-                        </div>
-                    </li>
-                    <li>
-                        <a class="news-title" href="#">lsy 通过您的邀请链接注册成功，您已获得50积分奖励。</a>
-                        <div class="news-date">今天12：23</div>
-                        <div class="news-operation">
-                            <a href="#">查看</a>
-                            <img class="news-list-delete" src="/img/icon-delete.png" alt=""/>
-                        </div>
-                    </li>
+                    {{/each}}
                 </ul>
                 <div class="news-list-none">
                     暂无消息
@@ -147,10 +71,10 @@
     <div class="view news-article hidden">
         <div class="news-article-type">
             <span>选校/相关专业</span>
-            <div class="news-article-date">今天12：23</div>
+            <div class="news-article-date">{{date}}</div>
         </div>
-        <div class="news-article-title">答疑是大学教学中的一个辅助性项目答疑是大学教学中的一个辅助性项目答疑是大学教学中的一个辅助性项目</div>
-        <div class="news-article-content" id="news-content">
+        <div class="news-article-title">{{msg}}</div>
+{{!--         <div class="news-article-content" id="news-content">
             <p>
                 1.答疑是大学教学中的一个辅助性项目<br/>
                 2.答疑是大学教学中的一个辅助性项目<br/>
@@ -159,7 +83,7 @@
                 5.答疑是大学教学中的一个辅助性项目<br/>
                 6.答疑是大学教学中的一个辅助性项目<br/>
             </p>
-        </div>
+        </div> --}}
         <button class="news-article-close button-solid">关闭</button>
     </div>
 

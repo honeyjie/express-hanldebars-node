@@ -1,10 +1,19 @@
 <ul class="all-list clear">
-    {{#each data.data}}
-            {{#each major}}
+    {{#if allmajors}}
+        {{#each data.allmajors}}
             <li class="all-list-type">{{@key}}</li>
                 {{#each this}}
-                    <li><a href="/school-major?sid={{school_id}}&mid={{major_id}}">{{major_name}}</a></li>
-                {{/each}}
-            {{/each}}         
-    {{/each}}
+                    <li><a href="/school-major?sid={{@root.sid}}&mid={{major_id}}">{{major_name}}</a></li>
+                {{/each}}        
+        {{/each}}
+    {{else}}
+        {{#each data.majors}}
+                {{#each major}}
+                <li class="all-list-type">{{@key}}</li>
+                    {{#each this}}
+                        <li><a href="/school-major?sid={{@root.sid}}&mid={{major_id}}">{{major_name}}</a></li>
+                    {{/each}}
+                {{/each}}         
+        {{/each}}
+    {{/if}}
 </ul>

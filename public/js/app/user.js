@@ -2,7 +2,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
     $(function(){
         var scroll = [];
         //获取积分并初始化积分条
-        base.userInfo.credit = 500; //测试数据
+        // base.userInfo.credit = 0;; //测试数据
         getCredit();
 
         //判断邮箱是否验证
@@ -337,31 +337,33 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
     //获取用户积分
     function getCredit(){
         creditLine();
-        //$.ajax({
-        //    url:'http://utuotu.com/v1/User/currnetcredit.action',
-        //    data:{
-        //
-        //    },
-        //    type:'get',
-        //    cache:false,
-        //    dataType:'json',
-        //    success:function(data) {
-        //        if(data.code==0){
-        //            base.userInfo.credit = data.data.credit;  //base.userInfo.credit 积分
-        //            creditLine();
-        //        }
-        //    },
-        //    error : function() {
-        //        base.notice('网络错误');
-        //    }
-        //});
+        $.ajax({
+           url:'/v1/User/currnetcredit.action',
+           data:{
+        
+           },
+           type:'get',
+           cache:false,
+           dataType:'json',
+           success:function(data) {
+               if(data.code==0){
+                   base.userInfo.credit = data.data.credit;  //base.userInfo.credit 积分
+                   creditLine();
+               }
+           },
+           error : function() {
+               base.notice('网络错误');
+           }
+        });
     }
 //初始化积分条
     function creditLine(){
-        $('.point-line-number2').html(base.userInfo.credit);
-        $('.point-line-number3').html(base.userInfo.totalCredit);
+        console.log(base.userInfo.credit)
+        base.userInfo.credit = $('.point-line-number2').html();
+        // base.userInfo.totalCredit = $('.point-line-number3').html();
         var tw = $('.point-line').innerWidth();
         var nw = tw*base.userInfo.credit/base.userInfo.totalCredit;
+        console.log(nw)
         $('.point-line-now').css('width',nw);
         $('.point-line-arrow').css('left',nw);
         $('.point-line-number2').css('left',nw);

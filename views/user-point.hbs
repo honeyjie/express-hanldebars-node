@@ -9,17 +9,20 @@
             <div class="point-line-now"></div>
             <div class="point-line-arrow"></div>
             <div class="point-line-number1">0</div>
-            <div class="point-line-number2"></div>
-            <div class="point-line-number3"></div>
+            <div class="point-line-number2">{{currnetcredit.data.credit}}</div>
+            <div class="point-line-number3">3000</div>
         </div>
         <div class="point-title">任务卡</div>
         <ul class="point-card clear">
+            {{#each mission.data}}
             <li>
-                <a href="#">
+                <a href="{{url}}">
                     <img src="/img/point-card-complete.png" alt=""/>
-                    <div class="point-card-name">完善个人信息</div>
+                    <span>{{value}}</span>
+                    <div class="point-card-name">{{key}}</div>
                 </a>
             </li>
+            {{/each}}
         </ul>
         <div class="point-nocard hidden">
             <img src="/img/point-nocard.png" alt=""/>
@@ -27,7 +30,7 @@
         <div class="point-title clear">
             邀请朋友
             <span class="point-title-share">
-                （已有2个有效分享）
+                （已有{{invitenum.data.num}}个有效分享）
                 <img class="point-help" src="/img/point-help.png" alt=""/>
             </span>
             <div class="point-share-notice">
@@ -64,36 +67,14 @@
                     <th>剩余积分</th>
                     <th>积分时间</th>
                 </tr>
+                {{#each creditlog.data}}
                 <tr>
-                    <td>使用文书建议服务</td>
-                    <td><span>-100</span></td>
-                    <td>0</td>
-                    <td>2016/12/12 12:12:12</td>
+                    <td>{{content}}</td>
+                    <td><span>{{change}}</span></td>
+                    <td>{{credit}}</td>
+                    <td>{{creditd_at}}</td>
                 </tr>
-                <tr>
-                    <td>使用文书建议服务</td>
-                    <td>100</td>
-                    <td>0</td>
-                    <td>2016/12/12 12:12:12</td>
-                </tr>
-                <tr>
-                    <td>使用文书建议服务</td>
-                    <td>100</td>
-                    <td>0</td>
-                    <td>2016/12/12 12:12:12</td>
-                </tr>
-                <tr>
-                    <td>使用文书建议服务</td>
-                    <td>100</td>
-                    <td>0</td>
-                    <td>2016/12/12 12:12:12</td>
-                </tr>
-                <tr>
-                    <td>使用文书建议服务</td>
-                    <td>100</td>
-                    <td>0</td>
-                    <td>2016/12/12 12:12:12</td>
-                </tr>
+                {{/each}}
             </table>
            <div class="list-page">
                <ul class="clear">

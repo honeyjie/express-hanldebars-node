@@ -50,10 +50,18 @@ app.use(function(req, res, next) {
         url: "http://www.utuotu.com/v1/schoolinfo/getschoolbase.action",
         qs: req.query
     }, function(err, response, body) {
-      var data = JSON.parse(body);
+        var data = body;
+        console.log(data);
+        try {
+            var data = JSON.parse(body);
+        }catch(e) {
+            console.log(e)
+        }
+
       if (!res.locals.partials) {
         res.locals.partials = {}
       }
+      console.log(data.data)
       res.locals.partials.schooldetail = data.data;
     });
     next();

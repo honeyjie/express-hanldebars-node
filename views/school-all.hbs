@@ -5,9 +5,10 @@
             <li class="active">
                 <a href="/school-major?sid={{sid}}">全部专业</a>
             </li>
+            
             <ul class="school-side-son">
-                {{#each data.data}}
-                <li><a href="/school-all?sid={{}}">{{academy}}</a></li>
+                {{#each data.majors}}
+                <li><a href="/school-majorlist?sid={{@root.sid}}">{{academy}}</a></li>
                 {{/each}}
             </ul>
         </ul>

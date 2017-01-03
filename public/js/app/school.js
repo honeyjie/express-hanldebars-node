@@ -7,8 +7,10 @@ define(['jquery','fullpage','iscroll','base','d3','common','countries','handleba
         screen.major = '';
         screen.degree = '';
     var school = {};  //学校信息
-        school.country = 'US';
-        school.state = "West Virginia";    
+        // school.country = 'US';
+        // school.state = "West Virginia";   
+        school.country = $('school-brief-map').attr('nation');
+        school.state = $('.school-brief-map').attr('map');  
     $(function(){
         //模拟滚动条
         if($('#screen-country')[0]){
@@ -242,7 +244,8 @@ define(['jquery','fullpage','iscroll','base','d3','common','countries','handleba
             projection = d3.geoAlbersUsa()
                 .translate([width/2, height/2])
                 .scale([350]);
-            mapJson = 'js/US.json';
+            mapJson = '/js/US.json';
+            console.log("1")
         }
         else if(school.country=='CA'){
             projection = d3.geoAlbers()
@@ -250,7 +253,8 @@ define(['jquery','fullpage','iscroll','base','d3','common','countries','handleba
                 .parallels([45, 70])
                 .scale(280)
                 .translate([0.65 * width, 0.10 * height]);
-            mapJson = 'js/CA.json';
+            mapJson = '/js/CA.json';
+            console.log("2")
         }
         var path = d3.geoPath()
             .projection(projection);
@@ -306,4 +310,22 @@ define(['jquery','fullpage','iscroll','base','d3','common','countries','handleba
     return{
         
     }
+    $('.school-side-son li').on("click", function() {
+        $.ajax({
+            url:'/school-majorlist',
+            data:{
+                academy: $(this).find('a').html()
+            },
+            type:'get',
+            cache:false,
+            dataType:'html',
+            success:function(data){
+                console.log(data);
+                // $("#search-result").html(data);
+            },
+            error : function() {
+                base.notice('网络错误');
+            }
+        });
+    })
 });
