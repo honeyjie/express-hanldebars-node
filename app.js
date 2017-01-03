@@ -58,9 +58,6 @@ app.use(function(req, res, next) {
     });
     next();
 });
-
-app.use('/', index);
-
 app.use(function(req, res, next) {
     req.proxy.request({
         method: "GET",
@@ -75,9 +72,12 @@ app.use(function(req, res, next) {
       res.locals.partials.loginstate = data;
       console.log(res.locals.partials.loginstate);
       console.log(res.locals.partials.loginstate.data.headerImg);
-      next();
     });
+    next();
 });
+app.use('/', index);
+
+
 
 //前端可以通过node向服务器发送请求，格式规定：/v1/login/opencode.action
 //前端也可以直接向PHP发送请求（本地服务器会出现跨域），格式规定：http://utuotu.com/v1/login/opencode.action

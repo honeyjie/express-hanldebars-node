@@ -12,7 +12,6 @@
         var ec = document.getElementById('ec');
         ec.innerHTML = Handlebars.templates.echo({message: message});
         document.body.appendChild(ec);
-
     }, false);
 }());
 

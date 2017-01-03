@@ -101,9 +101,9 @@ router.get('/email-test', function(req, res, next) {
 router.get('/school-all', function(req, res, next) {
   req.proxy.request({method: "GET", url: "http://www.utuotu.com/v1/schoolinfo/getallschoolmajor.action"}, function(err, response, body) {
       var data = JSON.parse(body);
+      data.sid = req.query.sid;
       res.render('school-all', {
         data: data,
-        sid: req.query.sid,
         major: true
         });
   });
@@ -192,4 +192,21 @@ router.get("/v1/schoolmajor/searchschool.action", function(req, res) {
         });
     });
 });
+
+// router.get("/v1/login/login.action", function(req, res) {
+//     req.proxy.request({
+//         method: "GET",
+//         url: "http://www.utuotu.com/v1/login/login.action",
+//     }, function(err, response, body) {
+//         var data = JSON.parse(body);
+//         if (!data) {
+//             return
+//         }
+//         res.send(data);
+//         // res.render('header', {
+//         //     data: data.data,
+//         //     layout: "naked"
+//         // });
+//     });
+// });
 module.exports = router;

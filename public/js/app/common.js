@@ -137,6 +137,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             $('.login-submit').removeClass('button-solid-ban').addClass('button-solid');
         });
         $('.login-submit').on('click',function(e){
+            console.log("点击登录")
             e.stopPropagation();
             login();
         });
@@ -235,15 +236,16 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
                     base.userInfo.id = data.data.id;
                     base.userInfo.username = data.data.name;
                     base.userInfo.headerImg = data.data.headerImg;
-                    // $('.header-user-info-avatar').attr('src',base.userInfo.headerImg);
-                    // $('.header-user-login').addClass('hidden');
-                    // $('.header-user-info').removeClass('hidden');
+                    console.log("显示网页")
+                    $('.header-user-info-avatar').attr('src',base.userInfo.headerImg);
+                    $('.header-user-login').addClass('hidden');
+                    $('.header-user-info').removeClass('hidden');
                 }
                 else if(data.code==111001006){
                     base.userInfo = {};
                     base.userInfo.login = false;
-                    // $('.header-user-info').addClass('hidden');
-                    // $('.header-user-login').removeClass('hidden');
+                    $('.header-user-info').addClass('hidden');
+                    $('.header-user-login').removeClass('hidden');
                 }
             },
             error : function() {
@@ -254,6 +256,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
 
     //账号密码登录
     function login(){
+        console.log("账号密码");
         base.userInfo.username = $('.login-username').val();
         base.userInfo.password = $('.login-password').val();
         if(!base.userInfo.username){
@@ -279,8 +282,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
                     if(data.data.headerImg){
                         //成功登陆后记录用户信息
                         userInfo();
-                        window.location.href = "/";
-                        window.reload(true);
+                        // window.location.href = "/";
                     };
 
                 }else if(data.code==111001004){
