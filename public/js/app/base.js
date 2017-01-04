@@ -43,7 +43,6 @@ define(['jquery'],function(jquery){
             dataType:'json',
             success:function(data){
                 if(data.data.valid){
-                    console.log(data);
                     userInfo.username = '';
                     testFail(dom,'该用户名已注册');
                 }
@@ -74,9 +73,7 @@ define(['jquery'],function(jquery){
             cache:false,
             dataType:'json',
             success:function(data){
-                console.log(data);
                 if(data.data.valid){
-                    console.log(data);
                    userInfo.email = '';
                    testFail(dom,'该邮箱已注册'); 
                 }
@@ -313,23 +310,13 @@ define(['jquery'],function(jquery){
             }
         });
     }
-    //打开登录
-    function openLogin(){
-        $('.login').removeClass('hidden').addClass('animated fadeInDown').one(animationend,function(){
-            $('.login').removeClass('animated fadeInDown');
-        });
-    }
     //jquery方法扩展
     $.fn.extend({
         testInput:function(config){
             if(config.rule.test($(this).val())){
-                console.log("验证成功")
                 config.success($(this));
-                // config.fail($(this));
             }
             else{
-                console.log("验证失败")
-                // config.success($(this));
                 config.fail($(this));
             }
         },
@@ -421,7 +408,6 @@ define(['jquery'],function(jquery){
         notice : notice,
         openMask : openMask,
         closeMask : closeMask,
-        sendTestEmail : sendTestEmail,
-        openLogin : openLogin
+        sendTestEmail : sendTestEmail
     }
 });

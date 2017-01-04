@@ -12,9 +12,9 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             $('.form-select').removeClass('focus');
             $('.form-select-option').addClass('hidden');
             //关闭弹窗
-            // if(!$('.point-view').hasClass('hidden')){
-            //     base.closeAll.closePointView();
-            // }
+            if(!$('.point-view').hasClass('hidden')){
+                 base.closeAll.closePointView();
+            }
             //关闭消息
             if(!$('.news-article').hasClass('hidden')){
                 base.closeAll.closeNewsArticle();
@@ -83,14 +83,16 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
         $('.header-user-info').on('mouseleave',function(){
             $('.header-user-info-operation').fadeOut(200);
         });
-        //站内搜索
+        //打开站内搜索
         $('.header-search-icon').on('click',function(e){
             e.stopPropagation();
             openSearch();
         });
+        //搜索输入
         $('.header-search input').on('input propertychange',function(){
             search();
         });
+        //搜索框阻止冒泡
         $('.header-search').on('click',function(e){
             e.stopPropagation();
         });
@@ -99,45 +101,43 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             e.stopPropagation();
             openArticle();
         });
+        //关闭文章
         $('.view-article-close').on('click',function(e){
             e.stopPropagation();
             closeArticle();
         });
 
-        //注册登录
+        //打开登录
         $('.header-user-login-title').on('click',function(e){
             e.stopPropagation();
-            $.get('/v1/login/opencode.action', function(res) {
-                console.log(res);
-                var obj = new WxLogin({
-                  id: "login_container",
-                  appid: res.data.appid,
-                  scope: res.data.scope,
-                  redirect_uri: encodeURIComponent(res.data.redirect_uri),
-                  state: res.data.state,
-                  style: "black",
-                  href: "https://coding.net/u/xiongjie/p/myapp1.0/git/raw/master/public/css/wechat.css"
-                });
-            })
             $('.login').removeClass('index');
-            base.openLogin();
+            openLogin();
         });
+        //切换登录方式
         $('.login-switch').on('click',function(e){
             e.stopPropagation();
             tabLogin($(this))
         });
+        //登录方式提示
+        $('.login-switch').on('mouseenter',function(){
+           $('.login-switch-notice').fadeIn(200);
+        });
+        $('.login-switch').on('mouseleave',function(){
+            $('.login-switch-notice').fadeOut(200);
+        });
+        //登录
         $('.login').on('click',function(e){
             e.stopPropagation();
         });
         //判断登录按钮
         $('.login-box input').on('input propertychange',function(){
             if(!$('.login-username').val()||!$('.login-password').val()){
+                $('.login-submit').removeClass('button-solid').addClass('button-solid-ban');
                 return;
             }
             $('.login-submit').removeClass('button-solid-ban').addClass('button-solid');
         });
         $('.login-submit').on('click',function(e){
-            console.log("点击登录")
             e.stopPropagation();
             login();
         });
@@ -146,7 +146,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
         $('.header-user-logout').on('click',function(e){
             e.stopPropagation();
             logout();
-        })
+        });
 
     function openSearch(){
         $('.header-search-icon').fadeOut(200);
@@ -155,12 +155,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
     }
 
     function closeSearch(){
-        if($('.header').hasClass('index')){
-            $('.header-search-icon2').fadeIn(200);
-        }
-        else{
-            $('.header-search-icon1').fadeIn(200);
-        }
+        $('.header-search-icon').fadeIn(200);
         $('.header-search input').fadeOut(200);
         $('.header-search-result').fadeOut(200);
     }
@@ -175,14 +170,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             cache:false,
             dataType:'json',
             success:function(data){
-                if(data.data.valid){
-                    console.log(data);
-                    userInfo.username = '';
-                    testFail(dom,'该用户名已注册');
-                }
-                else{
-                    testSuccess(dom);
-                }
+
             },
             error : function() {
                 notice('网络错误');
@@ -211,7 +199,27 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             $('.view-article').removeClass('animated fadeOutUp').addClass('hidden');
         });
     }
+    //打开登录
+    function openLogin(){
+        $.get('/v1/login/opencode.action',function(res){
+            var obj = new WxLogin({
+                id: "login_container",
+                appid: res.data.appid,
+                scope: res.data.scope,
+                redirect_uri: encodeURIComponent(res.data.redirect_uri),
+                state: res.data.state,
+                style: "black",
+                href: "https://coding.net/u/xiongjie/p/myapp1.0/git/raw/master/public/css/wechat.css"
+            });
+        });
+        $('.login').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
+            $('.login').removeClass('animated fadeInDown');
+        });
+    }
+    //关闭登录
     function closeLogin(){
+        $('.app').removeClass('filter');
+        $('.index-mask').addClass('hidden');
         $('.login').addClass('animated fadeOutUp').one(base.animationend,function(){
             $('.login').removeClass('animated fadeOutUp index').addClass('hidden');
         });
@@ -246,6 +254,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
                     // $('.header-user-info').addClass('hidden');
                     // $('.header-user-login').removeClass('hidden');
                 }
+                $('.impowerBox .title').remove();
             },
             error : function() {
                 base.notice('网络错误');
@@ -327,6 +336,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
     }
 
     return {
-
+        openLogin : openLogin,
+        closeLogin : closeLogin
     }
 });

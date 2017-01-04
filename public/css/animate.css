@@ -3723,3 +3723,53 @@ Copyright (c) 2014 Daniel Eden
     -webkit-animation-name: colour;
     animation-name: colour;
 }
+
+
+@-webkit-keyframes toWhite {
+    0% {
+        background: #25baf4;
+    }
+
+    100% {
+        background: #ffffff;
+    }
+}
+
+@keyframes toWhite {
+    0% {
+        background: #25baf4;
+    }
+
+    100% {
+        background: #ffffff;
+    }
+}
+
+.toWhite {
+    -webkit-animation-name: toWhite;
+    animation-name: toWhite;
+}
+@-webkit-keyframes toBlue {
+    0% {
+        background: #ffffff;
+    }
+
+    100% {
+        background: #25baf4;
+    }
+}
+
+@keyframes toBlue {
+    0% {
+        background: #ffffff;
+    }
+
+    100% {
+        background: #25baf4;
+    }
+}
+
+.toBlue {
+    -webkit-animation-name: toBlue;
+    animation-name: toBlue;
+}

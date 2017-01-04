@@ -1,5 +1,5 @@
 requirejs.config({
-    urlArgs: "bust=" +  (new Date()).getTime(), //禁止缓存
+    //urlArgs: "bust=" +  (new Date()).getTime(), //禁止缓存
     baseUrl : 'js/lib',
     paths : {
         app : '../app',

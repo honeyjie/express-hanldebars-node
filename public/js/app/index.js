@@ -4,21 +4,23 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
             e.stopPropagation();
             e.preventDefault();
         });
-        $(document)[0].addEventListener('scroll',function(e){
-            e.preventDefault();
-        },false);
+        //打开登录
         $('.page1-button').on('click',function(e){
             e.stopPropagation();
-            $('.login').addClass('index');
-            base.openLogin();
+            openIndexLogin();
         });
         $('.page7-button').on('click',function(e){
             e.stopPropagation();
-            $('.login').addClass('index');
-            base.openLogin();
+            openIndexLogin();
+        });
+        //关闭登录
+        $('.index-mask').on('click',function(e){
+            e.stopPropagation();
+            common.closeLogin();
         });
     });
     var isAnimateRun = [false,false,false,false,false,false,false];
+    //首页滚屏
     $('.index-main').fullpage({
         'verticalCentered': true,
         'css3': true,
@@ -26,58 +28,77 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         anchors: ['page1', 'page2', 'page3', 'page4','page5','page6','page7'],
         'navigation': true,
         'navigationPosition': 'right',
+        onLeave: function(index, nextIndex, direction){
+            if(index == 1){
+                $('.header').removeClass('animated toBlue').addClass('animated toWhite');
+                $('.footer').removeClass('animated toBlue').addClass('animated toWhite');
+                $('.header-search-icon').attr('src','/img/icon-search.png');
+            }
+            else if(nextIndex == 1){
+                $('.header').removeClass('animated toWhite').addClass('animated toBlue');
+                $('.footer').removeClass('animated toWhite').addClass('animated toBlue');
+                $('.header-search-icon').attr('src','/img/icon-search2.png');
+            }
+        },
         afterLoad: function(anchorLink,index){
             if(index == 1){
-                $('.header').addClass('index').css('background','#25BAF4');
-                $('.header .header-search input').addClass('index').css('background','#25BAF4');
+                $('.header').removeClass('animated toWhite').addClass('animated toBlue');
+                $('.footer').removeClass('animated toWhite').addClass('animated toBlue');
+                $('.header-search-icon').attr('src','/img/icon-search2.png');
                 if(isAnimateRun[0]){
                     return;
                 }
                 page1Animate();
             }
             if(index == 2){
-                $('.header').removeClass('index').css('background','#EEF0F3');
-                $('.header .header-search input').removeClass('index').css('background','#EEF0F3');
+                $('.header').removeClass('animated toBlue').addClass('animated toWhite');
+                $('.footer').removeClass('animated toBlue').addClass('animated toWhite');
+                $('.header-search-icon').attr('src','/img/icon-search.png');
                 if(isAnimateRun[1]){
                     return;
                 }
                 page2Animate();
             }
             if(index == 3){
-                $('.header').removeClass('index').css('background','#FAFAFA');
-                $('.header .header-search input').removeClass('index').css('background','#FAFAFA');
+                $('.header').removeClass('animated toBlue').addClass('animated toWhite');
+                $('.footer').removeClass('animated toBlue').addClass('animated toWhite');
+                $('.header-search-icon').attr('src','/img/icon-search.png');
                 if(isAnimateRun[2]){
                     return;
                 }
                 page3Animate();
             }
             if(index == 4){
-                $('.header').removeClass('index').css('background','#FFFFFF');
-                $('.header .header-search input').removeClass('index').css('background','#FFFFFF');
+                $('.header').removeClass('animated toBlue').addClass('animated toWhite');
+                $('.footer').removeClass('animated toBlue').addClass('animated toWhite');
+                $('.header-search-icon').attr('src','/img/icon-search.png');
                 if(isAnimateRun[3]){
                     return;
                 }
                 page4Animate();
             }
             if(index == 5){
-                $('.header').removeClass('index').css('background','#FAFAFA');
-                $('.header .header-search input').removeClass('index').css('background','#FAFAFA');
+                $('.header').removeClass('animated toBlue').addClass('animated toWhite');
+                $('.footer').removeClass('animated toBlue').addClass('animated toWhite');
+                $('.header-search-icon').attr('src','/img/icon-search.png');
                 if(isAnimateRun[4]){
                     return;
                 }
                 page5Animate();
             }
             if(index == 6){
-                $('.header').removeClass('index').css('background','#EEF0F3');
-                $('.header .header-search input').removeClass('index').css('background','#EEF0F3');
+                $('.header').removeClass('animated toBlue').addClass('animated toWhite');
+                $('.footer').removeClass('animated toBlue').addClass('animated toWhite');
+                $('.header-search-icon').attr('src','/img/icon-search.png');
                 if(isAnimateRun[5]){
                     return;
                 }
                 page6Animate();
             }
             if(index == 7){
-                $('.header').removeClass('index').css('background','#FAFAFA');
-                $('.header .header-search input').removeClass('index').css('background','#FAFAFA');
+                $('.header').removeClass('animated toBlue').addClass('animated toWhite');
+                $('.footer').removeClass('animated toBlue').addClass('animated toWhite');
+                $('.header-search-icon').attr('src','/img/icon-search.png');
                 if(isAnimateRun[6]){
                     return;
                 }
@@ -85,6 +106,13 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
             }
         }
     });
+    //首页打开登录弹窗
+    function openIndexLogin(){
+        $('.app').addClass('filter');
+        $('.index-mask').removeClass('hidden');
+        $('.login').addClass('index');
+        common.openLogin();
+    }
     function page1Animate(){
         isAnimateRun[0] = true;
         $('.page1').removeClass('hidden');

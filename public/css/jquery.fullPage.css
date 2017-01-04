@@ -109,6 +109,7 @@ html.fp-enabled,
     top: 50%;
     opacity: 1;
     -webkit-transform: translate3d(0,0,0);
+    z-index: 2;
 }
 #fp-nav.right {
     right: 17px;
@@ -174,7 +175,7 @@ html.fp-enabled,
     height: 4px;
     width: 4px;
     border: 0;
-    background: #333;
+    background: #fff;
     left: 50%;
     top: 50%;
     margin: -2px 0 0 -2px;
@@ -182,6 +183,7 @@ html.fp-enabled,
     -moz-transition: all 0.1s ease-in-out;
     -o-transition: all 0.1s ease-in-out;
     transition: all 0.1s ease-in-out;
+    box-shadow: 0 0 5px #999
 }
 #fp-nav ul li:hover a span,
 .fp-slidesNav ul li:hover a span{

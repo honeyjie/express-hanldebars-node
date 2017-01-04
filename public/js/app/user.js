@@ -1,6 +1,6 @@
 define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,iscroll,base,common){
+    var scroll = [];
     $(function(){
-        var scroll = [];
         //获取积分并初始化积分条
         // base.userInfo.credit = 0;; //测试数据
         getCredit();
@@ -45,7 +45,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                 rule : base.emailRule,
                 success : function(dom){
                     base.userInfo.email = dom.val();
-                    base.testEmail();
+                    base.testEmail(dom);
                 },
                 fail : function(dom){
                     base.userInfo.email = '';
@@ -65,7 +65,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                 rule : base.phoneRule,
                 success : function(dom){
                     base.userInfo.phone = dom.val();
-                    base.testPhone();
+                    base.testPhone(dom);
                 },
                 fail : function(dom){
                     base.userInfo.phone = '';
@@ -129,7 +129,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                     base.testOldpassword(dom);
                 },
                 fail : function(dom){
-                    base.userInfo.phone = '';
+                    base.userInfo.oldpassword = '';
                     base.testFail(dom,'请输入8位以上密码且必须含有数字、小写及大写字母');
                 }
             });
@@ -174,6 +174,10 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                 return;
             }
             savePassword();
+        });
+        //弹窗阻止冒泡
+        $('.point-view').on('click',function(e){
+            e.stopPropagation();
         });
         //打开弹窗
         $('.point-address').on('click',function(e){
@@ -227,7 +231,10 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
             closeNewsArticle();
         });
         base.closeAll.closeNewsArticle = closeNewsArticle;
-
+        //删除弹窗阻止冒泡
+        $('.news-delete').on('click',function(e){
+            e.stopPropagation();
+        });
         //打开删除
         $('.news-list-delete').on('click',function(e){
             e.stopPropagation();
