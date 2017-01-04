@@ -220,6 +220,48 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         $('.news-list li a').on('click',function(e){
             e.stopPropagation();
             openNewsArticle();
+            var parent = $(this).parent('li');
+            var msg_id = parent.attr('data-msg_id');
+            if (parent.hasClass('noread')) {
+                $.ajax({
+                    url:'/v1/User/msganswer.action',
+                    data:{
+                        msg_id: msg_id
+                    },
+                    type:'get',
+                    cache:false,
+                    dataType:'html',
+                    success:function(data) {
+                        $('#msganswer').html(data);
+                        //标记已读
+
+                        $.ajax({
+                            url:'/v1/User/isread.action',
+                            data:{
+                                msgid: msg_id
+                            },
+                            type:'get',
+                            cache:false,
+                            dataType:'json',
+                            success:function(data) {
+                                console.log("1")
+                                //标记已读
+                                console.log(data);
+                                // if (data.data.read == 1) {
+                                    parent.removeClass('noread');
+                                // }
+                                
+                            },
+                            error : function() {
+                                base.notice('网络错误');
+                            }
+                        });
+                    },
+                    error : function() {
+                        base.notice('网络错误');
+                    }
+                });
+            }
         });
         //关闭消息
         $('.news-article-close').on('click',function(e){
@@ -358,12 +400,10 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
     }
 //初始化积分条
     function creditLine(){
-        console.log(base.userInfo.credit)
         base.userInfo.credit = $('.point-line-number2').html();
         // base.userInfo.totalCredit = $('.point-line-number3').html();
         var tw = $('.point-line').innerWidth();
         var nw = tw*base.userInfo.credit/base.userInfo.totalCredit;
-        console.log(nw)
         $('.point-line-now').css('width',nw);
         $('.point-line-arrow').css('left',nw);
         $('.point-line-number2').css('left',nw);
@@ -437,6 +477,25 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         $('.news-delete').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
             $('.news-delete').removeClass('animated fadeInDown');
         });
+        //删除消息
+        $.ajax({
+           url:'/v1/User/currnetcredit.action',
+           data:{
+        
+           },
+           type:'get',
+           cache:false,
+           dataType:'json',
+           success:function(data) {
+               if(data.code==0){
+                   base.userInfo.credit = data.data.credit;  //base.userInfo.credit 积分
+                   creditLine();
+               }
+           },
+           error : function() {
+               base.notice('网络错误');
+           }
+        });
     }
 //关闭删除
     function closeNewsDelete(){
@@ -444,7 +503,6 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
             $('.news-delete').removeClass('animated fadeOutUp').addClass('hidden');
         });
     }
-
     return{
         
     }

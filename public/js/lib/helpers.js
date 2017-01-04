@@ -10,7 +10,8 @@ var register = function(Handlebars) {
             if(!this._sections) this._sections = {};
             this._sections[name] = block.fn(this);
             return null;
-        }
+        },
+        
     }
 
     if (Handlebars && typeof Handlebars.registerHelper == "function") {

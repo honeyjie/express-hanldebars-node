@@ -155,7 +155,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
         });
         //毕业学校 输入
         $('.select-school').on('input propertychange',function(){
-            $('.select-info-school').find('.form-select-option').removeClass('hidden');  //测试
+            // $('.select-info-school').find('.form-select-option').removeClass('hidden');  //测试
             selectSchool($(this).val());
         });
         //毕业学校 选择
@@ -169,33 +169,37 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
         });
         //毕业专业1 输入
         $('.select-major').on('input propertychange',function(){
-            $('.select-info-major').find('.form-select-option').removeClass('hidden');  //测试
+            // $('.select-info-major').find('.form-select-option').removeClass('hidden');  //测试
             selectMajor($(this).val(),1);
         });
         //毕业专业1 选择
         $('.select-info-major .form-select-option li').on('click',function(){
             $('.select-major').val($(this).html());
-            select.pre_major = $(this).html();
+            select.pre_major = $(this).attr('data-taype').html();
             if(select.pre_major=='法学类'){
+                $('.select-info-major2').removeClass('hidden');
                 $('.select-form-last').removeClass('hidden');
             }
             else{
                 $('.select-form-last').addClass('hidden');
+                $('.select-info-major2').addClass('hidden');
             }
         });
         //毕业专业1 失去焦点
         $('.select-major').on('blur',function(){
             select.pre_major = $(this).val();
             if(select.pre_major=='法学类'){
+                $('.select-info-major2').removeClass('hidden');
                 $('.select-form-last').removeClass('hidden');
             }
             else{
                 $('.select-form-last').addClass('hidden');
+                $('.select-info-major2').addClass('hidden');
             }
         });
         //毕业专业2 输入
         $('.select-major2').on('input propertychange',function(){
-            $('.select-info-major2').find('.form-select-option').removeClass('hidden');  //测试
+            // $('.select-info-major2').find('.form-select-option').removeClass('hidden');  //测试
             selectMajor($(this).val(),2);
         });
         //毕业专业2 选择
@@ -710,15 +714,17 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
 
     function selectSchool(school){
         $.ajax({
-            url:'http://utuotu.com/v1/completeform/chinaschool.action',
+            url:'/v1/completeform/chinaschool.action',
             data:{
                 schoolname : school
             },
             type:'post',
             cache:false,
-            dataType:'json',
+            dataType:'html',
             success:function(data){
+                $('#select-school ul').html(data);
                 $('.select-info-school').find('.form-select-option').removeClass('hidden');
+     
             },
             error : function() {
                 base.notice('网络错误');
@@ -728,18 +734,18 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
 
     function selectMajor(major,n){
         $.ajax({
-            url:'http://utuotu.com/v1/completeform/chinamajor.action',
+            url:'/v1/completeform/chinamajor.action',
             data:{
-                majorname : major
             },
             type:'post',
             cache:false,
-            dataType:'json',
+            dataType:'html',
             success:function(data){
-                if(n==1){
+                if( n==1 ) {
+                    $('#select-major ul').html(data);
                     $('.select-info-major').find('.form-select-option').removeClass('hidden');
-                }
-                else if(n==2){
+                } else if(n==2) {
+                    $('#select-major2 ul').html(data);
                     $('.select-info-major2').find('.form-select-option').removeClass('hidden');
                 }
             },
@@ -786,8 +792,10 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
         if(select.exam_score.gmat){
             select.exam_score.gmat = exam;
         }
+        // console.log('token=&nation=&locatioin=&pre_school=&pre_major=
+        //     &pre_major2=&school_type&major_only&)
         $.ajax({
-            url:'http://utuotu.com/v1/completeform/chinamajor.action',
+            url:'/v1/completeform/saveform.action',
             data:{
                 token : '',
                 nation : select.nation,
@@ -813,13 +821,60 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
             cache:false,
             dataType:'json',
             success:function(data){
-
+                console.log(data);
             },
             error : function() {
                 base.notice('网络错误');
             }
         });
     }
+$.ajax({
+    url:'/v1/completeform/saveform.action',
+    data:{
+        token : '',
+        nation : select.nation,
+        locatioin : select.locatioin,
+        pre_school : select.pre_school,
+        pre_major : select.pre_major,
+        pre_major2 : select.pre_major2,
+        school_type : select.school_type,
+        major_only : select.major_only,
+        degree : select.degree,
+        gpa : select.gpa,
+        language : select.language,
+        exam_score : select.exam_score,
+        exchange : select.exchange,
+        science_experience : select.science_experience,
+        recommend : select.recommend,
+        science_paper : select.science_paper,
+        experience : select.experience,
+        prize : select.prize,
+        enter_date : new Date().getTime()
+    },
+    type:'post',
+    cache:false,
+    dataType:'json',
+    success:function(data){
+        console.log(data);
+    },
+    error : function() {
+        base.notice('网络错误');
+    }
+});
+$.ajax({
+    url:'/v1/completeform/saveform.action',
+    data:{
+    },
+    type:'get',
+    cache:false,
+    dataType:'json',
+    success:function(data){
+        // console.log(data);
+    },
+    error : function() {
+        base.notice('网络错误');
+    }
+});
 
     function openSelectView(){
         base.openMask();
