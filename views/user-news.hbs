@@ -3,8 +3,16 @@
     <div class="user-main news">
         <div class="news-tab">
             <ul class="tab-title clear">
-                <a href="/user-news?system=1"><li class="active">系统消息</li></a>
-                <a href="/user-news"><li>个人消息<span class="news-user-notice"></span></li></a>
+                <a href="/user-news?system=1">
+
+                    <li class="active">系统消息</li>
+                    <span class="news-user-notice"></span>
+                </a>
+                <a href="/user-news">
+                    <li>个人消息
+                    <span class="news-user-notice"></span>
+                    </li>
+                </a>
             </ul>
             {{#if system}}
             <div class="tab-box">
@@ -31,6 +39,11 @@
                         {{/if}}
                     {{/each}}
                 </ul>
+                {{#unless getmsg.data.[0]}}
+                <div class="news-list-none">
+                    暂无消息
+                </div>
+                {{else}}
                 <div class="list-button">
                     <button class="button-hollow news-system-read">全部已读</button>
                     <button class="button-hollow news-system-delete">全部删除</button>
@@ -45,10 +58,11 @@
                         <li><a href="#"><span class="list-page-next"></span></a></li>
                     </ul>
                 </div>
+                {{/unless}}
             </div>
             {{else}}
             <div class="tab-box">
-                <ul class="news-list news-user-list hidden">
+                <ul class="news-list news-user-list">
                     {{#each getmsg.data}}
                         {{#if read}}
                             <li>
@@ -71,9 +85,11 @@
                         {{/if}}
                     {{/each}}
                 </ul>
+                {{#unless getmsg.data.[0]}}
                 <div class="news-list-none">
                     暂无消息
                 </div>
+                {{else}}
                 <div class="list-button">
                     <button class="button-hollow-ban news-user-read">全部已读</button>
                     <button class="button-hollow-ban news-user-delete">全部删除</button>
@@ -88,6 +104,7 @@
                         <li><a href="#"><span class="list-page-next"></span></a></li>
                     </ul>
                 </div>
+                {{/unless}}
             </div>
             {{/if}}
             
