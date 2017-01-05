@@ -248,13 +248,8 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                             cache:false,
                             dataType:'json',
                             success:function(data) {
-                                console.log("1")
-                                //标记已读
                                 console.log(data);
-                                // if (data.data.read == 1) {
-                                    parent.removeClass('noread');
-                                // }
-                                
+                                parent.removeClass('noread');
                             },
                             error : function() {
                                 base.notice('网络错误');

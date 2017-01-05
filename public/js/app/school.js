@@ -52,14 +52,6 @@ define(['jquery','fullpage','iscroll','base','d3','common','countries','handleba
         //tab切换
         $('.major-tab').tab();
 
-        // (function a() {
-        //     var allmajor = countries.category;
-        //     console.log(allmajor);
-        //     var source = $('#template-major').html();
-        //     var template = Handlebars.compile(source);
-        //     var html = template({allmajor: allmajor});
-        //     $('#screen-major ul').html(html);
-        // }())
         //下拉选择
         $('.screen-form-country .form-select-option li').on('click',function(){
             screen.country = $(this).html();

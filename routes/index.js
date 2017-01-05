@@ -37,25 +37,16 @@ router.get('/user-news', function(req, res, next) {
   //系统消息
   //个人消息
   //utuotu.com/v1/User/getmsg.action
-    //   console.log("1")
-    // console.log(req.query)
-    // console.log("2")
   req.proxy.request({
       method: "GET",
-      url: "http://www.utuotu.com/v1/User/getmsg.action",
-      qs: req.query
+      qs: {system: req.query.system},
+      url: "http://www.utuotu.com/v1/User/getmsg.action"
   }, function(err, response, body) {
-    // console.log("1")
-    console.log(body)
-
-      var getmsg = JSON.parse(body);
-         // console.log("2")
-    // console.log(getmsg.data[0].read)
-    // console.log(!!(getmsg.data[0].read))
-                // console.log(getmsg);
-        res.render('user-news', {
-          getmsg: getmsg
-        })
+    var getmsg = JSON.parse(body);
+      res.render('user-news', {
+        getmsg: getmsg,
+        system: req.query.system
+      })
   })
 });
 
@@ -248,6 +239,7 @@ router.get('/school-recommend', function(req, res) {
         qs: req.query
     }, function(err, response, body) {
         var data = JSON.parse(body);
+        console.log(data);
         if (!data) {return}
         res.render('school-recommend', {
               data: data.data,

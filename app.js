@@ -51,7 +51,6 @@ app.use(function(req, res, next) {
         qs: req.query
     }, function(err, response, body) {
         var data = body;
-        console.log(data);
         try {
             var data = JSON.parse(body);
         }catch(e) {
@@ -98,7 +97,6 @@ app.use(function(req, res, next) {
             for (var key in response.headers) {
                 res.set(key, response.headers[key])
             }
-            console.log("---"+body);
             try {
                 body = JSON.parse(body);
 

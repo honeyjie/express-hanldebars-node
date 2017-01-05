@@ -828,53 +828,6 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
             }
         });
     }
-$.ajax({
-    url:'/v1/completeform/saveform.action',
-    data:{
-        token : '',
-        nation : select.nation,
-        locatioin : select.locatioin,
-        pre_school : select.pre_school,
-        pre_major : select.pre_major,
-        pre_major2 : select.pre_major2,
-        school_type : select.school_type,
-        major_only : select.major_only,
-        degree : select.degree,
-        gpa : select.gpa,
-        language : select.language,
-        exam_score : select.exam_score,
-        exchange : select.exchange,
-        science_experience : select.science_experience,
-        recommend : select.recommend,
-        science_paper : select.science_paper,
-        experience : select.experience,
-        prize : select.prize,
-        enter_date : new Date().getTime()
-    },
-    type:'post',
-    cache:false,
-    dataType:'json',
-    success:function(data){
-        console.log(data);
-    },
-    error : function() {
-        base.notice('网络错误');
-    }
-});
-$.ajax({
-    url:'/v1/completeform/saveform.action',
-    data:{
-    },
-    type:'get',
-    cache:false,
-    dataType:'json',
-    success:function(data){
-        // console.log(data);
-    },
-    error : function() {
-        base.notice('网络错误');
-    }
-});
 
     function openSelectView(){
         base.openMask();
