@@ -2,44 +2,39 @@
     {{> usercenter/user-nav}}
     <div class="user-main news">
         <div class="news-tab">
-            <ul class="tab-title clear">
-                <a href="/user-news?system=1">
-
-                    <li class="active">系统消息</li>
-                    <span class="news-user-notice"></span>
-                </a>
-                <a href="/user-news">
-                    <li>个人消息
-                    <span class="news-user-notice"></span>
-                    </li>
-                </a>
-            </ul>
+            {{> newsState}}
             {{#if system}}
             <div class="tab-box">
                 <ul class="news-list news-system-list">
                     {{#each getmsg.data}}
                         {{#if read}}
-                        <li class="noread" data-msg_id="{{id}}">
+                        <li data-msg_id="{{id}}" data-type_id="{{type_id}}" data-type_id="{{type_id}}">
                             <a class="news-title" href="#">{{msg}}</a>
+                            {{#ifNews type_id 200}}
                             <div class="news-date">{{date}}</div>
+                            {{/ifNews}}
                             <div class="news-operation">
+                                
                                 <a href="#">查看</a>
+                                
                                 <img class="news-list-delete" src="/img/icon-delete.png" alt=""/>
                             </div>
                         </li>
                         {{else}}
-                        <li data-msg_id="{{id}}">
+                        <li class="noread" data-msg_id="{{id}}" data-type_id="{{type_id}}">
                             <a class="news-title" href="#">{{msg}}</a>
                             <div class="news-date">{{date}}</div>
                             <div class="news-operation">
+                                {{#ifNews type_id 20000}}
                                 <a href="#">查看</a>
+                                {{/ifNews}}
                                 <img class="news-list-delete" src="/img/icon-delete.png" alt=""/>
                             </div>
                         </li>
                         {{/if}}
                     {{/each}}
                 </ul>
-                {{#unless getmsg.data.[0]}}
+                {{#if getmsg.data.[0]}}
                 <div class="news-list-none">
                     暂无消息
                 </div>
@@ -58,27 +53,31 @@
                         <li><a href="#"><span class="list-page-next"></span></a></li>
                     </ul>
                 </div>
-                {{/unless}}
+                {{/if}}
             </div>
             {{else}}
             <div class="tab-box">
                 <ul class="news-list news-user-list">
                     {{#each getmsg.data}}
                         {{#if read}}
-                            <li>
+                            <li data-msg_id="{{id}}" data-type_id="{{type_id}}">
                                 <a class="news-title" href="#">{{msg}}</a>
                                 <div class="news-date">{{date}}</div>
                                 <div class="news-operation">
+                                    {{#ifNews type_id 20000}}
                                     <a href="#">查看</a>
+                                    {{/ifNews}}
                                     <img class="news-list-delete" src="/img/icon-delete.png" alt=""/>
                                 </div>
                             </li>
                         {{else}}
-                            <li class="noread">
+                            <li class="noread {{type_id}}" data-msg_id="{{id}}" data-type_id="{{type_id}}">
                                 <a class="news-title" href="#">{{msg}}</a>
                                 <div class="news-date">{{date}}</div>
                                 <div class="news-operation">
+                                    {{#ifNews type_id 20000}}
                                     <a href="#">查看</a>
+                                    {{/ifNews}}
                                     <img class="news-list-delete" src="/img/icon-delete.png" alt=""/>
                                 </div>
                             </li>

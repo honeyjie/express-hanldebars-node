@@ -13,7 +13,7 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(cookieParser());
 
-var helpers = require('../public/js/lib/helpers');
+var helpers = require('../lib/helpers');
 
 var hbs = exphbs.create({
     defaultLayout: 'main',
@@ -34,15 +34,13 @@ router.get('/', function (req, res) {
 
 //用户
 router.get('/user-news', function(req, res, next) {
-  //系统消息
-  //个人消息
-  //utuotu.com/v1/User/getmsg.action
   req.proxy.request({
       method: "GET",
       qs: {system: req.query.system},
       url: "http://www.utuotu.com/v1/User/getmsg.action"
   }, function(err, response, body) {
     var getmsg = JSON.parse(body);
+    console.log(getmsg)
       res.render('user-news', {
         getmsg: getmsg,
         system: req.query.system
@@ -232,6 +230,21 @@ router.get('/school-major', function(req, res, next) {
     });
 });
 
+router.get('/school-major-rec', function(req, res, next) {
+    req.proxy.request({
+        method: "GET",
+        url: "http://www.utuotu.com/v1/schoolinfo/getrecommend.action",
+        qs: req.query
+    }, function(err, response, body) {
+        var data = JSON.parse(body);
+        res.render('school-major', {
+            data: data.data,
+            major: true,
+            sid: req.query.sid
+        });
+    });
+});
+
 router.get('/school-recommend', function(req, res) {
     req.proxy.request({
         method: "GET",
@@ -239,7 +252,6 @@ router.get('/school-recommend', function(req, res) {
         qs: req.query
     }, function(err, response, body) {
         var data = JSON.parse(body);
-        console.log(data);
         if (!data) {return}
         res.render('school-recommend', {
               data: data.data,
@@ -285,6 +297,7 @@ router.get("/v1/schoolmajor/searchschool.action", function(req, res) {
         if (!data) {
             return
         }
+        console.log(data);
         res.render('partials/search-result', {
             data: data.data,
             layout: "naked"
@@ -298,8 +311,6 @@ router.post("/v1/completeform/chinaschool.action", function(req, res) {
         method: "POST",
         url: "http://www.utuotu.com/v1/completeform/chinaschool.action",
     }, function(err, response, body) {
-      // console.log(req.params);
-      // console.log(body);
         var data = JSON.parse(body);
         if (!data) {
             return
@@ -317,8 +328,6 @@ router.post("/v1/completeform/chinamajor.action", function(req, res) {
         method: "POST",
         url: "http://utuotu.com/v1/completeform/chinamajor.action",
     }, function(err, response, body) {
-      // console.log(req.params);
-      // console.log(body);
         var data = JSON.parse(body);
         if (!data) {
             return
@@ -330,21 +339,11 @@ router.post("/v1/completeform/chinamajor.action", function(req, res) {
     });
 });
 
-router.post("/v1/completeform/saveform.action", function(req, res) {
+router.get("/v1/completeform/saveform.action", function(req, res) {
     req.proxy.request({
         method: "POST",
         url: "http://utuotu.com/v1/completeform/saveform.action",
     }, function(err, response, body) {
-      // console.log(req.query);
-      // console.log(body);
-      // token=&nation=&location=&pre_school=&pre_major=&pre_major2=&school_type=&major_only=&degree=&gpa=&language=&exam_score=&exchange=&science_experience=&recommend=&science_paper=&experience=&prize=&enter_date=
-        // var data = JSON.parse(body);
-        // if (!data) {
-        //     return
-        // }
-        // res.render('select-school', {
-        //     data: data
-        // });
     });
 });
 
@@ -353,17 +352,22 @@ router.get("/v1/completeform/saveform.action", function(req, res) {
         method: "GET",
         url: "http://utuotu.com/v1/completeform/form.action",
     }, function(err, response, body) {
-      // console.log(req.query);
-      // console.log(body);
-      // token=&nation=&location=&pre_school=&pre_major=&pre_major2=&school_type=&major_only=&degree=&gpa=&language=&exam_score=&exchange=&science_experience=&recommend=&science_paper=&experience=&prize=&enter_date=
-        // var data = JSON.parse(body);
-        // if (!data) {
-        //     return
-        // }
-        // res.render('select-school', {
-        //     data: data
-        // });
     });
 });
 
+router.get("/v1/Help/search.action", function(req, res) {
+    req.proxy.request({
+        method: "GET",
+        url: "http://utuotu.com/v1/Help/search.action",
+    }, function(err, response, body) {
+      console.log(body);
+      console.log(typeof body)
+      var data = JSON.parse(body);
+      console.log(data);
+      res.render('partials/searchlist', {
+            data: data.data,
+            layout: "naked"
+      });
+    });
+});
 module.exports = router;

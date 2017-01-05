@@ -1324,7 +1324,7 @@
 .user .point-list table tr:nth-child(2n+1) td{
     background: #ededed;
 }
-.user .news-user-notice{
+.news-user-notice{
     position: absolute;
     width: 5px;
     height: 5px;

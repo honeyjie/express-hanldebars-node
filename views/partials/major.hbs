@@ -1,0 +1,127 @@
+<div class="school-box school-major">
+    <div class="school-box-title">
+        {{major_name_zh}}
+        <div class="school-major-rank"> U.S. NEWS专业排名：{{rank}}</div>
+        <img class="school-box-up" src="/img/icon-up.png" alt=""/>
+        <img class="school-box-down hidden" src="/img/icon-down.png" alt=""/>
+    </div>
+    <div class="school-box-content major-tab">
+        <ul class="tab-title clear">
+            <li class="active">{{degree}}</li>
+            {{#each otherDegree}}
+            <li>{{degree}}</li>
+            {{/each}}
+        </ul>
+        <div class="tab-box">
+            <ul class="major-info clear">
+                <li>
+                    <img src="/img/major-start.png" alt=""/>
+                    <span>入学时间</span>
+                    <div class="form-select major-info-start">
+                        <div class="form-select-value">选择入学时间</div>
+                        <div class="form-select-option hidden">
+                            <ul>
+                                {{#each term}}
+                                <li>{{term}}</li>
+                                {{/each}}
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <img src="/img/major-end.png" alt=""/>
+                    <span>申请截止日期</span>
+                    <span>{{term.[0].deadline}}</span>
+                </li>
+                <li>
+                    <img src="/img/major-cost.png" alt=""/>
+                    <span>申请费用</span>
+                    <span>{{apply_fee}}</span>
+                </li>
+                <li>
+                    <img src="/img/major-email.png" alt=""/>
+                    <span>招生邮箱</span>
+                    <span>{{email}}</span>
+                </li>
+                <li>
+                    <img src="/img/major-start.png" alt=""/>
+                    <a href="{{apply_entrance}}">官方Q&A</a>
+                </li>
+                <li>
+                    <img src="/img/major-direction.png" alt=""/>
+                    <span>研究方向</span>
+                    <div class="form-select major-info-direction">
+                        <div class="form-select-value">选择研究方向</div>
+                        <div class="form-select-option hidden">
+                            <ul>
+                                {{#each under_project}}
+                                <li>{{this}}</li>
+                                {{/each}}
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="major-require">
+                <div class="major-require-title">申请要求</div>
+                <ul class="major-require-list clear">
+                    {{qs}}
+                    <li class="active">
+                        <img src="/img/require1.png" alt=""/>
+                        <div class="major-require-list-name">研究报告</div>
+                        <div class="major-require-list-arrow"></div>
+                    </li>
+                    {{resume}}
+                    <li>
+                        <img src="/img/require2.png" alt=""/>
+                        <div class="major-require-list-name">个人简历</div>
+                        <div class="major-require-list-arrow"></div>
+                    </li>
+                    {{recommend_number}}
+                    <li>
+                        <img src="/img/require3.png" alt=""/>
+                        <div class="major-require-list-name">推荐信</div>
+                        <div class="major-require-list-arrow"></div>
+                    </li>
+                    <li>
+                        <img src="/img/require4.png" alt=""/>
+                        <div class="major-require-list-name">成绩单</div>
+                        <div class="major-require-list-arrow"></div>
+                    </li>
+                    <li>
+                        <img src="/img/require5.png" alt=""/>
+                        <div class="major-require-list-name">语言成绩</div>
+                        <div class="major-require-list-arrow"></div>
+                    </li>
+                    <li>
+                        <img src="/img/require6.png" alt=""/>
+                        <div class="major-require-list-name">标准化考试</div>
+                        <div class="major-require-list-arrow"></div>
+                    </li>
+                    {{additional_requirements}}
+                    <li>
+                        <img src="/img/require7.png" alt=""/>
+                        <div class="major-require-list-name">附加要求</div>
+                    </li>
+                </ul>
+                <div class="major-require-content" id="require-content1">
+                    <div>
+                        <div class="major-require-content-name">研究报告</div>
+                        <p>
+                        {{qs}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <button class="major-join button-solid">加入申请</button>
+            <div class="major-from">
+                <div class="major-from-title">数据来源</div>
+                <p>
+                    {{#each reference}}
+                    <a href="#">{{this}}<br/>
+                    {{/each}} 
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

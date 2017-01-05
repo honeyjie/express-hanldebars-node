@@ -90,7 +90,10 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
         });
         //搜索输入
         $('.header-search input').on('input propertychange',function(){
-            search();
+            var searchVal = $(this).val();
+            console.log(searchVal)
+            search(searchVal);
+            
         });
         //搜索框阻止冒泡
         $('.header-search').on('click',function(e){
@@ -160,17 +163,19 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
         $('.header-search-result').fadeOut(200);
     }
 
-    function search(){
-        $.ajax({
-            url:'/v1/login/validname.action',
-            data:{
-                value : userInfo.username
-            },
-            type:'post',
-            cache:false,
-            dataType:'json',
-            success:function(data){
+    function search(val){
 
+        $.ajax({
+            url:'/v1/Help/search.action',
+            data:{
+                value : val
+            },
+            type:'get',
+            cache:false,
+            dataType:'html',
+            success:function(data){
+                console.log(data)
+                $('.header-search-result').html(data);
             },
             error : function() {
                 notice('网络错误');

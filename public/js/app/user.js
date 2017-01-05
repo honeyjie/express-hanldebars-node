@@ -223,10 +223,16 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         //查看消息
         $('.news-list li a').on('click',function(e){
             e.stopPropagation();
-            openNewsArticle();
+            //当获取当消息类型小于2000时，打开弹窗
+            var openNum = $(this).parent().attr('data-type_id');
+            console.log(openNum)
+            if (openNum < 20000) {
+                openNewsArticle();
+            }
             var parent = $(this).parent('li');
             var msg_id = parent.attr('data-msg_id');
-            if (parent.hasClass('noread')) {
+            console.log(msg_id)
+            // if (parent.hasClass('noread')) {
                 $.ajax({
                     url:'/v1/User/msganswer.action',
                     data:{
@@ -236,31 +242,15 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                     cache:false,
                     dataType:'html',
                     success:function(data) {
+                        console.log('1');
                         $('#msganswer').html(data);
-                        //标记已读
-
-                        $.ajax({
-                            url:'/v1/User/isread.action',
-                            data:{
-                                msgid: msg_id
-                            },
-                            type:'get',
-                            cache:false,
-                            dataType:'json',
-                            success:function(data) {
-                                console.log(data);
-                                parent.removeClass('noread');
-                            },
-                            error : function() {
-                                base.notice('网络错误');
-                            }
-                        });
+                        console.log(data);
                     },
                     error : function() {
                         base.notice('网络错误');
                     }
                 });
-            }
+            // }
         });
         //关闭消息
         $('.news-article-close').on('click',function(e){
