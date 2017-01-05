@@ -3773,3 +3773,65 @@ Copyright (c) 2014 Daniel Eden
     -webkit-animation-name: toBlue;
     animation-name: toBlue;
 }
+
+@-webkit-keyframes rotateDown {
+    0% {
+        -webkit-transform:rotate(0deg);
+        transform:rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform:rotate(180deg);
+        transform:rotate(180deg);
+    }
+}
+
+@keyframes rotateDown {
+    0% {
+        -webkit-transform:rotate(0deg);
+        transform:rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform:rotate(180deg);
+        transform:rotate(180deg);
+    }
+}
+
+.rotateDown {
+    -webkit-animation-name: rotateDown;
+    animation-name: rotateDown;
+    -webkit-animation-duration: 0.2s;
+    animation-duration: 0.2s;
+}
+
+@-webkit-keyframes rotateUp {
+    0% {
+        -webkit-transform:rotate(180deg);
+        transform:rotate(180deg);
+    }
+
+    100% {
+        -webkit-transform:rotate(0deg);
+        transform:rotate(0deg);
+    }
+}
+
+@keyframes rotateUp {
+    0% {
+        -webkit-transform:rotate(180deg);
+        transform:rotate(180deg);
+    }
+
+    100% {
+        -webkit-transform:rotate(0deg);
+        transform:rotate(0deg);
+    }
+}
+
+.rotateUp {
+    -webkit-animation-name: rotateUp;
+    animation-name: rotateUp;
+    -webkit-animation-duration: 0.2s;
+    animation-duration: 0.2s;
+}

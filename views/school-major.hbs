@@ -26,7 +26,7 @@
                         <img src="/img/major-start.png" alt=""/>
                         <span>入学时间</span>
                         <div class="form-select major-info-start">
-                            <div class="form-select-value">选择入学时间</div>
+                            <div class="form-select-value">2017 Fall<img src="/img/icon-down.png" alt=""/></div>
                             <div class="form-select-option hidden">
                                 <ul>
                                     {{#each term}}
@@ -59,7 +59,7 @@
                         <img src="/img/major-direction.png" alt=""/>
                         <span>研究方向</span>
                         <div class="form-select major-info-direction">
-                            <div class="form-select-value">选择研究方向</div>
+                            <div class="form-select-value">选择研究方向<img src="/img/icon-down.png" alt=""/></div>
                             <div class="form-select-option hidden">
                                 <ul>
                                     {{#each under_project}}
@@ -110,9 +110,10 @@
                         <li>
                             <img src="/img/require7.png" alt=""/>
                             <div class="major-require-list-name">附加要求</div>
+                            <div class="major-require-list-arrow"></div>
                         </li>
                     </ul>
-                    <div class="major-require-content" id="require-content1">
+                    <div class="major-require-content" id="require-content">
                         <div>
                             <div class="major-require-content-name">研究报告</div>
                             <p>
@@ -127,11 +128,13 @@
                 <button class="major-join button-solid">加入申请</button>
                 <div class="major-from">
                     <div class="major-from-title">数据来源</div>
-                    <p>
-                        {{#each reference}}
-                        <a href="#">{{this}}<br/>
-                        {{/each}} 
-                    </p>
+                    <div class="major-from-content" id="from-content">
+                        <p>
+                            {{#each reference}}
+                            <a href="#">{{this}}<br/>
+                            {{/each}}
+                        </p>
+                    </div>
                 </div>
             </div>
 {{!--             <div class="tab-box hidden">

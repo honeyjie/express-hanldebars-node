@@ -1,4 +1,4 @@
-define(['jquery','fullpage','iscroll','base','d3','common','countries','handlebars'],function(jquery,fullpage,iscroll,base,common,countries,handlebars,d3){
+define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','common'],function(jquery,handlebars,d3,countries,fullpage,iscroll,base,common){
     var scroll = []; //滚动条
     var screen = {};
         screen.country = '';
@@ -6,11 +6,7 @@ define(['jquery','fullpage','iscroll','base','d3','common','countries','handleba
         screen.preference = '';
         screen.major = '';
         screen.degree = '';
-    var school = {};  //学校信息
-        // school.country = 'US';
-        // school.state = "West Virginia";   
-        school.country = $('school-brief-map').attr('nation');
-        school.state = $('.school-brief-map').attr('map');  
+    var height = [];//每个模块的高度
     $(function(){
         //模拟滚动条
         if($('#screen-country')[0]){
@@ -31,14 +27,14 @@ define(['jquery','fullpage','iscroll','base','d3','common','countries','handleba
                 scrollbars: true
             });
         }
-        if($('#require-content1')[0]){
-            scroll[3] =  new iscroll('#require-content1',{
+        if($('#require-content')[0]){
+            scroll[3] =  new iscroll('#require-content',{
                 mouseWheel: true,
                 scrollbars: true
             });
         }
-        if($('#require-content2')[0]){
-            scroll[4] =  new iscroll('#require-content2',{
+        if($('#from-content')[0]){
+            scroll[4] =  new iscroll('#from-content',{
                 mouseWheel: true,
                 scrollbars: true
             });
@@ -49,8 +45,6 @@ define(['jquery','fullpage','iscroll','base','d3','common','countries','handleba
         $('.screen-form-major').select(scroll[2]);
         $('.major-info-start').select();
         $('.major-info-direction').select();
-        //tab切换
-        $('.major-tab').tab();
 
         //下拉选择
         $('.screen-form-country .form-select-option li').on('click',function(){
@@ -86,14 +80,14 @@ define(['jquery','fullpage','iscroll','base','d3','common','countries','handleba
         });
         //模拟单选
         $('.screen-form-preference button').on('click',function(){
-            $('.screen-form-preference button').removeClass('button-hollow').addClass('button-hollow-ban');
-            $(this).removeClass('button-hollow-ban').addClass('button-hollow');
+            $('.screen-form-preference button').removeClass('active');
+            $(this).addClass('active');
             screen.preference = $(this).html();
             canSearch();
         });
         $('.screen-form-degree button').on('click',function(){
-            $('.screen-form-degree button').removeClass('button-hollow').addClass('button-hollow-ban');
-            $(this).removeClass('button-hollow-ban').addClass('button-hollow');
+            $('.screen-form-degree button').removeClass('active');
+            $(this).addClass('active');
             screen.degree = $(this).html();
             canSearch();
         });
@@ -117,8 +111,25 @@ define(['jquery','fullpage','iscroll','base','d3','common','countries','handleba
 
         //box展开收缩
         $('.school-box-title img').on('click',function(){
-            boxShowAndHidden($(this));
+            var content = $(this).parents('.school-box').find('.school-box-content');
+            var index = $('.school-box').index($(this).parents('.school-box'));
+            if(!height[index]){
+                height[index] = content.innerHeight();
+            }
+            else if(height[index]&&content.innerHeight()!== 0){
+                height[index] = content.innerHeight();
+            }
+            if(content.css('height') == '0px'){
+                $(this).removeClass('animated rotateDown').addClass('animated rotateUp');
+                content.animate({height:height[index]},200);
+            }
+            else{
+                $(this).removeClass('animated rotateUp').addClass('animated rotateDown');
+                content.animate({height:0},200);
+            }
         });
+        //生成地图
+        schoolMap();
         //判断是否能获取推荐
         $('.recommend-major-form input').on('input propertychange',function(){
             screen.major = $('.recommend-major-form input').val();
@@ -128,7 +139,14 @@ define(['jquery','fullpage','iscroll','base','d3','common','countries','handleba
         $('.recommend-major-get').on('click',function(){
             getMajor();
         });
-        //查看申请要求
+
+        //学位宽度
+        majorWidth();
+        //切换学位 school-major
+        $('.major-tab .tab-title li').on('click',function(){
+            majorTab($(this));
+        });
+        //查看申请要求 school-major
         $('.major-require-list li').on('click',function(){
             requireTab($(this));
         });
@@ -197,32 +215,13 @@ define(['jquery','fullpage','iscroll','base','d3','common','countries','handleba
         $('.screen-form-country .form-select-value').html('选择地区');
         $('.screen-form-state .form-select-value').html('选择州');
         $('.screen-form-major .form-select-value').html('选择专业');
-        $('.screen-form-radio button').removeClass('button-hollow').addClass('button-hollow-ban');
+        $('.screen-form-radio button').removeClass('active');
         $('.screen-side-search').removeClass('button-solid').addClass('button-solid-ban');
-    }
-
-    function boxShowAndHidden(_this){
-        var title = _this.parents('.school-box').find('.school-box-title');
-        var content = _this.parents('.school-box').find('.school-box-content');
-        console.log(_this.parents('.school-box').find('.school-box-title'))
-        if(content.hasClass('hidden')){
-            content.removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
-                content.removeClass('animated fadeInDown');
-                title.find('.school-box-up').removeClass('hidden');
-                title.find('.school-box-down').addClass('hidden');
-
-            });
-        }
-        else{
-            content.addClass('animated fadeOutUp').one(base.animationend,function(){
-                content.removeClass('animated fadeOutUp').addClass('hidden');
-                title.find('.school-box-up').addClass('hidden');
-                title.find('.school-box-down').removeClass('hidden');
-            });
-        }
     }
     
     function schoolMap(){
+        var country = $('.school-brief-map').data('nation');
+        var state = $('.school-brief-map').data('map');
         var width = 300;
         var height = 200;
         var svg = d3.select('.school-brief-map').append('svg')
@@ -232,21 +231,19 @@ define(['jquery','fullpage','iscroll','base','d3','common','countries','handleba
             .attr('transform', 'translate(0,0)');
         var projection;
         var mapJson;
-        if(school.country=='US'){
+        if(country=='US'){
             projection = d3.geoAlbersUsa()
                 .translate([width/2, height/2])
                 .scale([350]);
             mapJson = '/js/US.json';
-            console.log("1")
         }
-        else if(school.country=='CA'){
+        else if(country=='CA'){
             projection = d3.geoAlbers()
                 .center([45.4, 75.5])
                 .parallels([45, 70])
                 .scale(280)
                 .translate([0.65 * width, 0.10 * height]);
             mapJson = '/js/CA.json';
-            console.log("2")
         }
         var path = d3.geoPath()
             .projection(projection);
@@ -261,16 +258,16 @@ define(['jquery','fullpage','iscroll','base','d3','common','countries','handleba
                 .attr('stroke','#999999')
                 .attr('stroke-width',1)
                 .attr('fill', function(d){
-                    if(school.country == 'US'){
-                        if(d.properties.name == school.state){
+                    if(country == 'US'){
+                        if(d.properties.name == state){
                             return '#25baf4'
                         }
                         else{
                             return '#cccccc';
                         }
                     }
-                    else if(school.country == 'CA'){
-                        if(d.properties.NAME == school.state){
+                    else if(country == 'CA'){
+                        if(d.properties.NAME == state){
                             return '#25baf4'
                         }
                         else{
@@ -287,6 +284,27 @@ define(['jquery','fullpage','iscroll','base','d3','common','countries','handleba
         }
         $('.recommend-major-get').removeClass('button-solid-ban').addClass('button-solid');
     }
+    function majorWidth(){
+        var n = $('.major-tab .tab-title li').length;
+        switch (n){
+            case 1:
+                $('.major-tab .tab-title li').css('width',150);
+                break;
+            case 2:
+                $('.major-tab .tab-title li').css('width',150);
+                break;
+            case 3:
+                $('.major-tab .tab-title li').css('width',100);
+                break;
+            case 4:
+                $('.major-tab .tab-title li').css('width',100);
+                break;
+        }
+    }
+    function majorTab(dom){
+        $('.major-tab .tab-title li').removeClass('active');
+        dom.addClass('active')
+    }
     function getMajor(){
         if(!screen.major){
             return;
@@ -297,7 +315,6 @@ define(['jquery','fullpage','iscroll','base','d3','common','countries','handleba
         _this.addClass('active');
         _this.parents('.major-require').find('.major-require-content-name').html(_this.find('.major-require-list-name').html());
         scroll[3].refresh();
-        scroll[4].refresh();
     }
     return{
         

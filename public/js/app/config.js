@@ -4,9 +4,10 @@ requirejs.config({
     paths : {
         app : '../app',
         jquery : 'jquery-2.1.3.min',
+        handlebars: 'handlebars',           //handlebar
+        d3 : 'd3.min',                      //d3
         fullpage : 'jquery.fullPage.min',   //全屏滚动插件
         iscroll : 'iscroll',                //滚动条插件
-        d3 : 'd3.min',                //滚动条插件
         captcha : 'visualcaptcha.jquery',   //验证码插件
         base : '../app/base',               //基础模块
         common : '../app/common',           //公共模块
@@ -16,8 +17,7 @@ requirejs.config({
         school : '../app/school',
         select : '../app/select',
         help : '../app/help',
-        countries: '../countries',
-        handlebars: 'handlebars'
+        countries: '../countries'
     },
     shim : {
         fullpage : ['jquery'],
@@ -29,8 +29,8 @@ requirejs.config({
         index : ['jquery','base','common'],
         register : ['jquery','base','common'],
         user : ['jquery','base','common'],
-        school : ['jquery','base','common','countries'],
-        select : ['jquery','base','common'],
+        school : ['jquery','handlebars','d3','countries','base','common'],
+        select : ['jquery','base','common','d3'],
         help : ['jquery','base','common']
     }
 

@@ -9,12 +9,11 @@
 <div class="school-box school-brief">
     <div class="school-box-title school-brief-title">
         学校简介
-        <img class="school-box-up" src="/img/icon-up.png" alt=""/>
-        <img class="school-box-down hidden" src="/img/icon-down.png" alt=""/>
+        <img class="school-box-arrow" src="/img/icon-up.png" alt=""/>
     </div>
     <div class="school-box-content school-brief-content">
 {{!--         <img src="" alt="{{map}}"/> --}}
-        <div class="school-brief-map" map={{map}} nation={{nation}}></div>
+        <div class="school-brief-map" data-map={{map}} data-nation={{nation}}></div>
         <div class="school-brief-describe">
             <p>
             {{school_introduce}}
