@@ -1,0 +1,20 @@
+            <ul class="tab-title clear">
+                <a href="/user-news?system=1">
+                    <li class="active">系统消息
+                    {{#if partials.newsstate.system}}
+                    <span class="news-user-notice"></span>
+                    {{else}}
+                    <span></span>
+                    {{/if}}
+                    </li>
+                </a>
+                <a href="/user-news">
+                    <li>个人消息
+                    {{#if partials.newsstate.man}}
+                    <span class="news-user-notice"></span>
+                    {{else}}
+                    <span></span>
+                    {{/if}}
+                    </li>
+                </a>
+            </ul>

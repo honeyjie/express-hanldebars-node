@@ -10,7 +10,7 @@ var exphbs  = require('express-handlebars');
 var proxy = require("./proxy").proxy;
 var request = require('request');
 var app = express();
-var helpers = require('./public/js/lib/helpers');
+var helpers = require('./lib/helpers');
 var Promise = global.Promise || require('promise');
 
 //设置视图位置
@@ -79,6 +79,23 @@ app.use(function(req, res, next) {
     });
     
 });
+app.use(function(req, res, next) {
+  var sys_state = false;
+  var  user_state = false;
+  req.proxy.request({
+      method: "GET",
+      url: "http://www.utuotu.com/v1/User/getmsgstatus.action"
+  }, function(err, response, body) {
+    var data = JSON.parse(body);
+      if (!res.locals.partials) {
+        res.locals.partials = {}
+      }
+    res.locals.partials.newsstate = data.data;
+    next();
+  }); 
+})
+
+
 app.use('/', index);
 
 

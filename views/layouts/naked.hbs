@@ -1,13 +1,1 @@
 {{{body}}}
-    <script src="//cdn.bootcss.com/handlebars.js/4.0.6/handlebars.js"></script>
-    <script src="//cdn.bootcss.com/handlebars.js/4.0.6/handlebars.runtime.js"></script>
-    <script>
-        (function () {
-            var revive    = Handlebars.template,
-                templates = Handlebars.templates = Handlebars.templates || {};
-
-          {{#templates}}
-            templates['{{{name}}}'] = revive({{{template}}});
-          {{/templates}}
-        }());
-    </script>

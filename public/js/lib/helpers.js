@@ -11,7 +11,22 @@ var register = function(Handlebars) {
             this._sections[name] = block.fn(this);
             return null;
         },
-        
+        yell: function (msg) {
+            return msg.toUpperCase();
+        },
+        raw: function(options) {
+            return options.fn();
+        },
+        msg: function(msg) {
+        return !!msg
+        },
+        ifNews: function(v1, v2, options) {
+            if(v1 < v2) {
+                
+                return optins.fn(this);
+            }
+            return options.inverse(this)
+        }
     }
 
     if (Handlebars && typeof Handlebars.registerHelper == "function") {
