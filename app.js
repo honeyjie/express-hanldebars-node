@@ -61,7 +61,6 @@ app.use(function(req, res, next) {
       if (!res.locals.partials) {
         res.locals.partials = {}
       }
-      console.log(data.data)
       res.locals.partials.schooldetail = data.data;
     });
     next();
@@ -99,8 +98,10 @@ app.use(function(req, res, next) {
             for (var key in response.headers) {
                 res.set(key, response.headers[key])
             }
+            console.log("---"+body);
             try {
                 body = JSON.parse(body);
+
             } catch(e) {
                 console.log(e)
             }

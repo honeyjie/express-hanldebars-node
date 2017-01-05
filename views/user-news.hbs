@@ -9,7 +9,7 @@
             <div class="tab-box">
                 <ul class="news-list news-system-list">
                     {{#each getmsg.data}}
-                    <li class="noread">
+                    <li class="noread" data-msg_id="{{id}}">
                         <a class="news-title" href="#">{{msg}}</a>
                         <div class="news-date">{{date}}</div>
                         <div class="news-operation">
@@ -45,14 +45,25 @@
             <div class="tab-box hidden">
                 <ul class="news-list news-user-list hidden">
                     {{#each getmsg.data}}
-                    <li class="noread">
-                        <a class="news-title" href="#">{{msg}}</a>
-                        <div class="news-date">{{date}}</div>
-                        <div class="news-operation">
-                            <a href="#">查看</a>
-                            <img class="news-list-delete" src="/img/icon-delete.png" alt=""/>
-                        </div>
-                    </li>
+                        {{#if }}
+                            <li>
+                                <a class="news-title" href="#">{{../msg}}</a>
+                                <div class="news-date">{{../date}}</div>
+                                <div class="news-operation">
+                                    <a href="#">查看</a>
+                                    <img class="news-list-delete" src="/img/icon-delete.png" alt=""/>
+                                </div>
+                            </li>
+                        {{else}}
+                            <li class="noread">
+                                <a class="news-title" href="#">{{../msg}}</a>
+                                <div class="news-date">{{../date}}</div>
+                                <div class="news-operation">
+                                    <a href="#">查看</a>
+                                    <img class="news-list-delete" src="/img/icon-delete.png" alt=""/>
+                                </div>
+                            </li>
+                        {{/if}}
                     {{/each}}
                 </ul>
                 <div class="news-list-none">
@@ -76,23 +87,7 @@
         </div>
     </div>
 
-    <div class="view news-article hidden">
-        <div class="news-article-type">
-            <span>选校/相关专业</span>
-            <div class="news-article-date">{{date}}</div>
-        </div>
-        <div class="news-article-title">{{msg}}</div>
-{{!--         <div class="news-article-content" id="news-content">
-            <p>
-                1.答疑是大学教学中的一个辅助性项目<br/>
-                2.答疑是大学教学中的一个辅助性项目<br/>
-                3.答疑是大学教学中的一个辅助性项目<br/>
-                4.答疑是大学教学中的一个辅助性项目<br/>
-                5.答疑是大学教学中的一个辅助性项目<br/>
-                6.答疑是大学教学中的一个辅助性项目<br/>
-            </p>
-        </div> --}}
-        <button class="news-article-close button-solid">关闭</button>
+    <div class="view news-article hidden" id="msganswer">
     </div>
 
     <div class="view news-delete hidden">
@@ -102,7 +97,7 @@
         </div>
         <div class="news-delete-content">
             <p>
-
+                
             </p>
         </div>
         <div class="news-delete-button clear">
