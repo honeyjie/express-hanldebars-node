@@ -63,12 +63,13 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
         select.pre_school = '';                 //之前学校
         select.pre_major = '';                  //之前专业1
         select.pre_major2 = '';                 //之前专业2
-        select.school_type = 1;                 //学校类别
-        select.major_only = 1;                  //是否接受相关专业
-        select.degree = 'master';               //学位
+        select.school_type = null;                 //学校类别
+        select.major_only = null;                  //是否接受相关专业
+        select.degree = '';               //学位
         select.gpa = null;                             //GPA
-        select.language = {toefl:{}};
-        select.exam_score = {gre:{}};
+        select.language = {};
+        select.exam_score = {};
+        select.last = null;
         select.exchange = [];
         select.science_experience = [];
         select.recommend = [];
@@ -124,6 +125,8 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
         $('.select-form-view button').on('click',function(){
             base.closeAll.closeSelectView();
         });
+        //模块收缩初始化
+        //boxSildeUp();
         //模块展开/收缩
         $('.select-title-control').on('click',function(){
             var content = $(this).parents('.select-box').find('.select-content');
@@ -135,9 +138,11 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
                 height[index] = content.innerHeight();
             }
             if(content.css('height') == '0px'){
-                content.animate({minHeight:height[index]},200);
+                $(this).removeClass('animated rotateDown').addClass('animated rotateUp');
+                content.animate({height:height[index]},200);
             }
             else{
+                $(this).removeClass('animated rotateUp').addClass('animated rotateDown');
                 content.animate({height:0},200);
             }
         });
@@ -151,6 +156,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
                 select.nation.push($(this).data('value'));
                 $(this).addClass('active');
             }
+            preferenceFinished();
         });
         //选择地区
         $('.select-position .select-preference-radio').on('click',function(){
@@ -162,50 +168,43 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
                 select.locatioin.push($(this).data('value'));
                 $(this).addClass('active');
             }
+            preferenceFinished();
         });
         //毕业学校 输入
         $('.select-school').on('input propertychange',function(){
-            // $('.select-info-school').find('.form-select-option').removeClass('hidden');  //测试
             selectSchool($(this).val());
         });
         //毕业学校 选择
-        $('.select-info-school .form-select-option li').on('click',function(){
+        $('.select-info-school .form-select-option').on('click','li',function(){
             $('.select-school').val($(this).html());
-            select.pre_school = $(this).html();
         });
         //毕业学校 失去焦点
         $('.select-school').on('blur',function(){
             select.pre_school = $(this).val();
+            infoFinished();
         });
         //毕业专业1 输入
         $('.select-major').on('input propertychange',function(){
-            // $('.select-info-major').find('.form-select-option').removeClass('hidden');  //测试
             selectMajor($(this).val(),1);
         });
         //毕业专业1 选择
-        $('.select-info-major .form-select-option li').on('click',function(){
+        $('.select-info-major .form-select-option').on('click','li',function(){
             $('.select-major').val($(this).html());
-            select.pre_major = $(this).attr('data-taype').html();
-            if(select.pre_major=='法学类'){
-                $('.select-info-major2').removeClass('hidden');
-                $('.select-form-last').removeClass('hidden');
-            }
-            else{
-                $('.select-form-last').addClass('hidden');
-                $('.select-info-major2').addClass('hidden');
-            }
         });
         //毕业专业1 失去焦点
         $('.select-major').on('blur',function(){
             select.pre_major = $(this).val();
             if(select.pre_major=='法学类'){
-                $('.select-info-major2').removeClass('hidden');
                 $('.select-form-last').removeClass('hidden');
+                $('.select-exam').addClass('hidden');
+                $('.select-exam-input').addClass('hidden');
             }
             else{
                 $('.select-form-last').addClass('hidden');
-                $('.select-info-major2').addClass('hidden');
+                $('.select-exam').removeClass('hidden');
+                $('.select-exam-input').removeClass('hidden');
             }
+            infoFinished();
         });
         //毕业专业2 输入
         $('.select-major2').on('input propertychange',function(){
@@ -225,6 +224,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
         //毕业时间
         $('.select-school-type .form-radio').on('click',function(){
             select.school_type = $(this).data('value');
+            infoFinished();
         });
         //申请专业
         $('.select-major-only .form-radio').on('click',function(){
@@ -235,10 +235,12 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
                 $('.select-info-major2').addClass('hidden');
             }
             select.major_only = $(this).data('value');
+            infoFinished();
         });
         //申请学位
         $('.select-degree .form-radio').on('click',function(){
             select.degree = $(this).data('value');
+            infoFinished();
         });
         //GPA 强制两位小数
         $('.select-gpa').on('input propertychange',function(){
@@ -266,20 +268,26 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
                     base.testFail(dom,'您输入的分数有误');
                 }
             });
+            scoreFinished();
         });
         //语言考试 单选
         $('.select-language .form-radio').on('click',function(){
+            $('.select-language-input').removeClass('hidden');
             if($(this).find('.form-radio-value').html()=='TOEFL'){
                 select.language = {toefl:{}};
             }
             else if($(this).find('.form-radio-value').html()=='IELTS'){
                 select.language = {ielts:{}};
             }
-            $('.select-language-input input')[0].focus();
-            $('.select-language-input input')[0].blur();
+            $('.select-language-input input').removeClass('error').val('');
+            language.overall = null;
+            language.R = null;
+            language.L = null;
+            language.S = null;
+            language.W = null;
         });
         //语言考试 overall
-        $('.select-language-overall').on('blur',function(){
+        $('.select-language-overall').on('input propertychange',function(){
             $(this).testInput({
                 rule : base.isScore,
                 success : function(dom){
@@ -298,7 +306,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
             });
         });
         //语言考试 R
-        $('.select-language-r').on('blur',function(){
+        $('.select-language-r').on('input propertychange',function(){
             $(this).testInput({
                 rule : base.isScore,
                 success : function(dom){
@@ -317,7 +325,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
             });
         });
         //语言考试 L
-        $('.select-language-l').on('blur',function(){
+        $('.select-language-l').on('input propertychange',function(){
             $(this).testInput({
                 rule : base.isScore,
                 success : function(dom){
@@ -336,7 +344,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
             });
         });
         //语言考试 S
-        $('.select-language-s').on('blur',function(){
+        $('.select-language-s').on('input propertychange',function(){
             $(this).testInput({
                 rule : base.isScore,
                 success : function(dom){
@@ -355,7 +363,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
             });
         });
         //语言考试 W
-        $('.select-language-w').on('blur',function(){
+        $('.select-language-w').on('input propertychange',function(){
             $(this).testInput({
                 rule : base.isScore,
                 success : function(dom){
@@ -373,8 +381,20 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
                 }
             });
         });
+        //语言考试input显示错误提示
+        $('.select-language-input input').on('focus',function(){
+            if($(this).hasClass('error')){
+                $(this).parent('.form-item').find('.form-item-notice').css('display','block');
+            }
+        });
+        //语言考试input隐藏错误提示
+        $('.select-language-input input').on('blur',function(){
+            $(this).parent('.form-item').find('.form-item-notice').css('display','none');
+            scoreFinished();
+        });
         //标准化考试 单选
         $('.select-exam .form-radio').on('click',function(){
+            $('.select-exam-input').removeClass('hidden');
             if($(this).find('.form-radio-value').html()=='GMAT'){
                 select.exam_score = {gmat:{}};
                 $('.select-gresub').addClass('hidden');
@@ -383,11 +403,14 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
                 select.exam_score = {gre:{}};
                 $('.select-gresub').removeClass('hidden');
             }
-            $('.select-exam-input input')[0].focus();
-            $('.select-exam-input input')[0].blur();
+            $('.select-exam-input input').removeClass('error').val('');
+            exam.overall = null;
+            exam.V = null;
+            exam.Q = null;
+            exam.AW = null;
         });
         //标准化考试 overall
-        $('.select-exam-overall').on('blur',function(){
+        $('.select-exam-overall').on('input propertychange',function(){
             $(this).testInput({
                 rule : base.isScore,
                 success : function(dom){
@@ -421,7 +444,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
         });
 
         //标准化考试 V
-        $('.select-exam-v').on('blur',function(){
+        $('.select-exam-v').on('input propertychange',function(){
             $(this).testInput({
                 rule : base.isScore,
                 success : function(dom){
@@ -455,7 +478,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
         });
 
         //标准化考试 Q
-        $('.select-exam-q').on('blur',function(){
+        $('.select-exam-q').on('input propertychange',function(){
             $(this).testInput({
                 rule : base.isScore,
                 success : function(dom){
@@ -489,7 +512,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
         });
 
         //标准化考试 AW
-        $('.select-exam-aw').on('blur',function(){
+        $('.select-exam-aw').on('input propertychange',function(){
             $(this).testInput({
                 rule : base.isScore,
                 success : function(dom){
@@ -520,6 +543,38 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
                     }
                 }
             });
+        });
+        //标准化考试input显示错误提示
+        $('.select-exam-input input').on('focus',function(){
+            if($(this).hasClass('error')){
+                $(this).parent('.form-item').find('.form-item-notice').css('display','block');
+            }
+        });
+        //标准化考试input隐藏错误提示
+        $('.select-exam-input input').on('blur',function(){
+            $(this).parent('.form-item').find('.form-item-notice').css('display','none');
+            scoreFinished();
+        });
+
+        //LAST
+        $('.select-last').on('blur',function(){
+            $(this).testInput({
+                rule : base.isScore,
+                success : function(dom){
+                    if(dom.val()>180||dom.val()<120){
+                        select.last = null;
+                        base.testFail(dom,'LAST有效分值为120~180');
+                        return;
+                    }
+                    select.last = dom.val();
+                    base.testSuccess(dom);
+                },
+                fail : function(dom){
+                    select.last = null;
+                    base.testFail(dom,'LAST有效分值为120~180');
+                }
+            });
+            scoreFinished();
         });
         //海外学习
         $('.select-exchange .form-check').on('click',function(){
@@ -722,6 +777,68 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
 
     });
 
+    //打开预览
+    function openSelectView(){
+        base.openMask();
+        $('body').css('overflow','hidden');
+        $('.select-form-view').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
+            $('.select-form-view').removeClass('animated fadeInDown');
+        });
+    }
+    //关闭预览
+    base.closeAll.closeSelectView = function(){
+        base.closeMask();
+        $('body').css('overflow','auto');
+        $('.select-form-view').addClass('animated fadeOutUp').one(base.animationend,function(){
+            $('.select-form-view').removeClass('animated fadeOutUp').addClass('hidden');
+        });
+    };
+    //模块收缩初始化
+    function boxSildeUp(){
+        var content = $('.select-box .select-content');
+        for(var i=1;i<content.length;i++){
+            height[i] = content.eq(i).innerHeight();
+            content.eq(i).css('height',0);
+            content.eq(i).parents('.select-box').find('.select-title-control').addClass('animated rotateUp');
+        }
+    }
+
+    //申请偏好填写完毕
+    function preferenceFinished(){
+        if(select.nation.length>0&&select.locatioin.length>0){
+            if($('.select-box').eq(1).find('.select-content').css('height')=='0px'){
+                $('.select-box').eq(1).find('.select-title-control').click();
+            }
+        }
+    }
+    //基本情况填写完毕
+    function infoFinished(){
+        if(select.pre_school&&select.pre_major&&select.school_type&&select.major_only&&select.degree){
+            if($('.select-box').eq(2).find('.select-content').css('height')=='0px'){
+                $('.select-box').eq(2).find('.select-title-control').click();
+            }
+        }
+    }
+    //考试成绩填写完毕
+    function scoreFinished(){
+        if(select.gpa&&!$.isEmptyObject(select.language)&&language.overall&&language.R&&language.L&&language.S&&language.W){
+            if(select.pre_major=='法学类'){
+                if(select.last){
+                    if($('.select-box').eq(3).find('.select-content').css('height')=='0px'){
+                        $('.select-box').eq(3).find('.select-title-control').click();
+                    }
+                }
+            }
+            else{
+                if(!$.isEmptyObject(select.exam_score)>0&&exam.overall&&exam.V&&exam.Q&&exam.AW){
+                    if($('.select-box').eq(3).find('.select-content').css('height')=='0px'){
+                        $('.select-box').eq(3).find('.select-title-control').click();
+                    }
+                }
+            }
+        }
+    }
+
     function selectSchool(school){
         $.ajax({
             url:'/v1/completeform/chinaschool.action',
@@ -836,21 +953,6 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
             error : function() {
                 base.notice('网络错误');
             }
-        });
-    }
-
-    function openSelectView(){
-        base.openMask();
-        $('body').css('overflow','hidden');
-        $('.select-form-view').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
-            $('.select-form-view').removeClass('animated fadeInDown');
-        });
-    }
-    base.closeAll.closeSelectView = function(){
-        base.closeMask();
-        $('body').css('overflow','auto');
-        $('.select-form-view').addClass('animated fadeOutUp').one(base.animationend,function(){
-            $('.select-form-view').removeClass('animated fadeOutUp').addClass('hidden');
         });
     }
 
