@@ -27,14 +27,14 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 scrollbars: true
             });
         }
-        if($('#require-content1')[0]){
-            scroll[3] =  new iscroll('#require-content1',{
+        if($('#require-content')[0]){
+            scroll[3] =  new iscroll('#require-content',{
                 mouseWheel: true,
                 scrollbars: true
             });
         }
-        if($('#require-content2')[0]){
-            scroll[4] =  new iscroll('#require-content2',{
+        if($('#from-content')[0]){
+            scroll[4] =  new iscroll('#from-content',{
                 mouseWheel: true,
                 scrollbars: true
             });
@@ -45,8 +45,6 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         $('.screen-form-major').select(scroll[2]);
         $('.major-info-start').select();
         $('.major-info-direction').select();
-        //tab切换
-        $('.major-tab').tab();
 
         //下拉选择
         $('.screen-form-country .form-select-option li').on('click',function(){
@@ -141,7 +139,14 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         $('.recommend-major-get').on('click',function(){
             getMajor();
         });
-        //查看申请要求
+
+        //学位宽度
+        majorWidth();
+        //切换学位 school-major
+        $('.major-tab .tab-title li').on('click',function(){
+            majorTab($(this));
+        });
+        //查看申请要求 school-major
         $('.major-require-list li').on('click',function(){
             requireTab($(this));
         });
@@ -279,6 +284,27 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         }
         $('.recommend-major-get').removeClass('button-solid-ban').addClass('button-solid');
     }
+    function majorWidth(){
+        var n = $('.major-tab .tab-title li').length;
+        switch (n){
+            case 1:
+                $('.major-tab .tab-title li').css('width',150);
+                break;
+            case 2:
+                $('.major-tab .tab-title li').css('width',150);
+                break;
+            case 3:
+                $('.major-tab .tab-title li').css('width',100);
+                break;
+            case 4:
+                $('.major-tab .tab-title li').css('width',100);
+                break;
+        }
+    }
+    function majorTab(dom){
+        $('.major-tab .tab-title li').removeClass('active');
+        dom.addClass('active')
+    }
     function getMajor(){
         if(!screen.major){
             return;
@@ -289,7 +315,6 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         _this.addClass('active');
         _this.parents('.major-require').find('.major-require-content-name').html(_this.find('.major-require-list-name').html());
         scroll[3].refresh();
-        scroll[4].refresh();
     }
     return{
         

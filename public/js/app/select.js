@@ -58,8 +58,8 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
 
 
     var select = {};
-        select.nation = 'US';                   //国家
-        select.locatioin = 1;                   //地区
+        select.nation = [];                     //国家
+        select.locatioin = [];                  //地区
         select.pre_school = '';                 //之前学校
         select.pre_major = '';                  //之前专业1
         select.pre_major2 = '';                 //之前专业2
@@ -122,7 +122,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
             e.stopPropagation();
         });
         $('.select-form-view button').on('click',function(){
-            closeSelectView();
+            base.closeAll.closeSelectView();
         });
         //模块展开/收缩
         $('.select-title-control').on('click',function(){
@@ -143,15 +143,25 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
         });
         //选择国家
         $('.select-country .select-preference-radio').on('click',function(){
-            $('.select-country .select-preference-radio').removeClass('active');
-            $(this).addClass('active');
-            select.nation = $(this).data('value');
+            if($(this).hasClass('active')){
+                select.nation.splice(select.nation.indexOf($(this).data('value')),1);
+                $(this).removeClass('active');
+            }
+            else{
+                select.nation.push($(this).data('value'));
+                $(this).addClass('active');
+            }
         });
         //选择地区
         $('.select-position .select-preference-radio').on('click',function(){
-            $('.select-position .select-preference-radio').removeClass('active');
-            $(this).addClass('active');
-            select.locatioin = $(this).data('value');
+            if($(this).hasClass('active')){
+                select.locatioin.splice(select.locatioin.indexOf($(this).data('value')),1);
+                $(this).removeClass('active');
+            }
+            else{
+                select.locatioin.push($(this).data('value'));
+                $(this).addClass('active');
+            }
         });
         //毕业学校 输入
         $('.select-school').on('input propertychange',function(){
@@ -831,14 +841,16 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
 
     function openSelectView(){
         base.openMask();
+        $('body').css('overflow','hidden');
         $('.select-form-view').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
             $('.select-form-view').removeClass('animated fadeInDown');
         });
     }
-    function closeSelectView(){
+    base.closeAll.closeSelectView = function(){
+        base.closeMask();
+        $('body').css('overflow','auto');
         $('.select-form-view').addClass('animated fadeOutUp').one(base.animationend,function(){
             $('.select-form-view').removeClass('animated fadeOutUp').addClass('hidden');
-            base.closeMask();
         });
     }
 

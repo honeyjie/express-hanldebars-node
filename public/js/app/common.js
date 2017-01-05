@@ -20,12 +20,12 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
                 base.closeAll.closeNewsArticle();
             }
             //关闭删除
-            if(!$('.news-delete').hasClass('hidden')){
-                base.closeAll.closeNewsDelete();
+            if(!$('.select-form-view').hasClass('hidden')){
+                base.closeAll.closeSelectView();
             }
         });
         //点击浮层关闭
-        $(document).on('click',function(e){
+        $('.mask').on('click',function(e){
             e.stopPropagation();
             //关闭文章
             if(!$('.view-article').hasClass('hidden')){
@@ -34,6 +34,10 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             //关闭积分详情
             if(!$('.point-list').hasClass('hidden')){
                 base.closeAll.closePointList();
+            }
+            //关闭选校样例
+            if(!$('.select-form-view').hasClass('hidden')){
+                base.closeAll.closeSelectView();
             }
         });
         //模拟滚动条

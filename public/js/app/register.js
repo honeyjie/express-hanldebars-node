@@ -56,14 +56,11 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
             });
         });
         $('.complete-phone').on('blur',function(){
-            console.log("验证手机1")
             $('.complete-phone').testInput({
                 rule : base.phoneRule,
                 success : function(dom){
                     base.userInfo.phone = dom.val();
-                    console.log("验证手机2")
-                    base.testPhone(dom);//前端代码此处有误补充参数
-                    console.log("手机验证成功")
+                    base.testPhone(dom);
                 },
                 fail : function(dom){
                     base.userInfo.phone = '';
@@ -87,11 +84,12 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
 
         //补全信息判断提交
         $('.register.complete input').on('blur',function(){
-            //前端补充代码
-            $('.complete-submit').removeClass('button-solid').addClass('button-solid-ban');
+            console.log(base.userInfo)
             if(!base.userInfo.username||!base.userInfo.password||!base.userInfo.repassword||!base.userInfo.email){
+                $('.complete-submit').removeClass('button-solid').addClass('button-solid-ban');
                 return;
             }
+            console.log('123')
             $('.complete-submit').removeClass('button-solid-ban').addClass('button-solid');
         });
 
@@ -147,8 +145,9 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         });
 
         //忘记密码判断提交
-        $('.register.email input').on('blur',function(){
+        $('.email input').on('blur',function(){
             if(!base.userInfo.email){
+                $('.email-submit').removeClass('button-solid').addClass('button-solid-ban');
                 return;
             }
             $('.email-submit').removeClass('button-solid-ban').addClass('button-solid');
@@ -191,7 +190,6 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
 
         //验证新密码
         $('.reset-password').on('blur',function(){
-            console.log('123')
             $('.reset-password').testInput({
                 rule : base.passwordRule,
                 success : function(dom){
@@ -218,8 +216,10 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         });
 
         //重置密码判断提交
-        $('.register.reset input').on('blur',function(){
-            if(!base.userInfo.password||!base.userInfo.password){
+        $('.reset input').on('blur',function(){
+            console.log(base.userInfo)
+            if(!base.userInfo.password||!base.userInfo.repassword){
+                $('.reset-submit').removeClass('button-solid').addClass('button-solid-ban');
                 return;
             }
             $('.reset-submit').removeClass('button-solid-ban').addClass('button-solid');

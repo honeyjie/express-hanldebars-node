@@ -1938,7 +1938,6 @@
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     padding: 0 20px;
-    z-index: 2;
 }
 .school .school-box-title img{
     position: absolute;
@@ -1990,6 +1989,7 @@
     vertical-align: middle;
     font-size: 14px;
     line-height: 30px;
+    color: #999;
     overflow: hidden;
 }
 .school .school-side{
@@ -2183,6 +2183,9 @@
     margin: 0 auto;
     color: #25baf4;
 }
+.school .school-side li.school-side-revise a:hover{
+    background: #f4fbfe;
+}
 .school .school-major-rank{
     position: absolute;
     width: 100%;
@@ -2194,14 +2197,14 @@
     line-height: 39px;
 }
 .school .major-tab .tab-title{
-    width: 300px;
+    display: inline-block;
     border: 1px solid #25baf4;
     border-radius: 5px;
     margin-top: 20px;
     overflow: hidden;
 }
 .school .major-tab .tab-title li{
-    width: 50%;
+    width: 150px;
     float: left;
     height: 40px;
     line-height: 40px;
@@ -2209,7 +2212,11 @@
     color: #25baf4;
     text-align: center;
     font-size: 14px;
+    border-left: 1px solid #25baf4;
     cursor: pointer;
+}
+.school .major-tab .tab-title li:nth-child(1){
+    border-left: none;
 }
 .school .major-tab .tab-title li.active{
     background: #25baf4;
@@ -2254,6 +2261,9 @@
     line-height: 20px;
     color: #25baf4;
     cursor: pointer;
+}
+.school .major-info .form-select-value img{
+    margin-left: 10px;
 }
 .school .major-info .form-select-option{
     width: 300px;
@@ -2306,10 +2316,10 @@
     border-right: 5px solid transparent;
     border-bottom: 10px solid #eeeeee;
 }
-.school .major-require-list li.active{
+.school .major-require-list li:hover,.school .major-require-list li.active{
     padding-top: 25px;
 }
-.school .major-require-list li.active .major-require-list-name{
+.school .major-require-list li:hover .major-require-list-name,.school .major-require-list li.active .major-require-list-name{
     display: none;
 }
 .school .major-require-list li.active .major-require-list-arrow{
@@ -2321,7 +2331,7 @@
     background: #eeeeee;
     border-radius: 5px;
     padding: 0 20px;
-    height: 120px;
+    max-height: 180px;
     overflow: hidden;
 }
 .school .major-require-content-name{
@@ -2349,10 +2359,17 @@
 .school .major-from-title{
     font-size: 16px;
 }
-.school .major-from p{
+.school .major-from-content{
+    position: relative;
     margin-top: 10px;
+    height: 50px;
+    overflow: hidden;
 }
-.school .major-from a{
+.school .major-from-content p{
+    color: #999;
+}
+.school .major-from-content a{
+    color: #999;
     text-decoration: underline;
 }
 .select-form{
@@ -2399,6 +2416,9 @@
 .select-form .select-preference li{
     float: left;
     cursor: pointer;
+}
+.select-form .select-preference li.select-preference-more{
+    cursor: auto;
 }
 .select-form .select-preference-title{
     font-size: 14px;
@@ -2684,9 +2704,17 @@
     font-weight: 600;
 }
 .select-form .select-form-view{
-    top: 20px;
+    width: 650px;
+    height: 100%;
+    overflow: auto;
+    top: 0;
     left: 50%;
     margin-left: -325px;
+}
+.select-form .select-form-view-main{
+    position: absolute;
+    top: 20px;
+    left: 0;
 }
 .select-form .select-form-view button{
     position: absolute;
