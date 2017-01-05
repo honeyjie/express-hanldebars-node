@@ -89,6 +89,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         //个人信息判断提交
         $('.set-form-info input').on('blur',function(){
             if(!base.userInfo.email||!base.userInfo.phone||!base.userInfo.school||!base.userInfo.major||!base.userInfo.grade||!base.userInfo.country){
+                $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban');
                 return;
             }
             $('.set-info-save').removeClass('button-solid-ban').addClass('button-solid');
@@ -96,6 +97,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         $('.set-form-grade .form-select-option li').on('click',function(){
             base.userInfo.grade = $(this).html();
             if(!base.userInfo.email||!base.userInfo.phone||!base.userInfo.school||!base.userInfo.major||!base.userInfo.grade||!base.userInfo.country){
+                $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban');
                 return;
             }
             $('.set-info-save').removeClass('button-solid-ban').addClass('button-solid');
@@ -103,6 +105,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         $('.set-form-country .form-select-option li').on('click',function(){
             base.userInfo.country = $(this).html();
             if(!base.userInfo.email||!base.userInfo.phone||!base.userInfo.school||!base.userInfo.major||!base.userInfo.grade||!base.userInfo.country){
+                $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban');
                 return;
             }
             $('.set-info-save').removeClass('button-solid-ban').addClass('button-solid');
@@ -164,6 +167,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         //密码判断提交
         $('.set-form-password input').on('blur',function(){
             if(!base.userInfo.oldpassword||!base.userInfo.password||!base.userInfo.repassword){
+                $('.set-password-save').removeClass('button-solid').addClass('button-solid-ban');
                 return;
             }
             $('.set-password-save').removeClass('button-solid-ban').addClass('button-solid');
