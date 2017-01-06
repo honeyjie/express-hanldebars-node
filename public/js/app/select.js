@@ -956,6 +956,9 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
     function submitSelect(){
         if(select.nation.length<=0||select.locatioin<=0){
             $('.select-box').eq(0).find('.select-title').addClass('error');
+            if(parseInt($('.select-box').eq(0).find('.select-content').css('height'))==0){
+                $('.select-box').eq(0).find('.select-title-control').click();
+            }
             if(select.nation.length<=0){
                 $('.select-country .select-preference-title').addClass('red');
             }
@@ -970,6 +973,9 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
         }
         if(!select.pre_school||!select.pre_major||!select.school_type||!select.major_only||!select.degree){
             $('.select-box').eq(1).find('.select-title').addClass('error');
+            if(parseInt($('.select-box').eq(1).find('.select-content').css('height'))==0){
+                $('.select-box').eq(1).find('.select-title-control').click();
+            }
             if(!select.pre_school){
                 $('.select-info-school .form-item-name').addClass('red');
             }
@@ -994,6 +1000,9 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
         if(select.pre_major=='法学类'){
             if(!select.gpa||$.isEmptyObject(select.language)||!language.overall||!language.R||!language.L||!language.S||!language.W||!select.last){
                 $('.select-box').eq(2).find('.select-title').addClass('error');
+                if(parseInt($('.select-box').eq(2).find('.select-content').css('height'))==0){
+                    $('.select-box').eq(2).find('.select-title-control').click();
+                }
                 if(!select.gpa){
                     $('.select-score-gpa .form-item-name').addClass('red');
                 }
@@ -1013,6 +1022,9 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
         else{
             if(!select.gpa||$.isEmptyObject(select.language)||!language.overall||!language.R||!language.L||!language.S||!language.W||$.isEmptyObject(select.exam_score)||!exam.overall||!exam.V||!exam.Q||!exam.AW){
                 $('.select-box').eq(2).find('.select-title').addClass('error');
+                if(parseInt($('.select-box').eq(2).find('.select-content').css('height'))==0){
+                    $('.select-box').eq(2).find('.select-title-control').click();
+                }
                 if(!select.gpa){
                     $('.select-score-gpa .form-item-name').addClass('red');
                 }
@@ -1042,7 +1054,9 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
             else{
                 $('.select-box').eq(3).find('.select-title').addClass('error');
                 $('.select-achievement .form-item-name').eq(0).addClass('red');
-
+                if(parseInt($('.select-box').eq(3).find('.select-content').css('height'))==0){
+                    $('.select-box').eq(3).find('.select-title-control').click();
+                }
             }
         }
 
