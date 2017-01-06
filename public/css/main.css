@@ -1505,8 +1505,7 @@
 
 .help-icon{
     position: fixed;
-    top: 50%;
-    margin-top: -23px;
+    bottom: 30%;
     right: 50%;
     margin-right: -623px;
     cursor: pointer;
@@ -2577,6 +2576,7 @@
     padding: 0;
 }
 .select-form .select-info-radio .form-radio{
+    display: inline-block;
     margin-top: 10px;
 }
 .select-form .select-score .form-radio{
@@ -2658,7 +2658,8 @@
 .select-form .select-other .form-item:nth-child(3n+1){
     padding-left: 0;
 }
-.select-form .form-check{
+.select-form .select-other .form-check{
+    display: inline-block;
     margin-top: 10px;
     cursor: pointer;
 }
@@ -2679,7 +2680,7 @@
     display: inline;
 }
 .select-form .form-check-value{
-    width: 280px;
+    max-width: 280px;
     display: table;
     float: left;
     height: 30px;
@@ -2699,10 +2700,16 @@
 }
 .select-form .select-other .form-check-input{
     padding-left: 30px;
-    margin-top: 10px;
 }
 .select-form .form-check-input li{
     margin-top: 10px;
+}
+.select-form .form-check-input .form-item{
+    padding: 0;
+}
+.select-form .form-check-input .form-item .form-item-notice{
+    left: 180px;
+    top: -5px;
 }
 .select-form .select-other .form-check-input .form-item-name{
     font-size: 12px;
@@ -2793,6 +2800,9 @@
     cursor: pointer;
     font-size: 13px;
 }
+.select-school .select-school-tab .tab-title li:hover{
+    color: #25baf4;
+}
 .select-school .select-school-tab .tab-title li:nth-child(2){
     width: 398px;
     border-left: 1px solid #dcdcdc;
@@ -2827,7 +2837,7 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.2);
+    background: rgba(0,0,0,0.1);
     top: 0;
     left: 0;
     text-align: center;
@@ -2840,26 +2850,29 @@
 .select-school .select-school-list li:hover .select-school-mask{
     display: block;
 }
-.select-school .select-school-list li.active .select-school-pic{
+.select-school .select-school-list li.active .select-school-pic,.select-school .select-school-list li:hover .select-school-pic{
     border: 1px solid #25baf4;
     border-radius: 5px;
     margin-top: 0;
 }
-.select-school .select-school-list li img:nth-child(1){
+.select-school .select-school-list li .school-small{
     width: 100%;
     height: 135px;
     display: block;
 }
-.select-school .select-school-list li img:nth-child(2){
+.select-school .select-school-list li .school-big{
     width: 100%;
     height: 170px;
     display: none;
 }
-.select-school .select-school-list li.active img:nth-child(1){
+.select-school .select-school-list li.active .school-small,.select-school .select-school-list li:hover .school-small{
     display: none;
 }
-.select-school .select-school-list li.active img:nth-child(2){
+.select-school .select-school-list li.active .school-big,.select-school .select-school-list li:hover .school-big{
     display: block;
+}
+.select-school .select-school-list li.active:hover .select-school-mask{
+    display: none;
 }
 .select-school .select-school-switch{
     margin-top: 10px;
@@ -2896,9 +2909,6 @@
 .select-school .select-school-switch.active img:nth-child(4){
     display: inline;
 }
-.select-school .select-school-chart{
-    padding-bottom: 20px;
-}
 .select-school .select-school-chart li{
     width: 50%;
     float: left;
@@ -2907,6 +2917,10 @@
     border-top: 1px solid #dcdcdc;
     background: #ffffff;
 }
+.select-school .select-school-chart li:nth-child(2){
+    border-left: 1px solid #dcdcdc;
+    padding-left: 30px;
+}
 .select-school .select-chart-title{
     margin-top: 10px;
     font-size: 14px;
@@ -2914,6 +2928,7 @@
 .select-school .select-chart-title p{
     color: red;
     font-size: 16px;
+    margin-bottom: 5px;
 }
 .select-school .select-chart-title span{
     color: #25baf4;
@@ -2921,15 +2936,17 @@
 }
 .select-school .select-chart-svg{
     position: relative;
-    margin: 20px auto 0;
+    margin-top: 30px;
     width: 500px;
     height: 250px;
 }
 .select-school .select-chart-dis{
-    margin: 0 auto;
     width: 500px;
     color: #333333;
     text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+    padding-bottom: 20px;
 }
 .select-school .select-chart-name{
     position: absolute;

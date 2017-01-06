@@ -39,14 +39,15 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                 $('.help-icon-notice').removeClass('hidden').addClass('animated fadeInUp').one(base.animationend,function(){
                     $('.help-icon-notice').removeClass('animated fadeInUp');
                     setTimeout(function(){
-                        $('.help-icon-pic').addClass('animated flash');
+                        $('.help-icon-pic').addClass('animated infinite jump');
                     },5000);
                 });
             },3000);
-            //打开帮助
+
             //$(document).on("click", function(e) {
             //    console.log("1" + e.target);
             //})
+            //打开帮助
             $('.help-icon-pic').on('click',function(e){
                 e.stopPropagation();
                 openHelp();
@@ -93,15 +94,16 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
     function openHelp(){
         clearTimeout(helpTimer);
         $('.help-icon').addClass('hidden');
+        $('.help-icon-pic').removeClass('animated infinite jump');
         $('.help-icon-notice').addClass('hidden');
-        $('.help').removeClass('hidden').addClass('animated slideInRight').one(base.animationend,function(){
-            $('.help').removeClass('animated slideInRight');
+        $('.help').removeClass('hidden').addClass('animated fadeInUp').one(base.animationend,function(){
+            $('.help').removeClass('animated fadeInUp');
         });
     }
     base.closeAll.closeHelp = function(){
         $('.help-icon').removeClass('hidden');
-        $('.help').addClass('animated slideOutRight').one(base.animationend,function(){
-            $('.help').removeClass('animated slideOutRight').addClass('hidden');
+        $('.help').addClass('animated fadeOutDown').one(base.animationend,function(){
+            $('.help').removeClass('animated fadeOutDown').addClass('hidden');
         });
     }
 

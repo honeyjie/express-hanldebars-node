@@ -261,7 +261,7 @@ define(['jquery'],function(jquery){
         return 'http://'+jumpLink;
     }
     //显示消息
-    function notice(content){
+    function notice(content,cb){
         $('.notice').html(content);
         $('.notice').removeClass('hidden').addClass('animated fadeInDown').one(animationend,function(){
             $('.notice').removeClass('animated fadeInDown');
@@ -269,6 +269,9 @@ define(['jquery'],function(jquery){
                 $('.notice').addClass('animated fadeOutUp').one(animationend,function(){
                     $('.notice').removeClass('animated fadeOutUp').addClass('hidden');
                     $('.notice').html('');
+                    if(cb){
+                        cb();
+                    }
                 });
             },1000);
         });
