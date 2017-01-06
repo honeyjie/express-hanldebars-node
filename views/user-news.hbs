@@ -10,13 +10,11 @@
                         {{#if read}}
                         <li data-msg_id="{{id}}" data-type_id="{{type_id}}" data-type_id="{{type_id}}">
                             <a class="news-title" href="#">{{msg}}</a>
-                            {{#ifNews type_id 200}}
                             <div class="news-date">{{date}}</div>
-                            {{/ifNews}}
                             <div class="news-operation">
-                                
+                                {{#ifNews type_id 20000}}
                                 <a href="#">查看</a>
-                                
+                                {{/ifNews}}
                                 <img class="news-list-delete" src="/img/icon-delete.png" alt=""/>
                             </div>
                         </li>
@@ -34,7 +32,7 @@
                         {{/if}}
                     {{/each}}
                 </ul>
-                {{#if getmsg.data.[0]}}
+                {{#unless getmsg.data.[0]}}
                 <div class="news-list-none">
                     暂无消息
                 </div>
@@ -53,7 +51,7 @@
                         <li><a href="#"><span class="list-page-next"></span></a></li>
                     </ul>
                 </div>
-                {{/if}}
+                {{/unless}}
             </div>
             {{else}}
             <div class="tab-box">
@@ -106,8 +104,6 @@
                 {{/unless}}
             </div>
             {{/if}}
-            
-            
         </div>
     </div>
 

@@ -168,7 +168,6 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
     }
 
     function search(val){
-
         $.ajax({
             url:'/v1/Help/search.action',
             data:{
@@ -178,7 +177,6 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             cache:false,
             dataType:'html',
             success:function(data){
-                console.log(data)
                 $('.header-search-result').html(data);
             },
             error : function() {
@@ -239,7 +237,6 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
     }
     //获取用户信息
     function userInfo(){
-        console.log("获取用户信息")
         $.ajax({
             url:'/v1/user/cache.action',
             data:{
@@ -273,7 +270,6 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
 
     //账号密码登录
     function login(){
-        console.log("账号密码");
         base.userInfo.username = $('.login-username').val();
         base.userInfo.password = $('.login-password').val();
         if(!base.userInfo.username){
