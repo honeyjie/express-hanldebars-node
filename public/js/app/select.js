@@ -1,4 +1,4 @@
-define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,fullpage,iscroll,base,common,d3){
+define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,fullpage,iscroll,base,common,d3){
     //图表测试数据开始
 
     function random(){
@@ -1082,7 +1082,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
         if(select.exam_score.gmat){
             select.exam_score.gmat = exam;
         }
-
+    }
     //生成图表
     function chart(){
         chartArea('.select-svg-gpa',gpaDate.before,gpaDate.now,5,50,function(){
@@ -1472,7 +1472,4 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
         }
     }
 
-    return{
-
-    }
-});
+}) ;

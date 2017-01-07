@@ -19,7 +19,6 @@ Proxy.prototype.request = function(options, callback) {
     }
 
     _options.headers.host = "www.utuotu.com";
-    // console.log(options, _options);
 
     request(_options, callback);
 }
