@@ -99,7 +99,6 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
         //搜索输入
         $('.header-search input').on('input propertychange',function(){
             var searchVal = $(this).val();
-            console.log(searchVal)
             search(searchVal);
             
         });

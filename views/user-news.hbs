@@ -6,7 +6,7 @@
             {{#if system}}
             <div class="tab-box">
                 <ul class="news-list news-system-list">
-                    {{#each getmsg.data}}
+                    {{#each data.list}}
                         {{#if read}}
                         <li data-msg_id="{{id}}" data-type_id="{{type_id}}" data-type_id="{{type_id}}">
                             <a class="news-title" href="#">{{msg}}</a>
@@ -32,7 +32,7 @@
                         {{/if}}
                     {{/each}}
                 </ul>
-                {{#unless getmsg.data.[0]}}
+                {{#unless data.list.[0]}}
                 <div class="news-list-none">
                     暂无消息
                 </div>
@@ -59,7 +59,7 @@
             {{else}}
             <div class="tab-box">
                 <ul class="news-list news-user-list">
-                    {{#each getmsg.data}}
+                    {{#each data.list}}
                         {{#if read}}
                             <li data-msg_id="{{id}}" data-type_id="{{type_id}}">
                                 <a class="news-title" href="#">{{msg}}</a>
@@ -85,7 +85,7 @@
                         {{/if}}
                     {{/each}}
                 </ul>
-                {{#unless getmsg.data.[0]}}
+                {{#unless data.list.[0]}}
                 <div class="news-list-none">
                     暂无消息
                 </div>
@@ -96,12 +96,25 @@
                 </div>
                 <div class="list-page">
                     <ul class="clear hidden">
+                        {{#if data.page.pre}}
+                        <li class="active"><a href="{{{getString @root.urlPath @root.data.page.pre}}}"><span class="list-page-pre">{{pre}}</span></a></li>
+                        {{else}}
                         <li><a href="#"><span class="list-page-pre"></span></a></li>
-                        <li class="active"><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
+                        {{/if}}
+
+                        {{#each data.page.list}}
+                            {{#ifEq this @root.data.page.index}}
+                                <li class="active"><a href="{{{getString @root.urlPath this}}}">{{this}}</a></li>
+                            {{else}}
+                                <li><a href="{{{getString @root.urlPath this}}}">{{this}}</a></li>
+                            {{/ifEq}}
+                        {{/each}}
+
+                        {{#if data.page.next}}
+                        <li class="active"><a href="{{{getString @root.urlPath @root.data.page.next}}}"><span class="list-page-next"></span></a></li>
+                        {{else}}
                         <li><a href="#"><span class="list-page-next"></span></a></li>
+                        {{/if}}    
                     </ul>
                 </div>
                 {{/unless}}

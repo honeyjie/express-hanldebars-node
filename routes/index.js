@@ -42,9 +42,24 @@ router.get('/user-news', function(req, res, next) {
       url: "http://www.utuotu.com/v1/User/getmsg.action"
   }, function(err, response, body) {
     var getmsg = JSON.parse(body);
+          var urlPath = url.parse(req.url).path;
+          console.log(urlPath)
+      var query = url.parse(req.url).query;
+      console.log(query);
+      if (!query) {
+        urlPath = urlPath + "?page="
+      } else {
+        var query = query.page;
+        if (!query) {
+          urlPath = urlPath + "?page="
+        }
+      }
+
+    console.log(getmsg.data)
       res.render('user-news', {
-        getmsg: getmsg,
-        system: req.query.system
+        data: getmsg.data,
+        system: req.query.system,
+        urlPath :urlPath
       })
   })
 });
@@ -77,7 +92,6 @@ router.get('/user-point', function(req, res, next) {
     }, function(err, response, body) {
         mission = JSON.parse(body);
         return mission;
-
     })
     req.proxy.request({
         method: "GET",
@@ -268,7 +282,6 @@ router.get('/school-mjlist', function(req, res, next) {
         }; 
 
         setTimeout(function() {
-          console.log(dataList);
           res.render('school-majorlist', {
                 dataList: dataList,
                 sid: req.query.sid
@@ -316,8 +329,6 @@ router.get("/v1/schoolmajor/filterschool.action", function(req, res) {
             return
         }
         var urlPath = url.parse(req.url).path;
-        console.log(urlPath);
-        console.log(data);
         res.render('partials/search-result', {
             data: data.data,
             layout: "naked",
@@ -353,7 +364,6 @@ router.post("/v1/completeform/chinaschool.action", function(req, res) {
         if (!data) {
             return
         }
-        console.log("学校",data)
         res.render('partials/school-list', {
             data: data.data,
             layout: "naked"
@@ -367,7 +377,6 @@ router.post("/v1/completeform/chinamajor.action", function(req, res) {
         method: "POST",
         url: "http://www.utuotu.com/v1/completeform/chinamajor.action",
     }, function(err, response, body) {
-        console.log("专业",body)
         var data = JSON.parse(body);
         if (!data) {
             return
@@ -382,7 +391,7 @@ router.post("/v1/completeform/chinamajor.action", function(req, res) {
 router.get("/v1/completeform/saveform.action", function(req, res) {
     req.proxy.request({
         method: "POST",
-        url: "http://utuotu.com/v1/completeform/saveform.action",
+        url: "http://www.utuotu.com/v1/completeform/saveform.action",
     }, function(err, response, body) {
     });
 });
@@ -390,7 +399,7 @@ router.get("/v1/completeform/saveform.action", function(req, res) {
 router.get("/v1/completeform/saveform.action", function(req, res) {
     req.proxy.request({
         method: "GET",
-        url: "http://utuotu.com/v1/completeform/form.action",
+        url: "http://www.utuotu.com/v1/completeform/form.action",
     }, function(err, response, body) {
     });
 });
@@ -398,8 +407,9 @@ router.get("/v1/completeform/saveform.action", function(req, res) {
 router.get("/v1/Help/search.action", function(req, res) {
     req.proxy.request({
         method: "GET",
-        url: "http://utuotu.com/v1/Help/search.action",
+        url: "http://www.utuotu.com/v1/Help/search.action",
     }, function(err, response, body) {
+      var data = JSON.parse(body);
       res.render('partials/searchlist', {
             data: data.data,
             layout: "naked"
