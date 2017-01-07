@@ -10,13 +10,17 @@ Proxy.prototype.request = function(options, callback) {
         qs: this.req.query,
         method: this.req.method,
         url: this.host + this.req.path,
-        // headers: this.req.headers,
+        headers: this.req.headers,
     }
 
     options = options || {};
     for (var k in options) {
         _options[k] = options[k];
     }
+
+    _options.headers.host = "www.utuotu.com";
+    // console.log(options, _options);
+
     request(_options, callback);
 }
 
