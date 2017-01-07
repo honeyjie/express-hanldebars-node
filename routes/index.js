@@ -353,6 +353,7 @@ router.post("/v1/completeform/chinaschool.action", function(req, res) {
         if (!data) {
             return
         }
+        console.log("学校",data)
         res.render('partials/school-list', {
             data: data.data,
             layout: "naked"
@@ -364,8 +365,9 @@ router.post("/v1/completeform/chinaschool.action", function(req, res) {
 router.post("/v1/completeform/chinamajor.action", function(req, res) {
     req.proxy.request({
         method: "POST",
-        url: "http://utuotu.com/v1/completeform/chinamajor.action",
+        url: "http://www.utuotu.com/v1/completeform/chinamajor.action",
     }, function(err, response, body) {
+        console.log("专业",body)
         var data = JSON.parse(body);
         if (!data) {
             return

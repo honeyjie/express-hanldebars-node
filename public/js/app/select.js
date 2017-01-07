@@ -190,6 +190,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         });
         //毕业专业1 输入
         $('.select-major').on('input propertychange',function(){
+            console.log($(this).val())
             selectMajor($(this).val(),1);
         });
         //毕业专业1 选择
@@ -931,19 +932,25 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
     }
 
     function selectMajor(major,n){
+        console.log(major);
         $.ajax({
             url:'/v1/completeform/chinamajor.action',
             data:{
+                majorname: major
             },
             type:'post',
             cache:false,
             dataType:'html',
             success:function(data){
                 if( n==1 ) {
+                    console.log(data);
                     $('#select-major ul').html(data);
+                    
                     $('.select-info-major').find('.form-select-option').removeClass('hidden');
                 } else if(n==2) {
+                    console.log(data);
                     $('#select-major2 ul').html(data);
+
                     $('.select-info-major2').find('.form-select-option').removeClass('hidden');
                 }
             },
