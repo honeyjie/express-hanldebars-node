@@ -137,7 +137,10 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         });
         //获取推荐
         $('.recommend-major-get').on('click',function(){
-            getMajor();
+            var value = $(this).prev('input').val();
+            var sid = $('.school-info').attr('data-sid');
+            console.log(value, sid)
+            getMajor(value, sid);
         });
 
         //学位宽度
@@ -305,10 +308,29 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         $('.major-tab .tab-title li').removeClass('active');
         dom.addClass('active')
     }
-    function getMajor(){
-        if(!screen.major){
-            return;
-        }
+    function getMajor(val, id){
+        //发送学校id和填写值
+        // if(!screen.major){
+        //     return;
+        // }
+        $.ajax({
+            url:'/v1/schoolinfo/getrecommend.action',
+            data:{
+                sid: id,
+                value: val
+            },
+            type:'get',
+            cache:false,
+            dataType:'json',
+            success:function(){
+                console.log("成功")
+                window.location.href = "/school-mjlist?sid="+id+"&value="+val;
+            },
+            error : function() {
+                base.notice('网络错误');
+            }
+        });
+
     }
     function requireTab(_this){
         _this.parents('.major-require-list').find('li').removeClass('active');
@@ -319,22 +341,22 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
     return{
         
     }
-    $('.school-side-son li').on("click", function() {
-        $.ajax({
-            url:'/school-majorlist',
-            data:{
-                academy: $(this).find('a').html()
-            },
-            type:'get',
-            cache:false,
-            dataType:'html',
-            success:function(data){
-                console.log(data);
-                // $("#search-result").html(data);
-            },
-            error : function() {
-                base.notice('网络错误');
-            }
-        });
-    })
+    // $('.school-side-son li').on("click", function() {
+    //     $.ajax({
+    //         url:'/school-majorlist',
+    //         data:{
+    //             academy: $(this).find('a').html()
+    //         },
+    //         type:'get',
+    //         cache:false,
+    //         dataType:'html',
+    //         success:function(data){
+    //             console.log(data);
+    //             // $("#search-result").html(data);
+    //         },
+    //         error : function() {
+    //             base.notice('网络错误');
+    //         }
+    //     });
+    // })
 });

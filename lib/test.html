@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function getPage(str, n) {
+            return str.replace(/page=(\d)*/, 'page='+ n);
+        }
+        var string = "/school-screen?search=&page=2"
+        var a = getPage(string, 3);
+        console.log(a)
+    </script>
+</body>
+</html>

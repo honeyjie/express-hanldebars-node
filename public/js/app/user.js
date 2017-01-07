@@ -3,7 +3,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
     $(function(){
         //获取积分并初始化积分条
         // base.userInfo.credit = 0;; //测试数据
-        getCredit();
+        // getCredit();
 
         //判断邮箱是否验证
         //isTestEmail();
@@ -264,10 +264,11 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         $('.news-list-delete').on('click',function(e){
             e.stopPropagation();
             $('.news-delete-content p').html('是否删除此消息');
-            var msgid = $(this).parent().parent().attr('data-msg_id');
+            var parent = $(this).parent().parent()
+            var msgid = parent.attr('data-msg_id');
             console.log(msgid);
             console.log(typeof msgid)
-            openNewsDelete(msgid);
+            openNewsDelete(msgid, parent);
             console.log(typeof msgid)
             
         });
@@ -275,15 +276,18 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         $('.news-system-delete').on('click',function(e){
             e.stopPropagation();
             $('.news-delete-content p').html('是否清空系统消息？<br/><span>此删除不可恢复，请谨慎操作</span>');
-            openNewsDelete();
-            $('.news-delete-ensure').on('click', delAllNews)
+            var system = 1;//1代表系统消息
+            var list = $('.news-system-list')
+            openNewsAllDelete(system, list);
+           
         });
         //删除个人消息
         $('.news-user-delete').on('click',function(e){
             e.stopPropagation();
             $('.news-delete-content p').html('是否清空个人消息？<br/><span>此删除不可恢复，请谨慎操作</span>');
-            openNewsDelete();
-            $('.news-delete-ensure').on('click', delAllNews)
+            var system = 0;//0代表个人消息
+            var list = $('.news-user-list')
+            openNewsAllDelete(system, list);
         });
         //关闭删除
         $('.news-delete-cancel').on('click',function(e){
@@ -385,6 +389,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
            cache:false,
            dataType:'json',
            success:function(data) {
+            console.log(data);
                if(data.code==0){
                    base.userInfo.credit = data.data.credit;  //base.userInfo.credit 积分
                    creditLine();
@@ -470,75 +475,58 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         });
     }
 //打开删除
-    function openNewsDelete(id){
+    function openNewsDelete(id, el){
         $('.news-delete').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
             $('.news-delete').removeClass('animated fadeInDown');
         });
-        $('.news-delete-ensure').on('click', delNews(id))
+        // $('.news-delete-ensure').on('click', function(id) {
+        //     //删除个人消息
+        //     $.ajax({
+        //        url:'/v1/User/delmsg.action',
+        //        data:{
+        //             msgid: id
+        //        },
+        //        type:'get',
+        //        cache:false,
+        //        dataType:'json',
+        //        success:function(data) {
+        //             console.log(data);
+        //             // el.remove();
+        //             //不显示该条数据
+
+        //        },
+        //        error : function() {
+        //            base.notice('网络错误');
+        //        }
+        //     });
+        // })
     }
 
-function delNews(id) {
-    //删除消息
-    $.ajax({
-       url:'/v1/User/delmsg.action',
-       data:{
-            msgid: id
-       },
-       type:'get',
-       cache:false,
-       dataType:'json',
-       success:function(data) {
-            console.log(data);
-       },
-       error : function() {
-           base.notice('网络错误');
-       }
-    });  
-}
+//打开全部删除
+    function openNewsAllDelete(system, el){
+        $('.news-delete').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
+            $('.news-delete').removeClass('animated fadeInDown');
+        });
+        //删除消息
+        // $.ajax({
+        //    url:'/v1/User/delallmsg.action',
+        //    data:{
+        //     system: system
+        //    },
+        //    type:'get',
+        //    cache:false,
+        //    dataType:'json',
+        //    success:function(data) {
+        //     console.log(data);
+        //     //清空该消息列表
+        //     // el.remove();
+        //    },
+        //    error : function() {
+        //        base.notice('网络错误');
+        //    }
+        // });
+    }
 
-function delAllNews() {
-    //删除全部消息
-    $.ajax({
-       url:'/v1/User/delallmsg.action',
-       data:{
-       },
-       type:'get',
-       cache:false,
-       dataType:'json',
-       success:function(data) {
-            console.log(data);
-       },
-       error : function() {
-           base.notice('网络错误');
-       }
-    });  
-}
-
-// //打开全部删除
-//     function openNewsAllDelete(){
-//         $('.news-delete').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
-//             $('.news-delete').removeClass('animated fadeInDown');
-//         });
-//         //删除消息
-//         $.ajax({
-//            url:'/v1/User/delallmsg.action',
-//            data:{
-        
-//            },
-//            type:'get',
-//            cache:false,
-//            dataType:'json',
-//            success:function(data) {
-//                if(data.code==0){
-//                    base.userInfo.credit = data.data.credit;  //base.userInfo.credit 积分
-//                    creditLine();
-//                }
-//            },
-//            error : function() {
-//                base.notice('网络错误');
-//            }
-//         });
-//     }
 //关闭删除
     function closeNewsDelete(){
         $('.news-delete').addClass('animated fadeOutUp').one(base.animationend,function(){

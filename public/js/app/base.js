@@ -21,15 +21,15 @@ define(['jquery'],function(jquery){
     //inoput验证成功
     function testSuccess(dom){
         dom.removeClass('error');
-        dom.parents('.form-item').find('.form-item-notice').fadeOut(200);
+        dom.parent('.form-item').find('.form-item-notice').fadeOut(200);
     }
     //input验证失败
     function testFail(dom,text){
         dom.addClass('error');
         if(text){
-            dom.parents('.form-item').find('.form-item-notice span').html(text);
+            dom.parent('.form-item').find('.form-item-notice span').html(text);
         }
-        dom.parents('.form-item').find('.form-item-notice').fadeIn(200);
+        dom.parent('.form-item').find('.form-item-notice').fadeIn(200);
     }
     //检查用户名是否重复
     function testUsername(dom){

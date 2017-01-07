@@ -23,6 +23,10 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             if(!$('.select-form-view').hasClass('hidden')){
                 base.closeAll.closeSelectView();
             }
+            //关闭帮助
+            if(!$('.help').hasClass('hidden')){
+                base.closeAll.closeHelp();
+            }
         });
         //点击浮层关闭
         $('.mask').on('click',function(e){

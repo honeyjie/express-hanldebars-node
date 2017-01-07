@@ -1,5 +1,5 @@
-<ul class="screen-list" id="screen-school">
-    <li class="screen-list-total">共{{data.count}}所大学</li>
+    <ul class="screen-list" id="screen-school">
+    <li class="screen-list-total">共{{data.page.count}}所大学</li>
     {{#each data.data}}
     <li>
         <a href="/school-recommend?sid={{id}}"><img class="screen-list-logo" src="{{logo}}?imageView2/2/w/200/h/200/format/jpg/interlace/0/q/100" alt="{{school_name}}"/></a>
@@ -11,16 +11,31 @@
     </li>
     {{/each}}
 </ul>
+
 <div class="list-page">
     <ul class="clear">
+        {{#if data.page.pre}}
+        <li class="active"><a href="{{{getString @root.urlPath @root.data.page.pre}}}"><span class="list-page-pre">{{pre}}</span></a></li>
+        {{else}}
         <li><a href="#"><span class="list-page-pre"></span></a></li>
-        <li class="active"><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
+        {{/if}}
+
+        {{#each data.page.list}}
+            {{#ifEq this @root.data.page.index}}
+                <li class="active"><a href="{{{getString @root.urlPath this}}}">{{this}}</a></li>
+            {{else}}
+                <li><a href="{{{getString @root.urlPath this}}}">{{this}}</a></li>
+            {{/ifEq}}
+        {{/each}}
+
+        {{#if data.page.next}}
+        <li class="active"><a href="{{{getString @root.urlPath @root.data.page.next}}}"><span class="list-page-next"></span></a></li>
+        {{else}}
         <li><a href="#"><span class="list-page-next"></span></a></li>
+        {{/if}}
+        
     </ul>
     <div class="list-page-total">
-        <span>1</span>/<span>300</span>
+        <span>{{data.page.index}}</span>/<span>{{data.page.page_count}}</span>
     </div>
 </div>

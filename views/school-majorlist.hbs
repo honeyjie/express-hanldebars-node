@@ -5,7 +5,7 @@
         <li><a href="/school-all?sid={{sid}}">全部专业</a></li>
         <li class="school-side-revise"><a href="/school-recommend?sid={{sid}}">修改专业</a></li>
     </ul>
-    {{#with data}} 
+    {{#each dataList}} 
     <div class="school-box school-major">
         <div class="school-box-title">
             {{major_name_zh}}
@@ -118,9 +118,6 @@
                             <div class="major-require-content-name">研究报告</div>
                             <p>
                             {{qs}}
-{{!--                                 随着社会经济的发展需要，著作权法所保护作品的种类和范围往往会不断扩张。由于保护计算机软件的需要，一些国家开始以著作权
-                                以保护，根据世界贸易组织的TRIPs协议，成员国均承诺以著作权方式对软件予以保护，著作权方式保护软件有其不足之处。 随着社会经济的发展需要，著作权法所保护作品的种类和范围往往会不断扩张。由于保护计算机软件的需要，一些国家开始以著作权
-                                以保护，根据世界贸易组织的TRIPs协议，成员国均承诺以著作权方式对软件予以保护，著作权方式保护软件有其不足之处。 --}}
                             </p>
                         </div>
                     </div>
@@ -137,104 +134,7 @@
                     </div>
                 </div>
             </div>
-{{!--             <div class="tab-box hidden">
-                <ul class="major-info clear">
-                    <li>
-                        <img src="/img/major-start.png" alt=""/>
-                        <span>入学时间</span>
-                        <div class="form-select major-info-start">
-                            <div class="form-select-value">选择入学时间</div>
-                            <div class="form-select-option hidden">
-                                <ul>
-                                    <li>2017 Fall</li>
-                                    <li>2017 Summer</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="/img/major-end.png" alt=""/>
-                        <span>申请截止日期</span>
-                        <span>December 15</span>
-                    </li>
-                    <li>
-                        <img src="/img/major-cost.png" alt=""/>
-                        <span>申请费用</span>
-                        <span>$90</span>
-                    </li>
-                    <li>
-                        <img src="/img/major-email.png" alt=""/>
-                        <span>招生邮箱</span>
-                        <span>ugadm@saonet.ucla.edu</span>
-                    </li>
-                    <li>
-                        <img src="/img/major-start.png" alt=""/>
-                        <a href="#">官方Q&A</a>
-                    </li>
-                    <li>
-                        <img src="/img/major-direction.png" alt=""/>
-                        <span>研究方向</span>
-                        <div class="form-select major-info-direction">
-                            <div class="form-select-value">选择研究方向</div>
-                            <div class="form-select-option hidden">
-                                <ul>
-                                    <li>Engineering Cost</li>
-                                    <li>engineering</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-                <div class="major-require">
-                    <div class="major-require-title">申请要求</div>
-                    <ul class="major-require-list clear">
-                        <li class="active">
-                            <img src="/img/require1.png" alt=""/>
-                            <div class="major-require-list-name">研究报告</div>
-                            <div class="major-require-list-arrow"></div>
-                        </li>
-                        <li>
-                            <img src="/img/require2.png" alt=""/>
-                            <div class="major-require-list-name">个人简历</div>
-                            <div class="major-require-list-arrow"></div>
-                        </li>
-                        <li>
-                            <img src="/img/require5.png" alt=""/>
-                            <div class="major-require-list-name">语言成绩</div>
-                            <div class="major-require-list-arrow"></div>
-                        </li>
-                        <li>
-                            <img src="/img/require6.png" alt=""/>
-                            <div class="major-require-list-name">标准化考试</div>
-                            <div class="major-require-list-arrow"></div>
-                        </li>
-                        <li>
-                            <img src="/img/require7.png" alt=""/>
-                            <div class="major-require-list-name">附加要求</div>
-                        </li>
-                    </ul>
-                    <div class="major-require-content" id="require-content2">
-                        <div>
-                            <div class="major-require-content-name">研究报告</div>
-                            <p>
-                                随着社会经济的发展需要，著作权法所保护作品的种类和范围往往会不断扩张。由于保护计算机软件的需要，一些国家开始以著作权
-                                以保护，根据世界贸易组织的TRIPs协议，成员国均承诺以著作权方式对软件予以保护，著作权方式保护软件有其不足之处。 随着社会经济的发展需要，著作权法所保护作品的种类和范围往往会不断扩张。由于保护计算机软件的需要，一些国家开始以著作权
-                                以保护，根据世界贸易组织的TRIPs协议，成员国均承诺以著作权方式对软件予以保护，著作权方式保护软件有其不足之处。
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <button class="major-join button-solid">加入申请</button>
-                <div class="major-from">
-                    <div class="major-from-title">数据来源</div>
-                    <p>
-                        {{#each reference}}
-                        <a href="#">{{this}}<br/>
-                        {{/each}} 
-                    </p>
-                </div>
-            </div> --}}
         </div>
     </div>
-  {{/with}}  
+    {{/each}}  
 </div>

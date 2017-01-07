@@ -44,25 +44,22 @@ app.use(function(req, res, next) {
     next();
 });
 
+
 app.use(function(req, res, next) {
     req.proxy.request({
         method: "GET",
         url: "http://www.utuotu.com/v1/schoolinfo/getschoolbase.action",
         qs: req.query
     }, function(err, response, body) {
-        var data = body;
-        try {
-            var data = JSON.parse(body);
-        }catch(e) {
-            console.log(e)
-        }
-
+      var data = JSON.parse(body);
       if (!res.locals.partials) {
         res.locals.partials = {}
       }
       res.locals.partials.schooldetail = data.data;
+      res.locals.partials.schoolid = req.query.sid;
+      next();
     });
-    next();
+    
 });
 app.use(function(req, res, next) {
     req.proxy.request({
@@ -70,7 +67,7 @@ app.use(function(req, res, next) {
         url: "http://www.utuotu.com/v1/user/cache.action",
         qs: req.query
     },function(err, response, body) {
-      var data = JSON.parse(body);
+      var  data = JSON.parse(body);
       if (!res.locals.partials) {
         res.locals.partials = {}
       }
@@ -82,11 +79,12 @@ app.use(function(req, res, next) {
 app.use(function(req, res, next) {
   var sys_state = false;
   var  user_state = false;
+
   req.proxy.request({
       method: "GET",
       url: "http://www.utuotu.com/v1/User/getmsgstatus.action"
   }, function(err, response, body) {
-    var data = JSON.parse(body);
+      var data = JSON.parse(body);
       if (!res.locals.partials) {
         res.locals.partials = {}
       }
@@ -96,10 +94,7 @@ app.use(function(req, res, next) {
 })
 
 
-app.use('/', index);
-
-
-
+app.use('/', index); 
 //前端可以通过node向服务器发送请求，格式规定：/v1/login/opencode.action
 //前端也可以直接向PHP发送请求（本地服务器会出现跨域），格式规定：http://utuotu.com/v1/login/opencode.action
 app.use(function(req, res, next) {
@@ -114,9 +109,9 @@ app.use(function(req, res, next) {
             for (var key in response.headers) {
                 res.set(key, response.headers[key])
             }
+
             try {
                 body = JSON.parse(body);
-
             } catch(e) {
                 console.log(e)
             }
@@ -125,12 +120,14 @@ app.use(function(req, res, next) {
     });
 });
 
+
+
 // error handler
 app.use(function(err, req, res, next) {
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
     res.status(err.status || 500)
-    res.render('error.hbs');
+    res.render('error');
 });
 
 app.listen(app.get('port'), function () {

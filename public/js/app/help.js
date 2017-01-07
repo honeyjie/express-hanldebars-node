@@ -44,15 +44,17 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                 });
             },3000);
             //打开帮助
-            $(document).on("click", function(e) {
-                console.log("1" + e.target);
-            })
+            //$(document).on("click", function(e) {
+            //    console.log("1" + e.target);
+            //})
             $('.help-icon-pic').on('click',function(e){
+                e.stopPropagation();
                 openHelp();
+                scroll[0].refresh();
             });
             //关闭帮助
             $('.help-close').on('click',function(){
-                closeHelp();
+                base.closeAll.closeHelp();
             });
             //打开文章
             $('.help-list').on('click',function(){
@@ -96,7 +98,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
             $('.help').removeClass('animated slideInRight');
         });
     }
-    function closeHelp(){
+    base.closeAll.closeHelp = function(){
         $('.help-icon').removeClass('hidden');
         $('.help').addClass('animated slideOutRight').one(base.animationend,function(){
             $('.help').removeClass('animated slideOutRight').addClass('hidden');
@@ -104,18 +106,18 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
     }
 
     function openArticle(){
-        $('.help-list').addClass('hidden');
         $('.help-back').removeClass('hidden');
-        $('.help-article').removeClass('hidden').addClass('animated fadeIn').one(base.animationend,function(){
-            $('.help-article').removeClass('animated fadeIn');
+        $('.help-article').removeClass('hidden').addClass('animated slideInLeft').one(base.animationend,function(){
+            $('.help-article').removeClass('animated slideInLeft');
+            $('.help-list').addClass('hidden');
             scroll[1].refresh();
         });
     }
     function closeArticle(){
         $('.help-list').removeClass('hidden');
         $('.help-back').addClass('hidden');
-        $('.help-article').addClass('animated fadeOut').one(base.animationend,function(){
-            $('.help-article').removeClass('animated fadeOut').addClass('hidden');
+        $('.help-article').addClass('animated slideOutLeft').one(base.animationend,function(){
+            $('.help-article').removeClass('animated slideOutLeft').addClass('hidden');
         });
     }
 
