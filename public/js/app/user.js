@@ -266,10 +266,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
             $('.news-delete-content p').html('是否删除此消息');
             var parent = $(this).parent().parent()
             var msgid = parent.attr('data-msg_id');
-            console.log(msgid);
-            console.log(typeof msgid)
             openNewsDelete(msgid, parent);
-            console.log(typeof msgid)
             
         });
         //删除系统消息
@@ -479,27 +476,27 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         $('.news-delete').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
             $('.news-delete').removeClass('animated fadeInDown');
         });
-        // $('.news-delete-ensure').on('click', function(id) {
-        //     //删除个人消息
-        //     $.ajax({
-        //        url:'/v1/User/delmsg.action',
-        //        data:{
-        //             msgid: id
-        //        },
-        //        type:'get',
-        //        cache:false,
-        //        dataType:'json',
-        //        success:function(data) {
-        //             console.log(data);
-        //             // el.remove();
-        //             //不显示该条数据
+        $('.news-delete-ensure').on('click', function(id) {
+            //删除个人消息
+            $.ajax({
+               url:'/v1/User/delmsg.action',
+               data:{
+                    msgid: id
+               },
+               type:'get',
+               cache:false,
+               dataType:'json',
+               success:function(data) {
+                    console.log(data);
+                    el.remove();
+                    //不显示该条数据
 
-        //        },
-        //        error : function() {
-        //            base.notice('网络错误');
-        //        }
-        //     });
-        // })
+               },
+               error : function() {
+                   base.notice('网络错误');
+               }
+            });
+        })
     }
 
 //打开全部删除
@@ -508,23 +505,23 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
             $('.news-delete').removeClass('animated fadeInDown');
         });
         //删除消息
-        // $.ajax({
-        //    url:'/v1/User/delallmsg.action',
-        //    data:{
-        //     system: system
-        //    },
-        //    type:'get',
-        //    cache:false,
-        //    dataType:'json',
-        //    success:function(data) {
-        //     console.log(data);
-        //     //清空该消息列表
-        //     // el.remove();
-        //    },
-        //    error : function() {
-        //        base.notice('网络错误');
-        //    }
-        // });
+        $.ajax({
+           url:'/v1/User/delallmsg.action',
+           data:{
+            system: system
+           },
+           type:'get',
+           cache:false,
+           dataType:'json',
+           success:function(data) {
+            console.log(data);
+            //清空该消息列表
+            el.remove();
+           },
+           error : function() {
+               base.notice('网络错误');
+           }
+        });
     }
 
 //关闭删除

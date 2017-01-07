@@ -43,9 +43,7 @@ router.get('/user-news', function(req, res, next) {
   }, function(err, response, body) {
     var getmsg = JSON.parse(body);
           var urlPath = url.parse(req.url).path;
-          console.log(urlPath)
       var query = url.parse(req.url).query;
-      console.log(query);
       if (!query) {
         urlPath = urlPath + "?page="
       } else {
@@ -54,8 +52,6 @@ router.get('/user-news', function(req, res, next) {
           urlPath = urlPath + "?page="
         }
       }
-
-    console.log(getmsg.data)
       res.render('user-news', {
         data: getmsg.data,
         system: req.query.system,
