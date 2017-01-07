@@ -126,7 +126,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
             base.closeAll.closeSelectView();
         });
         //模块收缩初始化
-        //boxSildeUp();
+        boxSildeUp();
         //模块展开/收缩
         $('.select-title-control').on('click',function(){
             var content = $(this).parents('.select-box').find('.select-content');
@@ -155,6 +155,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
             else{
                 select.nation.push($(this).data('value'));
                 $(this).addClass('active');
+                $('.select-country .select-preference-title').removeClass('red');
             }
             preferenceFinished();
         });
@@ -167,6 +168,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
             else{
                 select.locatioin.push($(this).data('value'));
                 $(this).addClass('active');
+                $('.select-position .select-preference-title').removeClass('red');
             }
             preferenceFinished();
         });
@@ -181,6 +183,9 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
         //毕业学校 失去焦点
         $('.select-school').on('blur',function(){
             select.pre_school = $(this).val();
+            if(select.pre_school){
+                $('.select-info-school .form-item-name').removeClass('red');
+            }
             infoFinished();
         });
         //毕业专业1 输入
@@ -204,6 +209,9 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
                 $('.select-exam').removeClass('hidden');
                 $('.select-exam-input').removeClass('hidden');
             }
+            if(select.pre_major){
+                $('.select-info-major .form-item-name').removeClass('red');
+            }
             infoFinished();
         });
         //毕业专业2 输入
@@ -224,6 +232,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
         //毕业时间
         $('.select-school-type .form-radio').on('click',function(){
             select.school_type = $(this).data('value');
+            $('.select-school-type .form-item-name').removeClass('red');
             infoFinished();
         });
         //申请专业
@@ -235,11 +244,13 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
                 $('.select-info-major2').addClass('hidden');
             }
             select.major_only = $(this).data('value');
+            $('.select-major-only .form-item-name').removeClass('red');
             infoFinished();
         });
         //申请学位
         $('.select-degree .form-radio').on('click',function(){
             select.degree = $(this).data('value');
+            $('.select-degree .form-item-name').removeClass('red');
             infoFinished();
         });
         //GPA 强制两位小数
@@ -268,6 +279,9 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
                     base.testFail(dom,'您输入的分数有误');
                 }
             });
+            if(select.gpa){
+                $('.select-score-gpa .form-item-name').removeClass('red');
+            }
             scoreFinished();
         });
         //语言考试 单选
@@ -390,6 +404,9 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
         //语言考试input隐藏错误提示
         $('.select-language-input input').on('blur',function(){
             $(this).parent('.form-item').find('.form-item-notice').css('display','none');
+            if(!$.isEmptyObject(select.language)&&language.overall&&language.R&&language.L&&language.S&&language.W){
+                $('.select-language .form-item-name').removeClass('red');
+            }
             scoreFinished();
         });
         //标准化考试 单选
@@ -553,6 +570,9 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
         //标准化考试input隐藏错误提示
         $('.select-exam-input input').on('blur',function(){
             $(this).parent('.form-item').find('.form-item-notice').css('display','none');
+            if(!$.isEmptyObject(select.exam_score)&&exam.overall&&exam.V&&exam.Q&&exam.AW){
+                $('.select-exam .form-item-name').removeClass('red');
+            }
             scoreFinished();
         });
 
@@ -574,6 +594,9 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
                     base.testFail(dom,'LAST有效分值为120~180');
                 }
             });
+            if(select.last){
+                $('.select-form-last .form-item-name').removeClass('red');
+            }
             scoreFinished();
         });
         //海外学习
@@ -633,7 +656,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
             var n = $(this).parents('.select-achievement').find('.form-check').index($(this))+1;
             var arr = [];
             $.each(select.science_paper,function(index,value){
-                arr.push(value.name)
+                arr.push(value.name);
             });
             if(arr.indexOf(n)==-1){
                 $(this).find('.form-check-input').removeClass('hidden');
@@ -647,6 +670,10 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
                 $.each(select.science_paper,function(){
                     select.science_paper.splice(arr.indexOf(n),1);
                 });
+                if(select.science_paper.length == 0){
+                    $('.select-box').eq(3).find('.select-title').removeClass('error');
+                    $('.select-achievement .form-item-name').eq(0).removeClass('red');
+                }
             }
         });
         //学术成就 input
@@ -654,14 +681,38 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
             e.stopPropagation();
         });
         $('.select-achievement .form-check-input input').on('blur',function(){
-            var val = $(this).data('value');
-            var num = parseInt($(this).val());
-            var n = $(this).parents('.form-item').find('.form-check').index($(this).parents('.form-check'));
-            $.each(select.science_paper,function(index,value){
-                if(value.name == n+1&&value.value == val){
-                    value.num = num;
+            $(this).testInput({
+                rule : base.isScore,
+                success : function(dom){
+                    var val = dom.data('value');
+                    var num = parseInt(dom.val());
+                    var n = dom.parents('.form-item').find('.form-check').index(dom.parents('.form-check'));
+                    $.each(select.science_paper,function(index,value){
+                        if(value.name == n+1&&value.value == val){
+                            value.num = num;
+                        }
+                    });
+                },
+                fail : function(dom){
+                    var val = dom.data('value');
+                    var num = parseInt(dom.val());
+                    var n = dom.parents('.form-item').find('.form-check').index(dom.parents('.form-check'));
+                    $.each(select.science_paper,function(index,value){
+                        if(value.name == n+1&&value.value == val){
+                            value.num = 0;
+                        }
+                    });
+                    base.testFail(dom,'请输入整数数字');
                 }
             });
+            var arr = [];
+            $.each(select.science_paper,function(index,value){
+                arr.push(value.num);
+            });
+            if(arr.indexOf(0)==-1){
+                $('.select-box').eq(3).find('.select-title').removeClass('error');
+                $('.select-achievement .form-item-name').eq(0).removeClass('red');
+            }
         });
 
         //工作/实习经历 选择
@@ -806,16 +857,26 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
     //申请偏好填写完毕
     function preferenceFinished(){
         if(select.nation.length>0&&select.locatioin.length>0){
-            if($('.select-box').eq(1).find('.select-content').css('height')=='0px'){
-                $('.select-box').eq(1).find('.select-title-control').click();
+            if($('.select-box').eq(0).find('.select-title').hasClass('error')){
+                $('.select-box').eq(0).find('.select-title').removeClass('error');
+            }
+            else{
+                if($('.select-box').eq(1).find('.select-content').css('height')=='0px'){
+                    $('.select-box').eq(1).find('.select-title-control').click();
+                }
             }
         }
     }
     //基本情况填写完毕
     function infoFinished(){
         if(select.pre_school&&select.pre_major&&select.school_type&&select.major_only&&select.degree){
-            if($('.select-box').eq(2).find('.select-content').css('height')=='0px'){
-                $('.select-box').eq(2).find('.select-title-control').click();
+            if($('.select-box').eq(1).find('.select-title').hasClass('error')){
+                $('.select-box').eq(1).find('.select-title').removeClass('error');
+            }
+            else{
+                if($('.select-box').eq(2).find('.select-content').css('height')=='0px'){
+                    $('.select-box').eq(2).find('.select-title-control').click();
+                }
             }
         }
     }
@@ -824,15 +885,25 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
         if(select.gpa&&!$.isEmptyObject(select.language)&&language.overall&&language.R&&language.L&&language.S&&language.W){
             if(select.pre_major=='法学类'){
                 if(select.last){
-                    if($('.select-box').eq(3).find('.select-content').css('height')=='0px'){
-                        $('.select-box').eq(3).find('.select-title-control').click();
+                    if($('.select-box').eq(2).find('.select-title').hasClass('error')){
+                        $('.select-box').eq(2).find('.select-title').removeClass('error');
+                    }
+                    else{
+                        if($('.select-box').eq(3).find('.select-content').css('height')=='0px'){
+                            $('.select-box').eq(3).find('.select-title-control').click();
+                        }
                     }
                 }
             }
             else{
-                if(!$.isEmptyObject(select.exam_score)>0&&exam.overall&&exam.V&&exam.Q&&exam.AW){
-                    if($('.select-box').eq(3).find('.select-content').css('height')=='0px'){
-                        $('.select-box').eq(3).find('.select-title-control').click();
+                if(!$.isEmptyObject(select.exam_score)&&exam.overall&&exam.V&&exam.Q&&exam.AW){
+                    if($('.select-box').eq(2).find('.select-title').hasClass('error')){
+                        $('.select-box').eq(2).find('.select-title').removeClass('error');
+                    }
+                    else{
+                        if($('.select-box').eq(3).find('.select-content').css('height')=='0px'){
+                            $('.select-box').eq(3).find('.select-title-control').click();
+                        }
                     }
                 }
             }
@@ -883,30 +954,122 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
     }
 
     function submitSelect(){
-        if(!select.pre_school||!select.pre_major){
-            var dom1 = [$('.select-school'),$('.select-major')];
-            for(var i=0;i<dom1.length;i++){
-                if(!dom1[i].val()){
-                    dom1[i][0].focus();
-                    break;
+        if(select.nation.length<=0||select.locatioin<=0){
+            $('.select-box').eq(0).find('.select-title').addClass('error');
+            if(parseInt($('.select-box').eq(0).find('.select-content').css('height'))==0){
+                $('.select-box').eq(0).find('.select-title-control').click();
+            }
+            if(select.nation.length<=0){
+                $('.select-country .select-preference-title').addClass('red');
+            }
+            if(select.locatioin.length<=0){
+                $('.select-position .select-preference-title').addClass('red');
+            }
+        }
+        else{
+            if(parseInt($('.select-box').eq(0).find('.select-content').css('height'))>0){
+                $('.select-box').eq(0).find('.select-title-control').click();
+            }
+        }
+        if(!select.pre_school||!select.pre_major||!select.school_type||!select.major_only||!select.degree){
+            $('.select-box').eq(1).find('.select-title').addClass('error');
+            if(parseInt($('.select-box').eq(1).find('.select-content').css('height'))==0){
+                $('.select-box').eq(1).find('.select-title-control').click();
+            }
+            if(!select.pre_school){
+                $('.select-info-school .form-item-name').addClass('red');
+            }
+            if(!select.pre_major){
+                $('.select-info-major .form-item-name').addClass('red');
+            }
+            if(!select.school_type){
+                $('.select-school-type .form-item-name').addClass('red');
+            }
+            if(!select.major_only){
+                $('.select-major-only .form-item-name').addClass('red');
+            }
+            if(!select.degree){
+                $('.select-degree .form-item-name').addClass('red');
+            }
+        }
+        else{
+            if(parseInt($('.select-box').eq(1).find('.select-content').css('height'))>0){
+                $('.select-box').eq(1).find('.select-title-control').click();
+            }
+        }
+        if(select.pre_major=='法学类'){
+            if(!select.gpa||$.isEmptyObject(select.language)||!language.overall||!language.R||!language.L||!language.S||!language.W||!select.last){
+                $('.select-box').eq(2).find('.select-title').addClass('error');
+                if(parseInt($('.select-box').eq(2).find('.select-content').css('height'))==0){
+                    $('.select-box').eq(2).find('.select-title-control').click();
+                }
+                if(!select.gpa){
+                    $('.select-score-gpa .form-item-name').addClass('red');
+                }
+                if($.isEmptyObject(select.language)||!language.overall||!language.R||!language.L||!language.S||!language.W){
+                    $('.select-language .form-item-name').addClass('red');
+                }
+                if(!select.last){
+                    $('.select-form-last .form-item-name').addClass('red');
                 }
             }
-            $('.select-title').eq(1).addClass('error');
-            return;
-        }
-        $('.select-title').eq(1).removeClass('error');
-        if(!select.gpa||!language.overall||!language.R||!language.L||!language.S||!language.W||!language.overall||!exam.overall||!exam.V||!exam.Q||!exam.AW){
-            var dom2 = [$('.select-gpa'),$('.select-language-overall'),$('.select-language-r'),$('.select-language-l'),$('.select-language-s'),$('.select-language-w'),$('.select-exam-overall'),$('.select-exam-v'),$('.select-exam-q'),$('.select-exam-aw')];
-            for(var n=0;n<dom2.length;i++){
-                if(!dom2[n].val()){
-                    dom2[n][0].focus();
-                    break;
+            else{
+                if(parseInt($('.select-box').eq(2).find('.select-content').css('height'))>0){
+                    $('.select-box').eq(2).find('.select-title-control').click();
                 }
             }
-            $('.select-title').eq(2).addClass('error');
+        }
+        else{
+            if(!select.gpa||$.isEmptyObject(select.language)||!language.overall||!language.R||!language.L||!language.S||!language.W||$.isEmptyObject(select.exam_score)||!exam.overall||!exam.V||!exam.Q||!exam.AW){
+                $('.select-box').eq(2).find('.select-title').addClass('error');
+                if(parseInt($('.select-box').eq(2).find('.select-content').css('height'))==0){
+                    $('.select-box').eq(2).find('.select-title-control').click();
+                }
+                if(!select.gpa){
+                    $('.select-score-gpa .form-item-name').addClass('red');
+                }
+                if($.isEmptyObject(select.language)||!language.overall||!language.R||!language.L||!language.S||!language.W){
+                    $('.select-language .form-item-name').addClass('red');
+                }
+                if($.isEmptyObject(select.exam_score)||!exam.overall||!exam.V||!exam.Q||!exam.AW){
+                    $('.select-exam .form-item-name').addClass('red');
+                }
+            }
+            else{
+                if(parseInt($('.select-box').eq(2).find('.select-content').css('height'))>0){
+                    $('.select-box').eq(2).find('.select-title-control').click();
+                }
+            }
+        }
+        if(select.science_paper.length>0){
+            var arr = [];
+            $.each(select.science_paper,function(index,value){
+                arr.push(value.num);
+            });
+            if(arr.indexOf(0)==-1){
+                if(parseInt($('.select-box').eq(3).find('.select-content').css('height'))>0){
+                    $('.select-box').eq(3).find('.select-title-control').click();
+                }
+            }
+            else{
+                $('.select-box').eq(3).find('.select-title').addClass('error');
+                $('.select-achievement .form-item-name').eq(0).addClass('red');
+                if(parseInt($('.select-box').eq(3).find('.select-content').css('height'))==0){
+                    $('.select-box').eq(3).find('.select-title-control').click();
+                }
+            }
+        }
+
+
+        if($('.select-title').hasClass('error')){
+            $('.notice').addClass('red');
+            base.notice('页面中有必填项未填，请检查',function(){
+                $('.notice').removeClass('red');
+            });
             return;
         }
-        $('.select-title').eq(2).removeClass('error');
+
+
         if(select.language.toefl){
             select.language.toefl = language;
         }
@@ -919,42 +1082,6 @@ define(['jquery','fullpage','iscroll','base','common','d3'],function(jquery,full
         if(select.exam_score.gmat){
             select.exam_score.gmat = exam;
         }
-        // console.log('token=&nation=&locatioin=&pre_school=&pre_major=
-        //     &pre_major2=&school_type&major_only&)
-        // $.ajax({
-        //     url:'/v1/completeform/saveform.action',
-        //     data:{
-        //         token : '',
-        //         nation : select.nation,
-        //         locatioin : select.locatioin,
-        //         pre_school : select.pre_school,
-        //         pre_major : select.pre_major,
-        //         pre_major2 : select.pre_major2,
-        //         school_type : select.school_type,
-        //         major_only : select.major_only,
-        //         degree : select.degree,
-        //         gpa : select.gpa,
-        //         language : select.language,
-        //         exam_score : select.exam_score,
-        //         exchange : select.exchange,
-        //         science_experience : select.science_experience,
-        //         recommend : select.recommend,
-        //         science_paper : select.science_paper,
-        //         experience : select.experience,
-        //         prize : select.prize,
-        //         enter_date : new Date().getTime()
-        //     },
-        //     type:'post',
-        //     cache:false,
-        //     dataType:'json',
-        //     success:function(data){
-        //         console.log(data);
-        //     },
-        //     error : function() {
-        //         base.notice('网络错误');
-        //     }
-        // });
-    }
 
     //生成图表
     function chart(){

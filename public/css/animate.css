@@ -1300,8 +1300,8 @@ Copyright (c) 2014 Daniel Eden
 @keyframes fadeInUp {
   0% {
     opacity: 0;
-    -webkit-transform: translate3d(0, 20%, 0) scale3d(.9, .9, .9);
-            transform: translate3d(0, 20%, 0) scale3d(.9, .9, .9);
+    -webkit-transform: translate3d(0, 100%, 0);
+            transform: translate3d(0, 100%, 0);
   }
 
   100% {
@@ -3801,8 +3801,6 @@ Copyright (c) 2014 Daniel Eden
 .rotateDown {
     -webkit-animation-name: rotateDown;
     animation-name: rotateDown;
-    -webkit-animation-duration: 0.2s;
-    animation-duration: 0.2s;
 }
 
 @-webkit-keyframes rotateUp {
@@ -3834,4 +3832,33 @@ Copyright (c) 2014 Daniel Eden
     animation-name: rotateUp;
     -webkit-animation-duration: 0.2s;
     animation-duration: 0.2s;
+}
+
+@-webkit-keyframes jump {
+    0%,50%,100%{
+        -webkit-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+    }
+    25%,75% {
+        -webkit-transform: translate3d(0,-30px,0);
+        transform: translate3d(0,-30px,0);
+    }
+}
+
+@keyframes jump {
+    0%,30%,60%,100%{
+        -webkit-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+    }
+    15%,45% {
+        -webkit-transform: translate3d(0,-20px,0);
+        transform: translate3d(0,-20px,0);
+    }
+}
+
+.jump {
+    -webkit-animation-name: jump;
+    animation-name: jump;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
 }
