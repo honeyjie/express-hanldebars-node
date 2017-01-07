@@ -227,29 +227,46 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         //查看消息
         $('.news-list li a').on('click',function(e){
             e.stopPropagation();
-            //当获取当消息类型小于2000时，打开弹窗
-            var openNum = $(this).parent().attr('data-type_id');
-            if (openNum < 20000) {
-                openNewsArticle();
-            }
-            var parent = $(this).parent('li');
-            var msg_id = parent.attr('data-msg_id');
+            //标记该条消息已读
             $.ajax({
-                url:'/v1/User/msganswer.action',
+                url:'/v1/User/isread.action',
                 data:{
                     msg_id: msg_id
                 },
                 type:'get',
                 cache:false,
-                dataType:'html',
+                dataType:'json',
                 success:function(data) {
-                    $('#msganswer').html(data);
+                    console.log(data)
+                    if(data.data.result == 1) {
+                        $(this).parent().removeClass('noread');
+                    }
+                    return;
+                    //去掉noread标记
                 },
                 error : function() {
                     base.notice('网络错误');
                 }
             });
+            //当获取当消息类型小于2000时，打开弹窗
+            var openNum = $(this).parent().attr('data-type_id');
+
+            if (openNum < 20000) {
+                console.log("打开")
+                var parent = $(this).parent('li');
+                var msg_id = parent.attr('data-msg_id');
+                openNewsArticle(msg_id);
+            }
         });
+        //标记全部已读
+        $('.news-system-read').on('click', function(e) {
+            //1表示系统消息
+            isAllread(1)
+        })
+        $('.news-user-read').on('click', function(e) {
+            //无参数表示个人消息
+            isAllread()
+        })
         //关闭消息
         $('.news-article-close').on('click',function(e){
             e.stopPropagation();
@@ -264,9 +281,11 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         $('.news-list-delete').on('click',function(e){
             e.stopPropagation();
             $('.news-delete-content p').html('是否删除此消息');
-            var parent = $(this).parent().parent()
-            var msgid = parent.attr('data-msg_id');
-            openNewsDelete(msgid, parent);
+            var $parent = $(this).parent().parent();
+            var msgid = $parent.attr('data-msg_id');
+            console.log(msgid)
+            console.log(typeof msgid)
+            openNewsDelete(msgid, $parent);
             
         });
         //删除系统消息
@@ -298,7 +317,25 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         base.closeAll.closeNewsDelete = closeNewsDelete;
 
     });
-
+    
+    //标记全部已读
+    function isAllread(sts) {
+            $.ajax({
+            url:'/v1/User/allread.action',
+            data:{
+                system: sts
+            },
+            type:'get',
+            cache:false,
+            dataType:'json',
+            success:function(data) {
+                console.log(data);
+            },
+            error : function() {
+                base.notice('网络错误');
+            }
+        });
+    }
     //邮件是否验证
     function isTestEmail(){
         $.ajax({
@@ -386,7 +423,6 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
            cache:false,
            dataType:'json',
            success:function(data) {
-            console.log(data);
                if(data.code==0){
                    base.userInfo.credit = data.data.credit;  //base.userInfo.credit 积分
                    creditLine();
@@ -460,9 +496,24 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         });
     }
 //打开消息
-    function openNewsArticle(){
+    function openNewsArticle(id){
         $('.news-article').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
             $('.news-article').removeClass('animated fadeInDown');
+        });
+        $.ajax({
+            url:'/v1/User/msganswer.action',
+            data:{
+                msg_id: id
+            },
+            type:'get',
+            cache:false,
+            dataType:'html',
+            success:function(data) {
+                $('#msganswer').html(data);
+            },
+            error : function() {
+                base.notice('网络错误');
+            }
         });
     }
 //关闭消息
@@ -476,7 +527,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         $('.news-delete').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
             $('.news-delete').removeClass('animated fadeInDown');
         });
-        $('.news-delete-ensure').on('click', function(id) {
+        $('.news-delete-ensure').on('click', function(e) {
             //删除个人消息
             $.ajax({
                url:'/v1/User/delmsg.action',
@@ -487,10 +538,11 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                cache:false,
                dataType:'json',
                success:function(data) {
-                    console.log(data);
-                    el.remove();
-                    //不显示该条数据
-
+                    if (data.data.delete === 0 ) {
+                        
+                        el.remove();
+                        //不显示该条数据
+                    }
                },
                error : function() {
                    base.notice('网络错误');
@@ -504,24 +556,30 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         $('.news-delete').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
             $('.news-delete').removeClass('animated fadeInDown');
         });
-        //删除消息
-        $.ajax({
-           url:'/v1/User/delallmsg.action',
-           data:{
-            system: system
-           },
-           type:'get',
-           cache:false,
-           dataType:'json',
-           success:function(data) {
-            console.log(data);
-            //清空该消息列表
-            el.remove();
-           },
-           error : function() {
-               base.notice('网络错误');
-           }
-        });
+        //当点击了确认删除后再发送删除请求
+        $('.news-delete-ensure').on('click', function(system, el) {
+            //删除消息
+            $.ajax({
+               url:'/v1/User/delallmsg.action',
+               data:{
+                system: system
+               },
+               type:'get',
+               cache:false,
+               dataType:'json',
+               success:function(data) {
+                    if (data.data.delete === 0) {
+                        //清空该消息列表
+                        el.remove();
+                        return;
+                    }
+                },
+               error : function() {
+                   base.notice('网络错误');
+               }
+            });
+        })
+
     }
 
 //关闭删除

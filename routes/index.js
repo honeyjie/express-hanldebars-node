@@ -36,14 +36,26 @@ router.get('/', function (req, res, next) {
 
 //用户
 router.get('/user-news', function(req, res, next) {
+
+  var newsstate;
+  req.proxy.request({
+      method: "GET",
+      url: "http://www.utuotu.com/v1/User/getmsgstatus.action"
+  }, function(err, response, body) {
+      var data = JSON.parse(body);
+      newsstate = data.data;
+      console.log(newsstate)
+  }); 
+
   req.proxy.request({
       method: "GET",
       qs: {system: req.query.system},
       url: "http://www.utuotu.com/v1/User/getmsg.action"
   }, function(err, response, body) {
-    var getmsg = JSON.parse(body);
-          var urlPath = url.parse(req.url).path;
+      var getmsg = JSON.parse(body);
+      var urlPath = url.parse(req.url).path;
       var query = url.parse(req.url).query;
+
       if (!query) {
         urlPath = urlPath + "?page="
       } else {
@@ -52,11 +64,17 @@ router.get('/user-news', function(req, res, next) {
           urlPath = urlPath + "?page="
         }
       }
-      res.render('user-news', {
-        data: getmsg.data,
-        system: req.query.system,
-        urlPath :urlPath
-      })
+
+      setTimeout(function(res) {
+        res.render('user-news', {
+                data: getmsg.data,
+                system: req.query.system,
+                urlPath :urlPath,
+                newsstate: newsstate,
+                usernews:true
+              })
+      }, 500, res);
+
   })
 });
 
@@ -71,6 +89,7 @@ router.get('/user-point', function(req, res, next) {
         qs: req.query
     }, function(err, response, body) {
         currnetcredit = JSON.parse(body);
+        console.log(currnetcredit.data)
         return currnetcredit;
     })
     req.proxy.request({
@@ -78,7 +97,8 @@ router.get('/user-point', function(req, res, next) {
         url: "http://www.utuotu.com/v1/User/creditlog.action",
         qs: req.query
     }, function(err, response, body) {
-        creditlog = JSON.parse(body);
+        creditlog = JSON.parse(body).data;
+        console.log("log", creditlog.data)
         return creditlog;
     })
     req.proxy.request({
@@ -87,6 +107,7 @@ router.get('/user-point', function(req, res, next) {
         qs: req.query
     }, function(err, response, body) {
         mission = JSON.parse(body);
+        console.log(mission)
         return mission;
     })
     req.proxy.request({
@@ -95,12 +116,19 @@ router.get('/user-point', function(req, res, next) {
         qs: req.query
     }, function(err, response, body) {
           invitenum = JSON.parse(body);
+          var urlPath = url.parse(req.url).path;
+          var query = url.parse(req.url).query;
+
+          if (!query) {
+            urlPath = urlPath + "?page="
+          }
           setTimeout(function(res) {//异步执行，传递参数
             res.render('user-point', {
               currnetcredit: currnetcredit,
               creditlog: creditlog,
               mission: mission,
-              invitenum: invitenum
+              invitenum: invitenum,
+              userpoint: true
         })
       },1000, res)
     })
@@ -122,7 +150,9 @@ router.get('/v1/User/msganswer.action', function(req, res, next) {
 });
 
 router.get('/user-set', function(req, res, next) {
-  res.render('user-set')
+  res.render('user-set', {
+    userset: true
+  })
 });
 
 //注册

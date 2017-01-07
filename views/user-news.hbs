@@ -2,7 +2,36 @@
     {{> usercenter/user-nav}}
     <div class="user-main news">
         <div class="news-tab">
-            {{> newsState}}
+            <ul class="tab-title clear">
+                <a href="/user-news?system=1">
+                    {{#if system}}
+                    <li class="active">系统消息
+                    {{else}}
+                    <li>系统消息
+                    {{/if}}
+        
+                    {{#if newsstate.system}}
+                    <span class="news-user-notice"></span>
+                    {{else}}
+                    <span></span>
+                    {{/if}}
+                    </li>
+                </a>
+                <a href="/user-news">
+                    {{#unless system}}
+                    <li class="active">个人消息
+                    {{else}}
+                    <li>个人消息
+                    {{/unless}}
+                    
+                    {{#if newsstate.man}}
+                    <span class="news-user-notice"></span>
+                    {{else}}
+                    <span></span>
+                    {{/if}}
+                    </li>
+                </a>
+            </ul>
             {{#if system}}
             <div class="tab-box">
                 <ul class="news-list news-system-list">
@@ -43,13 +72,27 @@
                 </div>
                 <div class="list-page">
                     <ul class="clear">
+                        {{#if data.page.pre}}
+                        <li class="active"><a href="{{{getString @root.urlPath @root.data.page.pre}}}"><span class="list-page-pre">{{pre}}</span></a></li>
+                        {{else}}
                         <li><a href="#"><span class="list-page-pre"></span></a></li>
-                        <li class="active"><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
+                        {{/if}}
+
+                        {{#each data.page.list}}
+                            {{#ifEq this @root.data.page.index}}
+                                <li class="active"><a href="{{{getString @root.urlPath this}}}">{{this}}</a></li>
+                            {{else}}
+                                <li><a href="{{{getString @root.urlPath this}}}">{{this}}</a></li>
+                            {{/ifEq}}
+                        {{/each}}
+
+                        {{#if data.page.next}}
+                        <li class="active"><a href="{{{getString @root.urlPath @root.data.page.next}}}"><span class="list-page-next"></span></a></li>
+                        {{else}}
                         <li><a href="#"><span class="list-page-next"></span></a></li>
+                        {{/if}} 
                     </ul>
+
                 </div>
                 {{/unless}}
                 <div class="news-list-none hidden">
