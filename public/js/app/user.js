@@ -283,8 +283,6 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
             $('.news-delete-content p').html('是否删除此消息');
             var $parent = $(this).parent().parent();
             var msgid = $parent.attr('data-msg_id');
-            console.log(msgid)
-            console.log(typeof msgid)
             openNewsDelete(msgid, $parent);
             
         });
@@ -329,7 +327,6 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
             cache:false,
             dataType:'json',
             success:function(data) {
-                console.log(data);
             },
             error : function() {
                 base.notice('网络错误');
@@ -538,6 +535,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                cache:false,
                dataType:'json',
                success:function(data) {
+                console.log('/v1/User/delmsg.action',data);
                     if (data.data.delete === 0 ) {
                         
                         el.remove();
@@ -568,9 +566,14 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                cache:false,
                dataType:'json',
                success:function(data) {
+                    console.log('/v1/User/delallmsg.action', data)
+                    closeNewsDelete();
                     if (data.data.delete === 0) {
+                        //弹窗消失
+
                         //清空该消息列表
                         el.remove();
+
                         return;
                     }
                 },
