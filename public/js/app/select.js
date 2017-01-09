@@ -286,6 +286,10 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         });
         //语言考试 单选
         $('.select-language .form-radio').on('click',function(){
+            if($('.select-language-input').hasClass('hidden')){
+                height[2] = parseInt(height[2]+$('.select-language-input').innerHeight()+'px');
+                $('.select-score').css('height',height[2]);
+            }
             $('.select-language-input').removeClass('hidden');
             if($(this).find('.form-radio-value').html()=='TOEFL'){
                 select.language = {toefl:{}};
@@ -411,6 +415,10 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         });
         //标准化考试 单选
         $('.select-exam .form-radio').on('click',function(){
+            if($('.select-exam-input').hasClass('hidden')){
+                height[2] = parseInt(height[2]+$('.select-exam-input').innerHeight()+'px');
+                $('.select-score').css('height',height[2]);
+            }
             $('.select-exam-input').removeClass('hidden');
             if($(this).find('.form-radio-value').html()=='GMAT'){
                 select.exam_score = {gmat:{}};
@@ -620,11 +628,15 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             if(arr.indexOf(n)==-1){
                 $(this).find('.form-select').removeClass('hidden');
                 select.science_experience.push({name:n,value:val});
+                height[3] = parseInt(height[3])+$(this).find('.form-select').innerHeight()+'px';
+                $('.select-other').css('height',height[3]);
             }
             else{
                 $(this).find('.form-select').addClass('hidden');
-                $(this).find('.form-select-value').html('1年以下');
+                $(this).find('.form-select-value').html($(this).find('.form-select-option li').eq(0).html());
                 select.science_experience.splice(arr.indexOf(n),1);
+                height[3] = parseInt(height[3])-$(this).find('.form-select').innerHeight()+'px';
+                $('.select-other').css('height',height[3]);
             }
         });
         //科研经历 下拉
@@ -662,7 +674,9 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 $(this).find('.form-check-input').removeClass('hidden');
                 $(this).find('.form-check-input input').each(function(){
                     select.science_paper.push({name:n,value:$(this).data('value'),num:0});
-                })
+                });
+                height[3] = parseInt(height[3])+$(this).find('.form-check-input').innerHeight()+'px';
+                $('.select-other').css('height',height[3]);
             }
             else{
                 $(this).find('.form-check-input').addClass('hidden');
@@ -674,6 +688,8 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                     $('.select-box').eq(3).find('.select-title').removeClass('error');
                     $('.select-achievement .form-item-name').eq(0).removeClass('red');
                 }
+                height[3] = parseInt(height[3])-$(this).find('.form-check-input').innerHeight()+'px';
+                $('.select-other').css('height',height[3]);
             }
         });
         //学术成就 input
@@ -705,11 +721,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                     base.testFail(dom,'请输入整数数字');
                 }
             });
-            var arr = [];
-            $.each(select.science_paper,function(index,value){
-                arr.push(value.num);
-            });
-            if(arr.indexOf(0)==-1){
+            if($(this).val()>0){
                 $('.select-box').eq(3).find('.select-title').removeClass('error');
                 $('.select-achievement .form-item-name').eq(0).removeClass('red');
             }
@@ -726,11 +738,15 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             if(arr.indexOf(n)==-1){
                 $(this).find('.form-select').removeClass('hidden');
                 select.experience.push({name:n,value:val});
+                height[3] = parseInt(height[3])+$(this).find('.form-select').innerHeight()+'px';
+                $('.select-other').css('height',height[3]);
             }
             else{
                 $(this).find('.form-select').addClass('hidden');
-                $(this).find('.form-select-value').html('1年以下');
+                $(this).find('.form-select-value').html($(this).find('.form-select-option li').eq(0).html());
                 select.experience.splice(arr.indexOf(n),1);
+                height[3] = parseInt(height[3])-$(this).find('.form-select').innerHeight()+'px';
+                $('.select-other').css('height',height[3]);
             }
         });
         //工作/实习经历 下拉
@@ -759,11 +775,15 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             if(arr.indexOf(n)==-1){
                 $(this).find('.form-select').removeClass('hidden');
                 select.prize.push({name:n,value:val});
+                height[3] = parseInt(height[3])+$(this).find('.form-select').innerHeight()+'px';
+                $('.select-other').css('height',height[3]);
             }
             else{
                 $(this).find('.form-select').addClass('hidden');
-                $(this).find('.form-select-value').html('1年以下');
+                $(this).find('.form-select-value').html($(this).find('.form-select-option li').eq(0).html());
                 select.prize.splice(arr.indexOf(n),1);
+                height[3] = parseInt(height[3])-$(this).find('.form-select').innerHeight()+'px';
+                $('.select-other').css('height',height[3]);
             }
         });
         //获奖情况 下拉
@@ -1048,19 +1068,18 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             var arr = [];
             $.each(select.science_paper,function(index,value){
                 arr.push(value.num);
-            });
-            if(arr.indexOf(0)==-1){
-                if(parseInt($('.select-box').eq(3).find('.select-content').css('height'))>0){
-                    $('.select-box').eq(3).find('.select-title-control').click();
+                if(value.num>0){
+                    if(parseInt($('.select-box').eq(3).find('.select-content').css('height'))>0){
+                        $('.select-box').eq(3).find('.select-title-control').click();
+                    }
+                    return false;
                 }
-            }
-            else{
                 $('.select-box').eq(3).find('.select-title').addClass('error');
                 $('.select-achievement .form-item-name').eq(0).addClass('red');
                 if(parseInt($('.select-box').eq(3).find('.select-content').css('height'))==0){
                     $('.select-box').eq(3).find('.select-title-control').click();
                 }
-            }
+            });
         }
 
 

@@ -4,6 +4,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         //获取积分并初始化积分条
         // base.userInfo.credit = 0;; //测试数据
         // getCredit();
+        creditLine();
 
         //判断邮箱是否验证
         //isTestEmail();
@@ -187,13 +188,21 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         $('.point-address').on('click',function(e){
             e.stopPropagation();
             $('.point-view-title').html('链接地址');
-            $('.point-view-content span').html('www.utuotu.com/draven/yq/n7v2<br/>已复制到剪切板');
+            // $('.point-result-code').addClass('hidden');
+            // $('.point-result-site').removeClass('hidden');
+            $('.point-result-code')[0].style.display = "none";
+             $('.point-result-site')[0].style.display = "block";
+            // $('.point-result-site').r
             openPointView();
         });
         $('.point-code').on('click',function(e){
             e.stopPropagation();
             $('.point-view-title').html('邀请码');
-            $('.point-view-content span').html(base.userInfo.code+'<br/>已复制到剪切板');
+            $('.point-result-code').removeClass('hidden');
+            $('.point-result-site').addClass('hidden');
+            $('.point-result-site')[0].style.display = "none";
+            $('.point-result-code')[0].style.display = "block";
+            // $('.point-result-code')
             openPointView();
         });
         //关闭弹窗
@@ -408,31 +417,34 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         });
     }
 
-    //获取用户积分
-    function getCredit(){
-        creditLine();
-        $.ajax({
-           url:'/v1/User/currnetcredit.action',
-           data:{
+    // //获取用户积分 无需单独请求获取，当不为0时，会添加到html中
+    // function getCredit(){
+    //     creditLine();
+    //     $.ajax({
+    //        url:'/v1/User/currnetcredit.action',
+    //        data:{
         
-           },
-           type:'get',
-           cache:false,
-           dataType:'json',
-           success:function(data) {
-               if(data.code==0){
-                   base.userInfo.credit = data.data.credit;  //base.userInfo.credit 积分
-                   creditLine();
-               }
-           },
-           error : function() {
-               base.notice('网络错误');
-           }
-        });
-    }
+    //        },
+    //        type:'get',
+    //        cache:false,
+    //        dataType:'json',
+    //        success:function(data) {
+    //            if(data.code==0){
+    //                base.userInfo.credit = data.data.credit;  //base.userInfo.credit 积分
+    //                creditLine();
+    //            }
+    //        },
+    //        error : function() {
+    //            base.notice('网络错误');
+    //        }
+    //     });
+    // }
 //初始化积分条
+    
     function creditLine(){
-        base.userInfo.credit = $('.point-line-number2').html();
+        //渲染时将当前积分自动填充，仅当不为0时才显示
+        base.userInfo.credit = $('.point-line-number2').html() || 0;
+        console.log(base.userInfo.credit);
         // base.userInfo.totalCredit = $('.point-line-number3').html();
         var tw = $('.point-line').innerWidth();
         var nw = tw*base.userInfo.credit/base.userInfo.totalCredit;

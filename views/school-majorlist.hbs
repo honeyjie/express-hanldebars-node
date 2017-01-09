@@ -17,7 +17,9 @@
             <ul class="tab-title clear">
                 <li class="active">{{degree}}</li>
                 {{#each otherDegree}}
-                <a href="/school-mjlist/sid={{@root.sid}}&mid={{id}}"><li>{{degree}}</li></a>
+                    {{#ifNotEq this.degree ../degree}}
+                    <a href="/school-mjlist/sid={{@root.sid}}&mid={{id}}"><li>{{degree}}</li></a>
+                    {{/ifNotEq}}
                 {{/each}}
             </ul>
             <div class="tab-box">
@@ -26,11 +28,15 @@
                         <img src="/img/major-start.png" alt=""/>
                         <span>入学时间</span>
                         <div class="form-select major-info-start">
-                            <div class="form-select-value">2017 Fall<img src="/img/icon-down.png" alt=""/></div>
+                            <div class="form-select-value">{{term.[0].term}}<img src="/img/icon-down.png" alt=""/></div>
                             <div class="form-select-option hidden">
                                 <ul>
                                     {{#each term}}
-                                    <li>{{term}}</li>
+                                        {{#if term}}
+                                            {{#ifNotEq this.term ../term.[0].term}}
+                                            <li>{{term}}</li>
+                                            {{/ifNotEq}}
+                                        {{/if}}
                                     {{/each}}
                                 </ul>
                             </div>
@@ -72,53 +78,85 @@
                 </ul>
                 <div class="major-require">
                     <div class="major-require-title">申请要求</div>
-                    <ul class="major-require-list clear">
-                        {{qs}}
+                    <ul class="major-require-list clear">   
                         <li class="active">
                             <img src="/img/require1.png" alt=""/>
                             <div class="major-require-list-name">研究报告</div>
+                            <div class="major-require-list-result hidden">
+                              <p>{{showRequest transcripts 'A Personal Statement is Required.' '' ''}}<p> 
+                            </div>
                             <div class="major-require-list-arrow"></div>
                         </li>
-                        {{resume}}
                         <li>
                             <img src="/img/require2.png" alt=""/>
                             <div class="major-require-list-name">个人简历</div>
+                            <div class="major-require-list-result hidden">
+                              <p>{{showRequest ps 'A Personal Statement is Required.' '' ''}}<p>  
+                            </div>
                             <div class="major-require-list-arrow"></div>
                         </li>
-                        {{recommend_number}}
                         <li>
                             <img src="/img/require3.png" alt=""/>
                             <div class="major-require-list-name">推荐信</div>
+                            <div class="major-require-list-result hidden">
+                             <p>{{showRequest recommend_number '' '推荐信最低' '封'}} </p> 
+                             <p>{{showRequest recommend_introduce '' '具体要求: ' ''}}</p> 
+                            </div>
                             <div class="major-require-list-arrow"></div>
                         </li>
                         <li>
                             <img src="/img/require4.png" alt=""/>
                             <div class="major-require-list-name">成绩单</div>
+                            <div class="major-require-list-result hidden">
+                             <p>{{showRequest gpa '无最低要求' '' ''}} </p>
+                             <p>{{showRequest transcripts '' '成绩单要求: ' '' ''}} </p>
+                            </div>
                             <div class="major-require-list-arrow"></div>
                         </li>
                         <li>
                             <img src="/img/require5.png" alt=""/>
                             <div class="major-require-list-name">语言成绩</div>
+                            <div class="major-require-list-result hidden">
+                             <p>{{showRequest toefl '' '托福最低要求: ' '分' ''}} </p>
+                             <p>{{showRequest toefl_single '' '' ''}} </p>
+                             <p>{{showRequest toefl_code '' '' ''}} </p>
+                             <p>{{showRequest ielts '' '' ''}} </p>
+                             <p>{{showRequest ielts_single '' '' ''}} </p>
+                             <p>{{showRequest ielts_achievement '' ''}} </p>
+                             <p>{{showRequest language_introduce '' ''}} </p>
+                            </div>
                             <div class="major-require-list-arrow"></div>
                         </li>
                         <li>
                             <img src="/img/require6.png" alt=""/>
                             <div class="major-require-list-name">标准化考试</div>
+                            <div class="major-require-list-result hidden">
+                                <p>{{showRequest gre '' 'GRE最低要求' ''}} </p>
+                                <p>{{showRequest ggre_single 'GRE分项最低要求' ''}} </p>
+                                <p>{{showRequest gre_code '' 'GRE官方成绩电子寄送 Code: ' '(Institute;Department)'}} </p>
+                                <p>{{showRequest gmat '' 'GMAT最低要求:' '分' ''}} </p>
+                                <p>{{showRequest gmat_single '' 'GMAT分项最低要求' '' ''}} </p>
+                                <p>{{showRequest exam_introduce '' '标准化考试其他要求: ' '' ''}} </p>
+                            </div>    
                             <div class="major-require-list-arrow"></div>
                         </li>
-                        {{additional_requirements}}
                         <li>
                             <img src="/img/require7.png" alt=""/>
                             <div class="major-require-list-name">附加要求</div>
+                            <div class="major-require-list-result hidden">
+                                <p>{{showRequest additional_requirements '' '' ''}} </p>
+                            </div> 
                             <div class="major-require-list-arrow"></div>
                         </li>
                     </ul>
                     <div class="major-require-content" id="require-content">
                         <div>
                             <div class="major-require-content-name">研究报告</div>
-                            <p>
-                            {{qs}}
-                            </p>
+                            <div class="major-require-content-result">
+                                <div class="major-require-list-result">
+                                    <p>{{showRequest transcripts 'A Personal Statement is Required.' '' ''}}<p>
+                                </div> 
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -137,4 +175,11 @@
         </div>
     </div>
     {{/each}}  
+</div>
+<div class="help-icon">
+    <img class="help-icon-pic" src="/img/icon-help.png" alt=""/>
+    <img class="help-icon-notice hidden" src="/img/help-notice.png" alt=""/>
+</div>
+<div class="view help hidden">
+    {{> help}}
 </div>

@@ -36,7 +36,6 @@ router.get('/', function (req, res, next) {
 
 //用户
 router.get('/user-news', function(req, res, next) {
-
   var newsstate;
   req.proxy.request({
       method: "GET",
@@ -44,7 +43,6 @@ router.get('/user-news', function(req, res, next) {
   }, function(err, response, body) {
       var data = JSON.parse(body);
       newsstate = data.data;
-      console.log(newsstate)
   }); 
 
   req.proxy.request({
@@ -74,7 +72,6 @@ router.get('/user-news', function(req, res, next) {
                 usernews:true
               })
       }, 500, res);
-
   })
 });
 
@@ -82,14 +79,14 @@ router.get('/user-point', function(req, res, next) {
   var currnetcredit,
       creditlog,
       mission,
-      invitenum;
+      invitenum,
+      inviteCode;
     req.proxy.request({
         method: "GET",
         url: "http://www.utuotu.com/v1/User/currnetcredit.action",
         qs: req.query
     }, function(err, response, body) {
         currnetcredit = JSON.parse(body);
-        console.log(currnetcredit.data)
         return currnetcredit;
     })
     req.proxy.request({
@@ -98,7 +95,6 @@ router.get('/user-point', function(req, res, next) {
         qs: req.query
     }, function(err, response, body) {
         creditlog = JSON.parse(body).data;
-        console.log("log", creditlog.data)
         return creditlog;
     })
     req.proxy.request({
@@ -107,9 +103,27 @@ router.get('/user-point', function(req, res, next) {
         qs: req.query
     }, function(err, response, body) {
         mission = JSON.parse(body);
-        console.log(mission)
         return mission;
     })
+    //有效邀请
+    req.proxy.request({
+        method: "GET",
+        url: "http://www.utuotu.com/v1/User/invite.action",
+        qs: req.query
+    }, function(err, response, body) {
+        inviteCode = JSON.parse(body).data;
+        return inviteCode;
+    })
+    // //邀请链接
+    // req.proxy.request({
+    //     method: "GET",
+    //     url: "http://www.utuotu.com/v1/User/invite.action",
+    //     qs: req.query
+    // }, function(err, response, body) {
+    //     inviteCode = JSON.parse(body).data;
+    //     return inviteCode;
+    // })
+
     req.proxy.request({
         method: "GET",
         url: "http://www.utuotu.com/v1/User/invitenum.action",
@@ -128,7 +142,8 @@ router.get('/user-point', function(req, res, next) {
               creditlog: creditlog,
               mission: mission,
               invitenum: invitenum,
-              userpoint: true
+              userpoint: true,
+              inviteCode: inviteCode
         })
       },1000, res)
     })
@@ -215,13 +230,14 @@ router.get('/school-all', function(req, res, next) {
       res.render('school-all', {
         data: data.data,
         sid: req.query.sid,
-        allmajors: true
+        showAll: true
         });
   });
 });
 router.get('/school-majorlist', function(req, res, next) {
   req.proxy.request({method: "GET", url: "http://www.utuotu.com/v1/schoolinfo/getallschoolmajor.action"}, function(err, response, body) {
       var data = JSON.parse(body);
+
       var major, sid;
       //取出对应学院的数据
       var academies = data.data.majors;
@@ -238,6 +254,7 @@ router.get('/school-majorlist', function(req, res, next) {
         isAcademy: true,
         acMajors: acMajors,
         sid: req.query.sid,
+        showAll: false
       });
   });
 });
@@ -256,6 +273,7 @@ router.get('/school-screen', function (req, res) {
         urlPath = urlPath + "?search=&page="
       }
         var data = JSON.parse(body);
+        console.log(data.data.data[0].rank);
         res.render('school-screen', {
             data: data.data,
             urlPath: urlPath
@@ -270,6 +288,7 @@ router.get('/school-major', function(req, res, next) {
         qs: req.query
     }, function(err, response, body) {
         var data = JSON.parse(body);
+        console.log(data.data);
         res.render('school-major', {
             data: data.data,
             major: true,
@@ -303,6 +322,7 @@ router.get('/school-mjlist', function(req, res, next) {
               qs: {sid: sid, mid: data[i].mid}
           }, function(err, response, body) {
               var result = JSON.parse(body).data;
+              console.log(result)
               dataList.push(result);
           })
         }; 
@@ -342,14 +362,12 @@ router.get('/select-school', function(req, res) {
         url: "http://www.utuotu.com/v1/completeform/intelligentselection.action",
     }, function(err, response, body) {
         schoollist = JSON.parse(body).data;
-        console.log()
     });
     //请求图表
     setTimeout(function(res) {
       req.proxy.request({
           method: "GET",
-          url: "http://www.utuotu.com/v1/Completeform/historyoffer.action",
-          qs: {sid: schoollist[1][0].sid}
+          url: "http://www.utuotu.com/v1/Completeform/historyoffer.action"
       }, function(err, response, body) {
           var formResult = JSON.parse(body).data;
           res.render('select-school', {
@@ -429,6 +447,7 @@ router.post("/v1/completeform/chinamajor.action", function(req, res) {
         url: "http://www.utuotu.com/v1/completeform/chinamajor.action",
     }, function(err, response, body) {
         var data = JSON.parse(body);
+        console.log(data);
         if (!data) {
             return
         }

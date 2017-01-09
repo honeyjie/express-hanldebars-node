@@ -59,7 +59,6 @@ app.use(function(req, res, next) {
         url: "http://www.utuotu.com/v1/schoolinfo/getschoolbase.action",
         qs: req.query
     }, function(err, response, body) {
-      console.log(body);
       var data = JSON.parse(body);
       if (!res.locals.partials) {
         res.locals.partials = {}

@@ -9,7 +9,9 @@
             <div class="point-line-now"></div>
             <div class="point-line-arrow"></div>
             <div class="point-line-number1">0</div>
+            {{#if currnetcredit.data.credit}}
             <div class="point-line-number2">{{currnetcredit.data.credit}}</div>
+            {{/if}}
             <div class="point-line-number3">3000</div>
         </div>
         <div class="point-title">任务卡</div>
@@ -48,10 +50,15 @@
         </div>
         <div class="view point-view hidden">
             <div class="point-view-title"></div>
-            <div class="point-view-content">
+            <div class="point-view-content point-result-code">
                <span>
-
+                    {{inviteCode.code}}<br/>已复制到剪切板
                </span>
+            </div>
+            <div class="point-view-content point-result-site">
+               <span>
+                    www.utuotu.com/?code={{inviteCode.code}}<br/>已复制到剪切板
+               </span> 
             </div>
             <button class="point-view-close button-solid">关闭</button>
         </div>
