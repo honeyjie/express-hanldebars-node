@@ -1,7 +1,9 @@
-var request = require("request")
+var request = require("request");
+var fs = require("fs");
 
 function Proxy() {
-    this.host = "http://www.utuotu.com";
+    this.protocol = "http://";
+    this.host = "www.utuotu.com";
 }
 
 Proxy.prototype.request = function(options, callback) {
@@ -9,7 +11,7 @@ Proxy.prototype.request = function(options, callback) {
         form: this.req.body,
         qs: this.req.query,
         method: this.req.method,
-        url: this.host + this.req.path,
+        url: this.protocol + this.host + this.req.path,
         headers: this.req.headers,
     }
 
@@ -17,28 +19,16 @@ Proxy.prototype.request = function(options, callback) {
     for (var k in options) {
         _options[k] = options[k];
     }
+    _options.headers.host = this.host ;
 
-    _options.headers.host = "www.utuotu.com";
+    // 自动转发文件
+    if (!!this.req.file) {
+        _options.attachments = [
+            fs.createReadStream(this.req.file.path)
+        ]
+    }
 
     request(_options, callback);
 }
 
 exports.proxy = Proxy;
-// Proxy.prototype.request = function(options, callback) {
-//     console.log("进入自动转发")
-//     var _options = {
-//         form: this.req.body,
-//         qs: this.req.query,
-//         method: this.req.method,
-//         url: this.host + this.req.path,
-//         headers: this.req.headers
-//     }
-
-//     options = options || {};
-//     for (var k in options) {
-//         _options[k] = options[k];
-//     }
-//     // console.log(_options);
-//     request(_options, callback);
-//     console.log(_options, "____")
-// }
