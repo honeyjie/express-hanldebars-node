@@ -1,17 +1,18 @@
 var express = require('express');
 var path = require('path');
-var url = require('url');
-var index = require('./routes/index');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var exphbs  = require('express-handlebars');
+var exphbs = require('express-handlebars');
+var multer = require('multer');
+
+var index = require('./routes/index');
 var proxy = require("./proxy").proxy;
-var request = require('request');
-var app = express();
 var helpers = require('./lib/helpers');
 var Promise = global.Promise || require('promise');
+
+var app = express();
 
 //设置视图位置
 app.set('views', path.join(__dirname, 'views'));
@@ -32,18 +33,25 @@ app.set('port', process.env.PORT || 3000);
 
 app.use(favicon(__dirname + '/public/img/favicon.ico'));
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 app.use(cookieParser());
+
+// 文件上传中间件。注意：
+// 1. 名字一定为 "file", <input type="file" name="file">
+// 2. method一定要为 post
+app.use(multer({
+    dest: "/tmp/upload"
+}).single("file"));
 
 app.use(function(req, res, next) {
     req.proxy = new proxy();
     req.proxy.req = req;
     next();
 });
-
 
 app.use(function(req, res, next) {
     req.proxy.request({
@@ -77,23 +85,6 @@ app.use(function(req, res, next) {
     });
     
 });
-app.use(function(req, res, next) {
-  var sys_state = false;
-  var  user_state = false;
-
-  req.proxy.request({
-      method: "GET",
-      url: "http://www.utuotu.com/v1/User/getmsgstatus.action"
-  }, function(err, response, body) {
-      var data = JSON.parse(body);
-      if (!res.locals.partials) {
-        res.locals.partials = {}
-      }
-    res.locals.partials.newsstate = data.data;
-    next();
-  }); 
-})
-
 
 app.use('/', index); 
 //前端可以通过node向服务器发送请求，格式规定：/v1/login/opencode.action

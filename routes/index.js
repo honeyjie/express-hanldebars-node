@@ -335,7 +335,32 @@ router.get('/school-recommend', function(req, res) {
 });
 
 router.get('/select-school', function(req, res) {
-    res.render('select-school')
+    //请求推荐学校
+    var schoollist;
+    req.proxy.request({
+        method: "GET",
+        url: "http://www.utuotu.com/v1/completeform/intelligentselection.action",
+    }, function(err, response, body) {
+        schoollist = JSON.parse(body).data;
+        console.log()
+    });
+    //请求图表
+    setTimeout(function(res) {
+      req.proxy.request({
+          method: "GET",
+          url: "http://www.utuotu.com/v1/Completeform/historyoffer.action",
+          qs: {sid: schoollist[1][0].sid}
+      }, function(err, response, body) {
+          var formResult = JSON.parse(body).data;
+          res.render('select-school', {
+            formResult: formResult,
+            schoollist: schoollist
+          })
+      });
+    }, 500, res)
+    
+
+    
 });
 router.get('/select-form', function(req, res) {
     res.render('select-form')
