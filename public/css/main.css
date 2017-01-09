@@ -62,6 +62,7 @@
     background: #ffffff;
     border-radius: 5px;
     padding: 5px 0;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 .header-nav-select>li{
     height: 30px;
@@ -266,6 +267,7 @@
 }
 .login-switch-notice{
     position: absolute;
+    width: 110px;
     border: 1px solid #333333;
     top: 10px;
     right: 25px;
@@ -1969,20 +1971,20 @@
     border-bottom-right-radius: 5px;
     box-shadow: 0 3px 5px rgba(0,0,0,0.1);
 }
-.school-box-content{
+.school .school-box-content{
     box-shadow: 0 3px 5px rgba(0,0,0,0.1);
     background: #ffffff;
     padding: 0 20px;
     overflow: hidden;
 }
-.school-brief-content{
+.school .school-brief-content{
     position: relative;
     width: 100%;
     height: 240px;
     padding-left: 340px;
     overflow: hidden;
 }
-.school-brief-map{
+.school .school-brief-map{
     position: absolute;
     display: block;
     width: 300px;
@@ -1990,12 +1992,16 @@
     top: 20px;
     left: 20px;
 }
-.school-brief-describe{
-    display: table;
+.school .school-brief-describe{
     width: 100%;
-    height: 100%;
+    height: 200px;
+    margin: 20px 0;
+    overflow: hidden;
 }
-.school-brief-describe p{
+.school .school-brief-scroll{
+    display: table;
+}
+.school .school-brief-scroll p{
     width: 100%;
     display: table-cell;
     vertical-align: middle;
@@ -2162,15 +2168,19 @@
 .school .recommend-major-list li a span {
     position: absolute;
     text-align: left;
-    left: 100px;
-    z-index: 10;
+    width: 50%;
     margin: auto 0;
     top: 0;
+    right: 0;
     bottom: 0;
-    height: 110px;
-    // line-height: 20px;
-    display: block;
-} 
+    height: 100%;
+    display: table;
+}
+.school .recommend-major-list li a span p{
+    display: table-cell;
+    vertical-align: middle;
+    padding-right: 10px;
+}
 .school .school-major{
     width: 980px;
     float: right;
@@ -2200,10 +2210,9 @@
 }
 .school .school-major-rank{
     position: absolute;
-    width: 100%;
     height: 100%;
     top: 0;
-    left: 0;
+    right: 42px;
     text-align: center;
     color: #ffffff;
     line-height: 39px;
@@ -2227,7 +2236,7 @@
     border-left: 1px solid #25baf4;
     cursor: pointer;
 }
-.school .major-tab .tab-title li:nth-child(1){
+.school .major-tab .tab-title>li:nth-child(1){
     border-left: none;
 }
 .school .major-tab .tab-title li.active{
@@ -2274,8 +2283,10 @@
     color: #25baf4;
     cursor: pointer;
 }
-.school .major-info .form-select-value img{
-    margin-left: 10px;
+.school .major-info .form-select-icon{
+    position: absolute;
+    right: -20px;
+    top: 0;
 }
 .school .major-info .form-select-option{
     width: 300px;
@@ -2764,16 +2775,22 @@
 .select-form .select-form-view{
     width: 650px;
     height: 100%;
-    overflow: auto;
+    max-height: 731px;
     top: 0;
     left: 50%;
     margin-left: -325px;
+    text-align: center;
 }
-.select-form .select-form-view-main{
-    position: absolute;
-    top: 20px;
-    left: 0;
+.select-form .select-form-view img{
+    position: relative;
+    height: 100%;
+    padding-top: 20px;
 }
+/*.select-form .select-form-view-main{*/
+    /*position: absolute;*/
+    /*top: 20px;*/
+    /*left: 0;*/
+/*}*/
 .select-form .select-form-view button{
     position: absolute;
     width: 120px;

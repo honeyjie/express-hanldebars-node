@@ -245,6 +245,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             }
             select.major_only = $(this).data('value');
             $('.select-major-only .form-item-name').removeClass('red');
+            console.log(select.major_only)
             infoFinished();
         });
         //申请学位

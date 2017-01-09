@@ -5,26 +5,26 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             //关闭搜索
             closeSearch();
             //关闭登录
-            if(!$('.login').hasClass('hidden')){
+            if($('.login')[0]&&!$('.login').hasClass('hidden')){
                 closeLogin();
             }
             //关闭下拉
             $('.form-select').removeClass('focus');
             $('.form-select-option').addClass('hidden');
             //关闭弹窗
-            if(!$('.point-view').hasClass('hidden')){
+            if($('.point-view')[0]&&!$('.point-view').hasClass('hidden')){
                  base.closeAll.closePointView();
             }
             //关闭消息
-            if(!$('.news-article').hasClass('hidden')){
+            if($('.news-article')[0]&&!$('.news-article').hasClass('hidden')){
                 base.closeAll.closeNewsArticle();
             }
             //关闭删除
-            if(!$('.select-form-view').hasClass('hidden')){
+            if($('.select-form-view')[0]&&!$('.select-form-view').hasClass('hidden')){
                 base.closeAll.closeSelectView();
             }
             //关闭帮助
-            if(!$('.help').hasClass('hidden')){
+            if($('.help')[0]&&!$('.help').hasClass('hidden')){
                 base.closeAll.closeHelp();
             }
         });
@@ -32,15 +32,15 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
         $('.mask').on('click',function(e){
             e.stopPropagation();
             //关闭文章
-            if(!$('.view-article').hasClass('hidden')){
+            if($('.view-article')[0]&&!$('.view-article').hasClass('hidden')){
                 closeArticle();
             }
             //关闭积分详情
-            if(!$('.point-list').hasClass('hidden')){
+            if($('.point-list')[0]&&!$('.point-list').hasClass('hidden')){
                 base.closeAll.closePointList();
             }
             //关闭选校样例
-            if(!$('.select-form-view').hasClass('hidden')){
+            if($('.select-form-view')[0]&&!$('.select-form-view').hasClass('hidden')){
                 base.closeAll.closeSelectView();
             }
         });

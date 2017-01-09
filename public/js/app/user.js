@@ -202,7 +202,10 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
             closePointView();
         });
         base.closeAll.closePointView = closePointView;
-
+        //积分详情阻止冒泡
+        $('.point-list').on('click',function(e){
+            e.stopPropagation();
+        });
         //打开积分详情
         $('.point-title a').on('click',function(e){
             e.stopPropagation();

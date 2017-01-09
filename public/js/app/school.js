@@ -39,6 +39,12 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 scrollbars: true
             });
         }
+        if($('#school-brief-describe')[0]){
+            scroll[5] =  new iscroll('#school-brief-describe',{
+                mouseWheel: true,
+                scrollbars: true
+            });
+        }
         //模拟下拉
         $('.screen-form-country').select(scroll[0]);
         $('.screen-form-state').select(scroll[1]);
@@ -95,6 +101,12 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         $('.screen-side-form-search').on('click',function(){
             var school = $('.screen-form-school').val();
             searchSchool(school);
+        });
+        $('.screen-form-school').on('keydown',function(e){
+            if(e.keyCode==13){
+                var school = $('.screen-form-school').val();
+                searchSchool(school);
+            }
         });
         //条件搜索院校
         $('.screen-side-search').on('click',function(){
