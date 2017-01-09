@@ -30,8 +30,12 @@
             {{else}}
                 <div class="header">{{> header}}</div>
             {{/if}}
+
             {{{body}}}
+            
+            {{#unless show}}
             <div class="footer">{{> footer}}</div>
+            {{/unless}}
         </div>
 
         <div class="login hidden">
