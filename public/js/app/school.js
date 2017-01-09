@@ -151,7 +151,6 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         $('.recommend-major-get').on('click',function(){
             var value = $(this).prev('input').val();
             var sid = $('.school-info').attr('data-sid');
-            console.log(value, sid)
             getMajor(value, sid);
         });
 
@@ -192,7 +191,6 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 cache:false,
                 dataType:'html',
                 success:function(data){
-                    console.log(data);
                     $("#search-result").html(data);
                 },
                 error : function() {
@@ -212,7 +210,6 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             cache:false,
             dataType:'html',
             success:function(data){
-                console.log(data);
                 $("#search-result").html(data);
             },
             error : function() {
@@ -335,7 +332,6 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             cache:false,
             dataType:'json',
             success:function(){
-                console.log("成功")
                 window.location.href = "/school-mjlist?sid="+id+"&value="+val;
             },
             error : function() {
@@ -348,6 +344,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         _this.parents('.major-require-list').find('li').removeClass('active');
         _this.addClass('active');
         _this.parents('.major-require').find('.major-require-content-name').html(_this.find('.major-require-list-name').html());
+        _this.parents('.major-require').find('.major-require-content-result').html(_this.find('.major-require-list-result').html());
         scroll[3].refresh();
     }
     return{
