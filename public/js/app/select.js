@@ -1,6 +1,5 @@
 define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,fullpage,iscroll,base,common,d3){
     //图表测试数据开始
-
     function random(){
         var randomData = [];
         randomData[0] = {
@@ -126,7 +125,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             base.closeAll.closeSelectView();
         });
         //模块收缩初始化
-        boxSildeUp();
+        boxSlideUp();
         //模块展开/收缩
         $('.select-title-control').on('click',function(){
             var content = $(this).parents('.select-box').find('.select-content');
@@ -864,12 +863,12 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         });
     };
     //模块收缩初始化
-    function boxSildeUp(){
+    function boxSlideUp(){
         var content = $('.select-box .select-content');
         for(var i=1;i<content.length;i++){
             height[i] = content.eq(i).innerHeight();
             content.eq(i).css('height',0);
-            content.eq(i).parents('.select-box').find('.select-title-control').addClass('animated rotateUp');
+            content.eq(i).parents('.select-box').find('.select-title-control').addClass('animated rotateDown');
         }
     }
 
