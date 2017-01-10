@@ -59,10 +59,20 @@
                     <input class="login-password" type="password" placeholder="密码"/>
                     <img class="login-icon" src="/img/icon-password.png" alt=""/>
                 </div>
-                <div id="sample-captcha"></div>
                 <div class="login-forget">
                     <a href="/register-forget">忘记密码</a>
                 </div>
+                <div class="login-captcha hidden">
+                    <div class="login-captcha-title">
+                        点击图片中的<span></span>
+                        <img class="login-captcha-refresh" src="/img/icon-refresh.png" alt=""/>
+                    </div>
+                    <div class="login-captcha-pics">
+
+                    </div>
+                    <div class="login-captcha-success hidden">图片验证成功</div>
+                </div>
+                <div class="login-captcha-fail hidden">图片验证失败</div>
                 <button class="login-submit button-solid-ban">登录</button>
                 <div class="login-notice">目前仅支持扫描微信自动注册</div>
             </div>

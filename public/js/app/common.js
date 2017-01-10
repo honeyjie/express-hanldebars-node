@@ -49,26 +49,6 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             mouseWheel : true,
             scrollbars : true
         });
-        // //验证码
-        // var captcha = $('#sample-captcha').visualCaptcha({
-        //    imgPath: '/img/',
-        //    request:'xhrRequest',
-        //    url:'http://utuotu.com',
-        //    routes:{
-        //        start:'/v1/captcha/start.action'
-        //    },
-        //    captcha: {
-        //        numberOfImages: 5,
-        //        callbacks: {
-        //            loading: function( captcha ){
-        //                console.log( 'I am loading.', captcha );
-        //            },
-        //            loaded: function( captcha ){
-        //                console.log( 'I am loaded.', captcha );
-        //            }
-        //        }
-        //    }
-        // });
         //选校定位下拉列表
         $('.header-nav-school').on('mouseenter',function(){
             $('.header-nav-select').fadeIn(200);
@@ -126,6 +106,14 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
         });
         $('.login-switch').on('mouseleave',function(){
             $('.login-switch-notice').fadeOut(200);
+        });
+        //刷新验证码
+        $('.login-captcha-refresh').on('click',function(){
+            captchaStart();
+        });
+        //验证码验证
+        $('.login-captcha-pics').on('click','img',function(){
+            captchaTry($(this).data('value'));
         });
         //登录
         $('.login').on('click',function(e){
@@ -280,6 +268,74 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             }
         });
     }
+    //验证码start
+    function captchaStart(){
+        $('.login-captcha').removeClass('hidden');
+        $('.login-captcha-fail').addClass('hidden');
+        $.ajax({
+            url:'/v1/captcha/start.action',
+            data:{
+
+            },
+            type:'get',
+            cache:false,
+            dataType:'html',
+            success:function(data){
+                $('.login-captcha-title span').html(JSON.parse(data).imageName);
+                var values = JSON.parse(data).values;
+                var dom = '';
+                for(var i=0;i<5;i++){
+                    dom = dom + '<img data-value="'+JSON.parse(data).values[i]+'" src="" alt=""/>';
+                    $('.login-captcha-pics').html(dom);
+                    captchaImage(i);
+                }
+            },
+            error : function() {
+                base.notice('网络错误');
+            }
+        });
+    }
+    //验证码image
+    function captchaImage(index){
+        $.ajax({
+            url:'/v1/captcha/image.action',
+            data:{
+                index : index
+            },
+            type:'get',
+            cache:false,
+            dataType:'html',
+            success:function(data){
+                $('.login-captcha-pics img').eq(index).attr('src',data);
+            },
+            error : function() {
+                base.notice('网络错误');
+            }
+        });
+    }
+    //验证码try
+    function captchaTry(value){
+        $.ajax({
+            url:'/v1/captcha/try.action',
+            data: {
+                验证码的id : value
+            },
+            type:'post',
+            cache:false,
+            dataType:'html',
+            success:function(data){
+                if(data){
+                    $('.login-captcha-success').removeClass('hidden');  //成功
+                }
+                else{
+                    $('.login-captcha-fail').removeClass('hidden');  //失败
+                }
+            },
+            error : function() {
+                base.notice('网络错误');
+            }
+        });
+    }
 
     //账号密码登录
     function login(){
@@ -313,17 +369,16 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
 
                 }else if(data.code==111001004){
                     $('.login-message').removeClass('hidden').html(data.msg);
-                }else if(data.code==111001005){
-                    console.log(data);
+                }else if(data.code==111001005){;
                     $('.login-message').removeClass('hidden').html(data.msg);
-                    // if(data.data.valid){
-                    //     console.log(实例化验证码);
-                    // }
+                    if(data.data.valid){
+                        captchaStart();
+                    }
                 }else if(data.code==111001010){
                     //验证失败
                     $('.login-message').removeClass('hidden').html(data.msg);
                 }else{
-                    console.log(登陆出错);
+                    console.log('登陆出错');
                 }
             },
             error : function() {
