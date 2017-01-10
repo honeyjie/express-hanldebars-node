@@ -1132,7 +1132,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         }
 
         $.ajax({
-            url:'http://utuotu.com/v1/completeform/saveform.action',
+            url:'/v1/completeform/saveform.action',
             data:{
                 token : '',
                 nation : select.nation,
