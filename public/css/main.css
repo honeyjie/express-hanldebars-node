@@ -1875,7 +1875,9 @@
     position: absolute;
     top: 20px;
     right: 0;
+    text-align: right;
 }
+
 .school .screen-list-join{
     position: absolute;
     width: 140px;

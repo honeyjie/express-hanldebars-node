@@ -172,7 +172,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
 
     function search(val){
         $.ajax({
-            url:'/v1/Help/search.action',
+            url:'/Help/search.action',
             data:{
                 value : val
             },

@@ -84,6 +84,7 @@
                 {{/each}}
             </table>
            <div class="list-page">
+                {{#ifNotEq data.page.list.length 1}}
                <ul class="clear">
                    {{#if data.page.pre}}
                     <li class="active"><a href="{{{getString @root.urlPath @root.data.page.pre}}}"><span class="list-page-pre">{{pre}}</span></a></li>
@@ -105,6 +106,7 @@
                     <li><a href="#"><span class="list-page-next"></span></a></li>
                     {{/if}} 
                </ul>
+               {{/ifNotEq}}
            </div>
         </div>
     </div>

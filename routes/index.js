@@ -123,7 +123,6 @@ router.get('/user-point', function(req, res, next) {
     //     inviteCode = JSON.parse(body).data;
     //     return inviteCode;
     // })
-
     req.proxy.request({
         method: "GET",
         url: "http://www.utuotu.com/v1/User/invitenum.action",
@@ -286,13 +285,13 @@ router.get('/school-major', function(req, res, next) {
         url: "http://www.utuotu.com/v1/schoolinfo/getschoolmajorinfo.action",
         qs: req.query
     }, function(err, response, body) {
-        // var data = JSON.parse(body);
+        var data = JSON.parse(body);
         console.log('--',body, '--');
-        // res.render('school-major', {
-        //     data: data.data,
-        //     major: true,
-        //     sid: req.query.sid
-        // });
+        res.render('school-major', {
+            data: data.data,
+            major: true,
+            sid: req.query.sid
+        });
     });
 });
 
@@ -369,9 +368,7 @@ router.get('/select-school', function(req, res) {
           method: "GET",
           url: "http://www.utuotu.com/v1/Completeform/historyoffer.action"
       }, function(err, response, body) {
-          console.log(body);
           var formResult = JSON.parse(body).data;
-          console.log(formResult);
           res.render('select-school',{
             formResult: formResult,
             schoollist: schoollist
@@ -476,7 +473,7 @@ router.get("/v1/completeform/saveform.action", function(req, res) {
     });
 });
 
-router.get("/v1/Help/search.action", function(req, res) {
+router.get("/Help/search.action", function(req, res) {
     req.proxy.request({
         method: "GET",
         url: "http://www.utuotu.com/v1/Help/search.action",
