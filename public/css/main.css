@@ -1039,12 +1039,12 @@
     width: 100px;
     height: 30px;
 }
-.changeimg .inputstyle {
-    position: absolute;
-    opacity: 0;
-    width: 100px;
-    height: 30px;
-}
+// .changeimg .inputstyle {
+//     position: absolute;
+//     opacity: 0;
+//     width: 100px;
+//     height: 30px;
+// }
 .user .set-form-info{
     float: left;
     margin-left: 20px;

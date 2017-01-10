@@ -286,13 +286,13 @@ router.get('/school-major', function(req, res, next) {
         url: "http://www.utuotu.com/v1/schoolinfo/getschoolmajorinfo.action",
         qs: req.query
     }, function(err, response, body) {
-        var data = JSON.parse(body);
-        console.log(data.data);
-        res.render('school-major', {
-            data: data.data,
-            major: true,
-            sid: req.query.sid
-        });
+        // var data = JSON.parse(body);
+        console.log('--',body, '--');
+        // res.render('school-major', {
+        //     data: data.data,
+        //     major: true,
+        //     sid: req.query.sid
+        // });
     });
 });
 
@@ -301,6 +301,7 @@ router.get('/school-mjlist', function(req, res, next) {
   //获得推荐专业的的mid信息后分别去请求相应的专业接口，将获取到的数字组成数组。
   // var majorList = {mid: [1, 2, 3], sid: 2446};
   // var dataList = []
+  console.log('++',data, '++');
   var majorList = []
   var dataList = [];
   var sid = req.query.sid;
@@ -321,7 +322,6 @@ router.get('/school-mjlist', function(req, res, next) {
               qs: {sid: sid, mid: data[i].mid}
           }, function(err, response, body) {
               var result = JSON.parse(body).data;
-              console.log(result)
               dataList.push(result);
           })
         }; 
@@ -364,20 +364,20 @@ router.get('/select-school', function(req, res) {
         // console.log(schoollist)
     });
     //请求图表
-    // setTimeout(function(res) {
-    //   req.proxy.request({
-    //       method: "GET",
-    //       url: "http://www.utuotu.com/v1/Completeform/historyoffer.action"
-    //   }, function(err, response, body) {
-    //       console.log(body);
-    //       var formResult = JSON.parse(body).data;
-    //       console.log(formResult);
-    //       res.render('select-school',{
-    //         formResult: formResult,
-    //         schoollist: schoollist
-    //       })
-    //   });
-    // }, 500, res)
+    setTimeout(function(res) {
+      req.proxy.request({
+          method: "GET",
+          url: "http://www.utuotu.com/v1/Completeform/historyoffer.action"
+      }, function(err, response, body) {
+          console.log(body);
+          var formResult = JSON.parse(body).data;
+          console.log(formResult);
+          res.render('select-school',{
+            formResult: formResult,
+            schoollist: schoollist
+          })
+      });
+    }, 500, res)
     
 
     
@@ -431,14 +431,15 @@ router.post("/v1/completeform/chinaschool.action", function(req, res) {
         method: "POST",
         url: "http://www.utuotu.com/v1/completeform/chinaschool.action",
     }, function(err, response, body) {
-        var data = JSON.parse(body);
-        if (!data) {
-            return
-        }
-        res.render('partials/school-list', {
-            data: data.data,
-            layout: "naked"
-        });
+        console.log("----", body, "----")
+        // var data = JSON.parse(body);
+        // if (!data) {
+        //     return
+        // }
+        // res.render('partials/school-list', {
+        //     data: data.data,
+        //     layout: "naked"
+        // });
     });
 });
 
