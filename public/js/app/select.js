@@ -88,7 +88,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         exam.Q = null;
         exam.AW = null;
     var height = [];  //每个模块的高度
-
+    var scroll = []; //模拟滚动条
     $(function(){
 
         chart();
@@ -199,7 +199,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         //毕业专业1 失去焦点
         $('.select-major').on('blur',function(){
             select.pre_major = $(this).val();
-            if(select.pre_major=='法学类'){
+            if(select.pre_major=='法学'){
                 $('.select-form-last').removeClass('hidden');
                 $('.select-exam').addClass('hidden');
                 $('.select-exam-input').addClass('hidden');
@@ -904,7 +904,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
     //考试成绩填写完毕
     function scoreFinished(){
         if(select.gpa&&!$.isEmptyObject(select.language)&&language.overall&&language.R&&language.L&&language.S&&language.W){
-            if(select.pre_major=='法学类'){
+            if(select.pre_major=='法学'){
                 if(select.last){
                     if($('.select-box').eq(2).find('.select-title').hasClass('error')){
                         $('.select-box').eq(2).find('.select-title').removeClass('error');
@@ -943,7 +943,15 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             success:function(data){
                 $('#select-school ul').html(data);
                 $('.select-info-school').find('.form-select-option').removeClass('hidden');
-     
+                if(!scroll[0]){
+                    scroll[0] = new iscroll('#select-school',{
+                        mouseWheel : true,
+                        scrollbars : true
+                    });
+                }
+                else{
+                    scroll[0].refresh();
+                }
             },
             error : function() {
                 base.notice('网络错误');
@@ -963,12 +971,28 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             success:function(data){
                 if( n==1 ) {
                     $('#select-major ul').html(data);
-                    
                     $('.select-info-major').find('.form-select-option').removeClass('hidden');
+                    if(!scroll[1]){
+                        scroll[1] = new iscroll('#select-major',{
+                            mouseWheel : true,
+                            scrollbars : true
+                        });
+                    }
+                    else{
+                        scroll[1].refresh();
+                    }
                 } else if(n==2) {
                     $('#select-major2 ul').html(data);
-
                     $('.select-info-major2').find('.form-select-option').removeClass('hidden');
+                    if(!scroll[2]){
+                        scroll[2] = new iscroll('#select-major2',{
+                            mouseWheel : true,
+                            scrollbars : true
+                        });
+                    }
+                    else{
+                        scroll[2].refresh();
+                    }
                 }
             },
             error : function() {
@@ -1021,7 +1045,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 $('.select-box').eq(1).find('.select-title-control').click();
             }
         }
-        if(select.pre_major=='法学类'){
+        if(select.pre_major=='法学'){
             if(!select.gpa||$.isEmptyObject(select.language)||!language.overall||!language.R||!language.L||!language.S||!language.W||!select.last){
                 $('.select-box').eq(2).find('.select-title').addClass('error');
                 if(parseInt($('.select-box').eq(2).find('.select-content').css('height'))==0){
