@@ -2578,6 +2578,11 @@
     left: 240px;
     top: 5px;
 }
+.select-form .select-info-input .select-info-major2 .form-select-option{
+    left: 10px;
+    width: 200px;
+    top: 39px;
+}
 .select-form .select-info-input{
     padding-bottom: 20px;
 }
