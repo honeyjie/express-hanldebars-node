@@ -137,9 +137,13 @@
 }
 .header-search-scroll ul li a{
     display: block;
-    height: 25px;
-    line-height: 25px;
-    padding: 0 10px;
+    line-height: 20px;
+    padding: 5px 10px;
+    color: #999999;
+}
+.header-search-scroll ul li a:hover{
+    color: #666666;
+    background: #e9e9e9;
 }
 .header-search-scroll ul li span{
     color: #25baf4;
@@ -2576,6 +2580,11 @@
     left: 240px;
     top: 5px;
 }
+.select-form .select-info-input .select-info-major2 .form-select-option{
+    left: 10px;
+    width: 200px;
+    top: 39px;
+}
 .select-form .select-info-input{
     padding-bottom: 20px;
 }
@@ -2799,7 +2808,7 @@
     height: 30px;
     font-size: 14px;
     font-weight: 600;
-    bottom: 20px;
+    bottom: 2.5%;
     left: 50%;
     margin-left: -60px;
 }

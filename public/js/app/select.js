@@ -88,7 +88,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         exam.Q = null;
         exam.AW = null;
     var height = [];  //每个模块的高度
-
+    var scroll = []; //模拟滚动条
     $(function(){
 
         chart();
@@ -199,15 +199,13 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         //毕业专业1 失去焦点
         $('.select-major').on('blur',function(){
             select.pre_major = $(this).val();
-            if(select.pre_major=='法学类'){
+            if(select.pre_major=='法学'){
                 $('.select-form-last').removeClass('hidden');
                 $('.select-exam').addClass('hidden');
-                $('.select-exam-input').addClass('hidden');
             }
             else{
                 $('.select-form-last').addClass('hidden');
                 $('.select-exam').removeClass('hidden');
-                $('.select-exam-input').removeClass('hidden');
             }
             if(select.pre_major){
                 $('.select-info-major .form-item-name').removeClass('red');
@@ -237,7 +235,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         });
         //申请专业
         $('.select-major-only .form-radio').on('click',function(){
-            if($(this).data('value')==0){
+            if($(this).data('value')==2){
                 $('.select-info-major2').removeClass('hidden');
             }
             else if($(this).data('value')==1){
@@ -245,7 +243,6 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             }
             select.major_only = $(this).data('value');
             $('.select-major-only .form-item-name').removeClass('red');
-            console.log(select.major_only)
             infoFinished();
         });
         //申请学位
@@ -418,6 +415,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         $('.select-exam .form-radio').on('click',function(){
             if($('.select-exam-input').hasClass('hidden')){
                 height[2] = parseInt(height[2]+$('.select-exam-input').innerHeight()+'px');
+                console.log(height[2])
                 $('.select-score').css('height',height[2]);
             }
             $('.select-exam-input').removeClass('hidden');
@@ -904,7 +902,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
     //考试成绩填写完毕
     function scoreFinished(){
         if(select.gpa&&!$.isEmptyObject(select.language)&&language.overall&&language.R&&language.L&&language.S&&language.W){
-            if(select.pre_major=='法学类'){
+            if(select.pre_major=='法学'){
                 if(select.last){
                     if($('.select-box').eq(2).find('.select-title').hasClass('error')){
                         $('.select-box').eq(2).find('.select-title').removeClass('error');
@@ -943,7 +941,15 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             success:function(data){
                 $('#select-school ul').html(data);
                 $('.select-info-school').find('.form-select-option').removeClass('hidden');
-     
+                if(!scroll[0]){
+                    scroll[0] = new iscroll('#select-school',{
+                        mouseWheel : true,
+                        scrollbars : true
+                    });
+                }
+                else{
+                    scroll[0].refresh();
+                }
             },
             error : function() {
                 base.notice('网络错误');
@@ -963,12 +969,28 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             success:function(data){
                 if( n==1 ) {
                     $('#select-major ul').html(data);
-                    
                     $('.select-info-major').find('.form-select-option').removeClass('hidden');
+                    if(!scroll[1]){
+                        scroll[1] = new iscroll('#select-major',{
+                            mouseWheel : true,
+                            scrollbars : true
+                        });
+                    }
+                    else{
+                        scroll[1].refresh();
+                    }
                 } else if(n==2) {
                     $('#select-major2 ul').html(data);
-
                     $('.select-info-major2').find('.form-select-option').removeClass('hidden');
+                    if(!scroll[2]){
+                        scroll[2] = new iscroll('#select-major2',{
+                            mouseWheel : true,
+                            scrollbars : true
+                        });
+                    }
+                    else{
+                        scroll[2].refresh();
+                    }
                 }
             },
             error : function() {
@@ -1021,7 +1043,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 $('.select-box').eq(1).find('.select-title-control').click();
             }
         }
-        if(select.pre_major=='法学类'){
+        if(select.pre_major=='法学'){
             if(!select.gpa||$.isEmptyObject(select.language)||!language.overall||!language.R||!language.L||!language.S||!language.W||!select.last){
                 $('.select-box').eq(2).find('.select-title').addClass('error');
                 if(parseInt($('.select-box').eq(2).find('.select-content').css('height'))==0){
@@ -1067,22 +1089,26 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         }
         if(select.science_paper.length>0){
             var arr = [];
+            var num = 0;
             $.each(select.science_paper,function(index,value){
                 arr.push(value.num);
                 if(value.num>0){
+                    num++;
+                }
+                if(num>0){
                     if(parseInt($('.select-box').eq(3).find('.select-content').css('height'))>0){
                         $('.select-box').eq(3).find('.select-title-control').click();
                     }
-                    return false;
                 }
-                $('.select-box').eq(3).find('.select-title').addClass('error');
-                $('.select-achievement .form-item-name').eq(0).addClass('red');
-                if(parseInt($('.select-box').eq(3).find('.select-content').css('height'))==0){
-                    $('.select-box').eq(3).find('.select-title-control').click();
+                else{
+                    $('.select-box').eq(3).find('.select-title').addClass('error');
+                    $('.select-achievement .form-item-name').eq(0).addClass('red');
+                    if(parseInt($('.select-box').eq(3).find('.select-content').css('height'))==0){
+                        $('.select-box').eq(3).find('.select-title-control').click();
+                    }
                 }
             });
         }
-
 
         if($('.select-title').hasClass('error')){
             $('.notice').addClass('red');
@@ -1091,7 +1117,6 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             });
             return;
         }
-
 
         if(select.language.toefl){
             select.language.toefl = language;
@@ -1105,6 +1130,42 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         if(select.exam_score.gmat){
             select.exam_score.gmat = exam;
         }
+
+        $.ajax({
+            url:'/v1/completeform/saveform.action',
+            data:{
+                token : '',
+                nation : select.nation,
+                locatioin : select.locatioin,
+                pre_school : select.pre_school,
+                pre_major : select.pre_major,
+                pre_major2 : select.pre_major2,
+                school_type : select.school_type,
+                major_only : select.major_only,
+                degree : select.degree,
+                gpa : select.gpa,
+                language : select.language,
+                exam_score : select.exam_score,
+                exchange : select.exchange,
+                science_experience : select.science_experience,
+                recommend : select.recommend,
+                science_paper : select.science_paper,
+                experience : select.experience,
+                prize : select.prize,
+                enter_date : new Date().getTime()
+            },
+            type:'post',
+            cache:false,
+            dataType:'json',
+            success:function(data){
+
+            },
+            error : function() {
+                base.notice('网络错误');
+            }
+        });
+
+
     }
     //生成图表
     function chart(){

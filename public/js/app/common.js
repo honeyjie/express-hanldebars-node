@@ -45,14 +45,6 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             }
         });
         //模拟滚动条
-        scroll[0] =  new iscroll('#search-school',{
-            mouseWheel : true,
-            scrollbars : true
-        });
-        scroll[1] = new iscroll('#search-article',{
-            mouseWheel : true,
-            scrollbars : true
-        });
         scroll[2] = new iscroll('#view-article-scroll',{
             mouseWheel : true,
             scrollbars : true
@@ -171,27 +163,45 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
     }
 
     function search(val){
-        $.ajax({
-            url:'/Help/search.action',
-            data:{
-                value : val
-            },
-            type:'get',
-            cache:false,
-            dataType:'html',
-            success:function(data){
-                $('.header-search-result').html(data);
-            },
-            error : function() {
-                notice('网络错误');
-            }
-        });
         if(!$('.header-search input').val()){
             $('.header-search-result').fadeOut(200);
-        }else{
+        }
+        else{
+            $.ajax({
+                url:'/Help/search.action',
+                data:{
+                    value : val
+                },
+                type:'get',
+                cache:false,
+                dataType:'html',
+                success:function(data){
+                    $('.header-search-result').html(data);
+                    //模拟滚动条
+                    if(!scroll[0]){
+                        scroll[0] =  new iscroll('#search-school',{
+                            mouseWheel : true,
+                            scrollbars : true
+                        });
+                    }
+                    else{
+                        scroll[0].refresh();
+                    }
+                    if(!scroll[1]){
+                        scroll[1] = new iscroll('#search-article',{
+                            mouseWheel : true,
+                            scrollbars : true
+                        });
+                    }
+                    else{
+                        scroll[1].refresh();
+                    }
+                },
+                error : function() {
+                    base.notice('网络错误');
+                }
+            });
             $('.header-search-result').fadeIn(200);
-            scroll[0].refresh();
-            scroll[1].refresh();
         }
     }
 
