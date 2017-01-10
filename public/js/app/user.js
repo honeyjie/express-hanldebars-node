@@ -90,6 +90,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         //个人信息判断提交
         $('.set-form-info input').on('blur',function(){
             if(!base.userInfo.email||!base.userInfo.phone||!base.userInfo.school||!base.userInfo.major||!base.userInfo.grade||!base.userInfo.country){
+                console.log(base.userInfo.email, base.userInfo.phone, base.userInfo.school, base.userInfo.major, base.userInfo.grade, base.userInfo.country)
                 $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban');
                 return;
             }
@@ -188,11 +189,8 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         $('.point-address').on('click',function(e){
             e.stopPropagation();
             $('.point-view-title').html('链接地址');
-            // $('.point-result-code').addClass('hidden');
-            // $('.point-result-site').removeClass('hidden');
             $('.point-result-code')[0].style.display = "none";
              $('.point-result-site')[0].style.display = "block";
-            // $('.point-result-site').r
             openPointView();
         });
         $('.point-code').on('click',function(e){
@@ -202,7 +200,6 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
             $('.point-result-site').addClass('hidden');
             $('.point-result-site')[0].style.display = "none";
             $('.point-result-code')[0].style.display = "block";
-            // $('.point-result-code')
             openPointView();
         });
         //关闭弹窗
@@ -383,7 +380,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                 major : info.user.major,
                 nianji : info.user.grade,
                 country : info.user.country,
-                headerimg : info.user.headerimg
+                file : info.user.headerimg
             },
             type:'post',
             cache:false,
