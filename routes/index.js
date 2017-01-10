@@ -300,7 +300,7 @@ router.get('/school-mjlist', function(req, res, next) {
   //获得推荐专业的的mid信息后分别去请求相应的专业接口，将获取到的数字组成数组。
   // var majorList = {mid: [1, 2, 3], sid: 2446};
   // var dataList = []
-  console.log('++',data, '++');
+
   var majorList = []
   var dataList = [];
   var sid = req.query.sid;
@@ -322,14 +322,18 @@ router.get('/school-mjlist', function(req, res, next) {
           }, function(err, response, body) {
               var result = JSON.parse(body).data;
               dataList.push(result);
+              console.log(dataList)
+
           })
         }; 
 
         setTimeout(function() {
+
           res.render('school-majorlist', {
                 dataList: dataList,
                 sid: req.query.sid
           }) }, 1000) 
+
   
     });
         
@@ -428,15 +432,15 @@ router.post("/v1/completeform/chinaschool.action", function(req, res) {
         method: "POST",
         url: "http://www.utuotu.com/v1/completeform/chinaschool.action",
     }, function(err, response, body) {
-        console.log("----", body, "----")
-        // var data = JSON.parse(body);
-        // if (!data) {
-        //     return
-        // }
-        // res.render('partials/school-list', {
-        //     data: data.data,
-        //     layout: "naked"
-        // });
+        // console.log("----", body, "----")
+        var data = JSON.parse(body);
+        if (!data) {
+            return
+        }
+        res.render('partials/school-list', {
+            data: data.data,
+            layout: "naked"
+        });
     });
 });
 
@@ -485,4 +489,17 @@ router.get("/Help/search.action", function(req, res) {
       });
     });
 });
+//refelink?hash={{hash}}
+router.get("/refelink", function(req, res) {
+    req.proxy.request({
+        method: "GET",
+        url: "http://www.utuotu.com/v1/help/redirect.action",
+        qs: {url: req.query.hash}
+    }, function(err, response, body) {
+      var data = JSON.parse(body).data;
+      console.log(data.url);
+      res.redirect(data.url)
+    });
+});
+
 module.exports = router;
