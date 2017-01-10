@@ -123,7 +123,6 @@ router.get('/user-point', function(req, res, next) {
     //     inviteCode = JSON.parse(body).data;
     //     return inviteCode;
     // })
-
     req.proxy.request({
         method: "GET",
         url: "http://www.utuotu.com/v1/User/invitenum.action",
@@ -172,7 +171,10 @@ router.get('/user-set', function(req, res, next) {
 
 //注册
 router.get('/register-complete', function(req, res, next) {
-  res.render('register-complete')
+    res.render('register-complete', {
+      headImg: req.query.headImg,
+      nickname: req.query.nickname
+    })
 });
 
 router.get('/register-forget', function(req, res, next) {
@@ -183,12 +185,15 @@ router.get('/register-reset', function(req, res, next) {
   res.render('register-reset')
 });
 
-router.get('/register-test', function(req, res, next) {
-  res.render('register-test')
-});
+// router.get('/register-test', function(req, res, next) {
+//   res.render('register-test')
+// });
 
 router.get('/register-test', function(req, res, next) {
-  req.proxy.request('http://www.utuotu.com/v1/msg/validemail.action', {qs: {token: req.query.token}}, function(err, response, body) {
+  req.proxy.request({
+    url: 'http://www.utuotu.com/v1/msg/validemail.action', 
+    qs: {token: req.query.token}
+  }, function(err, response, body) {
     var success = false,
         done = false,
         invalid = false;
@@ -286,13 +291,13 @@ router.get('/school-major', function(req, res, next) {
         url: "http://www.utuotu.com/v1/schoolinfo/getschoolmajorinfo.action",
         qs: req.query
     }, function(err, response, body) {
-        // var data = JSON.parse(body);
+        var data = JSON.parse(body);
         console.log('--',body, '--');
-        // res.render('school-major', {
-        //     data: data.data,
-        //     major: true,
-        //     sid: req.query.sid
-        // });
+        res.render('school-major', {
+            data: data.data,
+            major: true,
+            sid: req.query.sid
+        });
     });
 });
 
@@ -301,7 +306,7 @@ router.get('/school-mjlist', function(req, res, next) {
   //获得推荐专业的的mid信息后分别去请求相应的专业接口，将获取到的数字组成数组。
   // var majorList = {mid: [1, 2, 3], sid: 2446};
   // var dataList = []
-  console.log('++',data, '++');
+
   var majorList = []
   var dataList = [];
   var sid = req.query.sid;
@@ -323,14 +328,17 @@ router.get('/school-mjlist', function(req, res, next) {
           }, function(err, response, body) {
               var result = JSON.parse(body).data;
               dataList.push(result);
+
           })
         }; 
 
         setTimeout(function() {
+
           res.render('school-majorlist', {
                 dataList: dataList,
                 sid: req.query.sid
           }) }, 1000) 
+
   
     });
         
@@ -369,9 +377,7 @@ router.get('/select-school', function(req, res) {
           method: "GET",
           url: "http://www.utuotu.com/v1/Completeform/historyoffer.action"
       }, function(err, response, body) {
-          console.log(body);
           var formResult = JSON.parse(body).data;
-          console.log(formResult);
           res.render('select-school',{
             formResult: formResult,
             schoollist: schoollist
@@ -431,15 +437,15 @@ router.post("/v1/completeform/chinaschool.action", function(req, res) {
         method: "POST",
         url: "http://www.utuotu.com/v1/completeform/chinaschool.action",
     }, function(err, response, body) {
-        console.log("----", body, "----")
-        // var data = JSON.parse(body);
-        // if (!data) {
-        //     return
-        // }
-        // res.render('partials/school-list', {
-        //     data: data.data,
-        //     layout: "naked"
-        // });
+        // console.log("----", body, "----")
+        var data = JSON.parse(body);
+        if (!data) {
+            return
+        }
+        res.render('partials/school-list', {
+            data: data.data,
+            layout: "naked"
+        });
     });
 });
 
@@ -476,7 +482,7 @@ router.get("/v1/completeform/saveform.action", function(req, res) {
     });
 });
 
-router.get("/v1/Help/search.action", function(req, res) {
+router.get("/Help/search.action", function(req, res) {
     req.proxy.request({
         method: "GET",
         url: "http://www.utuotu.com/v1/Help/search.action",
@@ -488,4 +494,17 @@ router.get("/v1/Help/search.action", function(req, res) {
       });
     });
 });
+//refelink?hash={{hash}}
+router.get("/refelink", function(req, res) {
+    req.proxy.request({
+        method: "GET",
+        url: "http://www.utuotu.com/v1/help/redirect.action",
+        qs: {url: req.query.hash}
+    }, function(err, response, body) {
+      var data = JSON.parse(body).data;
+      console.log(data.url);
+      res.redirect(data.url)
+    });
+});
+
 module.exports = router;

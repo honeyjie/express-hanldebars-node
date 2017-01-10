@@ -7,11 +7,11 @@
         <div class="screen-list-english">{{school_name}} ({{school_name_short}}) </div>
         <div class="screen-list-address">{{city}}, {{state}}, {{nation}} </div>
         <div class="screen-list-rank">
-            <span>QS世界排名：{{rank.qs}}</span>
+            <p>QS世界排名：{{rank.qs}}</p>
             {{#if rank.usnews}}
-            <span>U.S. NEWS排名：{{rank.usnews}}</span>
+            <p>U.S. NEWS排名：{{rank.usnews}}</p>
             {{else}}
-            <span>麦考林（医博类）排名：{{rank.maikaolin}}</span>
+            <p>麦考林（医博类）排名：{{rank.maikaolin}}</p>
             {{/if}} 
         </div>
         <a class="screen-list-join button-solid" href="/select?sid={{id}}">加入选校</a>
@@ -20,6 +20,7 @@
 </ul>
 
 <div class="list-page">
+    {{#ifNotEq data.page.list.length 1}}
     <ul class="clear">
         {{#if data.page.pre}}
         <li class="active"><a href="{{{getString @root.urlPath @root.data.page.pre}}}"><span class="list-page-pre">{{pre}}</span></a></li>
@@ -41,7 +42,9 @@
         <li><a href="#"><span class="list-page-next"></span></a></li>
         {{/if}}    
     </ul>
+    
     <div class="list-page-total">
         <span>{{data.page.index}}</span>/<span>{{data.page.page_count}}</span>
     </div>
+    {{/ifNotEq}}
 </div>

@@ -256,11 +256,15 @@
     top: 0;
     left: 0;
     width: 100%;
-    padding: 30px;
+    padding: 30px 0;
     background: #ffffff;
     text-align: center;
     border-radius: 5px;
     overflow: hidden;
+}
+#login_container {
+ width: 300px;
+ height: 300px;
 }
 .login-switch{
     position: absolute;
@@ -283,6 +287,7 @@
     font-size: 16px;
     font-weight: 600;
     color: #25baf4;
+    margin-bottom: 30px;
 }
 .login-qrcode{
     margin: 40px;
@@ -1930,7 +1935,9 @@
     position: absolute;
     top: 20px;
     right: 0;
+    text-align: right;
 }
+
 .school .screen-list-join{
     position: absolute;
     width: 140px;

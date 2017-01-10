@@ -138,6 +138,7 @@
                     <button class="button-hollow-ban news-user-delete">全部删除</button>
                 </div>
                 <div class="list-page">
+                    {{#ifNotEq data.page.list.length 1}}
                     <ul class="clear hidden">
                         {{#if data.page.pre}}
                         <li class="active"><a href="{{{getString @root.urlPath @root.data.page.pre}}}"><span class="list-page-pre">{{pre}}</span></a></li>
@@ -159,6 +160,7 @@
                         <li><a href="#"><span class="list-page-next"></span></a></li>
                         {{/if}}    
                     </ul>
+                    {{/ifNotEq}}
                 </div>
                 {{/unless}}
                 <div class="news-list-none hidden">
