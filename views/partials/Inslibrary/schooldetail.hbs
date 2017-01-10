@@ -3,7 +3,7 @@
     <img class="school-info-logo" src="{{school_logo}}" alt=""/>
     <div class="school-info-name">{{school_name_zh}}<span class="school-info-address">{{city}}, {{state}}, {{nation}}</span></div>
     <div class="school-info-english">{{school_name_en}} ({{school_name_short}}) </div>
-    <div class="school-info-link"><a href="{{official_url}}">{{official_url}}</a></div>
+    <div class="school-info-link"><a href="http://{{official_url}}" target="_blank">{{official_url}}</a></div>
     <div class="school-info-rank">QS排名：{{qs_rank}}&nbsp;&nbsp;U.S.NEWS排名:{{news_rank}} </div>
 </div>
 <div class="school-box school-brief">
@@ -12,7 +12,6 @@
         <img class="school-box-arrow" src="/img/icon-up.png" alt=""/>
     </div>
     <div class="school-box-content school-brief-content">
-{{!--         <img src="" alt="{{map}}"/> --}}
         <div class="school-brief-map" data-map={{map}} data-nation={{nation}}></div>
         <div class="school-brief-describe" id="school-brief-describe">
             <div class="school-brief-scroll">

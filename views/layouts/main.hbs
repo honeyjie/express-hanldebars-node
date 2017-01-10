@@ -25,14 +25,8 @@
     <body>
 
         <div class="app">
-            {{#if show}}
-                <div class="header">{{> header}}</div>
-            {{else}}
-                <div class="header">{{> header}}</div>
-            {{/if}}
-
+            <div class="header">{{> header}}</div>
             {{{body}}}
-            
             {{#unless show}}
             <div class="footer">{{> footer}}</div>
             {{/unless}}

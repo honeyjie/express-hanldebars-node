@@ -400,7 +400,7 @@ router.get("/v1/schoolmajor/filterschool.action", function(req, res) {
         if (!data) {
             return
         }
-        var urlPath = url.parse(req.url).path;
+        var urlPath = '/school-screen?search=&page=';
         res.render('partials/search-result', {
             data: data.data,
             layout: "naked",
@@ -417,7 +417,7 @@ router.get("/v1/schoolmajor/searchschool.action", function(req, res) {
         if (!data) {
             return
         }
-        var urlPath = url.parse(req.url).path;
+        var urlPath = '/school-screen?search=&page=';
         res.render('partials/search-result', {
             data: data.data,
             urlPath: urlPath,
