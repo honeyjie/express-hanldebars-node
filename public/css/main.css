@@ -256,7 +256,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    padding: 30px 0;
+    padding: 30px;
     background: #ffffff;
     text-align: center;
     border-radius: 5px;
@@ -1101,12 +1101,12 @@
     width: 100px;
     height: 30px;
 }
-// .changeimg .inputstyle {
-//     position: absolute;
-//     opacity: 0;
-//     width: 100px;
-//     height: 30px;
-// }
+/*.changeimg .inputstyle { */
+    /*position: absolute;*/
+     /*opacity: 0;*/
+     /*width: 100px;*/
+     /*height: 30px;*/
+/*}*/
 .user .set-form-info{
     float: left;
     margin-left: 20px;
