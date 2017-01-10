@@ -1663,7 +1663,7 @@ function createDefaultScrollbar (direction, interactive, type) {
 		indicator = document.createElement('div');
 
 	if ( type === true ) {
-		scrollbar.style.cssText = 'position:absolute;z-index:2';
+		scrollbar.style.cssText = 'position:absolute;';
 		indicator.style.cssText = '-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;position:absolute;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.9);border-radius:3px';
 	}
 

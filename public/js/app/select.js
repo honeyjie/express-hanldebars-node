@@ -177,10 +177,23 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         });
         //毕业学校 选择
         $('.select-info-school .form-select-option').on('click','li',function(){
+            base.testSuccess($('.select-school'));
             $('.select-school').val($(this).html());
         });
-        //毕业学校 失去焦点
-        $('.select-school').on('blur',function(){
+        //毕业学校 鼠标移出
+        $('.select-school').on('mouseleave',function(){
+            if(!$(this).is(':focus')){
+                return;
+            }
+            var arr = [];
+            for(var i=0;i<$('.select-info-school .form-select-option li').length;i++){
+                arr.push($('.select-info-school .form-select-option li').eq(i).html())
+            }
+            if(arr.indexOf($('.select-school').val())==-1){
+                base.testFail($(this),'请从下拉列表中选择学校');
+                return;
+            }
+            base.testSuccess($(this));
             select.pre_school = $(this).val();
             if(select.pre_school){
                 $('.select-info-school .form-item-name').removeClass('red');
@@ -193,10 +206,23 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         });
         //毕业专业1 选择
         $('.select-info-major .form-select-option').on('click','li',function(){
+            base.testSuccess($('.select-major'));
             $('.select-major').val($(this).html());
         });
-        //毕业专业1 失去焦点
-        $('.select-major').on('blur',function(){
+        //毕业专业1 鼠标移出
+        $('.select-major').on('mouseleave',function(){
+            if(!$(this).is(':focus')){
+                return;
+            }
+            var arr = [];
+            for(var i=0;i<$('.select-info-major .form-select-option li').length;i++){
+                arr.push($('.select-info-major .form-select-option li').eq(i).html())
+            }
+            if(arr.indexOf($('.select-major').val())==-1){
+                base.testFail($(this),'请从下拉列表中选择专业');
+                return;
+            }
+            base.testSuccess($(this));
             select.pre_major = $(this).val();
             if(select.pre_major=='法学'){
                 $('.select-form-last').removeClass('hidden');
@@ -216,15 +242,27 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             // $('.select-info-major2').find('.form-select-option').removeClass('hidden');  //测试
             selectMajor($(this).val(),2);
         });
-        //毕业专业2 选择
-        $('.select-info-major2 .form-select-option li').on('click',function(){
-            $('.select-major2').val($(this).html());
-            select.pre_major2 = $(this).html();
-
-        });
-        //毕业专业2 失去焦点
-        $('.select-major2').on('blur',function(){
+        //毕业专业2 鼠标移出
+        $('.select-major2').on('mouseleave',function(){
+            if(!$(this).is(':focus')){
+                return;
+            }
+            var arr = [];
+            for(var i=0;i<$('.select-info-major2 .form-select-option li').length;i++){
+                arr.push($('.select-info-major2 .form-select-option li').eq(i).html())
+            }
+            if(arr.indexOf($('.select-major2').val())==-1){
+                base.testFail($(this),'请从下拉列表中选择专业');
+                return;
+            }
+            base.testSuccess($(this));
             select.pre_major2 = $(this).val();
+        });
+        //毕业专业2 选择
+        $('.select-info-major2 .form-select-option').on('click','li',function(){
+            base.testSuccess($('.select-major2'));
+            $('.select-major2').val($(this).html());
+
         });
         //毕业时间
         $('.select-school-type .form-radio').on('click',function(){
@@ -306,17 +344,31 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             $(this).testInput({
                 rule : base.isScore,
                 success : function(dom){
-                    if(dom.val()<0||dom.val()>100){
-                        language.overall = null;
-                        base.testFail(dom,'TOFEL有效分值为0~120分');
-                        return;
+                    if(select.language.toefl){
+                        if(dom.val()<0||dom.val()>120){
+                            language.overall = null;
+                            base.testFail(dom,'TOFEL有效分值为0~120分');
+                            return;
+                        }
+                    }
+                    else if(select.language.ielts){
+                        if(dom.val()<0||dom.val()>9){
+                            exam.V = null;
+                            base.testFail(dom,'IELTS有效分值为0~9分');
+                            return;
+                        }
                     }
                     language.overall = dom.val();
                     base.testSuccess(dom);
                 },
                 fail : function(dom){
                     language.overall = null;
-                    base.testFail(dom,'TOFEL有效分值为0~120分');
+                    if(select.language.toefl){
+                        base.testFail(dom,'TOFEL有效分值为0~120分');
+                    }
+                    else if(select.language.ielts){
+                        base.testFail(dom,'IELTS有效分值为0~9分');
+                    }
                 }
             });
         });
@@ -325,17 +377,31 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             $(this).testInput({
                 rule : base.isScore,
                 success : function(dom){
-                    if(dom.val()<0||dom.val()>30){
-                        language.R = null;
-                        base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
-                        return;
+                    if(select.language.toefl){
+                        if(dom.val()<0||dom.val()>30){
+                            language.R = null;
+                            base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
+                            return;
+                        }
+                    }
+                    else if(select.language.ielts){
+                        if(dom.val()<0||dom.val()>9){
+                            exam.V = null;
+                            base.testFail(dom,'IELTS分项成绩有效分值为0~9');
+                            return;
+                        }
                     }
                     language.R = dom.val();
                     base.testSuccess(dom);
                 },
                 fail : function(dom){
                     language.R = null;
-                    base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
+                    if(select.language.toefl){
+                        base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
+                    }
+                    else if(select.language.ielts){
+                        base.testFail(dom,'IELTS分项成绩有效分值为0~9');
+                    }
                 }
             });
         });
@@ -344,17 +410,31 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             $(this).testInput({
                 rule : base.isScore,
                 success : function(dom){
-                    if(dom.val()<0||dom.val()>30){
-                        language.L = null;
-                        base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
-                        return;
+                    if(select.language.toefl){
+                        if(dom.val()<0||dom.val()>30){
+                            language.R = null;
+                            base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
+                            return;
+                        }
+                    }
+                    else if(select.language.ielts){
+                        if(dom.val()<0||dom.val()>9){
+                            exam.V = null;
+                            base.testFail(dom,'IELTS分项成绩有效分值为0~9');
+                            return;
+                        }
                     }
                     language.L = dom.val();
                     base.testSuccess(dom);
                 },
                 fail : function(dom){
                     language.L = null;
-                    base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
+                    if(select.language.toefl){
+                        base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
+                    }
+                    else if(select.language.ielts){
+                        base.testFail(dom,'IELTS分项成绩有效分值为0~9');
+                    }
                 }
             });
         });
@@ -363,17 +443,31 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             $(this).testInput({
                 rule : base.isScore,
                 success : function(dom){
-                    if(dom.val()<0||dom.val()>30){
-                        language.S = null;
-                        base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
-                        return;
+                    if(select.language.toefl){
+                        if(dom.val()<0||dom.val()>30){
+                            language.R = null;
+                            base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
+                            return;
+                        }
+                    }
+                    else if(select.language.ielts){
+                        if(dom.val()<0||dom.val()>9){
+                            exam.V = null;
+                            base.testFail(dom,'IELTS分项成绩有效分值为0~9');
+                            return;
+                        }
                     }
                     language.S = dom.val();
                     base.testSuccess(dom);
                 },
                 fail : function(dom){
                     language.S = null;
-                    base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
+                    if(select.language.toefl){
+                        base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
+                    }
+                    else if(select.language.ielts){
+                        base.testFail(dom,'IELTS分项成绩有效分值为0~9');
+                    }
                 }
             });
         });
@@ -382,17 +476,31 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             $(this).testInput({
                 rule : base.isScore,
                 success : function(dom){
-                    if(dom.val()<0||dom.val()>30){
-                        language.W = null;
-                        base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
-                        return;
+                    if(select.language.toefl){
+                        if(dom.val()<0||dom.val()>30){
+                            language.R = null;
+                            base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
+                            return;
+                        }
+                    }
+                    else if(select.language.ielts){
+                        if(dom.val()<0||dom.val()>9){
+                            exam.V = null;
+                            base.testFail(dom,'IELTS分项成绩有效分值为0~9');
+                            return;
+                        }
                     }
                     language.W = dom.val();
                     base.testSuccess(dom);
                 },
                 fail : function(dom){
                     language.W = null;
-                    base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
+                    if(select.language.toefl){
+                        base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
+                    }
+                    else if(select.language.ielts){
+                        base.testFail(dom,'IELTS分项成绩有效分值为0~9');
+                    }
                 }
             });
         });
@@ -688,6 +796,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 }
                 height[3] = parseInt(height[3])-$(this).find('.form-check-input').innerHeight()+'px';
                 $('.select-other').css('height',height[3]);
+                base.testSuccess($(this).find('input'));
             }
         });
         //学术成就 input
@@ -706,6 +815,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                             value.num = num;
                         }
                     });
+                    base.testSuccess(dom);
                 },
                 fail : function(dom){
                     var val = dom.data('value');
@@ -1094,19 +1204,19 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 if(value.num>0){
                     num++;
                 }
-                if(num>0){
-                    if(parseInt($('.select-box').eq(3).find('.select-content').css('height'))>0){
-                        $('.select-box').eq(3).find('.select-title-control').click();
-                    }
-                }
-                else{
-                    $('.select-box').eq(3).find('.select-title').addClass('error');
-                    $('.select-achievement .form-item-name').eq(0).addClass('red');
-                    if(parseInt($('.select-box').eq(3).find('.select-content').css('height'))==0){
-                        $('.select-box').eq(3).find('.select-title-control').click();
-                    }
-                }
             });
+            if(num>0){
+                if(parseInt($('.select-box').eq(3).find('.select-content').css('height'))>0){
+                    $('.select-box').eq(3).find('.select-title-control').click();
+                }
+            }
+            else{
+                $('.select-box').eq(3).find('.select-title').addClass('error');
+                $('.select-achievement .form-item-name').eq(0).addClass('red');
+                if(parseInt($('.select-box').eq(3).find('.select-content').css('height'))==0){
+                    $('.select-box').eq(3).find('.select-title-control').click();
+                }
+            }
         }
 
         if($('.select-title').hasClass('error')){

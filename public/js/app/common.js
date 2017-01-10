@@ -1,5 +1,6 @@
 define(['jquery','base','iscroll'],function(jquery,base,iscroll){
     var scroll = [];
+    var imageFieldName;
         //关闭所有弹出层
         $(document).on('click',function(){
             //关闭搜索
@@ -282,7 +283,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             dataType:'html',
             success:function(data){
                 $('.login-captcha-title span').html(JSON.parse(data).imageName);
-                var values = JSON.parse(data).values;
+                imageFieldName = JSON.parse(data).imageName
                 var dom = '';
                 for(var i=0;i<5;i++){
                     dom = dom + '<img data-value="'+JSON.parse(data).values[i]+'" src="" alt=""/>';
@@ -315,10 +316,12 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
     }
     //验证码try
     function captchaTry(value){
+        var data = {};
+        data[imageFieldName] = value;
         $.ajax({
             url:'/v1/captcha/try.action',
             data: {
-                验证码的id : value
+                验证码的id : data
             },
             type:'post',
             cache:false,
