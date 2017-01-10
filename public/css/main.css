@@ -262,6 +262,12 @@
     border-radius: 5px;
     overflow: hidden;
 }
+.login-wechat {
+    padding: 30px 0;
+}
+.login-account {
+    padding: 30px;
+}
 #login_container {
  width: 300px;
  height: 300px;
@@ -1946,6 +1952,7 @@
     top: 20px;
     right: 20px;
     color: #25baf4;
+    text-align: right;
 }
 .school .school-box{
     border: 1px solid #dcdcdc;
