@@ -273,7 +273,6 @@ router.get('/school-screen', function (req, res) {
         urlPath = urlPath + "?search=&page="
       }
         var data = JSON.parse(body);
-        console.log(data.data.data[0].rank);
         res.render('school-screen', {
             data: data.data,
             urlPath: urlPath
@@ -362,23 +361,23 @@ router.get('/select-school', function(req, res) {
         url: "http://www.utuotu.com/v1/completeform/intelligentselection.action",
     }, function(err, response, body) {
         schoollist = JSON.parse(body).data;
-        console.log(schoollist)
+        // console.log(schoollist)
     });
     //请求图表
-    setTimeout(function(res) {
-      req.proxy.request({
-          method: "GET",
-          url: "http://www.utuotu.com/v1/Completeform/historyoffer.action"
-      }, function(err, response, body) {
-          console.log(body);
-          var formResult = JSON.parse(body).data;
-          console.log(formResult);
-          res.render('select-school',{
-            formResult: formResult,
-            schoollist: schoollist
-          })
-      });
-    }, 500, res)
+    // setTimeout(function(res) {
+    //   req.proxy.request({
+    //       method: "GET",
+    //       url: "http://www.utuotu.com/v1/Completeform/historyoffer.action"
+    //   }, function(err, response, body) {
+    //       console.log(body);
+    //       var formResult = JSON.parse(body).data;
+    //       console.log(formResult);
+    //       res.render('select-school',{
+    //         formResult: formResult,
+    //         schoollist: schoollist
+    //       })
+    //   });
+    // }, 500, res)
     
 
     
@@ -450,7 +449,6 @@ router.post("/v1/completeform/chinamajor.action", function(req, res) {
         url: "http://www.utuotu.com/v1/completeform/chinamajor.action",
     }, function(err, response, body) {
         var data = JSON.parse(body);
-        console.log(data);
         if (!data) {
             return
         }

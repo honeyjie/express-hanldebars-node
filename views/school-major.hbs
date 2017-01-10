@@ -3,7 +3,7 @@
     <ul class="school-side">
         <li class="active"><a href="#">推荐专业</a></li>
         <li><a href="/school-all?sid={{sid}}">全部专业</a></li>
-        <li class="school-side-revise"><a href="/school-recommend?sid={{sid}}">修改专业</a></li>
+        <li class="school-side-revise"><a href="/school-recommend?sid={{sid}}">重新推荐</a></li>
     </ul>
     {{#with data}} 
     <div class="school-box school-major">
@@ -15,7 +15,7 @@
         </div>
         <div class="school-box-content major-tab">
             <ul class="tab-title clear">
-                <li class="active">{{degree}}</li>
+                <a href="/school-mjlist/sid={{@root.sid}}&mid={{id}}"><li class="active">{{degree}}</li></a>
                 {{#each otherDegree}}
                     {{#ifNotEq this.degree ../degree}}
                     <a href="/school-mjlist/sid={{@root.sid}}&mid={{id}}"><li>{{degree}}</li></a>
@@ -88,9 +88,9 @@
                         
                         <li class="active">
                             <img src="/img/require1.png" alt=""/>
-                            <div class="major-require-list-name">研究报告</div>
+                            <div class="major-require-list-name">个人称述（SOP）</div>
                             <div class="major-require-list-result hidden">
-                              <p>{{showRequest transcripts 'A Personal Statement is Required.' '' ''}}<p> 
+                              <p>{{showRequest ps 'A Personal Statement is Required.' '' ''}}<p> 
                             </div>
                             <div class="major-require-list-arrow"></div>
                         </li>
@@ -98,7 +98,7 @@
                             <img src="/img/require2.png" alt=""/>
                             <div class="major-require-list-name">个人简历</div>
                             <div class="major-require-list-result hidden">
-                              <p>{{showRequest ps 'A Personal Statement is Required.' '' ''}}<p>  
+                              <p>{{showRequest  resume 'A Personal Statement is Required.' '' ''}}<p>  
                             </div>
                             <div class="major-require-list-arrow"></div>
                         </li>
@@ -115,7 +115,6 @@
                             <img src="/img/require4.png" alt=""/>
                             <div class="major-require-list-name">成绩单</div>
                             <div class="major-require-list-result hidden">
-                             <p>{{showRequest gpa '无最低要求' '' ''}} </p>
                              <p>{{showRequest transcripts '' '成绩单要求: ' '' ''}} </p>
                             </div>
                             <div class="major-require-list-arrow"></div>
@@ -124,13 +123,15 @@
                             <img src="/img/require5.png" alt=""/>
                             <div class="major-require-list-name">语言成绩</div>
                             <div class="major-require-list-result hidden">
-                             <p>{{showRequest toefl '' '托福最低要求: ' '分' ''}} </p>
-                             <p>{{showRequest toefl_single '' '' ''}} </p>
-                             <p>{{showRequest toefl_code '' '' ''}} </p>
-                             <p>{{showRequest ielts '' '' ''}} </p>
-                             <p>{{showRequest ielts_single '' '' ''}} </p>
-                             <p>{{showRequest ielts_achievement '' ''}} </p>
-                             <p>{{showRequest language_introduce '' ''}} </p>
+                            {{#with language}}
+                            <p>
+                            托福最低要求: {{toefl}} 分。TOEFL分项最低要求: R-{{toefl_r}}分,L-{{toefl_l}}分，S-{{toefl_s}}分，W-{{toefl_w}}分。
+                            TOEFL官方成绩电子寄送 Code：{{}}(Institute;Department)。
+                            IELTS最低要求：{{ielts}}分。
+                            IELTS分项最低要求：R-{{ielts_r}}分，L-{{ielts_l}}分，S-{{ielts_s}}分，W-{{ielts_w}}分。
+                            IELTS寄送方式：
+                            </p>
+                            {{/with}}
                             </div>
                             <div class="major-require-list-arrow"></div>
                         </li>
@@ -138,12 +139,15 @@
                             <img src="/img/require6.png" alt=""/>
                             <div class="major-require-list-name">标准化考试</div>
                             <div class="major-require-list-result hidden">
-                                <p>{{showRequest gre '' 'GRE最低要求' ''}} </p>
-                                <p>{{showRequest ggre_single 'GRE分项最低要求' ''}} </p>
-                                <p>{{showRequest gre_code '' 'GRE官方成绩电子寄送 Code: ' '(Institute;Department)'}} </p>
-                                <p>{{showRequest gmat '' 'GMAT最低要求:' '分' ''}} </p>
-                                <p>{{showRequest gmat_single '' 'GMAT分项最低要求' '' ''}} </p>
-                                <p>{{showRequest exam_introduce '' '标准化考试其他要求: ' '' ''}} </p>
+                            {{#with exam}}
+                            GRE最低要求: {{}}分
+                            GRE分项最低要求：V-{{}}分，Q-{{}}分，AW-{{}}
+                            GRE官方成绩电子寄送 Code：{{}}(Institute;Department)
+                            GMAT最低要求: {{}}分
+                            GMAT分项最低要求：V-{{}}分，Q-{{}}分，AW-{{}} 
+                            GMAT寄送方式：
+                            标准化考试其他要求：
+                            {{/with}}
                             </div>    
                             <div class="major-require-list-arrow"></div>
                         </li>
@@ -158,10 +162,10 @@
                     </ul>
                     <div class="major-require-content" id="require-content">
                         <div>
-                            <div class="major-require-content-name">研究报告</div>
+                            <div class="major-require-content-name">个人称述（SOP）</div>
                             <div class="major-require-content-result">
                                 <div class="major-require-list-result">
-                                    <p>{{showRequest transcripts 'A Personal Statement is Required.' '' ''}}<p>
+                                    <p>{{showRequest ps 'A Personal Statement is Required.' '' ''}}<p>
                                 </div> 
                             </div>
                         </div>
