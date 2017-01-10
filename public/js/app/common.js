@@ -229,7 +229,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
                 redirect_uri: encodeURIComponent(res.data.redirect_uri),
                 state: res.data.state,
                 style: "black",
-                href: "https://coding.net/u/xiongjie/p/myapp1.0/git/raw/master/public/css/wechat.css"
+                href: "https://www.utuotu.com/css/wechat.css"
             });
         });
         $('.login').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){

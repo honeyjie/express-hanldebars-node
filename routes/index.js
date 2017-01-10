@@ -171,7 +171,10 @@ router.get('/user-set', function(req, res, next) {
 
 //注册
 router.get('/register-complete', function(req, res, next) {
-  res.render('register-complete')
+    res.render('register-complete', {
+      headImg: req.query.headImg,
+      nickname: req.query.nickname
+    })
 });
 
 router.get('/register-forget', function(req, res, next) {
@@ -182,12 +185,15 @@ router.get('/register-reset', function(req, res, next) {
   res.render('register-reset')
 });
 
-router.get('/register-test', function(req, res, next) {
-  res.render('register-test')
-});
+// router.get('/register-test', function(req, res, next) {
+//   res.render('register-test')
+// });
 
 router.get('/register-test', function(req, res, next) {
-  req.proxy.request('http://www.utuotu.com/v1/msg/validemail.action', {qs: {token: req.query.token}}, function(err, response, body) {
+  req.proxy.request({
+    url: 'http://www.utuotu.com/v1/msg/validemail.action', 
+    qs: {token: req.query.token}
+  }, function(err, response, body) {
     var success = false,
         done = false,
         invalid = false;
@@ -322,7 +328,6 @@ router.get('/school-mjlist', function(req, res, next) {
           }, function(err, response, body) {
               var result = JSON.parse(body).data;
               dataList.push(result);
-              console.log(dataList)
 
           })
         }; 
