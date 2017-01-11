@@ -3,14 +3,14 @@
         {{#each data.allmajors}}
             <li class="all-list-type">{{@key}}</li>
                 {{#each this}}
-                    <li><a href="/school-major?sid={{@root.sid}}&mid={{major_id}}">{{major_name}}</a></li>
+                    <li><span><a href="/school-major?sid={{@root.sid}}&mid={{major_id}}">{{major_name}}</a></span></li>
                 {{/each}}        
         {{/each}}
     {{else}}
         {{#each acMajors}}
             <li class="all-list-type active">{{@key}}</li>
                 {{#each this}}
-                    <li><a href="/school-major?sid={{@root.sid}}&mid={{major_id}}">{{major_name}}</a></li>
+                    <li><span><a href="/school-major?sid={{@root.sid}}&mid={{major_id}}">{{major_name}}</a></span></li>
                 {{/each}}      
         {{/each}}
     {{/if}}

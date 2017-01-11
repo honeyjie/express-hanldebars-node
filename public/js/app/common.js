@@ -48,7 +48,8 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
         //模拟滚动条
         scroll[2] = new iscroll('#view-article-scroll',{
             mouseWheel : true,
-            scrollbars : true
+            scrollbars : true,
+            interactiveScrollbars : true
         });
         //选校定位下拉列表
         $('.header-nav-school').on('mouseenter',function(){
@@ -167,24 +168,16 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
                 success:function(data){
                     $('.header-search-result').html(data);
                     //模拟滚动条
-                    if(!scroll[0]){
-                        scroll[0] =  new iscroll('#search-school',{
-                            mouseWheel : true,
-                            scrollbars : true
-                        });
-                    }
-                    else{
-                        scroll[0].refresh();
-                    }
-                    if(!scroll[1]){
-                        scroll[1] = new iscroll('#search-article',{
-                            mouseWheel : true,
-                            scrollbars : true
-                        });
-                    }
-                    else{
-                        scroll[1].refresh();
-                    }
+                    scroll[0] =  new iscroll('#search-school',{
+                        mouseWheel : true,
+                        scrollbars : true,
+                        interactiveScrollbars : true
+                    });
+                    scroll[1] = new iscroll('#search-article',{
+                        mouseWheel : true,
+                        scrollbars : true,
+                        interactiveScrollbars : true
+                    });
                 },
                 error : function() {
                     base.notice('网络错误');

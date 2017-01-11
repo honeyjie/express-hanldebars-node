@@ -180,16 +180,14 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             base.testSuccess($('.select-school'));
             $('.select-school').val($(this).html());
         });
-        //毕业学校 鼠标移出
-        $('.select-school').on('mouseleave',function(){
-            if(!$(this).is(':focus')){
-                return;
-            }
+        //毕业学校 失去焦点
+        $('.select-school').on('blur',function(){
             var arr = [];
             for(var i=0;i<$('.select-info-school .form-select-option li').length;i++){
                 arr.push($('.select-info-school .form-select-option li').eq(i).html())
             }
             if(arr.indexOf($('.select-school').val())==-1){
+                select.pre_school = null;
                 base.testFail($(this),'请从下拉列表中选择学校');
                 return;
             }
@@ -199,6 +197,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 $('.select-info-school .form-item-name').removeClass('red');
             }
             infoFinished();
+            console.log(select.pre_school)
         });
         //毕业专业1 输入
         $('.select-major').on('input propertychange',function(){
@@ -209,16 +208,14 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             base.testSuccess($('.select-major'));
             $('.select-major').val($(this).html());
         });
-        //毕业专业1 鼠标移出
-        $('.select-major').on('mouseleave',function(){
-            if(!$(this).is(':focus')){
-                return;
-            }
+        //毕业专业1 失去焦点
+        $('.select-major').on('blur',function(){
             var arr = [];
             for(var i=0;i<$('.select-info-major .form-select-option li').length;i++){
                 arr.push($('.select-info-major .form-select-option li').eq(i).html())
             }
             if(arr.indexOf($('.select-major').val())==-1){
+                select.pre_major = null;
                 base.testFail($(this),'请从下拉列表中选择专业');
                 return;
             }
@@ -242,13 +239,11 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             // $('.select-info-major2').find('.form-select-option').removeClass('hidden');  //测试
             selectMajor($(this).val(),2);
         });
-        //毕业专业2 鼠标移出
-        $('.select-major2').on('mouseleave',function(){
-            if(!$(this).is(':focus')){
-                return;
-            }
+        //毕业专业2 失去焦点
+        $('.select-major2').on('blur',function(){
             var arr = [];
             for(var i=0;i<$('.select-info-major2 .form-select-option li').length;i++){
+                select.pre_major2 = null;
                 arr.push($('.select-info-major2 .form-select-option li').eq(i).html())
             }
             if(arr.indexOf($('.select-major2').val())==-1){
@@ -916,6 +911,12 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
 
         //切换学校类型
         $('.select-school').tab();
+        //学校鼠标移入
+        $('.select-school-list li').on('mouseenter',function(){
+            $(this).find('.school-list-info').animate({height:40},200);
+            $(this).find('.school-list-logo').animate({marginTop:10},200);
+            $(this).find('.school-list-mask').fadeIn(200);
+        });
         //切换学校图表
         $('.select-school-list li').on('click',function(){
             $('.select-school-list li').removeClass('active');
@@ -1040,7 +1041,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
 
     function selectSchool(school){
         $.ajax({
-            url:'/completeform/chinaschool.action',
+            url:'/v1/completeform/chinaschool.action',
             data:{
                 schoolname : school
             },
@@ -1053,7 +1054,8 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 if(!scroll[0]){
                     scroll[0] = new iscroll('#select-school',{
                         mouseWheel : true,
-                        scrollbars : true
+                        scrollbars : true,
+                        interactiveScrollbars : true
                     });
                 }
                 else{
@@ -1068,7 +1070,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
 
     function selectMajor(major,n){
         $.ajax({
-            url:'/completeform/chinamajor.action',
+            url:'/v1/completeform/chinamajor.action',
             data:{
                 majorname: major
             },
@@ -1082,7 +1084,8 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                     if(!scroll[1]){
                         scroll[1] = new iscroll('#select-major',{
                             mouseWheel : true,
-                            scrollbars : true
+                            scrollbars : true,
+                            interactiveScrollbars : true
                         });
                     }
                     else{
@@ -1094,7 +1097,8 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                     if(!scroll[2]){
                         scroll[2] = new iscroll('#select-major2',{
                             mouseWheel : true,
-                            scrollbars : true
+                            scrollbars : true,
+                            interactiveScrollbars : true
                         });
                     }
                     else{

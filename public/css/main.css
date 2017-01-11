@@ -1613,9 +1613,8 @@
 
 .help-icon{
     position: fixed;
-    bottom: 30%;
-    right: 50%;
-    margin-right: -623px;
+    bottom: 100px;
+    right: 100px;
     cursor: pointer;
 }
 .help-icon-pic {
@@ -1627,10 +1626,9 @@
     left: -71px;
 }
 .help{
-    top: 50%;
+    bottom: 100px;
     right: 0;
     width: 340px;
-    margin-top: -250px;
     background: #ffffff;
     overflow: hidden;
 }
@@ -1830,21 +1828,31 @@
 }
 .help .help-back{
     position: absolute;
-    width: 34px;
+    width: 30px;
+    height: 30px;
     left: 60px;
-    bottom: 21px;
+    bottom: 18px;
     cursor: pointer;
 }
 .help .help-file{
     position: absolute;
-    width: 34px;
+    width: 30px;
+    height: 30px;
     right: 60px;
-    bottom: 21px;
+    bottom: 18px;
     cursor: pointer;
+}
+.help .help-file img,.help .help-send img{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
 }
 .help .help-close,.help .help-send{
     position: absolute;
-    width: 46px;
+    width: 40px;
+    height: 40px;
     bottom: 15px;
     left: 50%;
     margin-left: -23px;
@@ -2123,7 +2131,7 @@
 .school .school-side{
     position: relative;
     width: 200px;
-    height: 450px;
+    min-height: 450px;
     float: left;
     border-radius: 5px;
     background: #25baf4;
@@ -2156,7 +2164,7 @@
     color: #ffffff;
     font-size: 14px;
 }
-.school-side-son>li a:hover{
+.school-side-son>li a:hover,.school-side-son>li.active a{
     text-decoration: underline;
 }
 .school .school-all{
@@ -2173,7 +2181,7 @@
     margin-right: 10px;
     height: 50px;
 }
-.school .all-list li a{
+.school .all-list li span{
     display: table-cell;
     vertical-align: middle;
     line-height: 16px;
@@ -2359,7 +2367,7 @@
 }
 .school .major-info>li{
     float: left;
-    width: 299px;
+    width: 290px;
     margin-bottom: 20px;
     margin-right: 20px;
 }
@@ -2972,14 +2980,37 @@
 .select-school .select-school-list li:nth-child(1){
     margin-left: 0;
 }
-.select-school .select-school-pic{
+.select-school .school-list-rank{
+    display: none;
+}
+.select-school .school-list-main{
+    position: relative;
     border: 1px solid #dcdcdc;
     border-radius: 5px;
-    margin-top: 35px;
-    overflow: hidden;
-    position: relative;
+    padding: 10px;
+    margin-top: 30px;
 }
-.select-school .select-school-mask{
+.select-school .school-list-logo{
+    display: block;
+    width: 100px;
+    height: 100px;
+    margin: 10px auto;
+}
+.select-school .school-list-info{
+    height: 0;
+    overflow: hidden;
+}
+.select-school .school-list-name{
+    font-size: 14px;
+    color: #666666;
+    text-align: center;
+    font-weight: 600;
+}
+.select-school .school-list-major{
+    overflow: hidden;
+    text-align: center;
+}
+.select-school .school-list-mask{
     position: absolute;
     width: 100%;
     height: 100%;
@@ -2993,68 +3024,68 @@
     color: #ffffff;
     display: none;
 }
-.select-school .select-school-list li:hover .select-school-mask{
-    display: block;
-}
-.select-school .select-school-list li.active .select-school-pic,.select-school .select-school-list li:hover .select-school-pic{
-    border: 1px solid #25baf4;
-    border-radius: 5px;
-    margin-top: 0;
-}
-.select-school .select-school-list li .school-small{
-    width: 100%;
-    height: 135px;
-    display: block;
-}
-.select-school .select-school-list li .school-big{
-    width: 100%;
-    height: 170px;
-    display: none;
-}
-.select-school .select-school-list li.active .school-small,.select-school .select-school-list li:hover .school-small{
-    display: none;
-}
-.select-school .select-school-list li.active .school-big,.select-school .select-school-list li:hover .school-big{
-    display: block;
-}
-.select-school .select-school-list li.active:hover .select-school-mask{
-    display: none;
-}
-.select-school .select-school-switch{
-    margin-top: 10px;
-    text-align: right;
-}
-.select-school .select-school-switch span{
-    padding: 2px 0;
-    vertical-align: top;
-}
-.select-school .select-school-switch span:nth-child(1){
-    display: inline;
-}
-.select-school .select-school-switch span:nth-child(2){
-    display: none;
-}
-.select-school .select-school-switch img{
-    cursor: pointer;
-}
-.select-school .select-school-switch img:nth-child(3){
-    display: inline;
-}
-.select-school .select-school-switch img:nth-child(4){
-    display: none;
-}
-.select-school .select-school-switch.active span:nth-child(1){
-    display: none;
-}
-.select-school .select-school-switch.active span:nth-child(2){
-    display: inline;
-}
-.select-school .select-school-switch.active img:nth-child(3){
-    display: none;
-}
-.select-school .select-school-switch.active img:nth-child(4){
-    display: inline;
-}
+/*.select-school .select-school-list li:hover .select-school-mask{*/
+    /*display: block;*/
+/*}*/
+/*.select-school .select-school-list li.active .select-school-pic,.select-school .select-school-list li:hover .select-school-pic{*/
+    /*border: 1px solid #25baf4;*/
+    /*border-radius: 5px;*/
+    /*margin-top: 0;*/
+/*}*/
+/*.select-school .select-school-list li .school-small{*/
+    /*width: 100%;*/
+    /*height: 135px;*/
+    /*display: block;*/
+/*}*/
+/*.select-school .select-school-list li .school-big{*/
+    /*width: 100%;*/
+    /*height: 170px;*/
+    /*display: none;*/
+/*}*/
+/*.select-school .select-school-list li.active .school-small,.select-school .select-school-list li:hover .school-small{*/
+    /*display: none;*/
+/*}*/
+/*.select-school .select-school-list li.active .school-big,.select-school .select-school-list li:hover .school-big{*/
+    /*display: block;*/
+/*}*/
+/*.select-school .select-school-list li.active:hover .select-school-mask{*/
+    /*display: none;*/
+/*}*/
+/*.select-school .select-school-switch{*/
+    /*margin-top: 10px;*/
+    /*text-align: right;*/
+/*}*/
+/*.select-school .select-school-switch span{*/
+    /*padding: 2px 0;*/
+    /*vertical-align: top;*/
+/*}*/
+/*.select-school .select-school-switch span:nth-child(1){*/
+    /*display: inline;*/
+/*}*/
+/*.select-school .select-school-switch span:nth-child(2){*/
+    /*display: none;*/
+/*}*/
+/*.select-school .select-school-switch img{*/
+    /*cursor: pointer;*/
+/*}*/
+/*.select-school .select-school-switch img:nth-child(3){*/
+    /*display: inline;*/
+/*}*/
+/*.select-school .select-school-switch img:nth-child(4){*/
+    /*display: none;*/
+/*}*/
+/*.select-school .select-school-switch.active span:nth-child(1){*/
+    /*display: none;*/
+/*}*/
+/*.select-school .select-school-switch.active span:nth-child(2){*/
+    /*display: inline;*/
+/*}*/
+/*.select-school .select-school-switch.active img:nth-child(3){*/
+    /*display: none;*/
+/*}*/
+/*.select-school .select-school-switch.active img:nth-child(4){*/
+    /*display: inline;*/
+/*}*/
 .select-school .select-school-chart li{
     width: 50%;
     float: left;

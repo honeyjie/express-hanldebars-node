@@ -3,90 +3,130 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
     var type;
     var question;
     var helpTimer;
-    
     if($('.help')[0]){
-            //阻止冒泡
-            $('.help').on('click',function(e){
-                e.stopPropagation();
-                $('.form-select-option').addClass('hidden');
-                $('.form-select').removeClass('focus');
+        //阻止冒泡
+        $('.help').on('click',function(e){
+            e.stopPropagation();
+            $('.form-select-option').addClass('hidden');
+            $('.form-select').removeClass('focus');
+        });
+        //tab切换
+        $('.help-tab').tab(function(){
+            $('.help-send').addClass('hidden');
+            $('.help-file').addClass('hidden');
+            $('.help-close').removeClass('hidden');
+        },function(){
+            $('.help-send').removeClass('hidden');
+            $('.help-file').removeClass('hidden');
+            $('.help-close').addClass('hidden');
+        });
+        //模拟滚动条
+        if($('#help-list')[0]){
+            scroll[0] =  new iscroll('#help-list',{
+                mouseWheel : true,
+                scrollbars : true,
+                interactiveScrollbars : true
             });
-            //tab切换
-            $('.help-tab').tab(function(){
-                $('.help-send').addClass('hidden');
-                $('.help-file').addClass('hidden');
-                $('.help-close').removeClass('hidden');
-            },function(){
-                $('.help-close').addClass('hidden');
+        }
+        if($('#help-article')[0]){
+            scroll[1] =  new iscroll('#help-article',{
+                mouseWheel : true,
+                scrollbars : true,
+                interactiveScrollbars : true
             });
-            //模拟滚动条
-            if($('#help-list')[0]){
-                scroll[0] =  new iscroll('#help-list',{
-                    mouseWheel : true,
-                    scrollbars : true
-                });
-            }
-            if($('#help-article')[0]){
-                scroll[1] =  new iscroll('#help-article',{
-                    mouseWheel : true,
-                    scrollbars : true
-                });
-            }
-            //帮助提示显示
-            helpTimer = setTimeout(function(){
-                $('.help-icon-notice').removeClass('hidden').addClass('animated fadeInUp').one(base.animationend,function(){
-                    $('.help-icon-notice').removeClass('animated fadeInUp');
+        }
+        //帮助提示显示
+        helpTimer = setTimeout(function(){
+            $('.help-icon-notice').removeClass('hidden').addClass('animated fadeInUp').one(base.animationend,function(){
+                $('.help-icon-notice').removeClass('animated fadeInUp');
+                setTimeout(function(){
+                    $('.help-icon-pic').addClass('animated infinite jump');
                     setTimeout(function(){
-                        $('.help-icon-pic').addClass('animated infinite jump');
-                    },5000);
-                });
-            },3000);
+                        $('.help-icon-pic').removeClass('animated infinite jump');
+                    },3000);
+                },5000);
+            });
+        },3000);
 
-            //$(document).on("click", function(e) {
-            //    console.log("1" + e.target);
-            //})
-            //打开帮助
-            $('.help-icon-pic').on('click',function(e){
-                e.stopPropagation();
-                openHelp();
-                scroll[0].refresh();
-            });
-            //关闭帮助
-            $('.help-close').on('click',function(){
-                base.closeAll.closeHelp();
-            });
-            //打开文章
-            $('.help-list').on('click',function(){
-                openArticle();
-            });
-            //关闭文章
-            $('.help-back').on('click',function(){
-                closeArticle();
-            });
-            //打开登录框
-            $('.help-login-button').on('click',function(e){
-                e.stopPropagation();
-                $('.login').removeClass('hidden');
-                // base.openLogin();
-                common.openIndexLogin();
-            });
-            //下拉
-            $('.help-select').select();
-            //选择问题类型
-            $('.help .form-select-option li').on('click',function(){
-                selectType($(this));
-            });
-            $('.help-send').on('click',function(){
-                sendQuestion();
-            });
-            $('.help-file').on('click',function(){
-                $('#help-file')[0].click();
-            });
-            if($('#help-file')[0]){
-                $('#help-file')[0].addEventListener('change',function(){
-                    upLoadFile();
-                },false)
+        //$(document).on("click", function(e) {
+        //    console.log("1" + e.target);
+        //})
+        //打开帮助
+        $('.help-icon-pic').on('click',function(e){
+            e.stopPropagation();
+            openHelp();
+            scroll[0].refresh();
+        });
+        //关闭帮助
+        $('.help-close').on('click',function(){
+            base.closeAll.closeHelp();
+        });
+        //打开文章
+        $('.help-list').on('click',function(){
+            openArticle();
+        });
+        //关闭文章
+        $('.help-back').on('click',function(){
+            closeArticle();
+        });
+        //打开登录框
+        $('.help-login-button').on('click',function(e){
+            e.stopPropagation();
+            $('.login').removeClass('hidden');
+            // base.openLogin();
+            common.openIndexLogin();
+        });
+        //下拉
+        $('.help-select').select();
+        //选择问题类型
+        $('.help .form-select-option li').on('click',function(){
+            selectType($(this));
+        });
+        $('.help-send').on('mouseenter',function(){
+            if(!type){
+                return;
             }
+            $(this).find('img').addClass('hidden');
+            $(this).find('img').eq(1).removeClass('hidden');
+        }).on('mouseleave',function(){
+            if(!type){
+                return;
+            }
+            $(this).find('img').addClass('hidden');
+            $(this).find('img').eq(0).removeClass('hidden');
+        });
+        $('.help-file').on('mouseenter',function(){
+            if(!type){
+                return;
+            }
+            $(this).find('img').addClass('hidden');
+            $(this).find('img').eq(1).removeClass('hidden');
+        }).on('mouseleave',function(){
+            if(!type){
+                return;
+            }
+            $(this).find('img').addClass('hidden');
+            $(this).find('img').eq(0).removeClass('hidden');
+        });
+        //提交问题
+        $('.help-send').on('click',function(){
+            if(!type){
+                return;
+            }
+            sendQuestion();
+        });
+        //添加附件
+        $('.help-file').on('click',function(){
+            if(!type){
+                return;
+            }
+            $('#help-file')[0].click();
+        });
+        if($('#help-file')[0]){
+            $('#help-file')[0].addEventListener('change',function(){
+                upLoadFile();
+            },false)
+        }
     }
 
 
@@ -129,6 +169,11 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         $('.help-question-placeholder').addClass('hidden');
         $('.help-question').addClass('focus');
         $('.help-question textarea')[0].focus();
+
+        $('.help-file img').addClass('hidden');
+        $('.help-file img').eq(0).removeClass('hidden');
+        $('.help-send img').addClass('hidden');
+        $('.help-send img').eq(0).removeClass('hidden');
     }
 
     function notice(content){
