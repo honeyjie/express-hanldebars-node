@@ -287,11 +287,11 @@
                 <div class="major-from">
                     <div class="major-from-title">数据来源</div>
                     <div class="major-from-content" id="from-content">
-                        <p>
-                            {{#each reference}}
-                            <a href="/refelink?hash={{hash}}" target="_blank">{{title}}<br/>
-                            {{/each}}
-                        </p>
+                        {{#each reference}}
+                        <a href="/refelink?hash={{hash}}" target="_blank">
+                           <li>{{title}}</li>
+                        </a>
+                        {{/each}}
                     </div>
                 </div>
             </div>

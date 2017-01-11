@@ -286,6 +286,7 @@ router.get('/school-screen', function (req, res) {
 });
 
 router.get('/school-major', function(req, res, next) {
+  console.log("0")
     req.proxy.request({
         method: "GET",
         url: "http://www.utuotu.com/v1/schoolinfo/getschoolmajorinfo.action",
@@ -295,7 +296,6 @@ router.get('/school-major', function(req, res, next) {
         console.log('--',body, '--');
         res.render('school-major', {
             data: data.data,
-            major: true,
             sid: req.query.sid
         });
     });

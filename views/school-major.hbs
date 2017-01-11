@@ -273,11 +273,13 @@
                         {{/ifNotEq}}
                     </ul>
                     <div class="major-require-content" id="require-content">
-                        <div class="major-require-content-name">个人称述（SOP）</div>
-                        <div class="major-require-content-result">
-                            <div class="major-require-list-result">
-                                <p>{{showRequest ps 'A Personal Statement is Required.' '' ''}}<p>
-                            </div> 
+                        <div>
+                            <div class="major-require-content-name">个人称述（SOP）</div>
+                            <div class="major-require-content-result">
+                                <div class="major-require-list-result">
+                                    <p>{{showRequest ps 'A Personal Statement is Required.' '' ''}}<p>
+                                </div> 
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -285,19 +287,18 @@
                 <div class="major-from">
                     <div class="major-from-title">数据来源</div>
                     <div class="major-from-content" id="from-content">
-                        <p>
                             {{#each reference}}
-                            <a href="/refelink?hash={{hash}}" target="_blank">{{title}}<br/>
+                                <a href="/refelink?hash={{hash}}" target="_blank">
+                                    <li>{{title}}</li>
+                                </a>
                             {{/each}}
-                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    {{/with}}  
+  {{/with}}  
 </div>
-
 <div class="help-icon">
     <img class="help-icon-pic" src="/img/icon-help.png" alt=""/>
     <img class="help-icon-notice hidden" src="/img/help-notice.png" alt=""/>
