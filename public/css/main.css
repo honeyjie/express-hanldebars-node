@@ -1243,6 +1243,35 @@
 .user .point-card li:nth-child(4n+1){
     margin-left: 0;
 }
+.user .point-card li .point-card-box{
+    color: #25baf4;
+    position: relative;
+    width: 215px;
+    height: 110px;
+}
+.user .point-card-box img{
+    position: absolute;
+    width: 215px;
+    height: 110px;
+}
+.user .point-card-box span {
+    position: absolute;
+    text-align: left;
+    width: 30%;
+    margin: auto 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    display: table;
+}
+.user .point-card-box span p {
+    display: table-cell;
+    vertical-align: middle;
+    padding-right: 10px;
+    font-size: 14px;
+}
+
 .user .point-card-name{
     text-align: center;
     font-size: 13px;
@@ -1588,6 +1617,9 @@
     right: 50%;
     margin-right: -623px;
     cursor: pointer;
+}
+.help-icon-pic {
+    display: block;
 }
 .help-icon-notice{
     position: absolute;

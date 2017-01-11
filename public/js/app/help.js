@@ -52,6 +52,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                 e.stopPropagation();
                 openHelp();
                 scroll[0].refresh();
+                return false;
             });
             //关闭帮助
             $('.help-close').on('click',function(){
