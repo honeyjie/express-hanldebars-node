@@ -185,10 +185,6 @@ router.get('/register-reset', function(req, res, next) {
   res.render('register-reset')
 });
 
-// router.get('/register-test', function(req, res, next) {
-//   res.render('register-test')
-// });
-
 router.get('/register-test', function(req, res, next) {
   req.proxy.request({
     url: 'http://www.utuotu.com/v1/msg/validemail.action', 

@@ -288,7 +288,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
                 imageFieldName = data.data.imageName
                 var dom = '';
                 for(var i=0;i<5;i++){
-                    dom = dom + '<img data-value="'+data.data.values[i]+'" src="http://www.utuotu.com/v1/captcha/image.action?index='+ i + '" alt=""/>';
+                    dom = dom + '<img data-value="'+data.data.values[i]+'" src="utuotu.com/v1/captcha/image.action?index='+ i + '" alt=""/>';
                     $('.login-captcha-pics').html(dom);
                     // captchaImage(i);
                 }
