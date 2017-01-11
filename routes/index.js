@@ -502,9 +502,36 @@ router.get("/refelink", function(req, res) {
         qs: {url: req.query.hash}
     }, function(err, response, body) {
       var data = JSON.parse(body).data;
-      console.log(data.url);
       res.redirect(data.url)
     });
 });
 
+// router.get("/v1/captcha/image.action", function(req, res) {
+//     req.proxy.request({
+//         method: "GET",
+//         url: "http://www.utuotu.com/v1/captcha/image.action",
+//         qs: req.query
+//     }, function(err, response, body) {
+//       var data = JSON.parse(body);
+//       console.log()
+//     });
+// });
+// console.log('v1/captcha/image.action', index);
+//         $.ajax({
+//             url:'/v1/captcha/image.action',
+//             data:{
+//                 index : index
+//             },
+//             type:'get',
+//             cache:false,
+//             dataType:'json',
+//             success:function(data){
+//                 console.log('v1/captcha/image.action', data);
+//                 $('.login-captcha-pics img').eq(index).attr('src',data);
+//             },
+//             error : function() {
+//                 base.notice('网络错误');
+//             }
+//         });
+//     }
 module.exports = router;

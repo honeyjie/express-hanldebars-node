@@ -280,13 +280,14 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             },
             type:'get',
             cache:false,
-            dataType:'html',
+            dataType:'json',
             success:function(data){
-                $('.login-captcha-title span').html(JSON.parse(data).imageName);
-                imageFieldName = JSON.parse(data).imageName
+                console.log('/v1/captcha/start.action', data);
+                $('.login-captcha-title span').html(data.data.imageName);
+                imageFieldName = data.data.imageName
                 var dom = '';
                 for(var i=0;i<5;i++){
-                    dom = dom + '<img data-value="'+JSON.parse(data).values[i]+'" src="" alt=""/>';
+                    dom = dom + '<img data-value="'+data.data.values[i]+'src="/v1/captcha/image.action?index='+ i + '" alt=""/>';
                     $('.login-captcha-pics').html(dom);
                     captchaImage(i);
                 }
@@ -298,6 +299,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
     }
     //验证码image
     function captchaImage(index){
+        console.log('v1/captcha/image.action', index);
         $.ajax({
             url:'/v1/captcha/image.action',
             data:{
@@ -305,8 +307,9 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             },
             type:'get',
             cache:false,
-            dataType:'html',
+            dataType:'json',
             success:function(data){
+                console.log('v1/captcha/image.action', data);
                 $('.login-captcha-pics img').eq(index).attr('src',data);
             },
             error : function() {
@@ -325,7 +328,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             },
             type:'post',
             cache:false,
-            dataType:'html',
+            dataType:'json',
             success:function(data){
                 if(data){
                     $('.login-captcha-success').removeClass('hidden');  //成功

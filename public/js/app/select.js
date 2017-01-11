@@ -1267,7 +1267,8 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             cache:false,
             dataType:'json',
             success:function(data){
-
+                console.log(data);
+                window.location.href = "/select-school";
             },
             error : function() {
                 base.notice('网络错误');

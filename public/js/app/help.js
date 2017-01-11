@@ -124,7 +124,8 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
     }
 
     function selectType(_this){
-        type = _this.html();
+        type = _this.attr('data-type')*1;
+        console.log(type)
         $('.help-question textarea').attr('disabled',false);
         $('.help-question-placeholder').addClass('hidden');
         $('.help-question').addClass('focus');
@@ -150,6 +151,8 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
             notice('您还没有录入问题');
             return;
         }
+
+        sendMessage(question, type);
         $('.help-ask').addClass('hidden');
         $('.help-result').removeClass('hidden');
         $('.help-send').addClass('hidden');
@@ -163,5 +166,30 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
 
     return{
         
+    }
+
+    //发送消息
+    function sendMessage(msg, type){
+        console.log(msg, type);
+        console.log(typeof msg, typeof type)
+        $.ajax({
+            url:'/v1/User/feedback.action',
+            data:{
+                msg: msg,
+                type: type
+            },
+            type:'get',
+            cache:false,
+            dataType:'json',
+            success:function(data){
+                console.log(data);
+                // if (data.code === 111001006) {
+                //     //弹出登录框
+                // }
+            },
+            error : function() {
+                base.notice('网络错误');
+            }
+        });
     }
 });
