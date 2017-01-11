@@ -346,6 +346,6 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         });
     }
     return{
-
+        openIndexLogin: openIndexLogin
     }
 });

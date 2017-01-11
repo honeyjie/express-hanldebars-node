@@ -99,8 +99,8 @@ app.use(function(req, res, next) {
         } else {
             for (var key in response.headers) {
                 res.set(key, response.headers[key])
-            }
 
+            }
             try {
                 body = JSON.parse(body);
             } catch(e) {

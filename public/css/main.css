@@ -1713,6 +1713,12 @@
     display: block;
     margin: 0 auto;
     padding-top: 70px;
+    width: 150px;
+}
+.help .help-login p{
+    text-align: center;
+    font-size: 16px;
+    margin-top: 30px;
 }
 .help .help-login-button{
     display: block;
@@ -1844,7 +1850,10 @@
     margin-left: -23px;
     cursor: pointer;
 }
-
+.help .help-not-login img {
+    width: 150px;
+    display: block;
+}
 .school{
     padding-top: 80px;
 }

@@ -512,8 +512,8 @@ router.get("/refelink", function(req, res) {
 //         url: "http://www.utuotu.com/v1/captcha/image.action",
 //         qs: req.query
 //     }, function(err, response, body) {
-//       var data = JSON.parse(body);
-//       console.log()
+//       // var data = JSON.parse(body);
+//       console.log(body);
 //     });
 // });
 // console.log('v1/captcha/image.action', index);

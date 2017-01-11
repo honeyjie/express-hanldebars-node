@@ -18,8 +18,6 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                 $('.help-close').removeClass('hidden');
             },function(){
                 $('.help-close').addClass('hidden');
-                $('.help-send').removeClass('hidden');
-                $('.help-file').removeClass('hidden');
             });
             //模拟滚动条
             if($('#help-list')[0]){
@@ -68,8 +66,9 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
             //打开登录框
             $('.help-login-button').on('click',function(e){
                 e.stopPropagation();
-                $('.login').addClass('index');
-                base.openLogin();
+                $('.login').removeClass('hidden');
+                // base.openLogin();
+                common.openIndexLogin();
             });
             //下拉
             $('.help-select').select();
@@ -153,11 +152,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         }
 
         sendMessage(question, type);
-        $('.help-ask').addClass('hidden');
-        $('.help-result').removeClass('hidden');
-        $('.help-send').addClass('hidden');
-        $('.help-file').addClass('hidden');
-        $('.help-close').removeClass('hidden');
+        
     }
 
     function upLoadFile(){
@@ -170,8 +165,6 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
 
     //发送消息
     function sendMessage(msg, type){
-        console.log(msg, type);
-        console.log(typeof msg, typeof type)
         $.ajax({
             url:'/v1/User/feedback.action',
             data:{
@@ -183,9 +176,16 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
             dataType:'json',
             success:function(data){
                 console.log(data);
-                // if (data.code === 111001006) {
-                //     //弹出登录框
-                // }
+                if (data.code === 0) {
+                    //弹出登录框
+                    $('.help-ask').addClass('hidden');
+                    $('.help-result').removeClass('hidden');
+                    $('.help-send').addClass('hidden');
+                    $('.help-file').addClass('hidden');
+                    $('.help-close').removeClass('hidden');
+                }
+                return;
+
             },
             error : function() {
                 base.notice('网络错误');

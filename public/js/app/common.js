@@ -224,6 +224,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
         $('.login').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
             $('.login').removeClass('animated fadeInDown');
         });
+        console.log("1");
     }
     //关闭登录
     function closeLogin(){
@@ -287,9 +288,9 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
                 imageFieldName = data.data.imageName
                 var dom = '';
                 for(var i=0;i<5;i++){
-                    dom = dom + '<img data-value="'+data.data.values[i]+'src="/v1/captcha/image.action?index='+ i + '" alt=""/>';
+                    dom = dom + '<img data-value="'+data.data.values[i]+'" src="http://www.utuotu.com/v1/captcha/image.action?index='+ i + '" alt=""/>';
                     $('.login-captcha-pics').html(dom);
-                    captchaImage(i);
+                    // captchaImage(i);
                 }
             },
             error : function() {
@@ -297,26 +298,26 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             }
         });
     }
-    //验证码image
-    function captchaImage(index){
-        console.log('v1/captcha/image.action', index);
-        $.ajax({
-            url:'/v1/captcha/image.action',
-            data:{
-                index : index
-            },
-            type:'get',
-            cache:false,
-            dataType:'json',
-            success:function(data){
-                console.log('v1/captcha/image.action', data);
-                $('.login-captcha-pics img').eq(index).attr('src',data);
-            },
-            error : function() {
-                base.notice('网络错误');
-            }
-        });
-    }
+    // //验证码image
+    // function captchaImage(index){
+    //     console.log('v1/captcha/image.action', index);
+    //     $.ajax({
+    //         url:'/v1/captcha/image.action',
+    //         data:{
+    //             index : index
+    //         },
+    //         type:'get',
+    //         cache:false,
+    //         dataType:'json',
+    //         success:function(data){
+    //             console.log('v1/captcha/image.action', data);
+    //             $('.login-captcha-pics img').eq(index).attr('src',data);
+    //         },
+    //         error : function() {
+    //             base.notice('网络错误');
+    //         }
+    //     });
+    // }
     //验证码try
     function captchaTry(value){
         var data = {};
@@ -414,8 +415,15 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
         });
     }
 
+    function openIndexLogin(){
+        $('.app').addClass('filter');
+        $('.index-mask').removeClass('hidden');
+        $('.login').addClass('index');
+        openLogin();
+    }
     return {
         openLogin : openLogin,
-        closeLogin : closeLogin
+        closeLogin : closeLogin,
+        openIndexLogin: openIndexLogin
     }
 });

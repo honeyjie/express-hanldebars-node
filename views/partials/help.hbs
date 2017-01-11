@@ -31,10 +31,7 @@
         </div>
     </div>
     <div class="tab-box hidden">
-        <div class="help-login hidden">
-            <img src="/img/help-login.png" alt=""/>
-            <button class="help-login-button button-solid">登录</button>
-        </div>
+        {{#if partials.loginstate.data.headerImg}}
         <div class="help-ask">
             <div class="form-select help-select">
                 <div class="form-select-value">选择问题类型</div>
@@ -64,15 +61,29 @@
                 </div>
             </div>
         </div>
+        {{else}}
+        <div class="help-login">
+            <img src="/img/helplogin.png" alt=""/>
+            <p>请先登录以便向学长提问</p>
+            <button class="help-login-button button-solid">登录</button>
+        </div>
+        {{/if}}
+
         <div class="help-result hidden">
             <p>学长已经收到了你的提问<br/>请耐心等待！</p>
             <span>你将会在消息中心收到学长的回复</span>
         </div>
+
     </div>
     <input id="help-file" class="hidden" type="file"/>
     <div class="help-notice hidden"></div>
     <img class="help-back hidden" src="/img/help-back.png" alt=""/>
+    {{#if partials.loginstate.data.headerImg}}
+    <img class="help-file" src="/img/help-file.png" alt=""/>
+    <img class="help-send" src="/img/help-send.png" alt=""/>
+    {{else}}
     <img class="help-file hidden" src="/img/help-file.png" alt=""/>
-    <img class="help-close" src="/img/help-close.png" alt=""/>
     <img class="help-send hidden" src="/img/help-send.png" alt=""/>
+    {{/if}}
+    <img class="help-close" src="/img/help-close.png" alt=""/>
 </div>
