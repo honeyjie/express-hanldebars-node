@@ -398,7 +398,7 @@ define(['jquery'],function(jquery){
         emailRule : /^[\w\.\_\-]+@(\w-?)+(\.\w{2,})$/, //邮箱正则
         phoneRule : /^(|1\d{10})$/,  //手机号正则
         codeRule : /^(|[0-9a-zA-Z]{4})$/,  //邀请码正则
-        isScore: /^\d+(?=\.{0,1}\d+$|$)/ ,  //分数正则
+        isScore: /^[0-9]*[1-9][0-9]*$/ ,  //分数正则
         testSuccess : testSuccess,
         testFail : testFail,
         testUsername : testUsername,

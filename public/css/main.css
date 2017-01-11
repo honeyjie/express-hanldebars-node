@@ -2879,6 +2879,7 @@
     font-weight: 600;
 }
 .select-form .select-form-view{
+    position: fixed;
     width: 650px;
     height: 100%;
     max-height: 731px;
@@ -2886,11 +2887,13 @@
     left: 50%;
     margin-left: -325px;
     text-align: center;
+    z-index: 99;
 }
 .select-form .select-form-view img{
     position: relative;
     height: 100%;
     padding-top: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 /*.select-form .select-form-view-main{*/
     /*position: absolute;*/
