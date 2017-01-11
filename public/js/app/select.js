@@ -1040,7 +1040,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
 
     function selectSchool(school){
         $.ajax({
-            url:'/v1/completeform/chinaschool.action',
+            url:'/completeform/chinaschool.action',
             data:{
                 schoolname : school
             },
@@ -1068,7 +1068,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
 
     function selectMajor(major,n){
         $.ajax({
-            url:'/v1/completeform/chinamajor.action',
+            url:'/completeform/chinamajor.action',
             data:{
                 majorname: major
             },

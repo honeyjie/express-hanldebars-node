@@ -432,7 +432,7 @@ router.get("/v1/schoolmajor/searchschool.action", function(req, res) {
 });
 
 //填写学校
-router.post("/v1/completeform/chinaschool.action", function(req, res) {
+router.post("/completeform/chinaschool.action", function(req, res) {
     req.proxy.request({
         method: "POST",
         url: "http://www.utuotu.com/v1/completeform/chinaschool.action",
@@ -450,7 +450,7 @@ router.post("/v1/completeform/chinaschool.action", function(req, res) {
 });
 
 //填写专业
-router.post("/v1/completeform/chinamajor.action", function(req, res) {
+router.post("/completeform/chinamajor.action", function(req, res) {
     req.proxy.request({
         method: "POST",
         url: "http://www.utuotu.com/v1/completeform/chinamajor.action",
@@ -474,13 +474,13 @@ router.get("/v1/completeform/saveform.action", function(req, res) {
     });
 });
 
-router.get("/v1/completeform/saveform.action", function(req, res) {
-    req.proxy.request({
-        method: "GET",
-        url: "http://www.utuotu.com/v1/completeform/form.action",
-    }, function(err, response, body) {
-    });
-});
+// router.get("/v1/completeform/saveform.action", function(req, res) {
+//     req.proxy.request({
+//         method: "GET",
+//         url: "http://www.utuotu.com/v1/completeform/form.action",
+//     }, function(err, response, body) {
+//     });
+// });
 
 router.get("/Help/search.action", function(req, res) {
     req.proxy.request({
