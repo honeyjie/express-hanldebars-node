@@ -62,42 +62,38 @@
                     {{/each}}
                 </ul>
                 {{#unless data.list.[0]}}
-                <div class="news-list-none">
-                    暂无消息
-                </div>
+                    <div class="news-list-none">
+                        暂无消息
+                    </div>
                 {{else}}
-                <div class="list-button">
-                    <button class="button-hollow news-system-read">全部已读</button>
-                    <button class="button-hollow news-system-delete">全部删除</button>
-                </div>
-                <div class="list-page">
-                    <ul class="clear">
-                        {{#if data.page.pre}}
-                        <li class="active"><a href="{{{getString @root.urlPath @root.data.page.pre}}}"><span class="list-page-pre">{{pre}}</span></a></li>
-                        {{else}}
-                        <li><a href="#"><span class="list-page-pre"></span></a></li>
-                        {{/if}}
-
-                        {{#each data.page.list}}
-                            {{#ifEq this @root.data.page.index}}
-                                <li class="active"><a href="{{{getString @root.urlPath this}}}">{{this}}</a></li>
+                    <div class="list-button">
+                        <button class="button-hollow news-system-read">全部已读</button>
+                        <button class="button-hollow news-system-delete">全部删除</button>
+                    </div>
+                    <div class="list-page">
+                        <ul class="clear">
+                            {{#if data.page.pre}}
+                            <li class="active"><a href="{{{getString @root.urlPath @root.data.page.pre}}}"><span class="list-page-pre">{{pre}}</span></a></li>
                             {{else}}
-                                <li><a href="{{{getString @root.urlPath this}}}">{{this}}</a></li>
-                            {{/ifEq}}
-                        {{/each}}
+                            <li><a href="#"><span class="list-page-pre"></span></a></li>
+                            {{/if}}
 
-                        {{#if data.page.next}}
-                        <li class="active"><a href="{{{getString @root.urlPath @root.data.page.next}}}"><span class="list-page-next"></span></a></li>
-                        {{else}}
-                        <li><a href="#"><span class="list-page-next"></span></a></li>
-                        {{/if}} 
-                    </ul>
+                            {{#each data.page.list}}
+                                {{#ifEq this @root.data.page.index}}
+                                    <li class="active"><a href="{{{getString @root.urlPath this}}}">{{this}}</a></li>
+                                {{else}}
+                                    <li><a href="{{{getString @root.urlPath this}}}">{{this}}</a></li>
+                                {{/ifEq}}
+                            {{/each}}
 
-                </div>
+                            {{#if data.page.next}}
+                            <li class="active"><a href="{{{getString @root.urlPath @root.data.page.next}}}"><span class="list-page-next"></span></a></li>
+                            {{else}}
+                            <li><a href="#"><span class="list-page-next"></span></a></li>
+                            {{/if}} 
+                        </ul>
+                    </div>
                 {{/unless}}
-                <div class="news-list-none hidden">
-                    暂无消息
-                </div>
             </div>
             {{else}}
             <div class="tab-box">
@@ -128,44 +124,42 @@
                         {{/if}}
                     {{/each}}
                 </ul>
+
                 {{#unless data.list.[0]}}
-                <div class="news-list-none">
-                    暂无消息
-                </div>
+                    <div class="news-list-none">
+                        暂无消息
+                    </div>
                 {{else}}
-                <div class="list-button">
-                    <button class="button-hollow-ban news-user-read">全部已读</button>
-                    <button class="button-hollow-ban news-user-delete">全部删除</button>
-                </div>
-                <div class="list-page">
-                    {{#ifNotEq data.page.list.length 1}}
-                    <ul class="clear hidden">
-                        {{#if data.page.pre}}
-                        <li class="active"><a href="{{{getString @root.urlPath @root.data.page.pre}}}"><span class="list-page-pre">{{pre}}</span></a></li>
-                        {{else}}
-                        <li><a href="#"><span class="list-page-pre"></span></a></li>
-                        {{/if}}
-
-                        {{#each data.page.list}}
-                            {{#ifEq this @root.data.page.index}}
-                                <li class="active"><a href="{{{getString @root.urlPath this}}}">{{this}}</a></li>
+                    <div class="list-button">
+                        <button class="button-hollow news-user-read">全部已读</button>
+                        <button class="button-hollow news-user-delete">全部删除</button>
+                    </div>
+                    <div class="list-page">
+                        {{#ifNotEq data.page.list.length 1}}
+                        <ul class="clear hidden">
+                            {{#if data.page.pre}}
+                            <li class="active"><a href="{{{getString @root.urlPath @root.data.page.pre}}}"><span class="list-page-pre">{{pre}}</span></a></li>
                             {{else}}
-                                <li><a href="{{{getString @root.urlPath this}}}">{{this}}</a></li>
-                            {{/ifEq}}
-                        {{/each}}
+                            <li><a href="#"><span class="list-page-pre"></span></a></li>
+                            {{/if}}
 
-                        {{#if data.page.next}}
-                        <li class="active"><a href="{{{getString @root.urlPath @root.data.page.next}}}"><span class="list-page-next"></span></a></li>
-                        {{else}}
-                        <li><a href="#"><span class="list-page-next"></span></a></li>
-                        {{/if}}    
-                    </ul>
-                    {{/ifNotEq}}
-                </div>
+                            {{#each data.page.list}}
+                                {{#ifEq this @root.data.page.index}}
+                                    <li class="active"><a href="{{{getString @root.urlPath this}}}">{{this}}</a></li>
+                                {{else}}
+                                    <li><a href="{{{getString @root.urlPath this}}}">{{this}}</a></li>
+                                {{/ifEq}}
+                            {{/each}}
+
+                            {{#if data.page.next}}
+                            <li class="active"><a href="{{{getString @root.urlPath @root.data.page.next}}}"><span class="list-page-next"></span></a></li>
+                            {{else}}
+                            <li><a href="#"><span class="list-page-next"></span></a></li>
+                            {{/if}}    
+                        </ul>
+                        {{/ifNotEq}}
+                    </div>
                 {{/unless}}
-                <div class="news-list-none hidden">
-                    暂无消息
-                </div>
             </div>
             {{/if}}
         </div>

@@ -43,6 +43,7 @@ router.get('/user-news', function(req, res, next) {
   }, function(err, response, body) {
       var data = JSON.parse(body);
       newsstate = data.data;
+      console.log(newsstate);
   }); 
 
   req.proxy.request({
@@ -62,6 +63,8 @@ router.get('/user-news', function(req, res, next) {
           urlPath = urlPath + "?page="
         }
       }
+
+      console.log(getmsg.data);
 
       setTimeout(function(res) {
         res.render('user-news', {
@@ -171,6 +174,8 @@ router.get('/user-set', function(req, res, next) {
 
 //注册
 router.get('/register-complete', function(req, res, next) {
+  res.locals.headImg = req.query.headImg;
+
     res.render('register-complete', {
       headImg: req.query.headImg,
       nickname: req.query.nickname
@@ -282,7 +287,6 @@ router.get('/school-screen', function (req, res) {
 });
 
 router.get('/school-major', function(req, res, next) {
-  console.log("0")
     req.proxy.request({
         method: "GET",
         url: "http://www.utuotu.com/v1/schoolinfo/getschoolmajorinfo.action",
@@ -385,7 +389,10 @@ router.get('/select-school', function(req, res) {
     
 });
 router.get('/select-form', function(req, res) {
-    res.render('select-form')
+    var year =  (new Date()).getFullYear() + 1;
+    res.render('select-form', {
+      year: year
+    })
 });
 
 router.get('/test', function(req, res) {

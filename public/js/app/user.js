@@ -233,40 +233,20 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         $('.point-title-share').on('mouseleave',function(){
             $('.point-share-notice').fadeOut(200);
         });
+        
         //查看消息
         $('.news-list li a').on('click',function(e){
             e.stopPropagation();
-            //标记该条消息已读
-            $.ajax({
-                url:'/v1/User/isread.action',
-                data:{
-                    msg_id: msg_id
-                },
-                type:'get',
-                cache:false,
-                dataType:'json',
-                success:function(data) {
-                    console.log(data)
-                    if(data.data.result == 1) {
-                        $(this).parent().removeClass('noread');
-                    }
-                    return;
-                    //去掉noread标记
-                },
-                error : function() {
-                    base.notice('网络错误');
-                }
-            });
-            //当获取当消息类型小于2000时，打开弹窗
-            var openNum = $(this).parent().attr('data-type_id');
-
-            if (openNum < 20000) {
-                console.log("打开")
-                var parent = $(this).parent('li');
-                var msg_id = parent.attr('data-msg_id');
-                openNewsArticle(msg_id);
-            }
+            isRead(msg_id);
         });
+
+        //单击查看
+        $('.news-list li news-operation').on('click',function(e){
+            e.stopPropagation();
+            isRead(msg_id);
+        });
+
+
         //标记全部已读
         $('.news-system-read').on('click', function(e) {
             //1表示系统消息
@@ -276,6 +256,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
             //无参数表示个人消息
             isAllread()
         })
+
         //关闭消息
         $('.news-article-close').on('click',function(e){
             e.stopPropagation();
@@ -342,6 +323,38 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
             }
         });
     }
+
+    function isRead(msg_id) {
+        $.ajax({
+            url:'/v1/User/isread.action',
+            data:{
+                msg_id: msg_id
+            },
+            type:'get',
+            cache:false,
+            dataType:'json',
+            success:function(data) {
+                if(data.data.result == 1) {
+                    $(this).parent().removeClass('noread');
+                }
+                return;
+            },
+            error : function() {
+                base.notice('网络错误');
+            }
+        });
+
+        //当获取当消息类型小于2000时，打开弹窗
+        var openNum = $(this).parent().attr('data-type_id');
+
+        if (openNum < 20000) {
+            var parent = $(this).parent('li');
+            var msg_id = parent.attr('data-msg_id');
+            openNewsArticle(msg_id);
+        }
+    }
+
+
     //邮件是否验证
     function isTestEmail(){
         $.ajax({
@@ -548,10 +561,11 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                dataType:'json',
                success:function(data) {
                 console.log('/v1/User/delmsg.action',data);
-                    if (data.data.delete === 0 ) {
-                        
+                    if (data.code === 0 ) {
                         el.remove();
+                        closeNewsDelete()
                         //不显示该条数据
+                        //删除弹窗消失
                     }
                },
                error : function() {
@@ -580,12 +594,10 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                success:function(data) {
                     console.log('/v1/User/delallmsg.action', data)
                     closeNewsDelete();
-                    if (data.data.delete === 0) {
-                        //弹窗消失
-
+                    if (data.code === 0) {
                         //清空该消息列表
                         el.remove();
-
+                        closeNewsDelete();
                         return;
                     }
                 },
