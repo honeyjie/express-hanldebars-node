@@ -8,18 +8,14 @@
             </ul>
             <div class="tab-box clear">
                 <div class="set-avatar">
-                    {{#unless locals.storage.headImg}}
                     <img src="{{data.headerimg}}" alt=""/>
-                    {{else}}
-                    <img src="{{locals.storage.headImg}}" alt=""/>
-                    {{/unless}}
-                    
                     <div class="changeimg">
                         <input type="file" class="inputstyle" name="file" />
                         <button class="set-avatar-change button-hollow">更换图像</button>
                     </div>
                 </div>
                 <div class="set-form set-form-info">
+                    {{#with data}}
                     <div class="form-item clear">
                         <span class="form-item-name">用户名</span>
                         <input type="text" value="{{name}}" disabled="true"/>
@@ -74,6 +70,7 @@
                                 </ul>
                             </div>
                         </div>
+                        {{/with}}
                     </div>
                     <div class="form-item clear">
                         <span class="form-item-name">意向留学地区</span>
@@ -128,12 +125,7 @@
                     </div>
                     <div class="form-item clear">
                         <span class="form-item-name">绑定微信</span>
-                        {{#unless app.locals.nickname}}
-                        <div class="form-item-value">{{locals.storage.nickname}}</div>
-                        {{else}}
-                        <div class="form-item-value">{{app.locals.nickname}}</div>
-                        {{/unless}}
-                        
+                        <div class="form-item-value">{{data.nickname}}</div>  
                     </div>
                     <button class="set-save set-password-save button-solid-ban">保存</button>
                 </div>

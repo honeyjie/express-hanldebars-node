@@ -44,6 +44,9 @@ router.get('/testindex', function (req, res, next) {
       var data = JSON.parse(body);
       if (data.code === 0) {
         //获取微信图像和昵称
+        if(!res.locals.storage) {
+          res.locals.storage = {};
+        }
         res.locals.storage.headImg = data.data.headImg;
         res.locals.storage.nickname = data.data.nickname;
         if(!!data.data.login) {
