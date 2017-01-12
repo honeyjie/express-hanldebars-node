@@ -69,6 +69,7 @@ app.use(function(req, res, next) {
     });
     
 });
+
 app.use(function(req, res, next) {
     req.proxy.request({
         method: "GET",
@@ -86,6 +87,7 @@ app.use(function(req, res, next) {
 });
 
 app.use('/', index); 
+
 //前端可以通过node向服务器发送请求，格式规定：/v1/login/opencode.action
 //前端也可以直接向PHP发送请求（本地服务器会出现跨域），格式规定：http://utuotu.com/v1/login/opencode.action
 app.use(function(req, res, next) {
@@ -93,25 +95,28 @@ app.use(function(req, res, next) {
     if (!f) {
         return;
     }
+
     req.proxy.request(null, function(err, response, body) {
         if (!!err) {
             next(err)
         } else {
             for (var key in response.headers) {
                 res.set(key, response.headers[key])
-
             }
+            
+            // 1. 获取图片内容可能不是body，而是别的参数
+            // 2. 读取body没有读取完
             try {
-                body = JSON.parse(body);
+                JSON.parse(body)
             } catch(e) {
-                console.log(e)
+                // var fs = require("fs");
+                // fs.writeFileSync("/tmp/hello.png", body)
+                console.log(e);
             }
-            res.send(body)
+            res.send(body); 
         }
     });
 });
-
-
 
 // error handler
 app.use(function(err, req, res, next) {

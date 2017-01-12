@@ -43,7 +43,6 @@ router.get('/user-news', function(req, res, next) {
   }, function(err, response, body) {
       var data = JSON.parse(body);
       newsstate = data.data;
-      console.log(newsstate);
   }); 
 
   req.proxy.request({
@@ -63,9 +62,6 @@ router.get('/user-news', function(req, res, next) {
           urlPath = urlPath + "?page="
         }
       }
-
-      console.log(getmsg.data);
-
       setTimeout(function(res) {
         res.render('user-news', {
                 data: getmsg.data,
@@ -293,7 +289,6 @@ router.get('/school-major', function(req, res, next) {
         qs: req.query
     }, function(err, response, body) {
         var data = JSON.parse(body);
-        console.log('--',body, '--');
         res.render('school-major', {
             data: data.data,
             sid: req.query.sid
@@ -399,7 +394,7 @@ router.get('/test', function(req, res) {
   res.render('test')
 });
 
-router.get("/v1/schoolmajor/filterschool.action", function(req, res) {
+router.get("/schoolmajor/filterschool.action", function(req, res) {
     req.proxy.request({
         method: "GET",
         url: "http://www.utuotu.com/v1/schoolmajor/filterschool.action",
@@ -416,7 +411,7 @@ router.get("/v1/schoolmajor/filterschool.action", function(req, res) {
         });
     });
 });
-router.get("/v1/schoolmajor/searchschool.action", function(req, res) {
+router.get("/schoolmajor/searchschool.action", function(req, res) {
     req.proxy.request({
         method: "GET",
         url: "http://www.utuotu.com/v1/schoolmajor/searchschool.action",
@@ -440,7 +435,6 @@ router.post("/completeform/chinaschool.action", function(req, res) {
         method: "POST",
         url: "http://www.utuotu.com/v1/completeform/chinaschool.action",
     }, function(err, response, body) {
-        // console.log("----", body, "----")
         var data = JSON.parse(body);
         if (!data) {
             return
@@ -469,19 +463,12 @@ router.post("/completeform/chinamajor.action", function(req, res) {
     });
 });
 
-router.get("/v1/completeform/saveform.action", function(req, res) {
-    req.proxy.request({
-        method: "POST",
-        url: "http://www.utuotu.com/v1/completeform/saveform.action",
-    }, function(err, response, body) {
-    });
-});
-
 // router.get("/v1/completeform/saveform.action", function(req, res) {
 //     req.proxy.request({
-//         method: "GET",
-//         url: "http://www.utuotu.com/v1/completeform/form.action",
+//         method: "POST",
+//         url: "http://www.utuotu.com/v1/completeform/saveform.action",
 //     }, function(err, response, body) {
+
 //     });
 // });
 
@@ -509,32 +496,16 @@ router.get("/refelink", function(req, res) {
     });
 });
 
-// router.get("/v1/captcha/image.action", function(req, res) {
-//     req.proxy.request({
-//         method: "GET",
-//         url: "http://www.utuotu.com/v1/captcha/image.action",
-//         qs: req.query
-//     }, function(err, response, body) {
-//       // var data = JSON.parse(body);
-//       console.log(body);
-//     });
-// });
-// console.log('v1/captcha/image.action', index);
-//         $.ajax({
-//             url:'/v1/captcha/image.action',
-//             data:{
-//                 index : index
-//             },
-//             type:'get',
-//             cache:false,
-//             dataType:'json',
-//             success:function(data){
-//                 console.log('v1/captcha/image.action', data);
-//                 $('.login-captcha-pics img').eq(index).attr('src',data);
-//             },
-//             error : function() {
-//                 base.notice('网络错误');
-//             }
-//         });
-//     }
+// encoding: null 显示为buffer格式
+router.get("/v1/captcha/image.action", function(req, res) {
+    req.proxy.request({
+        method: "GET",
+        url: "http://www.utuotu.com/v1/captcha/image.action",
+        qs: req.query,
+        encoding: null
+    }, function(err, response, body) {
+      res.send(body);
+    });
+});
+
 module.exports = router;

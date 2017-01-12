@@ -178,7 +178,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
     function searchSchool(school){
         if(!school){
             $.ajax({
-                url:'/v1/schoolmajor/filterschool.action',
+                url:'/schoolmajor/filterschool.action',
                 data:{
                     nation: screen.nation,
                     state: screen.state,
@@ -201,7 +201,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         }
         //表单搜索
         $.ajax({
-            url:'/v1/schoolmajor/searchschool.action',
+            url:'/schoolmajor/searchschool.action',
             data:{
                 search: school,
                 page: 0

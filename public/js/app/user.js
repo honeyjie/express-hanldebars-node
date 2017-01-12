@@ -233,7 +233,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         $('.point-title-share').on('mouseleave',function(){
             $('.point-share-notice').fadeOut(200);
         });
-        
+
         //查看消息
         $('.news-list li a').on('click',function(e){
             e.stopPropagation();
