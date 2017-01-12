@@ -606,8 +606,13 @@ router.get("/login/opencode.action", function(req, res) {
       if (!app.locals.storage) {
         app.locals.storage = {}
       }
+
+      var urlPath = url.parse(req.url).path;
+
+
+      app.locals.storage.state = urlPath;
       console.log(app.locals.storage.state)
-      app.locals.storage.state = req.path;
+
       res.send(data);
     });
 });
