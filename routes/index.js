@@ -603,8 +603,8 @@ router.get("/login/opencode.action", function(req, res) {
       }
       var data = JSON.parse(body);
       console.log(req.query, "扫码");
-      if (!res.locals.storage) {
-        res.locals.storage = {}
+      if (!app.locals.storage) {
+        app.locals.storage = {}
       }
       console.log(app.locals.storage.state)
       app.locals.storage.state = req.path;
