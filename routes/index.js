@@ -205,11 +205,10 @@ router.get('/v1/User/msganswer.action', function(req, res, next) {
 router.post('/user-set', function(req, res, next) {
     req.proxy.request({
         method: "POST",
-        url: "http://www.utuotu.com/v1/User/saveuser.action",
-        qs: req.query
+        url: "http://www.utuotu.com/v1/User/saveuser.action"
     }, function(err, response, body) {
         var data = JSON.parse(body);
-        console.log(data);
+        console.log(data, "/user-set");
         res.render('user-set', {
             data: data.data
         });
@@ -610,7 +609,7 @@ router.get("/login/opencode.action", function(req, res) {
       console.log(req.originalUrl, req.query, "======")
 
       app.locals.storage.state = req.query.urlpath;
-
+      console.log("data:", data);
       res.send(data);
     });
 });

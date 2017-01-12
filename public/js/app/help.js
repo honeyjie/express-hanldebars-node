@@ -210,6 +210,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
 
     //发送消息
     function sendMessage(msg, type){
+        console.log(msg, type)
         $.ajax({
             url:'/v1/User/feedback.action',
             data:{
