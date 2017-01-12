@@ -114,9 +114,12 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             captchaStart();
         });
         //验证码验证
-        $('.login-captcha-pics').on('click','img',function(){
-            captchaTry($(this).data('value'));
-        });
+        // $('.login-captcha-pics').on('click','img',function( e, imageFiledName){
+        //     console.log($(this).data('value'));
+        //     captchaTry($(this).data('value'), imageFiledName);
+        // });
+
+
         //登录
         $('.login').on('click',function(e){
             e.stopPropagation();
@@ -217,7 +220,6 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
         $('.login').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
             $('.login').removeClass('animated fadeInDown');
         });
-        console.log("1");
     }
     //关闭登录
     function closeLogin(){
@@ -274,15 +276,19 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             dataType:'json',
             success:function(data){
                 $('.login-captcha-title span').html(data.data.imageName);
-                imageFieldName = data.data.imageName
-
+                imageFieldName = data.data.imageFieldName
                 var dom = '';
                 for(var i=0;i<5;i++){
                     dom += '<img data-value="' + data.data.values[i] + '" src="/v1/captcha/image.action?index=' + i + '&_=' + Math.random() + '"/>';
-                    // captchaImage(i);
                 }
                 $('.login-captcha-pics').html(dom);
 
+                
+                $('.login-captcha-pics img').click( imageFieldName, function(e) {
+                    e.preventDefault();
+                    var answer = $(this).data('value');
+                    captchaTry(answer, imageFieldName)
+                });
             },
             error : function() {
                 base.notice('网络错误');
@@ -290,19 +296,19 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
         });
     }
     //验证码try
-    function captchaTry(value){
-        var data = {};
-        data[imageFieldName] = value;
+    function captchaTry(answer, imageFiledName){
         $.ajax({
             url:'/v1/captcha/try.action',
             data: {
-                验证码的id : data
+                filed: imageFieldName,
+                answer: answer
             },
-            type:'post',
+            type:'get',
             cache:false,
             dataType:'json',
             success:function(data){
-                if(data){
+                console.log(data);
+                if(data.data.valid){
                     $('.login-captcha-success').removeClass('hidden');  //成功
                 }
                 else{
@@ -354,6 +360,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
                 }else if(data.code==111001010){
                     //验证失败
                     $('.login-message').removeClass('hidden').html(data.msg);
+                        captchaStart();
                 }else{
                     console.log('登陆出错');
                 }
