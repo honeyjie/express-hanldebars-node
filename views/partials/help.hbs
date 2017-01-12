@@ -78,12 +78,18 @@
     <input id="help-file" class="hidden" type="file"/>
     <div class="help-notice hidden"></div>
     <img class="help-back hidden" src="/img/help-back.png" alt=""/>
-    {{#if partials.loginstate.data.headerImg}}
-    <img class="help-file" src="/img/help-file.png" alt=""/>
-    <img class="help-send" src="/img/help-send.png" alt=""/>
-    {{else}}
-    <img class="help-file hidden" src="/img/help-file.png" alt=""/>
-    <img class="help-send hidden" src="/img/help-send.png" alt=""/>
-    {{/if}}
     <img class="help-close" src="/img/help-close.png" alt=""/>
+    {{#if partials.loginstate.data.headerImg}}
+        <div class="help-file hidden">
+            <img class="hidden" src="/img/help-file.png" alt=""/>
+            <img class="hidden" src="/img/help-file-active.png" alt=""/>
+            <img src="/img/help-file-ban.png" alt=""/>
+        </div>
+        <div class="help-send hidden">
+            <img class="hidden" src="/img/help-send.png" alt=""/>
+            <img class="hidden" src="/img/help-send-active.png" alt=""/>
+            <img src="/img/help-send-ban.png" alt=""/>
+        </div>
+    {{/if}}
+
 </div>

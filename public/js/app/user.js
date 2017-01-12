@@ -16,19 +16,22 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         if($('#news-content')[0]){
             scroll[0] =  new iscroll('#news-content',{
                 mouseWheel: true,
-                scrollbars: true
+                scrollbars: true,
+                interactiveScrollbars : true
             });
         }
         if($('#grade-option')[0]){
             scroll[1] =  new iscroll('#grade-option',{
                 mouseWheel: true,
-                scrollbars: true
+                scrollbars: true,
+                interactiveScrollbars : true
             });
         }
         if($('#country-option')[0]){
             scroll[2] =  new iscroll('#country-option',{
                 mouseWheel: true,
-                scrollbars: true
+                scrollbars: true,
+                interactiveScrollbars : true
             });
         }
         //tab切换

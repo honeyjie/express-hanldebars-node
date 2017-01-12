@@ -30,10 +30,10 @@
                         <img src="/img/major-start.png" alt=""/>
                         <span>入学时间</span>
                         <div class="form-select major-info-start">
+                            {{#if term.[1].term}}
+                                <img class="form-select-icon" src="/img/icon-down.png" alt=""/>
+                            {{/if}}
                             <div class="form-select-value">{{term.[0].term}}
-                                {{#if term.[1].term}}
-                                <img src="/img/icon-down.png" alt=""/>
-                                {{/if}}
                             </div>
                             {{#if term.[1].term}}
                             <div class="form-select-option hidden">
@@ -73,7 +73,8 @@
                         <img src="/img/major-direction.png" alt=""/>
                         <span>研究方向</span>
                         <div class="form-select major-info-direction">
-                            <div class="form-select-value">选择研究方向<img src="/img/icon-down.png" alt=""/></div>
+                            <img class="form-select-icon" src="/img/icon-down.png" alt=""/>
+                            <div class="form-select-value">选择研究方向</div>
                             <div class="form-select-option hidden">
                                 <ul>
                                     {{#each under_project}}

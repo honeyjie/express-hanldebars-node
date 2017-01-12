@@ -12,37 +12,43 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         if($('#screen-country')[0]){
             scroll[0] =  new iscroll('#screen-country',{
                 mouseWheel: true,
-                scrollbars: true
+                scrollbars: true,
+                interactiveScrollbars : true
             });
         }
         if($('#screen-state')[0]){
             scroll[1] =  new iscroll('#screen-state',{
                 mouseWheel: true,
-                scrollbars: true
+                scrollbars: true,
+                interactiveScrollbars : true
             });
         }
         if($('#screen-major')[0]){
             scroll[2] =  new iscroll('#screen-major',{
                 mouseWheel: true,
-                scrollbars: true
+                scrollbars: true,
+                interactiveScrollbars : true
             });
         }
         if($('#require-content')[0]){
             scroll[3] =  new iscroll('#require-content',{
                 mouseWheel: true,
-                scrollbars: true
+                scrollbars: true,
+                interactiveScrollbars : true
             });
         }
         if($('#from-content')[0]){
             scroll[4] =  new iscroll('#from-content',{
                 mouseWheel: true,
-                scrollbars: true
+                scrollbars: true,
+                interactiveScrollbars : true
             });
         }
         if($('#school-brief-describe')[0]){
             scroll[5] =  new iscroll('#school-brief-describe',{
                 mouseWheel: true,
-                scrollbars: true
+                scrollbars: true,
+                interactiveScrollbars : true
             });
         }
         //模拟下拉
