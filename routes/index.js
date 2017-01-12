@@ -40,24 +40,23 @@ router.get('/testindex', function (req, res, next) {
       url: "http://www.utuotu.com/v1/Login/redicturl.action",
       qs: req.query
   }, function(err, response, body) {
-      console.log(req.query);
-
+      console.log(req.query, body);
       var data = JSON.parse(body);
 
       if(data.code === 0 && data.data.login) {
         console.log("登录成功")
-        res.redirect(res.locals.storage.state)
+        // res.redirect(res.locals.storage.state)
       } else if (data.code === 0 && !data.data.login) {
         console.log("需要注册")
-        res.redirect('/register-complete')
+        // res.redirect('/register-complete')
       } else {
         console.log("网络出错");
-        res.redirect(res.locals.storage.state)
+        // res.redirect(res.locals.storage.state)
       }
 
-        // res.render('testindex', {
-        //   layout: null
-        // })
+        res.render('testindex', {
+          body: body
+        })
   })
     next();
 });
