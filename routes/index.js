@@ -608,10 +608,9 @@ router.get("/login/opencode.action", function(req, res) {
       }
 
       // var urlPath = url.parse(req.url).path;
-      console.log(req.originalUrl, req.query.url)
+      console.log(req.originalUrl, req.query.url, "======")
 
       app.locals.storage.state = req.query.url;
-      console.log(urlPath, "------")
 
       res.send(data);
     });
