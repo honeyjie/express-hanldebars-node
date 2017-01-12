@@ -33,6 +33,36 @@ router.get('/', function (req, res, next) {
     });
     next();
 });
+
+router.get('/testindex', function (req, res, next) {
+  req.proxy.request({
+      method: "GET",
+      url: "http://www.utuotu.com/v1/Login/redicturl.action",
+      qs: req.query
+  }, function(err, response, body) {
+      console.log(req.query);
+
+      var data = JSON.parse(body);
+
+      if(data.code === 0 && data.data.login) {
+        console.log("登录成功")
+        res.redirect(res.locals.storage.state)
+      } else if (data.code === 0 && !data.data.login) {
+        console.log("需要注册")
+        res.redirect('/register-complete')
+      } else {
+        console.log("网络出错");
+        res.redirect(res.locals.storage.state)
+      }
+
+        // res.render('testindex', {
+        //   layout: null
+        // })
+  })
+    next();
+});
+
+
 //用户
 router.get('/user-news', function(req, res, next) {
   var newsstate;
@@ -363,7 +393,6 @@ router.get('/select-school', function(req, res) {
         url: "http://www.utuotu.com/v1/completeform/intelligentselection.action",
     }, function(err, response, body) {
         schoollist = JSON.parse(body).data;
-        // console.log(schoollist)
     });
     //请求图表
     setTimeout(function(res) {
@@ -536,6 +565,25 @@ router.get("/captcha/try.action", function(req, res) {
           res.set(key, response.headers[key])
       }
       var data = JSON.parse(body);
+      res.send(data);
+    });
+});
+//login/opencode.action
+router.get("/login/opencode.action", function(req, res) {
+    req.proxy.request({
+        method: "GET",
+        url: "http://www.utuotu.com/v1/login/opencode.action",
+        qs: req.query
+    }, function(err, response, body) {
+      for (var key in response.headers) {
+          res.set(key, response.headers[key])
+      }
+      var data = JSON.parse(body);
+      console.log(req.query);
+      if (!res.locals.storage) {
+        res.locals.storage = {}
+      }
+      res.locals.storage.state = req.path;
       res.send(data);
     });
 });
