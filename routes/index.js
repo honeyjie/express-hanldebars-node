@@ -252,7 +252,6 @@ router.get('/register-test', function(req, res, next) {
     } else {
       invalid = true;
     }
-    co
     res.render('register-test', {
       success: success,
       done: done,
