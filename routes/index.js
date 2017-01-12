@@ -236,8 +236,9 @@ router.get('/register-reset', function(req, res, next) {
 router.get('/register-test', function(req, res, next) {
   req.proxy.request({
     url: 'http://www.utuotu.com/v1/msg/validemail.action', 
-    qs: {token: req.query.token}
+    qs: req.query
   }, function(err, response, body) {
+    console.log(body)
     var success = false,
         done = false,
         invalid = false;
@@ -248,6 +249,7 @@ router.get('/register-test', function(req, res, next) {
     } else {
       invalid = true;
     }
+    co
     res.render('register-test', {
       success: success,
       done: done,

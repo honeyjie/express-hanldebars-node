@@ -45,14 +45,14 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
 
         //邮箱验证
         //keyup时验证邮箱有效性
-        $('.set-form-email').on('blur',function(){
+        $('.set-form-email').on('keyup',function(){
             $('.set-form-email').testInput({
                 rule : base.emailRule,
                 success : function(dom){
                     base.userInfo.email = dom.val();
                     //检查邮箱是否重复
                     base.testEmail(dom);
-                    //当邮箱验证通过时，
+                    //当重复时显示按钮
                 },
                 fail : function(dom){
                     base.userInfo.email = '';
@@ -405,6 +405,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
             cache:false,
             dataType:'json',
             success:function(data){
+                console.log(data);
                 if(data.code == 0){
                     base.notice('信息已保存');
                 }
