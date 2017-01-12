@@ -56,7 +56,7 @@ router.get('/testindex', function (req, res, next) {
             res.redirect(res.locals.storage.state)
         }else {
             //未注册
-            res.redirect('/register-complete')
+            res.redirect('/register-complete?headImg='+ data.data.headImg +'&nickname='+data.data.headImg)
         }
       } else {
         console.log("网络出错");
@@ -218,6 +218,7 @@ router.get('/register-complete', function(req, res, next) {
     //保存在应用中
     app.locals.headImg = req.query.headImg;
     app.locals.nickname = req.query.nickname;
+    console.log(req.query)
     res.render('register-complete', {
       headImg: app.locals.headImg,
       nickname: app.locals.nickname
