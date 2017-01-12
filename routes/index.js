@@ -602,15 +602,14 @@ router.get("/login/opencode.action", function(req, res) {
           res.set(key, response.headers[key])
       }
       var data = JSON.parse(body);
-      console.log(req.query, "扫码");
       if (!app.locals.storage) {
         app.locals.storage = {}
       }
 
       // var urlPath = url.parse(req.url).path;
-      console.log(req.originalUrl, req.query.url, "======")
+      console.log(req.originalUrl, req.query, "======")
 
-      app.locals.storage.state = req.query.url;
+      app.locals.storage.state = req.query.urlpath;
 
       res.send(data);
     });
