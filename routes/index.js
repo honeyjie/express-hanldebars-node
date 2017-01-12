@@ -41,7 +41,7 @@ router.get('/testindex', function (req, res, next) {
       url: "http://www.utuotu.com/v1/Login/redicturl.action",
       qs: req.query
   }, function(err, response, body) {
-      console.log(req.query, body);
+      console.log(req.query, body, "-----");
       var data = JSON.parse(body);
       for (var key in response.headers) {
           res.set(key, response.headers[key])
