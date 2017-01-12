@@ -8,7 +8,12 @@
             </ul>
             <div class="tab-box clear">
                 <div class="set-avatar">
-                    <img src="/img/avatar.png" alt=""/>
+                    {{#unless locals.storage.headImg}}
+                    <img src="{{data.headerimg}}" alt=""/>
+                    {{else}}
+                    <img src="{{locals.storage.headImg}}" alt=""/>
+                    {{/unless}}
+                    
                     <div class="changeimg">
                         <input type="file" class="inputstyle" name="file" />
                         <button class="set-avatar-change button-hollow">更换图像</button>
@@ -17,11 +22,11 @@
                 <div class="set-form set-form-info">
                     <div class="form-item clear">
                         <span class="form-item-name">用户名</span>
-                        <input type="text" value="aaa" disabled="true"/>
+                        <input type="text" value="{{name}}" disabled="true"/>
                     </div>
                     <div class="form-item clear">
                         <span class="form-item-name">Email</span>
-                        <input class="set-form-email" type="text" value=""/>
+                        <input class="set-form-email" type="text" value="{{email}}"/>
                         <button class="set-form-send hidden">验证</button>
                         <div class="form-item-notice hidden">
                             <div class="triangle"></div>
@@ -30,7 +35,7 @@
                     </div>
                     <div class="form-item clear">
                         <span class="form-item-name">手机号</span>
-                        <input class="set-form-phone" type="text" value=""/>
+                        <input class="set-form-phone" type="text" value="{{}}"/>
                         <div class="form-item-notice hidden">
                             <div class="triangle"></div>
                             <p><span></span></p>
@@ -38,7 +43,7 @@
                     </div>
                     <div class="form-item clear">
                         <span class="form-item-name">学校</span>
-                        <input class="set-form-school" type="text" value=""/>
+                        <input class="set-form-school" type="text" value="{{school}}"/>
                         <div class="form-item-notice hidden">
                             <div class="triangle"></div>
                             <p><span></span></p>
@@ -46,7 +51,7 @@
                     </div>
                     <div class="form-item clear">
                         <span class="form-item-name">专业</span>
-                        <input class="set-form-major" type="text" value=""/>
+                        <input class="set-form-major" type="text" value="{{major}}"/>
                         <div class="form-item-notice hidden">
                             <div class="triangle"></div>
                             <p><span></span></p>
@@ -56,6 +61,7 @@
                         <span class="form-item-name">年级</span>
                         <div class="form-select set-form-grade">
                             <div class="form-select-value">选择年级</div>
+                            <span>{{nainji}}</span>
                             <div class="form-select-arrow"></div>
                             <div class="form-select-option hidden" id="grade-option">
                                 <ul>
@@ -73,6 +79,7 @@
                         <span class="form-item-name">意向留学地区</span>
                         <div class="form-select set-form-country">
                             <div class="form-select-value">选择地区</div>
+                             <span>{{country}}</span>
                             <div class="form-select-arrow"></div>
                             <div class="form-select-option hidden" id="country-option">
                                 <ul>
@@ -121,7 +128,12 @@
                     </div>
                     <div class="form-item clear">
                         <span class="form-item-name">绑定微信</span>
-                        <div class="form-item-value">Draven</div>
+                        {{#unless app.locals.nickname}}
+                        <div class="form-item-value">{{locals.storage.nickname}}</div>
+                        {{else}}
+                        <div class="form-item-value">{{app.locals.nickname}}</div>
+                        {{/unless}}
+                        
                     </div>
                     <button class="set-save set-password-save button-solid-ban">保存</button>
                 </div>

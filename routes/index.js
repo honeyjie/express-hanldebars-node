@@ -42,23 +42,27 @@ router.get('/testindex', function (req, res, next) {
   }, function(err, response, body) {
       console.log(req.query, body);
       var data = JSON.parse(body);
-
-      if(data.code === 0 && data.data.login) {
-        console.log("登录成功")
-        // res.redirect(res.locals.storage.state)
-      } else if (data.code === 0 && !data.data.login) {
-        console.log("需要注册")
-        // res.redirect('/register-complete')
+      if (data.code === 0) {
+        //获取微信图像和昵称
+        res.locals.storage.headImg = data.data.headImg;
+        res.locals.storage.nickname = data.data.nickname;
+        if(!!data.data.login) {
+            //已经注册
+            console.log(res.locals.storage.state)
+            res.redirect(res.locals.storage.state)
+        }else {
+            //未注册
+            res.redirect('/register-complete')
+        }
       } else {
         console.log("网络出错");
-        // res.redirect(res.locals.storage.state)
-      }
-
-        res.render('testindex', {
+        res.render("testindex", {
+          layout: null,
           body: body
         })
+      }
   })
-    next();
+    
 });
 
 
@@ -190,19 +194,29 @@ router.get('/v1/User/msganswer.action', function(req, res, next) {
   })
 });
 
-router.get('/user-set', function(req, res, next) {
-  res.render('user-set', {
-    userset: true
-  })
+router.post('/user-set', function(req, res, next) {
+    req.proxy.request({
+        method: "POST",
+        url: "http://www.utuotu.com/v1/User/saveuser.action",
+        qs: req.query
+    }, function(err, response, body) {
+        var data = JSON.parse(body);
+        console.log(data);
+        res.render('user-set', {
+            data: data.data
+        });
+    })
+
 });
 
 //注册
 router.get('/register-complete', function(req, res, next) {
-  res.locals.headImg = req.query.headImg;
-
+    //保存在应用中
+    app.locals.headImg = req.query.headImg;
+    app.locals.nickname = req.query.nickname;
     res.render('register-complete', {
-      headImg: req.query.headImg,
-      nickname: req.query.nickname
+      headImg: app.locals.headImg,
+      nickname: app.locals.nickname
     })
 });
 
