@@ -56,7 +56,7 @@ router.get('/testindex', function (req, res, next) {
             res.redirect(res.locals.storage.state)
         }else {
             //未注册
-            res.redirect('/register-complete?headImg='+ data.data.headImg +'&nickname='+data.data.headImg)
+            res.redirect('/register-complete?headImg='+ data.data.headImg +'&nickname='+data.data.nickname)
         }
       } else {
         console.log("网络出错");
