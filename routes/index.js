@@ -607,11 +607,11 @@ router.get("/login/opencode.action", function(req, res) {
         app.locals.storage = {}
       }
 
-      var urlPath = url.parse(req.url).path;
+      // var urlPath = url.parse(req.url).path;
+      console.log(req.originalUrl, req.query.url)
 
-
-      app.locals.storage.state = urlPath;
-      console.log(app.locals.storage.state)
+      app.locals.storage.state = req.query.url;
+      console.log(urlPath, "------")
 
       res.send(data);
     });
