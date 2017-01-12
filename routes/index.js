@@ -48,15 +48,16 @@ router.get('/testindex', function (req, res, next) {
       }
       if (data.code === 0) {
         //获取微信图像和昵称
-        if(!res.locals.storage) {
-          res.locals.storage = {};
+        if(!app.locals.storage) {
+          app.locals.storage = {};
         }
-        res.locals.storage.headImg = data.data.headImg;
-        res.locals.storage.nickname = data.data.nickname;
+        app.locals.storage.headImg = data.data.headImg;
+        app.locals.storage.nickname = data.data.nickname;
         if(!!data.data.login) {
             //已经注册
-            console.log(res.locals.storage.state)
-            res.redirect(res.locals.storage.state)
+            console.log("1");
+            console.log(app.locals.storage.state)
+            res.redirect(app.locals.storage.state)
         }else {
             //未注册
             res.redirect('/register-complete?headImg='+ data.data.headImg +'&nickname='+data.data.nickname)
@@ -601,11 +602,12 @@ router.get("/login/opencode.action", function(req, res) {
           res.set(key, response.headers[key])
       }
       var data = JSON.parse(body);
-      console.log(req.query);
+      console.log(req.query, "扫码");
       if (!res.locals.storage) {
         res.locals.storage = {}
       }
-      res.locals.storage.state = req.path;
+      console.log(app.locals.storage.state)
+      app.locals.storage.state = req.path;
       res.send(data);
     });
 });
