@@ -1,3 +1,4 @@
+{{#if data.school.[0]}}
 <div class="header-search-result-school">
     <div class="header-search-result-title">学校名称</div>
     <div class="header-search-scroll" id="search-school">
@@ -7,7 +8,11 @@
         {{/each}} 
         </ul>
     </div>
-</div>
+    <a href="/school-screen"><p>更多...</p></a>
+</div>   
+{{/if}}
+
+{{#if data.article.[0]}}
 <div class="header-search-result-article">
     <div class="header-search-result-title">文章</div>
     <div class="header-search-scroll" id="search-article">
@@ -18,7 +23,10 @@
         </ul>
     </div>
 </div>
-{{#unless data.school}}
-    <div class="header-search-result-none">未搜索到相关信息</div>
-{{/unless}}
+{{/if}}
+
+{{#bothNot data.article.[0] data.school.[0]}}
+<div class="header-search-result-none">未搜索到相关信息</div>
+{{/bothNot}}
+
 

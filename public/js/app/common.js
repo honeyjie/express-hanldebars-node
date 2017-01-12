@@ -170,6 +170,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
                 dataType:'html',
                 success:function(data){
                     $('.header-search-result').html(data);
+                    console.log(data);
                     //模拟滚动条
                     scroll[0] =  new iscroll('#search-school',{
                         mouseWheel : true,
@@ -270,7 +271,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
         $('.login-captcha').removeClass('hidden');
         $('.login-captcha-fail').addClass('hidden');
         $.ajax({
-            url:'/v1/captcha/start.action',
+            url:'/captcha/start.action',
             type:'get',
             cache:false,
             dataType:'json',
@@ -278,12 +279,11 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
                 $('.login-captcha-title span').html(data.data.imageName);
                 imageFieldName = data.data.imageFieldName
                 var dom = '';
+   
                 for(var i=0;i<5;i++){
-                    dom += '<img data-value="' + data.data.values[i] + '" src="/v1/captcha/image.action?index=' + i + '&_=' + Math.random() + '"/>';
+                    dom += '<img data-value="' + data.data.values[i] + '" src="/captcha/image.action?index=' + i + '&_=' + Math.random() + '"/>';
                 }
                 $('.login-captcha-pics').html(dom);
-
-                
                 $('.login-captcha-pics img').click( imageFieldName, function(e) {
                     e.preventDefault();
                     var answer = $(this).data('value');
@@ -296,18 +296,17 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
         });
     }
     //验证码try
-    function captchaTry(answer, imageFiledName){
+    function captchaTry(ans, FiledName){
         $.ajax({
-            url:'/v1/captcha/try.action',
+            url:'/captcha/try.action',
             data: {
-                filed: imageFieldName,
-                answer: answer
+                field: FiledName,
+                answer: ans
             },
             type:'get',
             cache:false,
             dataType:'json',
             success:function(data){
-                console.log(data);
                 if(data.data.valid){
                     $('.login-captcha-success').removeClass('hidden');  //成功
                 }

@@ -460,7 +460,6 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
     function creditLine(){
         //渲染时将当前积分自动填充，仅当不为0时才显示
         base.userInfo.credit = $('.point-line-number2').html() || 0;
-        console.log(base.userInfo.credit);
         // base.userInfo.totalCredit = $('.point-line-number3').html();
         var tw = $('.point-line').innerWidth();
         var nw = tw*base.userInfo.credit/base.userInfo.totalCredit;

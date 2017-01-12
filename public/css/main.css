@@ -129,7 +129,7 @@
 .header-search-scroll{
     position: relative;
     margin: 10px 0;
-    max-height: 245px;
+    max-height: 180px;
     overflow: hidden;
 }
 .header-search-scroll ul{
@@ -138,7 +138,7 @@
 .header-search-scroll ul li a{
     display: block;
     line-height: 20px;
-    padding: 5px 10px;
+    padding: 5px 25px 5px 10px;
     color: #999999;
 }
 .header-search-scroll ul li a:hover{
@@ -147,6 +147,14 @@
 }
 .header-search-scroll ul li span{
     color: #25baf4;
+}
+.header-search-result-school p{
+    color: #25baf4;
+    padding-right: 25px;
+    paddng-top: 15px;
+    padding-bottom: 30px;
+    font-weight: bold;
+    text-align: right;
 }
 .header-search-result-none{
     padding: 20px 10px;

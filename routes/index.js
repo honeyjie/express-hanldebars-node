@@ -33,7 +33,6 @@ router.get('/', function (req, res, next) {
     });
     next();
 });
-
 //用户
 router.get('/user-news', function(req, res, next) {
   var newsstate;
@@ -478,6 +477,9 @@ router.get("/Help/search.action", function(req, res) {
         url: "http://www.utuotu.com/v1/Help/search.action",
     }, function(err, response, body) {
       var data = JSON.parse(body);
+      console.log(data.data.school[0], data.data.article[0])
+      console.log(!!data.data.school[0], !!data.data.article[0]);
+
       res.render('partials/searchlist', {
             data: data.data,
             layout: "naked"
@@ -497,15 +499,44 @@ router.get("/refelink", function(req, res) {
 });
 
 // encoding: null 显示为buffer格式
-router.get("/v1/captcha/image.action", function(req, res) {
+router.get("/captcha/image.action", function(req, res) {
     req.proxy.request({
+        encoding: null,
         method: "GET",
         url: "http://www.utuotu.com/v1/captcha/image.action",
-        qs: req.query,
-        encoding: null
+        qs: req.query
     }, function(err, response, body) {
       res.send(body);
     });
 });
 
+//captcha/start.action
+router.get("/captcha/start.action", function(req, res) {
+    req.proxy.request({
+        method: "GET",
+        url: "http://www.utuotu.com/v1/captcha/start.action",
+        qs: req.query
+    }, function(err, response, body) {
+      console.log(data);
+      for (var key in response.headers) {
+                res.set(key, response.headers[key])
+            }
+      var data = JSON.parse(body);
+      res.send(data);
+    });
+});
+//captcha/try.action
+router.get("/captcha/try.action", function(req, res) {
+    req.proxy.request({
+        method: "GET",
+        url: "http://www.utuotu.com/v1/captcha/try.action",
+        qs: req.query
+    }, function(err, response, body) {
+      for (var key in response.headers) {
+          res.set(key, response.headers[key])
+      }
+      var data = JSON.parse(body);
+      res.send(data);
+    });
+});
 module.exports = router;

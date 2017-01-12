@@ -118,7 +118,6 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         $('.screen-side-search').on('click',function(){
             // canSearch();
             if(screen.country||screen.state||screen.preference||screen.major||screen.degree){
-                console.log("开始搜索")
                 searchSchool();
             }
         });
