@@ -3,6 +3,7 @@
 var Promise = global.Promise || require('promise');
 
 var express = require('express');
+var app = express();
 var router = express.Router();
 var url = require('url');
 var path = require('path');
