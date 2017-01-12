@@ -2000,7 +2000,10 @@
     right: 0;
     text-align: right;
 }
-
+.screen-empty{
+    text-align: center;
+    margin: 200px 0;
+}
 .school .screen-list-join{
     position: absolute;
     width: 140px;
@@ -2252,6 +2255,23 @@
     padding: 10px;
     font-size: 14px;
 }
+.school .recommend-major-form .form-select-option{
+    width: 250px;
+}
+.school .recommend-major-form .form-item-notice{
+    left: 35px;
+    top: -55px;
+}
+.school .recommend-major-form .form-item-notice .triangle{
+    top: 40px;
+    left: 85px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-top: 10px solid #ec3b34;
+    border-right: 5px solid;
+}
+
 .school .recommend-major-get{
     width: 130px;
     height: 40px;
@@ -2306,6 +2326,8 @@
     display: table-cell;
     vertical-align: middle;
     padding-right: 10px;
+    font-size: 14px;
+    font-weight: 600;
 }
 .school .school-major{
     width: 980px;
@@ -2977,6 +2999,7 @@
 .select-school .select-school-rank{
     padding-top: 20px;
     text-align: right;
+    height: 20px;
 }
 .select-school .select-school-list li{
     float: left;
@@ -2996,7 +3019,7 @@
     border: 1px solid #dcdcdc;
     border-radius: 5px;
     padding: 10px;
-    margin-top: 30px;
+    margin-top: 40px;
 }
 .select-school .school-list-logo{
     display: block;
@@ -3031,6 +3054,49 @@
     padding-top: 50px;
     color: #ffffff;
     display: none;
+    text-shadow: 1px 0 0 #333 , -1px 0 0 #333 , 0 1px 0 #333 , 0 -1px 0 #333;
+}
+.select-school .select-school-list li.active .school-list-main{
+    margin-top: 0;
+    border: 1px solid #25baf4;
+}
+.select-school .select-school-list li.active .school-list-info{
+    height: 40px;
+}
+.school-list-switch{
+    text-align: right;
+    vertical-align: middle;
+    line-height: 20px;
+    margin-top: 10px;
+}
+.school-list-switch span{
+    vertical-align: top;
+}
+.switch-box{
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 14px;
+    border-radius: 10px;
+    box-shadow: 0 0 2px rgba(0,0,0,0.1);
+    margin: 3px 0 3px 5px;
+}
+.switch-box.off{
+    background: #dcdcdc;
+}
+.switch-box.on{
+    background: #4dbcf2;
+}
+.switch-box img{
+    position: absolute;
+    height: 24px;
+    top: -5px;
+}
+.switch-box.off img{
+    left: 0;
+}
+.switch-box.on img{
+    left: 26px;
 }
 /*.select-school .select-school-list li:hover .select-school-mask{*/
     /*display: block;*/

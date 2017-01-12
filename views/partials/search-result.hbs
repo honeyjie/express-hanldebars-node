@@ -1,5 +1,9 @@
     <ul class="screen-list" id="screen-school">
     <li class="screen-list-total">共{{data.page.count}}所大学</li>
+        <!--结果为空-->
+        <div class="screen-empty hidden">
+            <img src="/img/school-empty.png" alt=""/>
+        </div>
     {{#each data.data}}
     <li>
         <a href="/school-recommend?sid={{id}}"><img class="screen-list-logo" src="{{logo}}?imageView2/2/w/200/h/200/format/jpg/interlace/0/q/100" alt="{{school_name}}"/></a>
@@ -12,7 +16,7 @@
             <p>U.S. NEWS排名：{{rank.usnews}}</p>
             {{else}}
             <p>麦考林（医博类）排名：{{rank.maikaolin}}</p>
-            {{/if}} 
+            {{/if}}
         </div>
         <a class="screen-list-join button-solid" href="/select?sid={{id}}">加入选校</a>
     </li>
