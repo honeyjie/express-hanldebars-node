@@ -43,6 +43,9 @@ router.get('/testindex', function (req, res, next) {
   }, function(err, response, body) {
       console.log(req.query, body);
       var data = JSON.parse(body);
+      for (var key in response.headers) {
+          res.set(key, response.headers[key])
+      }
       if (data.code === 0) {
         //获取微信图像和昵称
         if(!res.locals.storage) {
@@ -59,7 +62,7 @@ router.get('/testindex', function (req, res, next) {
             res.redirect('/register-complete?headImg='+ data.data.headImg +'&nickname='+data.data.nickname)
         }
       } else {
-        console.log("网络出错");
+        console.log("网络出错    ====");
         res.render("testindex", {
           layout: null,
           body: body
