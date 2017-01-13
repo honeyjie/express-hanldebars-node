@@ -31,7 +31,7 @@
                     </div>
                     <div class="form-item clear">
                         <span class="form-item-name">手机号</span>
-                        <input class="set-form-phone" type="text" value="{{}}"/>
+                        <input class="set-form-phone" type="text" value="{{phone}}"/>
                         <div class="form-item-notice hidden">
                             <div class="triangle"></div>
                             <p><span></span></p>
@@ -69,8 +69,7 @@
                                     <li>博士研究生</li>
                                 </ul>
                             </div>
-                        </div>
-                        {{/with}}
+                        </div>  
                     </div>
                     <div class="form-item clear">
                         <span class="form-item-name">意向留学地区</span>
@@ -95,7 +94,9 @@
                         </div>
                     </div>
                     <button class="set-save set-info-save button-solid-ban">保存</button>
+                    {{/with}}
                 </div>
+
             </div>
             <div class="tab-box hidden">
                 <div class="set-form set-tab-password">

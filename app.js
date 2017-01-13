@@ -63,7 +63,7 @@ app.use(function(req, res, next) {
       if (!res.locals.partials) {
         res.locals.partials = {}
       }
-      console.log(data);
+    console.log(data.data, "+++++");
       res.locals.partials.schooldetail = data.data;
       res.locals.partials.schoolid = req.query.sid;
       next();

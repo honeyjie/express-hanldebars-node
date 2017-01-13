@@ -202,9 +202,9 @@ router.get('/v1/User/msganswer.action', function(req, res, next) {
   })
 });
 
-router.post('/user-set', function(req, res, next) {
+router.get('/user-set', function(req, res, next) {
     req.proxy.request({
-        method: "POST",
+        method: "get",
         url: "http://www.utuotu.com/v1/User/saveuser.action"
     }, function(err, response, body) {
         var data = JSON.parse(body);
