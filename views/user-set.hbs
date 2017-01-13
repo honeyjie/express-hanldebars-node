@@ -130,7 +130,12 @@
                     </div>
                     <div class="form-item clear">
                         <span class="form-item-name">绑定微信</span>
-                        <div class="form-item-value">{{data.nickname}}</div>  
+                        {{#if data.nickname}}
+                        <div class="form-item-value">{{data.nickname}}</div> 
+                        {{else}}
+                        <div class="form-item-value">已绑定</div> 
+                        {{/if}}
+                         
                     </div>
                     <button class="set-save set-password-save button-solid-ban">保存</button>
                 </div>

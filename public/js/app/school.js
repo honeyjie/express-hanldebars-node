@@ -127,10 +127,6 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             searchReset();
         });
 
-        // //推荐选校
-        // $('.recommend-major-form').on('input propertychange',function(){
-        //     selectMajor($(this).val());
-        // });
         //box展开收缩
         $('.school-box-title img').on('click',function(){
             var content = $(this).parents('.school-box').find('.school-box-content');

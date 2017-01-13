@@ -1,6 +1,6 @@
 <div class="school-box school-major">
     <div class="school-box-title">
-        {{major_name_zh}}
+        {{major_name_en}}
         {{#if rank}}
         <div class="school-major-rank"> U.S. NEWS专业排名：{{rank}}</div>
         {{/if}}
@@ -9,9 +9,11 @@
     </div>
     <div class="school-box-content major-tab">
         <ul class="tab-title clear">
-            <li class="active">{{degree}}</li>
+            <a href="/school-mjlist/sid={{@root.sid}}&mid={{id}}"><li class="active">{{degree}}</li></a>
             {{#each otherDegree}}
-            <li>{{degree}}</li>
+                {{#ifNotEq this.degree ../degree}}
+                <a href="/school-mjlist/sid={{@root.sid}}&mid={{id}}"><li>{{degree}}</li></a>
+                {{/ifNotEq}}
             {{/each}}
         </ul>
         <div class="tab-box">
@@ -20,14 +22,24 @@
                     <img src="/img/major-start.png" alt=""/>
                     <span>入学时间</span>
                     <div class="form-select major-info-start">
-                        <div class="form-select-value">选择入学时间</div>
+                        {{#if term.[1].term}}
+                            <img class="form-select-icon" src="/img/icon-down.png" alt=""/>
+                        {{/if}}
+                        <div class="form-select-value">{{term.[0].term}}
+                        </div>
+                        {{#if term.[1].term}}
                         <div class="form-select-option hidden">
                             <ul>
                                 {{#each term}}
-                                <li>{{term}}</li>
+                                    {{#if term}}
+                                        {{#ifNotEq this.term ../term.[0].term}}
+                                        <li>{{term}}</li>
+                                        {{/ifNotEq}}
+                                    {{/if}}
                                 {{/each}}
                             </ul>
                         </div>
+                        {{/if}}
                     </div>
                 </li>
                 <li>
@@ -47,12 +59,13 @@
                 </li>
                 <li>
                     <img src="/img/major-start.png" alt=""/>
-                    <a href="{{apply_entrance}}">官方Q&A</a>
+                    <a href="{{fqa}}">官方Q&A</a>
                 </li>
                 <li>
                     <img src="/img/major-direction.png" alt=""/>
                     <span>研究方向</span>
                     <div class="form-select major-info-direction">
+                        <img class="form-select-icon" src="/img/icon-down.png" alt=""/>
                         <div class="form-select-value">选择研究方向</div>
                         <div class="form-select-option hidden">
                             <ul>
@@ -67,62 +80,220 @@
             <div class="major-require">
                 <div class="major-require-title">申请要求</div>
                 <ul class="major-require-list clear">
-                    {{qs}}
+                    {{#ifNotEq ps -1}}
                     <li class="active">
                         <img src="/img/require1.png" alt=""/>
-                        <div class="major-require-list-name">个人称述（SOP）</div>
+                        <div class="major-require-list-name">个人称述</div>
+                        <div class="major-require-list-result hidden">
+                          <p>{{showRequest ps '需要提交个人称述（SOP），但无具体要求' '' ''}}<p> 
+                        </div>
                         <div class="major-require-list-arrow"></div>
                     </li>
-                    {{resume}}
+                    {{/ifNotEq}}
+
+                    {{#ifNotEq resume -1}}
                     <li>
                         <img src="/img/require2.png" alt=""/>
                         <div class="major-require-list-name">个人简历</div>
+                        <div class="major-require-list-result hidden">
+                          <p>{{showRequest  resume '需要提交个人简历，但无具体要求' '' ''}}<p>  
+                        </div>
                         <div class="major-require-list-arrow"></div>
                     </li>
-                    {{recommend_number}}
+                    {{/ifNotEq}}
+
+                    {{#ifNotEq recommend_number -1}}
                     <li>
                         <img src="/img/require3.png" alt=""/>
                         <div class="major-require-list-name">推荐信</div>
+                        <div class="major-require-list-result hidden">
+                            <p>{{showRequest recommend_number '' '推荐信最低' '封'}}
+                             {{showRequest recommend_introduce '' '具体要求: ' ''}}<br/>
+                            </p> 
+                        </div>
                         <div class="major-require-list-arrow"></div>
                     </li>
+                    {{/ifNotEq}}
+
+                    {{#ifNotEq transcripts -1}}
                     <li>
                         <img src="/img/require4.png" alt=""/>
                         <div class="major-require-list-name">成绩单</div>
+                        <div class="major-require-list-result hidden">
+                         <p>{{showRequest transcripts '' '成绩单要求: ' '' ''}} </p>
+                        </div>
                         <div class="major-require-list-arrow"></div>
                     </li>
+                    {{/ifNotEq}}
+
+                    {{#ifNotEq language -1}}
                     <li>
                         <img src="/img/require5.png" alt=""/>
                         <div class="major-require-list-name">语言成绩</div>
+                        <div class="major-require-list-result hidden">
+                        {{#with language}}
+
+                        {{#ifShowLogic toefl -1 0 'TOEFL总成绩无最低要求<br/>'}}
+                        TOEFL最低要求: {{toefl}} 分<br/>
+                        {{/ifShowLogic}}
+
+                        {{#ifNotEq toefl_r -1}}
+                        TOEFL分项最低要求: 
+                        {{/ifNotEq}}
+
+                        {{#ifShowLogic toefl_r -1 0 'R-无最低分要求,'}}
+                        R-{{toefl_r}}分,
+                        {{/ifShowLogic}}
+                        
+                        {{#ifShowLogic toefl_l -1 0 'L-无最低分要求,'}}
+                        L-{{toefl_l}}分,
+                        {{/ifShowLogic}}
+
+                        {{#ifShowLogic toefl_s -1 0 'S-无最低分要求,'}}
+                        S-{{toefl_s}}分,
+                        {{/ifShowLogic}}
+
+                        {{#ifShowLogic toefl_w -1 0 'W-无最低分要求<br/>'}}
+                        W-{{toefl_w}}分<br/>
+                        {{/ifShowLogic}}
+                        
+                        
+                        {{#ifNotEq toefl_code -1}}
+                        TOEFL官方成绩电子寄送 Code：{{toefl_code}}(Institute;Department)<br/>
+                        {{/ifNotEq}}
+                        <br/>
+
+                        {{#ifShowLogic ielts -1 0 'IELTS总成绩无最低要求<br/>'}}
+                        IELTS最低要求：{{ielts}}分<br/>
+                        {{/ifShowLogic}}
+
+                        {{#ifNotEq ielts_r -1}}
+                        IELTS分项最低要求：
+                        {{/ifNotEq}}
+                        {{#ifShowLogic ielts_r -1 0 'R-无最低分要求,'}}
+                        R-{{ielts_r}}分，
+                        {{/ifShowLogic}}
+                        {{#ifShowLogic ielts_l -1 0 'L-无最低分要求,'}}
+                        L-{{ielts_l}}分，
+                        {{/ifShowLogic}}
+                        {{#ifShowLogic ielts_s -1 0 'S-无最低分要求,'}}
+                        S-{{ielts_s}}分，
+                        {{/ifShowLogic}}
+                        {{#ifShowLogic ielts_w -1 0 'W-无最低分要求<br/>'}}
+                        W-{{ielts_w}}分<br/>
+                        {{/ifShowLogic}}
+                        
+
+                        {{#ifNotEq achievement -1}}
+                        IELTS寄送方式：{{achievement}}<br/>
+                        {{/ifNotEq}}
+                    
+                        {{/with}}
+                        </div>
                         <div class="major-require-list-arrow"></div>
                     </li>
+                    {{/ifNotEq}}
+
+                    {{#ifNotEq exam -1}}
                     <li>
                         <img src="/img/require6.png" alt=""/>
                         <div class="major-require-list-name">标准化考试</div>
+                        <div class="major-require-list-result hidden">
+                        {{#with exam}}
+                        {{#ifShowLogic gre -1 0 'GRE总成绩无最低要求<br/>'}}
+                        GRE最低要求: {{gre}}分<br/>
+                        {{/ifShowLogic}}
+
+                        {{#ifNotEq gre_v -1}}
+                        GRE分项最低要求：
+                        {{/ifNotEq}}
+
+                        {{#ifShowLogic gre_v -1 0 'V-无最低要求,'}}
+                        V-{{gre_v}}分，
+                        {{/ifShowLogic}}
+
+                        {{#ifShowLogic gre_q -1 0 'Q-无最低要求,'}}
+                        Q-{{gre_q}}分，
+                        {{/ifShowLogic}}
+
+                        {{#ifShowLogic gre_aw -1 0 'AW-无最低要求<br/>'}}
+                        AW-{{gre_aw}}分<br/>
+                        {{/ifShowLogic}}
+                        
+
+                        {{#ifNotEq gre_code -1}}
+                        GRE官方成绩电子寄送 Code：{{gre_code}}(Institute;Department)
+                        {{/ifNotEq}}
+                        <br/>
+
+                        {{#ifShowLogic gamt -1 0 'GMAT总成绩无最低要求<br/>'}}
+                        GMAT最低要求: {{gamt}}分<br/>
+                        {{/ifShowLogic}}
+                        
+
+                        {{#ifNotEq gamt_v -1}} 
+                        GMAT分项最低要求：
+                        {{/ifNotEq}}
+
+                        {{#ifShowLogic gamt_v -1 0 'V-无最低要求'}}
+                        V-{{gamt_v}}分，
+                        {{/ifShowLogic}}
+                        {{#ifShowLogic gamt_q -1 0 'Q-无最低要求'}}
+                        Q-{{gamt_q}}分，
+                        {{/ifShowLogic}}
+                        {{#ifShowLogic gamt_aw -1 0 'AW-无最低要求<br/>'}}
+                        AW-{{gamt_aw}}分 <br/>
+                        {{/ifShowLogic}}
+
+
+                        {{#ifNotEq gamt_code -1}} 
+                        GMAT寄送方式：{{gamt_code}}<br/>
+                        {{/ifNotEq}}
+                        
+
+                        {{#ifNotEq exam_introduce -1}}
+                        标准化考试其他要求：{{exam_introduce}}<br/>
+                        {{/ifNotEq}}
+                        
+
+                        {{/with}}
+                        </div>    
                         <div class="major-require-list-arrow"></div>
                     </li>
-                    {{additional_requirements}}
+                    {{/ifNotEq}}
+
+                    {{#ifNotEq additional_requirements -1}}
                     <li>
                         <img src="/img/require7.png" alt=""/>
                         <div class="major-require-list-name">附加要求</div>
+                        <div class="major-require-list-result hidden">
+                            <p>{{showRequest additional_requirements '' '' ''}} </p>
+                        </div> 
+                        <div class="major-require-list-arrow"></div>
                     </li>
+                    {{/ifNotEq}}
                 </ul>
-                <div class="major-require-content" id="require-content1">
+                <div class="major-require-content" id="require-content">
                     <div>
-                        <div class="major-require-content-name">研究报告</div>
-                        <p>
-                        {{qs}}
-                        </p>
+                        <div class="major-require-content-name">个人称述</div>
+                        <div class="major-require-content-result">
+                            <div class="major-require-list-result">
+                                <p>{{showRequest ps 'A Personal Statement is Required.' '' ''}}<p>
+                            </div> 
+                        </div>
                     </div>
                 </div>
             </div>
             <button class="major-join button-solid">加入申请</button>
             <div class="major-from">
                 <div class="major-from-title">数据来源</div>
-                <p>
-                    {{#each reference}}
-                    <a href="#">{{this}}<br/>
-                    {{/each}} 
-                </p>
+                <div class="major-from-content" id="from-content">
+                        {{#each reference}}
+                            <a href="/refelink?hash={{hash}}" target="_blank">
+                                <li>{{title}}</li>
+                            </a>
+                        {{/each}}
+                </div>
             </div>
         </div>
     </div>
