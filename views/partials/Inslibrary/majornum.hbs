@@ -1,11 +1,11 @@
-<ul class="school-side">
-    <li><a href="/school-recommend?sid={{sid}}">推荐专业</a></li>
-    <li class="active">
-        <a href="/school-major?sid={{sid}}">全部专业</a>
-    </li>
+<ul class="school-side" data-school={{sid}}>
+    <li class="school-recommend-page">推荐专业</li>
+    <li class="school-all-page active">全部专业</li>
+    {{#if showAll}}
     <ul class="school-side-son">
-        {{#each data.data}}
-        <li><a href="/school-all?sid={{sid}}">{{academy}}</a></li>
+        {{#each data.majors}}
+           <li class="school-academy-page" data-academy="{{academy}}">{{academy}}</li>
         {{/each}}
     </ul>
+    {{/if}}
 </ul>

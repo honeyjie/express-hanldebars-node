@@ -3,7 +3,7 @@ requirejs.config({
     baseUrl : 'js/lib',
     paths : {
         app : '../app',
-        jquery : 'jquery-2.1.3.min',
+        jquery : 'jquery-3.1.1.min',
         handlebars: 'handlebars',           //handlebar
         d3 : 'd3.min',                      //d3
         fullpage : 'jquery.fullPage.min',   //全屏滚动插件

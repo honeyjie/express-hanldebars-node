@@ -2001,6 +2001,21 @@
     right: 0;
     text-align: right;
 }
+
+.school .screen-list-rank p span:first-child{
+    display: block;
+    float: left;
+    width: 120px;
+    text-align: right;
+}
+
+.school .screen-list-rank p span:last-child{
+    display: block;
+    float: right;
+    width: 24px;
+    text-align: right;
+}
+
 .screen-empty{
     text-align: center;
     margin: 200px 0;
@@ -2064,6 +2079,20 @@
     top: 20px;
     right: 20px;
     color: #25baf4;
+    text-align: right;
+}
+
+.school .school-info-rank p span:first-child{
+    display: block;
+    float: left;
+    width: 120px;
+    text-align: right;
+}
+
+.school .school-info-rank p span:last-child{
+    display: block;
+    float: right;
+    width: 24px;
     text-align: right;
 }
 .school .school-box{
@@ -2157,13 +2186,13 @@
     line-height: 60px;
     text-align: center;
 }
-.school .school-side>li a{
+.school .school-side>li{
     display: block;
     font-size: 14px;
     font-weight: 600;
     color: #ffffff;
 }
-.school .school-side>li:hover a,.school .school-side>li.active a{
+.school .school-side>li:hover,.school .school-side>li.active{
     background: #ffffff;
     color: #25baf4;
 }
@@ -2171,12 +2200,14 @@
     text-align: center;
     height: 40px;
     line-height: 40px;
-}
-.school-side-son>li a{
     color: #ffffff;
     font-size: 14px;
 }
-.school-side-son>li a:hover,.school-side-son>li.active a{
+// .school-side-son>li a{
+//     color: #ffffff;
+//     font-size: 14px;
+// }
+.school-side-son>li:hover,.school-side-son>li.active {
     text-decoration: underline;
 }
 .school .school-all{
@@ -2198,7 +2229,7 @@
     vertical-align: middle;
     line-height: 16px;
 }
-.school .all-list li a:hover{
+.school .all-list li:hover{
     color: #25baf4;
     text-decoration: underline;
 }

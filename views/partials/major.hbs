@@ -2,8 +2,9 @@
     <div class="school-box-title">
         {{major_name_en}}
         {{#if rank}}
-        <div class="school-major-rank"> U.S. NEWS专业排名：{{rank}}</div>
+        <div class="school-major-rank"> U.S. NEWS专业排名:{{rank}}</div>
         {{/if}}
+
         <img class="school-box-up" src="/img/icon-up.png" alt=""/>
         <img class="school-box-down hidden" src="/img/icon-down.png" alt=""/>
     </div>
@@ -59,7 +60,7 @@
                 </li>
                 <li>
                     <img src="/img/major-start.png" alt=""/>
-                    <a href="{{fqa}}">官方Q&A</a>
+                    <a href="{{fqa}}" target="_blank">官方Q&A</a>
                 </li>
                 <li>
                     <img src="/img/major-direction.png" alt=""/>
@@ -131,6 +132,7 @@
                         <img src="/img/require5.png" alt=""/>
                         <div class="major-require-list-name">语言成绩</div>
                         <div class="major-require-list-result hidden">
+                        <p>
                         {{#with language}}
 
                         {{#ifShowLogic toefl -1 0 'TOEFL总成绩无最低要求<br/>'}}
@@ -189,6 +191,7 @@
                         {{/ifNotEq}}
                     
                         {{/with}}
+                        </p>
                         </div>
                         <div class="major-require-list-arrow"></div>
                     </li>
@@ -199,6 +202,7 @@
                         <img src="/img/require6.png" alt=""/>
                         <div class="major-require-list-name">标准化考试</div>
                         <div class="major-require-list-result hidden">
+                        <p>
                         {{#with exam}}
                         {{#ifShowLogic gre -1 0 'GRE总成绩无最低要求<br/>'}}
                         GRE最低要求: {{gre}}分<br/>
@@ -222,9 +226,9 @@
                         
 
                         {{#ifNotEq gre_code -1}}
-                        GRE官方成绩电子寄送 Code：{{gre_code}}(Institute;Department)
+                        GRE官方成绩电子寄送 Code：{{gre_code}}(Institute;Department)<br/>
                         {{/ifNotEq}}
-                        <br/>
+                        
 
                         {{#ifShowLogic gamt -1 0 'GMAT总成绩无最低要求<br/>'}}
                         GMAT最低要求: {{gamt}}分<br/>
@@ -254,9 +258,8 @@
                         {{#ifNotEq exam_introduce -1}}
                         标准化考试其他要求：{{exam_introduce}}<br/>
                         {{/ifNotEq}}
-                        
-
                         {{/with}}
+                        </p>
                         </div>    
                         <div class="major-require-list-arrow"></div>
                     </li>

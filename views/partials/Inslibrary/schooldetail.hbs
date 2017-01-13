@@ -5,13 +5,14 @@
     <div class="school-info-english">{{school_name_en}} ({{school_name_short}}) </div>
     <div class="school-info-link"><a href="http://{{official_url}}" target="_blank">{{official_url}}</a></div>
     <div class="school-info-rank">
-        
+        {{#if rank.qs}}
         <p><span>QS世界排名:</span><span>{{rank.qs}}</span></p>
+        {{/if}}
         {{#if rank.usnews}}
-        <p><span>U.S. NEWS排名：</span><span>{{rank.usnews}}</span></p>
+        <p><span>U.S. NEWS排名:</span><span>{{rank.usnews}}</span></p>
         {{else}}
             {{#if rank.maikaolin}}
-            <p><span>麦考林（医博类）排名：</span><span>{{rank.maikaolin}}</span></p>
+            <p><span>麦考林（医博类）排名:</span><span>{{rank.maikaolin}}</span></p>
             {{/if}}
         {{/if}} 
     </div>

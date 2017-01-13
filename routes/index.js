@@ -64,10 +64,11 @@ router.get('/testindex', function (req, res, next) {
         }
       } else {
         console.log("网络出错    ====");
-        res.render("testindex", {
-          layout: null,
-          body: body
-        })
+        res.redirect('/');
+        // res.render("testindex", {
+        //   layout: null,
+        //   body: body
+        // })
       }
   })
     
@@ -276,18 +277,45 @@ router.get('/email-test', function(req, res, next) {
    });
 });
 
-router.get('/school-all', function(req, res, next) {
+router.get('/school-all-partial', function(req, res, next) {
   req.proxy.request({method: "GET", url: "http://www.utuotu.com/v1/schoolinfo/getallschoolmajor.action"}, function(err, response, body) {
       var data = JSON.parse(body);
       var major, sid;
-      res.render('school-all', {
+      res.render('partials/Inslibrary/school-all', {
+        data: data.data,
+        sid: req.query.sid,
+        showAll: true, 
+        layout: "naked" 
+        });
+  });
+});
+
+router.get('/school-academylist-partial', function(req, res, next) {
+  req.proxy.request({method: "GET", url: "http://www.utuotu.com/v1/schoolinfo/getallschoolmajor.action"}, function(err, response, body) {
+      var data = JSON.parse(body);
+      var major, sid;
+      res.render('partials/Inslibrary/school-academylist', {
+        data: data.data,
+        sid: req.query.sid,
+        showAll: true, 
+        layout: "naked" 
+        });
+  });
+});
+
+
+router.get('/school-content', function(req, res, next) {
+  req.proxy.request({method: "GET", url: "http://www.utuotu.com/v1/schoolinfo/getallschoolmajor.action"}, function(err, response, body) {
+      var data = JSON.parse(body);
+      var major, sid;
+      res.render('school-content', {
         data: data.data,
         sid: req.query.sid,
         showAll: true
         });
   });
 });
-router.get('/school-majorlist', function(req, res, next) {
+router.get('/school-majorlist-partial', function(req, res, next) {
   req.proxy.request({method: "GET", url: "http://www.utuotu.com/v1/schoolinfo/getallschoolmajor.action"}, function(err, response, body) {
       var data = JSON.parse(body);
 
@@ -302,15 +330,18 @@ router.get('/school-majorlist', function(req, res, next) {
           break;
         }
       }
-      res.render('school-all', {
+      res.render('partials/Inslibrary/school-all', {
         data: data.data,
         isAcademy: true,
         acMajors: acMajors,
         sid: req.query.sid,
-        showAll: false
+        showAll: false, 
+        layout: "naked"
       });
   });
 });
+
+
 router.get('/school-screen', function (req, res) {
   //初始页面渲染, 模糊接口，给一个默认路径
     //将&page=3&置换
@@ -333,22 +364,23 @@ router.get('/school-screen', function (req, res) {
     })
 });
 
-router.get('/school-major', function(req, res, next) {
+router.get('/school-major-partial', function(req, res, next) {
     req.proxy.request({
         method: "GET",
         url: "http://www.utuotu.com/v1/schoolinfo/getschoolmajorinfo.action",
         qs: req.query
     }, function(err, response, body) {
         var data = JSON.parse(body);
-        console.log(data.data)
-        res.render('school-major', {
+        res.render('partials/Inslibrary/school-major', {
             data: data.data,
-            sid: req.query.sid
+            sid: req.query.sid,
+            layout: "naked",
+            modifyMajor: true
         });
     });
 });
 
-router.get('/school-mjlist', function(req, res, next) {
+router.get('/school-mjlist-partial', function(req, res, next) {
   //通过输入值和学校id,请求推荐专业接口
   //获得推荐专业的的mid信息后分别去请求相应的专业接口，将获取到的数字组成数组。
   // var majorList = {mid: [1, 2, 3], sid: 2446};
@@ -367,7 +399,6 @@ router.get('/school-mjlist', function(req, res, next) {
         
 
         for(var i = 0; i < len; i++) {
-          // majorList.push(data[i].mid);
           req.proxy.request({
               method: "GET",
               url: "http://www.utuotu.com/v1/schoolinfo/getschoolmajorinfo.action",
@@ -380,17 +411,35 @@ router.get('/school-mjlist', function(req, res, next) {
         }; 
 
         setTimeout(function() {
-
           res.render('school-majorlist', {
                 dataList: dataList,
-                sid: req.query.sid
+                sid: req.query.sid,
+                layout: "naked"
           }) }, 1000) 
-
-  
     });
         
 });
 
+router.get('/school-recommend-partial', function(req, res) {
+    req.proxy.request({
+        method: "GET",
+        url: "http://www.utuotu.com/v1/schoolInfo/hot.action",
+        qs: req.query
+    }, function(err, response, body) {
+
+        var data = JSON.parse(body);
+        if (!data) {return}
+        res.render('partials/Inslibrary/school-recommend', {
+              data: data.data,
+              total: data.data.Count.master + data.data.Count.doctor,
+              sid: req.query.sid,
+              button: true,
+              layout: "naked"
+        });
+    });
+});
+
+//直接进入到推荐专业
 router.get('/school-recommend', function(req, res) {
     req.proxy.request({
         method: "GET",
@@ -399,7 +448,6 @@ router.get('/school-recommend', function(req, res) {
     }, function(err, response, body) {
 
         var data = JSON.parse(body);
-        console.log(data.data)
         if (!data) {return}
         res.render('school-recommend', {
               data: data.data,
@@ -409,6 +457,65 @@ router.get('/school-recommend', function(req, res) {
         });
     });
 });
+
+//school-mjlist
+router.get('/school-recommendlist', function(req, res, next) {
+  //通过输入值和学校id,请求推荐专业接口
+  //获得推荐专业的的mid信息后分别去请求相应的专业接口，将获取到的数字组成数组。
+  // var majorList = {mid: [1, 2, 3], sid: 2446};
+  // var dataList = []
+
+  var majorList = []
+  var dataList = [];
+  var sid = req.query.sid;
+    req.proxy.request({
+        method: "GET",
+        url: "http://www.utuotu.com/v1/schoolinfo/getrecommend.action",
+        qs: req.query
+    }, function(err, response, body) {
+        var data = JSON.parse(body).data;
+        var len = data.length;
+
+        for(var i = 0; i < len; i++) {
+          req.proxy.request({
+              method: "GET",
+              url: "http://www.utuotu.com/v1/schoolinfo/getschoolmajorinfo.action",
+              qs: {sid: sid, mid: data[i].mid}
+          }, function(err, response, body) {
+              var result = JSON.parse(body).data;
+              dataList.push(result);
+
+          })
+        }; 
+
+        setTimeout(function() {
+          res.render('partials/Inslibrary/school-majorlist', {
+                dataList: dataList,
+                sid: req.query.sid,
+                layout: "naked"
+          }) }, 1000) 
+    });
+        
+});
+
+// router.get('/school-recommend', function(req, res) {
+//     req.proxy.request({
+//         method: "GET",
+//         url: "http://www.utuotu.com/v1/schoolInfo/hot.action",
+//         qs: req.query
+//     }, function(err, response, body) {
+
+//         var data = JSON.parse(body);
+//         console.log(req.query, data.data)
+//         if (!data) {return}
+//         res.render('school-content', {
+//               data: data.data,
+//               total: data.data.Count.master + data.data.Count.doctor,
+//               sid: req.query.sid,
+//               button: true
+//         });
+//     });
+// });
 
 router.get('/select-school', function(req, res) {
     //请求推荐学校

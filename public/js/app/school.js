@@ -64,10 +64,8 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             screen.country = $(this).html();
             screen.country = $(this).attr('short_country');
 
-            console.log(screen.country);
 
             var coutries = countries.countries;
-            console.log(countries.countries);
             for(var i = 0; i< coutries.length; i++) {
                 if(coutries[i].en ==screen.country) {
                     allstate = coutries[i].allstate;
@@ -75,8 +73,6 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                     var source = $('#template-state').html();
                     var template = Handlebars.compile(source);
                     var html = template({allstate: allstate});
-                    console.log(allstate);
-                    console.log(html);
                     $('#screen-state ul').html(html);
                     return;
                 }
@@ -122,13 +118,128 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 searchSchool();
             }
         });
+
         //重置选项
         $('.screen-side-reset').on('click',function(){
             searchReset();
         });
 
+        $('.school-recommend-page').on('click',function(e){
+            var target = e.target;
+            //获取推荐内容
+            $.ajax({
+                url: '/school-recommend-partial',
+                data: {
+                    sid: $('.school-side').attr('data-school')
+                },
+                type:'get',
+                cache:false,
+                dataType:'html',
+                success:function(data){
+                    $('.school-side li').removeClass('active');
+                    $(this).addClass('active')
+                    $(target).addClass('active');
+                    $("#school-content-page").html("");
+                    $("#school-content-page").html(data);
+                },
+                error : function() {
+                    base.notice('网络错误');
+                }
+            });
+        });
+
+        $('.school-all-page').on('click',function(e){
+            var target = e.target;
+
+            //获取学校所有专业
+            $.ajax({
+                url: '/school-all-partial',
+                data: {
+                    sid: $('.school-side').attr('data-school')
+                },
+                type:'get',
+                cache:false,
+                dataType:'html',
+                success:function(data){
+                    $('.school-side li').removeClass('active');
+                    $(target).addClass('active');
+                    $("#school-content-page").html(data);
+                },
+                error : function() {
+                    base.notice('网络错误');
+                }
+            });
+
+            //获取学院排名
+            $.ajax({
+                url: '/school-academylist-partial',
+                data: {
+                    sid: $('.school-side').attr('data-school')
+                },
+                type:'get',
+                cache:false,
+                dataType:'html',
+                success:function(data){
+                    $('.school-side li').removeClass('active');
+                    $(target).addClass('active');
+                    $("#academylist").html(data);
+                },
+                error : function() {
+                    base.notice('网络错误');
+                }
+            });
+        });
+
+        $(document).on("click", ".school-side-son li", function(e){
+            var target = e.target;
+            //获取院校
+            $.ajax({
+                url: '/school-majorlist-partial',
+                data: {
+                    sid: $('.school-side').attr('data-school'),
+                    academy: $(this).attr("data-academy")
+                },
+                type:'get',
+                cache:false,
+                dataType:'html',
+                success:function(data){
+                    $('.school-side-son li').removeClass('active');
+                    $('.school-recommend-page').removeClass('active');
+                    $('.school-all-page').addClass('active');
+                   
+                    $(target).addClass('active');
+                    $("#school-content-page").html(data);
+                },
+                error : function() {
+                    base.notice('网络错误');
+                }
+            });
+        });
+
+        $(document).on("click",  ".all-list li", function(e){
+             var target = e.target;
+            //获取院校
+            $.ajax({
+                url: '/school-major-partial',
+                data: {
+                    sid: $('.school-side').attr('data-school'),
+                    mid: $(this).attr("data-mid")
+                },
+                type:'get',
+                cache:false,
+                dataType:'html',
+                success:function(data){
+                    $(target).addClass('active');
+                    $("#school-content-page").html(data);
+                },
+                error : function() {
+                    base.notice('网络错误');
+                }
+            });
+        });
+
         //box展开收缩
-        $('.school-box-title img').on('click',function(){
+        $(document).on('click', '.school-box-title img', function(){
             var content = $(this).parents('.school-box').find('.school-box-content');
             var index = $('.school-box').index($(this).parents('.school-box'));
             if(!height[index]){
@@ -149,17 +260,20 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         //生成地图
         schoolMap();
         //专业输入
-        $('.recommend-major-form input').on('input propertychange',function(){
+        $(document).on('input propertychange', '.recommend-major-form input', function(){
             console.log("1", $(this).val())
             selectMajor($(this).val());
         });
         //专业 选择
-        $('.recommend-major-form .form-select-option').on('click','li',function(){
+        $(document).on('click','.recommend-major-form .form-select-option li',function(){
+
             base.testSuccess($('.recommend-major-form input'));
             $('.recommend-major-form input').val($(this).html());
+            $('.recommend-major-get').removeClass('button-solid-ban').addClass('button-solid');
         });
         //专业 失去焦点
-        $('.recommend-major-form input').on('blur',function(){
+        $(document).on('blur', '.recommend-major-form input', function(){
+            $('.recommend-major-get').removeClass('button-solid').addClass('button-solid-ban');
             var arr = [];
             for(var i=0;i<$('.recommend-major-form .form-select-option li').length;i++){
                 arr.push($('.recommend-major-form .form-select-option li').eq(i).html())
@@ -174,19 +288,20 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             canGet();
         });
         //获取推荐
-        $('.recommend-major-get').on('click',function(){
+        $(document).on('click', '.recommend-major-get', function(){
             var sid = $('.school-info').attr('data-sid');
             getMajor(userMajor, sid);
         });
 
+
         //学位宽度
         majorWidth();
         //切换学位 school-major
-        $('.major-tab .tab-title li').on('click',function(){
+        $(document).on('click', '.major-tab .tab-title li',function(){
             majorTab($(this));
         });
         //查看申请要求 school-major
-        $('.major-require-list li').on('click',function(){
+        $(document).on('click', '.major-require-list li', function(){
             requireTab($(this));
         });
     });
@@ -379,16 +494,18 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
              return;
         }
         $.ajax({
-            url:'/v1/schoolinfo/getrecommend.action',
+            url:'/school-recommendlist',
             data:{
                 sid: id,
                 value: val
             },
             type:'get',
             cache:false,
-            dataType:'json',
-            success:function(){
-                window.location.href = "/school-mjlist?sid="+id+"&value="+val;
+            dataType:'html',
+            success:function(data){
+                // window.location.href = "/school-mjlist?sid="+id+"&value="+val;
+                $('#school-content-page').html(data);
+                console.log(data);
             },
             error : function() {
                 base.notice('网络错误');
@@ -406,22 +523,4 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
     return{
         
     }
-    // $('.school-side-son li').on("click", function() {
-    //     $.ajax({
-    //         url:'/school-majorlist',
-    //         data:{
-    //             academy: $(this).find('a').html()
-    //         },
-    //         type:'get',
-    //         cache:false,
-    //         dataType:'html',
-    //         success:function(data){
-    //             console.log(data);
-    //             // $("#search-result").html(data);
-    //         },
-    //         error : function() {
-    //             base.notice('网络错误');
-    //         }
-    //     });
-    // })
 });
