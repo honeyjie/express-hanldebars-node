@@ -8,7 +8,11 @@
             </ul>
             <div class="tab-box clear">
                 <div class="set-avatar">
+                {{#if data.headerimg}}
                     <img src="{{data.headerimg}}" alt=""/>
+                {{else}}
+                    <img src="/img/default.png" alt=""/>
+                {{/if}}
                     <div class="changeimg">
                         <input type="file" class="inputstyle" name="file" />
                         <button class="set-avatar-change button-hollow">更换图像</button>

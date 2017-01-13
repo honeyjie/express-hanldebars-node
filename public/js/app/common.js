@@ -269,6 +269,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
     //验证码start
     function captchaStart(){
         $('.login-captcha').removeClass('hidden');
+        $('.login-captcha-success').addClass('hidden');
         $('.login-captcha-fail').addClass('hidden');
         $.ajax({
             url:'/captcha/start.action',
@@ -312,6 +313,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
                 }
                 else{
                     $('.login-captcha-fail').removeClass('hidden');  //失败
+                    captchaStart();
                 }
             },
             error : function() {
@@ -342,24 +344,25 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             cache:false,
             dataType:'json',
             success:function(data){
+                console.log(data.code)
                 if(data.code==0){
                     if(data.data.headerImg){
                         //成功登陆后记录用户信息
                         userInfo();
                         window.location.href = "/";
-                    };
+                    }
 
                 }else if(data.code==111001004){
-                    $('.login-message').removeClass('hidden').html(data.msg);
-                }else if(data.code==111001005){;
-                    $('.login-message').removeClass('hidden').html(data.msg);
+                    $('.login-message').removeClass('hidden').html('用户名不存在');
+                }else if(data.code==111001005){
+                    $('.login-message').removeClass('hidden').html('密码错误');
                     if(data.data.valid){
                         captchaStart();
                     }
                 }else if(data.code==111001010){
                     //验证失败
-                    $('.login-message').removeClass('hidden').html(data.msg);
-                        captchaStart();
+                    $('.login-message').removeClass('hidden').html('请点击图标进行验证');
+                    captchaStart();
                 }else{
                     console.log('登陆出错');
                 }

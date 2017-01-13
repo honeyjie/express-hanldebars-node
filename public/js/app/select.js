@@ -912,15 +912,46 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         //切换学校类型
         $('.select-school').tab();
         //学校鼠标移入
-        $('.select-school-list li').on('mouseenter',function(){
+        $('.school-list-main').on('mouseenter',function(){
+            if($(this).parent('li').hasClass('active')){
+                return;
+            }
+            $(this).animate({marginTop:0},200);
             $(this).find('.school-list-info').animate({height:40},200);
-            $(this).find('.school-list-logo').animate({marginTop:10},200);
             $(this).find('.school-list-mask').fadeIn(200);
+        }).on('mouseleave',function(){
+            if($(this).parent('li').hasClass('active')){
+                $(this).find('.school-list-mask').fadeOut(200);
+                return;
+            }
+            $(this).animate({marginTop:40},200);
+            $(this).find('.school-list-info').animate({height:0},200);
+            $(this).find('.school-list-mask').fadeOut(200);
+        });
+        //加入取消申请
+        $('.switch-box').on('click',function(){
+            if($(this).hasClass('on')){
+                $(this).find('img').animate({left:0},100);
+                $(this).removeClass('on').addClass('off');
+                $(this).parent('.school-list-switch').find('span').html('点击加入申请');
+            }
+            else if($(this).hasClass('off')){
+                $(this).find('img').animate({left:26},100);
+                $(this).removeClass('off').addClass('on');
+                $(this).parent('.school-list-switch').find('span').html('点击取消申请');
+            }
         });
         //切换学校图表
-        $('.select-school-list li').on('click',function(){
+        $('.school-list-main').on('click',function(){
+            if($(this).parent('li').hasClass('active')){
+                return;
+            }
+            $('.select-school-list li.active').find('.school-list-main').animate({marginTop:40},200);
+            $('.select-school-list li.active').find('.school-list-info').animate({height:0},200);
             $('.select-school-list li').removeClass('active');
-            $(this).addClass('active');
+            $(this).parent('li').addClass('active');
+            console.log($(this).find('.school-list-rank').html())
+            $(this).parents('.tab-box').find('.select-school-rank').html($(this).parent('li').find('.school-list-rank').html());
             gpaDate.now = {
                 data : random(),  //测试数据
                 myScore : 2.0     //测试数据

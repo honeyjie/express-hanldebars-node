@@ -7,6 +7,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         screen.major = '';
         screen.degree = '';
     var height = [];//每个模块的高度
+    var userMajor;
     $(function(){
         //模拟滚动条
         if($('#screen-country')[0]){
@@ -147,16 +148,34 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         });
         //生成地图
         schoolMap();
-        //判断是否能获取推荐
+        //专业输入
         $('.recommend-major-form input').on('input propertychange',function(){
-            screen.major = $('.recommend-major-form input').val();
+            selectMajor();
+        });
+        //专业 选择
+        $('.recommend-major-form .form-select-option').on('click','li',function(){
+            base.testSuccess($('.recommend-major-form input'));
+            $('.recommend-major-form input').val($(this).html());
+        });
+        //专业 失去焦点
+        $('.recommend-major-form input').on('blur',function(){
+            var arr = [];
+            for(var i=0;i<$('.recommend-major-form .form-select-option li').length;i++){
+                arr.push($('.recommend-major-form .form-select-option li').eq(i).html())
+            }
+            if(arr.indexOf($('.recommend-major-form input').val())==-1){
+                userMajor = null;
+                base.testFail($(this),'请从下拉列表中选择专业');
+                return;
+            }
+            base.testSuccess($(this));
+            userMajor = $(this).val();
             canGet();
         });
         //获取推荐
         $('.recommend-major-get').on('click',function(){
-            var value = $(this).prev('input').val();
             var sid = $('.school-info').attr('data-sid');
-            getMajor(value, sid);
+            getMajor(userMajor, sid);
         });
 
         //学位宽度
@@ -216,6 +235,36 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             dataType:'html',
             success:function(data){
                 $("#search-result").html(data);
+            },
+            error : function() {
+                base.notice('网络错误');
+            }
+        });
+    }
+
+    //搜索专业
+    function selectMajor(major){
+        $.ajax({
+            url:'/completeform/chinamajor.action',
+            data:{
+                majorname: major
+            },
+            type:'post',
+            cache:false,
+            dataType:'html',
+            success:function(data){
+                $('#select-major ul').html(data);
+                $('.recommend-major-form').find('.form-select-option').removeClass('hidden');
+                if(!scroll[1]){
+                    scroll[1] = new iscroll('#select-major',{
+                        mouseWheel : true,
+                        scrollbars : true,
+                        interactiveScrollbars : true
+                    });
+                }
+                else{
+                    scroll[1].refresh();
+                }
             },
             error : function() {
                 base.notice('网络错误');
@@ -296,7 +345,8 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         });
     }
     function canGet(){
-        if(!screen.major){
+        if(!userMajor){
+            $('.recommend-major-get').removeClass('button-solid').addClass('button-solid-ban');
             return;
         }
         $('.recommend-major-get').removeClass('button-solid-ban').addClass('button-solid');
@@ -324,9 +374,9 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
     }
     function getMajor(val, id){
         //发送学校id和填写值
-        // if(!screen.major){
-        //     return;
-        // }
+        if(!val){
+             return;
+        }
         $.ajax({
             url:'/v1/schoolinfo/getrecommend.action',
             data:{

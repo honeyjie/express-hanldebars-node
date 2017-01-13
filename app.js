@@ -96,7 +96,6 @@ app.use(function(req, res, next) {
     if (!f) {
         return;
     }
-
     req.proxy.request(null, function(err, response, body) {
         if (!!err) {
             next(err)
@@ -104,7 +103,7 @@ app.use(function(req, res, next) {
             for (var key in response.headers) {
                 res.set(key, response.headers[key])
             }
-            console.log(req.path, body)
+            console.log(req, body, "+++++")
             // 1. 获取图片内容可能不是body，而是别的参数
             // 2. 读取body没有读取完
             try {

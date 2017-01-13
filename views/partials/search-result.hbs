@@ -1,5 +1,8 @@
     <ul class="screen-list" id="screen-school">
     <li class="screen-list-total">共{{data.page.count}}所大学</li>
+        <div class="screen-empty hidden">
+            <img src="/img/school-empty.png" alt=""/>
+        </div>
     {{#each data.data}}
     <li>
         <a href="/school-recommend?sid={{id}}"><img class="screen-list-logo" src="{{logo}}?imageView2/2/w/200/h/200/format/jpg/interlace/0/q/100" alt="{{school_name}}"/></a>
@@ -7,7 +10,9 @@
         <div class="screen-list-english">{{school_name}} ({{school_name_short}}) </div>
         <div class="screen-list-address">{{city}}, {{state}}, {{nation}} </div>
         <div class="screen-list-rank">
+            {{#if rank.qs}}
             <p><span>QS世界排名:</span><span>{{rank.qs}}</span></p>
+            {{/if}}
             {{#if rank.usnews}}
             <p><span>U.S. NEWS排名：</span><span>{{rank.usnews}}</span></p>
             {{else}}

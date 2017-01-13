@@ -205,7 +205,7 @@ router.get('/v1/User/msganswer.action', function(req, res, next) {
 router.get('/user-set', function(req, res, next) {
     req.proxy.request({
         method: "get",
-        url: "http://www.utuotu.com/v1/User/saveuser.action"
+        url: "http://www.utuotu.com/v1/user/userinfo.action"
     }, function(err, response, body) {
         var data = JSON.parse(body);
         console.log(data, "/user-set");
@@ -340,6 +340,7 @@ router.get('/school-major', function(req, res, next) {
         qs: req.query
     }, function(err, response, body) {
         var data = JSON.parse(body);
+        console.log(data.data)
         res.render('school-major', {
             data: data.data,
             sid: req.query.sid
@@ -396,7 +397,9 @@ router.get('/school-recommend', function(req, res) {
         url: "http://www.utuotu.com/v1/schoolInfo/hot.action",
         qs: req.query
     }, function(err, response, body) {
+
         var data = JSON.parse(body);
+        console.log(data.data)
         if (!data) {return}
         res.render('school-recommend', {
               data: data.data,
@@ -513,31 +516,19 @@ router.post("/completeform/chinamajor.action", function(req, res) {
     });
 });
 
-// router.get("/v1/completeform/saveform.action", function(req, res) {
-//     req.proxy.request({
-//         method: "POST",
-//         url: "http://www.utuotu.com/v1/completeform/saveform.action",
-//     }, function(err, response, body) {
-
-//     });
-// });
-
 router.get("/Help/search.action", function(req, res) {
     req.proxy.request({
         method: "GET",
         url: "http://www.utuotu.com/v1/Help/search.action",
     }, function(err, response, body) {
       var data = JSON.parse(body);
-      console.log(data.data.school[0], data.data.article[0])
-      console.log(!!data.data.school[0], !!data.data.article[0]);
-
       res.render('partials/searchlist', {
             data: data.data,
             layout: "naked"
       });
     });
 });
-//refelink?hash={{hash}}
+
 router.get("/refelink", function(req, res) {
     req.proxy.request({
         method: "GET",
