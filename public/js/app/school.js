@@ -127,6 +127,10 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             searchReset();
         });
 
+        // //推荐选校
+        // $('.recommend-major-form').on('input propertychange',function(){
+        //     selectMajor($(this).val());
+        // });
         //box展开收缩
         $('.school-box-title img').on('click',function(){
             var content = $(this).parents('.school-box').find('.school-box-content');
@@ -150,7 +154,8 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         schoolMap();
         //专业输入
         $('.recommend-major-form input').on('input propertychange',function(){
-            selectMajor();
+            console.log("1", $(this).val())
+            selectMajor($(this).val());
         });
         //专业 选择
         $('.recommend-major-form .form-select-option').on('click','li',function(){
