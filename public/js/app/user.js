@@ -6,7 +6,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         // getCredit();
         creditLine();
 
-        判断邮箱是否验证
+        // 判断邮箱是否验证
         isTestEmail();
 
         // 获取邀请码

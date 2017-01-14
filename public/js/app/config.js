@@ -5,7 +5,7 @@ requirejs.config({
         app : '../app',
         jquery : 'jquery-3.1.1.min',
         handlebars: 'handlebars',           //handlebar
-        d3 : 'd3',                      //d3
+        d3 : 'd3.min',                      //d3
         fullpage : 'jquery.fullPage.min',   //全屏滚动插件
         iscroll : 'iscroll',                //滚动条插件
         captcha : 'visualcaptcha.jquery',   //验证码插件
