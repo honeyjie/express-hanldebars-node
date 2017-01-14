@@ -41,34 +41,30 @@ router.get('/testindex', function (req, res, next) {
       url: "http://www.utuotu.com/v1/Login/redicturl.action",
       qs: req.query
   }, function(err, response, body) {
-      console.log(req.query, body, "-----");
+      console.log("微信扫码跳转中间件", body);
       var data = JSON.parse(body);
       for (var key in response.headers) {
           res.set(key, response.headers[key])
       }
       if (data.code === 0) {
         //获取微信图像和昵称
-        if(!app.locals.storage) {
-          app.locals.storage = {};
+        if(!res.locals.storage) {
+          res.locals.storage = {};
         }
-        app.locals.storage.headImg = data.data.headImg;
-        app.locals.storage.nickname = data.data.nickname;
+        res.locals.storage.headImg = data.data.headImg;
+        res.locals.storage.nickname = data.data.nickname;
         if(!!data.data.login) {
             //已经注册
-            console.log("1");
-            console.log(app.locals.storage.state)
-            res.redirect(app.locals.storage.state)
+            console.log(res.locals.storage.state)
+            res.redirect(res.locals.storage.state)
         }else {
             //未注册
             res.redirect('/register-complete?headImg='+ data.data.headImg +'&nickname='+data.data.nickname)
         }
       } else {
-        console.log("网络出错    ====");
-        res.redirect('/');
-        // res.render("testindex", {
-        //   layout: null,
-        //   body: body
-        // })
+        res.render("index", {
+            show: true
+        })
       }
   })
     
@@ -314,18 +310,6 @@ router.get('/school-academylist-partial', function(req, res, next) {
   });
 });
 
-
-router.get('/school-content', function(req, res, next) {
-  req.proxy.request({method: "GET", url: "http://www.utuotu.com/v1/schoolinfo/getallschoolmajor.action"}, function(err, response, body) {
-      var data = JSON.parse(body);
-      var major, sid;
-      res.render('school-content', {
-        data: data.data,
-        sid: req.query.sid,
-        showAll: true
-        });
-  });
-});
 router.get('/school-majorlist-partial', function(req, res, next) {
   req.proxy.request({method: "GET", url: "http://www.utuotu.com/v1/schoolinfo/getallschoolmajor.action"}, function(err, response, body) {
       var data = JSON.parse(body);
@@ -382,7 +366,7 @@ router.get('/school-major-partial', function(req, res, next) {
         qs: req.query
     }, function(err, response, body) {
         var data = JSON.parse(body);
-        console.log(!!req.query.majorDegree)
+        console.log(req.query.majorDegree)
         console.log(data.data, "____", req.query)
         res.render('partials/Inslibrary/school-major', {
             data: data.data,
@@ -426,11 +410,11 @@ router.get('/school-mjlist-partial', function(req, res, next) {
         }; 
 
         setTimeout(function() {
-          console.log(dataList, "-------------")
-          res.render('school-majorlist', {
+          res.render('partials/Inslibrary/school-majorlist', {
                 dataList: dataList,
                 sid: req.query.sid,
-                layout: "naked"
+                layout: "naked",
+                modifyMajor: true
           }) }, 1000) 
     });
         
@@ -473,65 +457,6 @@ router.get('/school-recommend', function(req, res) {
         });
     });
 });
-
-//school-mjlist
-router.get('/school-recommendlist', function(req, res, next) {
-  //通过输入值和学校id,请求推荐专业接口
-  //获得推荐专业的的mid信息后分别去请求相应的专业接口，将获取到的数字组成数组。
-  // var majorList = {mid: [1, 2, 3], sid: 2446};
-  // var dataList = []
-
-  var majorList = []
-  var dataList = [];
-  var sid = req.query.sid;
-    req.proxy.request({
-        method: "GET",
-        url: "http://www.utuotu.com/v1/schoolinfo/getrecommend.action",
-        qs: req.query
-    }, function(err, response, body) {
-        var data = JSON.parse(body).data;
-        var len = data.length;
-
-        for(var i = 0; i < len; i++) {
-          req.proxy.request({
-              method: "GET",
-              url: "http://www.utuotu.com/v1/schoolinfo/getschoolmajorinfo.action",
-              qs: {sid: sid, mid: data[i].mid}
-          }, function(err, response, body) {
-              var result = JSON.parse(body).data;
-              dataList.push(result);
-
-          })
-        }; 
-
-        setTimeout(function() {
-          res.render('partials/Inslibrary/school-majorlist', {
-                dataList: dataList,
-                sid: req.query.sid,
-                layout: "naked"
-          }) }, 1000) 
-    });
-        
-});
-
-// router.get('/school-recommend', function(req, res) {
-//     req.proxy.request({
-//         method: "GET",
-//         url: "http://www.utuotu.com/v1/schoolInfo/hot.action",
-//         qs: req.query
-//     }, function(err, response, body) {
-
-//         var data = JSON.parse(body);
-//         console.log(req.query, data.data)
-//         if (!data) {return}
-//         res.render('school-content', {
-//               data: data.data,
-//               total: data.data.Count.master + data.data.Count.doctor,
-//               sid: req.query.sid,
-//               button: true
-//         });
-//     });
-// });
 
 router.get('/select-school', function(req, res) {
     //请求推荐学校
@@ -716,15 +641,13 @@ router.get("/login/opencode.action", function(req, res) {
           res.set(key, response.headers[key])
       }
       var data = JSON.parse(body);
-      if (!app.locals.storage) {
-        app.locals.storage = {}
+      if (!res.locals.storage) {
+        res.locals.storage = {}
       }
 
-      // var urlPath = url.parse(req.url).path;
-      console.log(req.originalUrl, req.query, "======")
-
-      app.locals.storage.state = req.query.urlpath;
-      console.log("data:", data);
+      //保存用户当前页路径，通过前端获得
+      res.locals.storage.state = req.query.urlpath;
+      console.log("微信扫码data:", data);
       res.send(data);
     });
 });

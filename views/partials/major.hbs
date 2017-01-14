@@ -11,12 +11,7 @@
     </div>
     <div class="school-box-content major-tab">
         <ul class="tab-title clear">
-            {{#if mid}}
             <a><li class="active" data-mid={{mid}}>{{degree}}</li></a>
-            {{else}}
-            <a><li class="active" data-mid={{@root.mid}}>{{degree}}</li></a>
-            {{/if}}
-            
             {{#each otherDegree}}
                 {{#ifNotEq this.degree ../degree}}
                 <a><li data-mid={{id}}>{{degree}}</li></a>
@@ -256,15 +251,14 @@
                             AW-{{gamt_aw}}分 <br/>
                             {{/ifShowLogic}}
 
-
-                            {{#ifNotEq gamt_code -1}} 
-                            GMAT寄送方式：{{gamt_code}}<br/>
-                            {{/ifNotEq}}
-                            
-
                             {{#ifNotEq exam_introduce -1}}
                             标准化考试其他要求：{{exam_introduce}}<br/>
                             {{/ifNotEq}}
+
+                            {{#ifNotEq gmat_code -1}}
+                            GMAT寄送方式：{{gmat_code}}<br/>
+                            {{/ifNotEq}}
+
                             {{/with}}
                             </p>
                             </div>    
