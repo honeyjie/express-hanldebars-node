@@ -41,8 +41,9 @@ router.get('/testindex', function (req, res, next) {
       url: "http://www.utuotu.com/v1/Login/redicturl.action",
       qs: req.query
   }, function(err, response, body) {
-      console.log("微信扫码跳转中间件", body);
+      
       var data = JSON.parse(body);
+      console.log("微信扫码跳转中间件", JSON.stringfy(data, "", 4));
       for (var key in response.headers) {
           res.set(key, response.headers[key])
       }
@@ -62,8 +63,8 @@ router.get('/testindex', function (req, res, next) {
             res.redirect('/register-complete?headImg='+ data.data.headImg +'&nickname='+data.data.nickname)
         }
       } else {
-        res.render("index", {
-            show: true
+        res.render("testindex", {
+            body: body
         })
       }
   })
