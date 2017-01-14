@@ -52,8 +52,8 @@ router.get('/testindex', function (req, res, next) {
         if(!res.locals.storage) {
           res.locals.storage = {};
         }
-        res.locals.storage.headImg = data.data.headImg;
-        res.locals.storage.nickname = data.data.nickname;
+        // res.locals.storage.headImg = data.data.headImg;
+        // res.locals.storage.nickname = data.data.nickname;
         if(!!data.data.login) {
             //已经注册
             console.log(res.locals.storage.state)
