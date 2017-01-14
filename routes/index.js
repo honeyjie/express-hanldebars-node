@@ -48,16 +48,11 @@ router.get('/testindex', function (req, res, next) {
           res.set(key, response.headers[key])
       }
       if (data.code === 0) {
-        //获取微信图像和昵称
-        if(!res.locals.storage) {
-          res.locals.storage = {};
-        }
-        // res.locals.storage.headImg = data.data.headImg;
-        // res.locals.storage.nickname = data.data.nickname;
+        //从cookie中获取微信图像和昵称
         if(!!data.data.login) {
             //已经注册
-            console.log(res.locals.storage.state)
-            res.redirect(res.locals.storage.state)
+            console.log(req.cookies.wechatPath)
+            res.redirect(req.cookies.wechatPath)
         }else {
             //未注册
             res.redirect('/register-complete?headImg='+ data.data.headImg +'&nickname='+data.data.nickname)
@@ -647,7 +642,7 @@ router.get("/login/opencode.action", function(req, res) {
       }
 
       //保存用户当前页路径，通过前端获得
-      res.locals.storage.state = req.query.urlpath;
+      res.cookie('wechatPath', req.query.urlpath);
       console.log("微信扫码data:", data, res.locals.storage.state);
       res.send(data);
     });

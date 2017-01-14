@@ -18,5 +18,8 @@
     "promise": "^7.0.0",
     "request": "2.79.0",
     "serve-favicon": "~2.3.0"
+  },
+  "devDependencies": {
+    "cookie-parser": "^1.4.3"
   }
 }
