@@ -63,6 +63,12 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
 
         //发送验证邮件
         $('.set-form-send').on('click',function(){
+            if(!base.userInfo.email) {
+                return;
+            }
+
+            $('.set-form-email').removeClass('warning');
+
             base.sendTestEmail();
             //显示倒计时，从60s开始，
             var time = 60;
@@ -71,8 +77,8 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                     time = time -1;
                 } else {
                     //倒计时结束，按钮恢复，数值去掉
-                    $('.set-form-email').removeClass('warning');
-                    $(this).val(''); 
+                    $(this).val('');
+                    return; 
                 }
             }, 1000) 
         });
