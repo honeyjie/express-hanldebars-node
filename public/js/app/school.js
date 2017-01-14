@@ -238,6 +238,51 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             });
         });
 
+        $(document).on("click",  ".major-tab .tab-title li", function(e){
+             var target = e.target;
+            //获取院校
+            $.ajax({
+                url: '/school-major-partial',
+                data: {
+                    sid: $('.school-side').attr('data-school'),
+                    mid: $(this).attr("data-mid"),
+                    majorDegree: true
+                },
+                type:'get',
+                cache:false,
+                dataType:'html',
+                success:function(data){
+                    $('.major-tab .tab-title li').removeClass('active');
+                    $(target).addClass('active');
+                    $("#majorDegree").html(data);
+                },
+                error : function() {
+                    base.notice('网络错误');
+                }
+            });
+        });
+
+
+    //点击热门专业
+        $(document).on("click",  ".recommend-major-list li", function(e){
+            //获取院校
+            $.ajax({
+                url: '/school-major-partial',
+                data: {
+                    sid: $('.school-side').attr('data-school'),
+                    mid: $(this).attr("data-major")
+                },
+                type:'get',
+                cache:false,
+                dataType:'html',
+                success:function(data){
+                    $("#school-content-page").html(data);
+                },
+                error : function() {
+                    base.notice('网络错误');
+                }
+            });
+        });
         //box展开收缩
         $(document).on('click', '.school-box-title img', function(){
             var content = $(this).parents('.school-box').find('.school-box-content');
@@ -280,7 +325,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             }
             if(arr.indexOf($('.recommend-major-form input').val())==-1){
                 userMajor = null;
-                base.testFail($(this),'请从下拉列表中选择专业');
+                base.testFail($(this),'请用中文输入所就读专业');
                 return;
             }
             base.testSuccess($(this));
@@ -503,9 +548,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             cache:false,
             dataType:'html',
             success:function(data){
-                // window.location.href = "/school-mjlist?sid="+id+"&value="+val;
                 $('#school-content-page').html(data);
-                console.log(data);
             },
             error : function() {
                 base.notice('网络错误');

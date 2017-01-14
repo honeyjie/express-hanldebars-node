@@ -147,6 +147,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         });
         //选择国家
         $('.select-country .select-preference-radio').on('click',function(){
+            //已经选择
             if($(this).hasClass('active')){
                 select.nation.splice(select.nation.indexOf($(this).data('value')),1);
                 $(this).removeClass('active');
@@ -1277,15 +1278,82 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
 
         $.ajax({
             url:'/v1/completeform/saveform.action',
+            // data:{
+            //     nation : select.nation,
+            //     locatioin : select.locatioin,
+            //     pre_school : select.pre_school,
+            //     pre_major : select.pre_major,
+            //     pre_major2 : select.pre_major2,
+            //     school_type : select.school_type,
+            //     related_major:,
+            //     grade:,
+            //     pre_degree:,
+            //     tuition:,
+            //     gpa:,
+            //     toefl:,
+            //     toefl_l:,
+            //     toefl_s:,
+            //     toefl_w:,
+            //     gre:,
+            //     sub:,
+            //     gre_v:,
+            //     gre_q:,
+            //     gre_aw:,
+            //     ielts:,
+            //     ielts_r:,
+            //     ielts_l:,
+            //     ielts_s:,
+            //     ielts_w:,
+            //     gmat:,
+            //     gmat_v:,
+            //     gmat_q:,
+            //     gmat_aw:,
+            //     recommend_num:,
+            //     recommend_rank:,
+            //     meeting_paper_num:,
+            //     meeting_paper_rank:,
+            //     chinese_paper_rank:,
+            //     chinese_paper_num:,
+            //     international_paper_num:,
+            //     international_paper_rank:,
+            //     science_rank:,
+            //     science_time:,
+            //     work_rank:,
+            //     work_time:,
+            //     internship_time:,
+            //     internship_rank:,
+            //     match:,
+            //     exchange:,
+            //     experience:,
+            //     prize:,
+            //     location:,
+            //     scholarship:,
+            //     tuition:,
+            // },
+            type:'post',
+            cache:false,
+            dataType:'json',
+            success:function(data){
+                console.log(data);
+                window.location.href = "/select-school";
+            },
+            error : function() {
+                base.notice('网络错误');
+            }
+        });
+
+
+
+        $.ajax({
+            url:'/v1/completeform/saveform.action',
             data:{
-                token : '',
                 nation : select.nation,
                 locatioin : select.locatioin,
                 pre_school : select.pre_school,
                 pre_major : select.pre_major,
                 pre_major2 : select.pre_major2,
                 school_type : select.school_type,
-                major_only : select.major_only,
+                // major_only : select.major_only,
                 degree : select.degree,
                 gpa : select.gpa,
                 language : select.language,

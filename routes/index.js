@@ -204,16 +204,27 @@ router.get('/v1/User/msganswer.action', function(req, res, next) {
 });
 
 router.get('/user-set', function(req, res, next) {
+  var data = "";
+  var emailvalid = "";
     req.proxy.request({
         method: "get",
         url: "http://www.utuotu.com/v1/user/userinfo.action"
     }, function(err, response, body) {
-        var data = JSON.parse(body);
-        console.log(data, "/user-set");
-        res.render('user-set', {
-            data: data.data
-        });
+        data = JSON.parse(body).data;
     })
+    setTimeout(function(res) {
+      req.proxy.request({
+          method: "get",
+          url: "http://www.utuotu.com/v1/user/userinfo.action"
+      }, function(err, response, body) {
+          emailvalid = !JSON.parse(body).code;
+          res.render('user-set', {
+              data: data.data,
+              emailvalid: emailvalid
+          });
+      })
+    }, 500, res)
+
 
 });
 
@@ -371,11 +382,15 @@ router.get('/school-major-partial', function(req, res, next) {
         qs: req.query
     }, function(err, response, body) {
         var data = JSON.parse(body);
+        console.log(!!req.query.majorDegree)
+        console.log(data.data, "____", req.query)
         res.render('partials/Inslibrary/school-major', {
             data: data.data,
             sid: req.query.sid,
             layout: "naked",
-            modifyMajor: true
+            modifyMajor: true,
+            majorDegree: req.query.majorDegree,
+            mid: req.query.mid
         });
     });
 });
@@ -411,6 +426,7 @@ router.get('/school-mjlist-partial', function(req, res, next) {
         }; 
 
         setTimeout(function() {
+          console.log(dataList, "-------------")
           res.render('school-majorlist', {
                 dataList: dataList,
                 sid: req.query.sid,
@@ -599,6 +615,7 @@ router.post("/completeform/chinaschool.action", function(req, res) {
         if (!data) {
             return
         }
+        console.log("学校类型", data.data.school);
         res.render('partials/school-list', {
             data: data.data,
             layout: "naked"
