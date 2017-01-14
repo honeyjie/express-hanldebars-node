@@ -6,11 +6,11 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         // getCredit();
         creditLine();
 
-        //判断邮箱是否验证
-        //isTestEmail();
+        判断邮箱是否验证
+        isTestEmail();
 
-        //获取邀请码
-        //getCode();
+        // 获取邀请码
+        // getCode();
 
         //模拟滚动条
         if($('#news-content')[0]){
@@ -64,6 +64,17 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         //发送验证邮件
         $('.set-form-send').on('click',function(){
             base.sendTestEmail();
+            //显示倒计时，从60s开始，
+            var time = 60;
+            setInterval(function() {
+                if (time) {
+                    time = time -1;
+                } else {
+                    //倒计时结束，按钮恢复，数值去掉
+                    $('.set-form-email').removeClass('warning');
+                    $(this).val(''); 
+                }
+            }, 1000) 
         });
 
         //手机号验证

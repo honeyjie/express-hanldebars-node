@@ -39,7 +39,6 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
             }
         });
         $('.complete-email').on('blur',function(){
-            console.log("离开邮箱输入框")
             $('.complete-email').testInput({
                 rule : base.emailRule,
                 success : function(dom){
@@ -84,20 +83,15 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
 
         //补全信息判断提交
         $('.register.complete input').on('blur',function(){
-            console.log(base.userInfo)
             if(!base.userInfo.username||!base.userInfo.password||!base.userInfo.repassword||!base.userInfo.email){
                 $('.complete-submit').removeClass('button-solid').addClass('button-solid-ban');
                 return;
             }
-            console.log('123')
             $('.complete-submit').removeClass('button-solid-ban').addClass('button-solid');
         });
 
+
         //提交信息
-        // $('.register-submit').on('click',function(){
-        //     register();
-        // });
-        //补充前端代码
         $('.complete-submit').on('click',function(){
             console.log("注册")
             register();
@@ -106,6 +100,8 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         //未收到邮件
         $(document).on('click',function(e){
             e.stopPropagation();
+            //显示未收到页面
+
         });
 
         $('.send-noreceive').on('click',function(){
@@ -113,9 +109,13 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         });
 
         //修改邮箱地址
-        $('.noreceive-content-change').on('click',function(){
-            openRegister();
-        });
+        // $('.noreceive-content-change').on('click',function(){
+        //     //定位到user-set页面
+        //     window.location.href = "/user-set"
+        //     //邮箱高亮
+            
+        //     // openRegister();
+        // });
 
         //重新发送
         $('.noreceive-content-resend').on('click',function(){
@@ -240,7 +240,6 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         if(!base.userInfo.username||!base.userInfo.password||!base.userInfo.repassword||!base.userInfo.email){
             return;
         }
-        // openSend(); //测试
         $.ajax({
            url:'/v1/login/register.action',
            data:{
@@ -248,14 +247,19 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
                password : base.userInfo.password,
                email : base.userInfo.email,
                phone : base.userInfo.phone ? base.userInfo.phone : '',
-               invite : base.userInfo.code ? base.userInfo.phone : ''
+               invite : base.userInfo.code ? base.userInfo.code : ''
            },
            type:'post',
            cache:false,
            dataType:'json',
            success:function(data){
-              base.sendTestEmail();
-              openSend();
+                console.log("发送邮件返回数据", data);
+                if (data.code === 0) {
+                    //发送验证邮件
+                    base.sendTestEmail();
+                    //打开send窗
+                    openSend();
+                }
            },
            error : function() {
                base.notice('网络错误');
@@ -264,21 +268,19 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
     }
 
     function openRegister(){
-        
         console.log("重新填写注册")
         $('.noreceive').addClass('animated fadeOutUp').addClass('hidden');
         $('.complete').addClass('animated fadeInDown').removeClass('hidden');
         // $('.noreceive').addClass('animated fadeOutUp').one(base.animationend,function(){
         //     $('.noreceive').removeClass('animated fadeOutUp').addClass('hidden');
         // });
-        // $('.complete').addClass('animated fadeInDown').removeClass('hidden')
-        // .one(base.animationend,function(){
+        // $('.complete').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
         //     $('.complete').removeClass('animated fadeInDown');
         // });
     }
 
     function openSend(){
-        console.log("发送邮件");
+        console.log("打开发送邮件后页面")
         $('.send-button-jump').attr('href',base.jumpEmail(base.userInfo.email));
         $('.complete').addClass('animated fadeOutUp').one(base.animationend,function(){
             $('.complete').removeClass('animated fadeOutUp')
@@ -290,14 +292,16 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
     }
 
     function openNoreceive(){
-        //点击未收到邮件后重新发送邮件显示内容错误
+        console.log('未收到邮件')
+        //点击未收到邮件
         $('.send').addClass('animated fadeOutUp').one(base.animationend,function(){
             $('.send').removeClass('animated fadeOutUp')
             .addClass('hidden');
         });
-        $('.noreceive').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
-            $('.noreceive').removeClass('animated fadeInDown');
-        });
+        // $('.noreceive').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
+        //     $('.noreceive').removeClass('animated fadeInDown');
+        // });
+        $('.noreceive').removeClass('hidden').addClass('animated fadeInDown')
     }
 
     function forgetPassword(){
