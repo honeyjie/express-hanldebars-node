@@ -42,10 +42,8 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
             $('.complete-email').testInput({
                 rule : base.emailRule,
                 success : function(dom){
-                    console.log(dom);
-                    console.log("邮箱值" + dom.val());
                     base.userInfo.email = dom.val();
-                    base.testEmail(dom);//前端代码此处有误补充参数
+                    base.testEmail(dom);
                 },
                 fail : function(dom){
                     base.userInfo.email = '';

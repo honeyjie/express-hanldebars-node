@@ -74,12 +74,11 @@ define(['jquery'],function(jquery){
             dataType:'json',
             success:function(data){
                 if(data.data.valid){
-                   userInfo.email = '';
-                   testFail(dom,'该邮箱已注册'); 
+                   testSuccess(dom);
                 }
                 else{
-                    console.log("邮箱未被注册，可用")
-                    testSuccess(dom);
+                    userInfo.email = '';
+                    testFail(dom,'该邮箱已注册'); 
                 }
             },
             error : function() {
@@ -164,54 +163,54 @@ define(['jquery'],function(jquery){
         });
     }
     //验证学校
-    function testSchool(dom){
-        $.ajax({
-            url:'/v1/login/validschool.action',
-            data:{
-                school : userInfo.school
-            },
-            type:'post',
-            cache:false,
-            dataType:'json',
-            success:function(data){
-                if(!data.valid){
-                    testSuccess(dom);
-                }
-                else{
-                    userInfo.school = '';
-                    testFail(dom,'学校名称有误');
-                }
-            },
-            error : function() {
-                notice('网络错误');
-            }
-        });
-    }
+    // function testSchool(dom){
+    //     $.ajax({
+    //         url:'/v1/login/validschool.action',
+    //         data:{
+    //             school : userInfo.school
+    //         },
+    //         type:'post',
+    //         cache:false,
+    //         dataType:'json',
+    //         success:function(data){
+    //             if(!data.valid){
+    //                 testSuccess(dom);
+    //             }
+    //             else{
+    //                 userInfo.school = '';
+    //                 testFail(dom,'学校名称有误');
+    //             }
+    //         },
+    //         error : function() {
+    //             notice('网络错误');
+    //         }
+    //     });
+    // }
 
     //验证专业
-    function testMajor(dom){
-        $.ajax({
-            url:'/v1/login/validmajor.action',
-            data:{
-                major : userInfo.major
-            },
-            type:'post',
-            cache:false,
-            dataType:'json',
-            success:function(data){
-                if(!data.valid){
-                    testSuccess(dom);
-                }
-                else{
-                    userInfo.major = '';
-                    testFail(dom,'专业名称有误');
-                }
-            },
-            error : function() {
-                notice('网络错误');
-            }
-        });
-    }
+    // function testMajor(dom){
+    //     $.ajax({
+    //         url:'/v1/login/validmajor.action',
+    //         data:{
+    //             major : userInfo.major
+    //         },
+    //         type:'post',
+    //         cache:false,
+    //         dataType:'json',
+    //         success:function(data){
+    //             if(!data.valid){
+    //                 testSuccess(dom);
+    //             }
+    //             else{
+    //                 userInfo.major = '';
+    //                 testFail(dom,'专业名称有误');
+    //             }
+    //         },
+    //         error : function() {
+    //             notice('网络错误');
+    //         }
+    //     });
+    // }
 
     //邮箱跳转
     function jumpEmail(email){
@@ -409,8 +408,6 @@ define(['jquery'],function(jquery){
         forgettestEmail: forgettestEmail,
         testPhone : testPhone,
         testOldpassword : testOldpassword,
-        testSchool : testSchool,
-        testMajor : testMajor,
         jumpEmail : jumpEmail,
         notice : notice,
         openMask : openMask,
