@@ -204,7 +204,8 @@ router.get('/user-set', function(req, res, next) {
     }, function(err, response, body) {
         data = JSON.parse(body);
         res.render('user-set', {
-            data: data.data
+            data: data.data,
+            userset: true
         });
     })
 });
@@ -230,7 +231,6 @@ router.get('/register-test', function(req, res, next) {
     url: 'http://www.utuotu.com/v1/msg/validemail.action', 
     qs: req.query
   }, function(err, response, body) {
-    console.log(body)
     var success = false,
         done = false,
         invalid = false;
@@ -347,8 +347,6 @@ router.get('/school-major-partial', function(req, res, next) {
         qs: req.query
     }, function(err, response, body) {
         var data = JSON.parse(body);
-        console.log(req.query.majorDegree)
-        console.log(data.data, "____", req.query)
         res.render('partials/Inslibrary/school-major', {
             data: data.data,
             sid: req.query.sid,
@@ -589,7 +587,6 @@ router.get("/captcha/start.action", function(req, res) {
         url: "http://www.utuotu.com/v1/captcha/start.action",
         qs: req.query
     }, function(err, response, body) {
-      console.log(data);
       for (var key in response.headers) {
                 res.set(key, response.headers[key])
             }

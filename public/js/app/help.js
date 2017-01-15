@@ -76,6 +76,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
             // base.openLogin();
             common.openIndexLogin();
         });
+       
         //下拉
         $('.help-select').select();
         //选择问题类型

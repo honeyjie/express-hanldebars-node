@@ -1402,7 +1402,6 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         });
 
 
-
         $.ajax({
             url:'/v1/completeform/saveform.action',
             data:{
@@ -1429,8 +1428,16 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             cache:false,
             dataType:'json',
             success:function(data){
+                //请登录，登录成功后跳转
                 console.log(data);
-                window.location.href = "/select-school";
+                if (data.code === 0) {
+                    window.location.href = "/select-school";
+                } else if(data.code === 111001006){
+                    $('.login').removeClass('hidden');
+                    common.openIndexLogin();
+                }
+                return;
+                
             },
             error : function() {
                 base.notice('网络错误');
