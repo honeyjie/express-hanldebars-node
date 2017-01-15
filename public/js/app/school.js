@@ -172,7 +172,6 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                     $('.school-side-revise').hide();
                     $(".school-side-son").hide();
                     $('.help-icon').addClass('hidden');
-
                     
                     $("#school-content-page").html(data);
                 },
@@ -353,7 +352,6 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         schoolMap();
         //专业输入
         $(document).on('input propertychange', '.recommend-major-form input', function(){
-            console.log("1", $(this).val())
             selectMajor($(this).val());
         });
         //专业 选择
