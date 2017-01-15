@@ -1,4 +1,4 @@
-define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,iscroll,base,common){
+define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jquery,fullpage,iscroll,clipboard,base,common){
     var scroll = [];
     $(function(){
         //获取积分并初始化积分条
@@ -41,7 +41,6 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         //下拉
         $('.set-form-grade').select(scroll[1]);
         $('.set-form-country').select(scroll[2]);
-
 
         //邮箱验证
         //keyup时验证邮箱有效性
@@ -191,16 +190,17 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         $('.point-view').on('click',function(e){
             e.stopPropagation();
         });
-        //打开弹窗
-        $('.point-address').on('click',function(e){
-            e.stopPropagation();
+        //复制地址
+        var link = new clipboard('[data-clipboard-link]');
+        link.on('success',function(e){
             $('.point-view-title').html('链接地址');
             $('.point-result-code')[0].style.display = "none";
-             $('.point-result-site')[0].style.display = "block";
+            $('.point-result-site')[0].style.display = "block";
             openPointView();
         });
-        $('.point-code').on('click',function(e){
-            e.stopPropagation();
+        //复制邀请码
+        var code = new clipboard('[data-clipboard-code]');
+        code.on('success',function(e){
             $('.point-view-title').html('邀请码');
             $('.point-result-code').removeClass('hidden');
             $('.point-result-site').addClass('hidden');
@@ -208,6 +208,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
             $('.point-result-code')[0].style.display = "block";
             openPointView();
         });
+
         //关闭弹窗
         $('.point-view-close').on('click',function(e){
             e.stopPropagation();

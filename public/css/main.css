@@ -118,6 +118,8 @@
     top: 45px;
     right: -90px;
     background: #ffffff;
+    max-height: 520px;
+    overflow: hidden;
 }
 .header-search-result-title{
     height: 30px;
@@ -126,35 +128,40 @@
     border-bottom: 1px solid #dfdfdf;
     font-size: 14px;
 }
-.header-search-scroll{
+.header-search-list{
     position: relative;
     margin: 10px 0;
-    max-height: 180px;
+}
+.header-search-list-school{
+    max-height: 200px;
     overflow: hidden;
 }
-.header-search-scroll ul{
-    position: relative;
+.header-search-list li{
+    height: 40px;
+    display: table;
+    width: 100%;
 }
-.header-search-scroll ul li a{
-    display: block;
-    line-height: 20px;
-    padding: 5px 25px 5px 10px;
+.header-search-list li a{
+    display: table-cell;
+    line-height: 15px;
+    padding: 0 10px;
     color: #999999;
+    vertical-align: middle;
 }
-.header-search-scroll ul li a:hover{
+.header-search-list li a:hover{
     color: #666666;
     background: #e9e9e9;
 }
-.header-search-scroll ul li span{
+.header-search-list li span{
     color: #25baf4;
 }
 .header-search-result-school p{
     color: #25baf4;
-    padding-right: 25px;
-    paddng-top: 15px;
-    padding-bottom: 30px;
+    padding: 0 10px;
     font-weight: bold;
     text-align: right;
+    margin-top: -10px;
+    margin-bottom: 10px;
 }
 .header-search-result-none{
     padding: 20px 10px;
@@ -197,6 +204,7 @@
     padding: 10px 0;
     background: #ffffff;
     border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 .header-user-info-operation li{
     height: 30px;
@@ -208,6 +216,38 @@
 }
 .header-user-info-operation li:hover{
     background: #f2f2f2;
+}
+.header-unit-number{
+    position: absolute;
+    top: 5px;
+    right: -15px;
+    font-size: 20px;
+    width: 40px;
+    height: 28px;
+    line-height: 28px;
+    border-radius: 28px;
+    background: #ff3f3f;
+    color: #ffffff;
+    text-align: center;
+    font-weight: 900;
+    transform: scale(0.5);
+    -webkit-transform: scale(0.5);
+}
+.header-news-number{
+    position: absolute;
+    top: 5px;
+    right: -10px;
+    font-size: 20px;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 32px;
+    background: #ff3f3f;
+    color: #ffffff;
+    text-align: center;
+    font-weight: 900;
+    transform: scale(0.5);
+    -webkit-transform: scale(0.5);
 }
 .view-article{
     width: 700px;
@@ -1879,6 +1919,9 @@
     width: 240px;
     margin-bottom: 70px;
 }
+.school .school-box:nth-last-child(1){
+    margin-bottom: 70px;
+}
 .school .school-main{
     float: right;
     width: 980px;
@@ -2096,9 +2139,11 @@
     text-align: right;
 }
 .school .school-box{
+    position: relative;
     border: 1px solid #dcdcdc;
     border-radius: 5px;
     overflow: hidden;
+    z-index: 0;
 }
 .school .school-box-title{
     position: relative;
@@ -2108,8 +2153,6 @@
     font-size: 14px;
     color: #ffffff;
     border-bottom: none;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
     padding: 0 20px;
 }
 .school .school-box-title img{
@@ -2203,10 +2246,10 @@
     color: #ffffff;
     font-size: 14px;
 }
-// .school-side-son>li a{
-//     color: #ffffff;
-//     font-size: 14px;
-// }
+.school-side-son>li a{
+     color: #ffffff;
+    font-size: 14px;
+}
 .school-side-son>li:hover,.school-side-son>li.active {
     text-decoration: underline;
 }
@@ -2365,8 +2408,29 @@
     width: 980px;
     float: right;
     margin-top: 20px;
-    margin-bottom: 70px;
     box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+}
+.school .school-major .major-empty img{
+    display: block;
+    margin-left: 380px;
+    margin-top: 50px;
+}
+.school .school-major .major-empty-notice{
+    width: 380px;
+    margin: 10px auto;
+    font-size: 16px;
+    font-weight: 600;
+}
+.school .school-major .major-empty-can{
+    width: 380px;
+    margin: 20px auto 50px;
+    line-height: 30px;
+    font-size: 14px;
+    color: #333333;
+}
+.school .school-major .major-empty-can-title{
+    color: #25baf4;
+    font-weight: 600;
 }
 .school .school-side li.school-side-revise{
     position: absolute;

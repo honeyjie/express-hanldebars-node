@@ -10,8 +10,8 @@
             </ul>
         </li>
         <li><a href="#">申请管理</a></li>
-        <li><a href="#">网申插件</a></li>
-        <li><a href="/user-news?system=1">消息中心</a></li>
+        <li><a href="#">网申插件</a><div class="header-unit-number">12</div></li>
+        <li><a href="/user-news?system=1">消息中心</a><div class="header-news-number">12</div></li>
     </ul>
     <div class="header-user">
         {{#if partials.loginstate.data.headerImg}}
@@ -24,7 +24,7 @@
             </ul>
         </div>
         {{else}}
-        <div classs="header-user-login">
+        <div class="header-user-login">
             <div class="header-user-login-title"><a href="#">注册</a>/<a href="#">登录</a></div>
         </div>
         {{/if}}
@@ -32,7 +32,7 @@
     <div class="header-search">
         <input type="text" placeholder="学校名称或其他关键字"/>
         <img class="header-search-icon" src="/img/icon-search.png" alt=""/>
-        <div class="view header-search-result hidden">
+        <div class="view header-search-result hidden" id="search-scroll">
             {{> searchlist}}
         </div>
     </div>
