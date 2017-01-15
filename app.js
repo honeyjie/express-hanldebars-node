@@ -63,7 +63,6 @@ app.use(function(req, res, next) {
       if (!res.locals.partials) {
         res.locals.partials = {}
       }
-    console.log(data.data, "+++++");
       res.locals.partials.schooldetail = data.data;
       res.locals.partials.schoolid = req.query.sid;
       next();
@@ -103,7 +102,6 @@ app.use(function(req, res, next) {
             for (var key in response.headers) {
                 res.set(key, response.headers[key])
             }
-            console.log(req, body, "+++++")
             // 1. 获取图片内容可能不是body，而是别的参数
             // 2. 读取body没有读取完
             try {

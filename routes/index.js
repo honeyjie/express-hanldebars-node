@@ -84,6 +84,7 @@ router.get('/user-news', function(req, res, next) {
       url: "http://www.utuotu.com/v1/User/getmsg.action"
   }, function(err, response, body) {
       var getmsg = JSON.parse(body);
+      console.log(getmsg.data.list, newsstate);
       var urlPath = url.parse(req.url).path;
       var query = url.parse(req.url).query;
 
@@ -146,15 +147,8 @@ router.get('/user-point', function(req, res, next) {
         inviteCode = JSON.parse(body).data;
         return inviteCode;
     })
-    // //邀请链接
-    // req.proxy.request({
-    //     method: "GET",
-    //     url: "http://www.utuotu.com/v1/User/invite.action",
-    //     qs: req.query
-    // }, function(err, response, body) {
-    //     inviteCode = JSON.parse(body).data;
-    //     return inviteCode;
-    // })
+
+
     req.proxy.request({
         method: "GET",
         url: "http://www.utuotu.com/v1/User/invitenum.action",
@@ -347,6 +341,7 @@ router.get('/school-major-partial', function(req, res, next) {
         qs: req.query
     }, function(err, response, body) {
         var data = JSON.parse(body);
+        console.log(data);
         res.render('partials/Inslibrary/school-major', {
             data: data.data,
             sid: req.query.sid,

@@ -59,6 +59,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         $('.major-info-start').select();
         $('.major-info-direction').select();
 
+
         //下拉选择
         $('.screen-form-country .form-select-option li').on('click',function(){
             screen.country = $(this).attr('short_country');

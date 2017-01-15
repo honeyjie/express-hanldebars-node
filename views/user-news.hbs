@@ -39,7 +39,7 @@
                         {{#if read}}
                         <li data-msg_id="{{id}}" data-type_id="{{type_id}}" data-type_id="{{type_id}}">
                             <a class="news-title" href="#">{{msg}}</a>
-                            <div class="news-date">{{date}}</div>
+                            <div class="news-date">{{showDate date}}</div>
                             <div class="news-operation">
                                 {{#ifNews type_id 20000}}
                                 <a href="#">查看</a>
@@ -50,7 +50,7 @@
                         {{else}}
                         <li class="noread" data-msg_id="{{id}}" data-type_id="{{type_id}}">
                             <a class="news-title" href="#">{{msg}}</a>
-                            <div class="news-date">{{date}}</div>
+                            <div class="news-date">{{showDate date}}</div>
                             <div class="news-operation">
                                 {{#ifNews type_id 20000}}
                                 <a href="#">查看</a>
@@ -102,7 +102,7 @@
                         {{#if read}}
                             <li data-msg_id="{{id}}" data-type_id="{{type_id}}">
                                 <a class="news-title" href="#">{{msg}}</a>
-                                <div class="news-date">{{date}}</div>
+                                <div class="news-date">{{showDate date}}</div>
                                 <div class="news-operation">
                                     {{#ifNews type_id 20000}}
                                     <a href="#">查看</a>
@@ -113,7 +113,7 @@
                         {{else}}
                             <li class="noread {{type_id}}" data-msg_id="{{id}}" data-type_id="{{type_id}}">
                                 <a class="news-title" href="#">{{msg}}</a>
-                                <div class="news-date">{{date}}</div>
+                                <div class="news-date">{{showDate date}}</div>
                                 <div class="news-operation">
                                     {{#ifNews type_id 20000}}
                                     <a href="#">查看</a>

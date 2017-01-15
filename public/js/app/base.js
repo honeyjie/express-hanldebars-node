@@ -141,7 +141,7 @@ define(['jquery'],function(jquery){
     //验证密码是否正确
     function testOldpassword(dom){
         $.ajax({
-            url:'/v1/login/validpassword.action',
+            url:'/v1/User/saveuserbase.action',
             data:{
                 password : userInfo.oldpassword
             },
@@ -149,7 +149,8 @@ define(['jquery'],function(jquery){
             cache:false,
             dataType:'json',
             success:function(data){
-                if(!data.valid){
+                console.log(data);
+                if(data.code === 0){
                     testSuccess(dom);
                 }
                 else{

@@ -2228,6 +2228,7 @@
     height: 60px;
     line-height: 60px;
     text-align: center;
+    cursor: pointer;
 }
 .school .school-side>li{
     display: block;
@@ -2235,7 +2236,7 @@
     font-weight: 600;
     color: #ffffff;
 }
-.school .school-side>li:hover,.school .school-side>li.active{
+.school .school-recommend-page:hover, .school .school-all-page:hover,.school .school-side>li.active{
     background: #ffffff;
     color: #25baf4;
 }
@@ -2245,6 +2246,7 @@
     line-height: 40px;
     color: #ffffff;
     font-size: 14px;
+    cursor: pointer;
 }
 .school-side-son>li a{
      color: #ffffff;
@@ -2266,6 +2268,9 @@
     width: 300px;
     margin-right: 10px;
     height: 50px;
+}
+.school .all-list li:not(.all-list-type) {
+    cursor: pointer;
 }
 .school .all-list li span{
     display: table-cell;
@@ -2370,6 +2375,7 @@
 .school .recommend-major-list li{
     float: left;
     margin-left: 19px;
+    cursor: pointer;
 }
 .school .recommend-major-list li:nth-child(1){
     margin-left: 0;
@@ -2401,7 +2407,7 @@
     display: table-cell;
     vertical-align: middle;
     padding-right: 10px;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
 }
 .school .school-major{
@@ -2493,10 +2499,17 @@
     border-bottom: 1px solid #dcdcdc;
 }
 .school .major-info>li{
+    position: relative;
     float: left;
     width: 290px;
     margin-bottom: 20px;
     margin-right: 20px;
+    padding-left: 20px;
+}
+.school .major-info>li>img{
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 .school .major-info li:nth-child(3n){
     margin-right: 0;
@@ -2519,6 +2532,7 @@
     text-decoration: underline;
 }
 .school .major-info .form-select{
+    position: relative;
     display: inline-block;
     background: none;
     border: none;

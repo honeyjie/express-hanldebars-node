@@ -9,7 +9,6 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         pre_grade = $('.set-form-grade').val(),
         pre_country = $('.set-form-country').val(),
         pre_headering = $('.inputstyle').val();
-        console.log(pre_email, pre_phone, pre_school, pre_major, pre_grade, pre_country)
     $(function(){
         //获取积分并初始化积分条
         // base.userInfo.credit = 0;; //测试数据
@@ -82,7 +81,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
             if(!base.userInfo.email && !pre_email) {
                 return;
             }
-
+            $(this).addClass('focus');
             $('.set-form-email').removeClass('warning');
             if(canSend) {
                 base.sendTestEmail();
@@ -96,6 +95,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                     clearInterval(setTime);
                     $('.set-form-send').text('验证') ;
                     $(this).addClass('warning');
+                    $(this).removeClass('focus');
                     canSend = true;  
                 } 
             }, 1000) 
@@ -170,12 +170,6 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
 
         //保存个人信息
         $('.set-info-save').on('click',function(){
-            // if(!base.userInfo.email||!base.userInfo.phone||!base.userInfo.school||!base.userInfo.major||!base.userInfo.grade||!base.userInfo.country){
-            //     return;
-            // }
-            // if(!base.userInfo.isValid){
-            //     base.sendTestEmail();
-            // }
             saveInfo();
         });
 
@@ -186,6 +180,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                 rule : base.passwordRule,
                 success : function(dom){
                     base.userInfo.oldpassword = dom.val();
+                    console.log(base.userInfo.oldpassword)
                     //验证密码是否正确，如果不正确则清空密码
                     base.testOldpassword(dom);
                 },
@@ -197,10 +192,16 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         });
         //密码验证
         $('.set-form-password').on('blur',function(){
+            //不能和旧密码相同
+
             $('.set-form-password').testInput({
                 rule : base.passwordRule,
                 success : function(dom){
                     base.userInfo.password = dom.val();
+                    if(base.userInfo.password == base.userInfo.oldpassword) {
+                        base.testFail(dom,'新密码不能和原始密码相同');
+                        return;
+                    }
                     base.testSuccess(dom);
                 },
                 fail : function(dom){
@@ -228,6 +229,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
 
         //密码判断提交
         $('.set-form-password input').on('blur',function(){
+            console.log(base.userInfo.oldpassword, base.userInfo.password, base.userInfo.repassword)
             if(!base.userInfo.oldpassword||!base.userInfo.password||!base.userInfo.repassword){
                 $('.set-password-save').removeClass('button-solid').addClass('button-solid-ban');
                 return;
@@ -299,12 +301,14 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         //查看消息
         $('.news-list li a').on('click',function(e){
             e.stopPropagation();
+            var msg_id = $(this).parent().attr('data-msg_id')
             isRead(msg_id);
         });
 
         //单击查看
         $('.news-list li news-operation').on('click',function(e){
             e.stopPropagation();
+            var msg_id = $(this).parent().parent().attr('data-msg_id')
             isRead(msg_id);
         });
 
@@ -387,6 +391,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
     }
 
     function isRead(msg_id) {
+
         $.ajax({
             url:'/v1/User/isread.action',
             data:{
@@ -396,7 +401,8 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
             cache:false,
             dataType:'json',
             success:function(data) {
-                if(data.data.result == 1) {
+                console.log(data);
+                if(data.data.result == 1) {//1表示请求成功需要标记为已读，0表示已经是已读的
                     $(this).parent().removeClass('noread');
                 }
                 return;
@@ -476,11 +482,11 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
 
     //保存密码
     function savePassword(){
-        console.log(info.user.password);
+        console.log(base.userInfo.password);
         $.ajax({
             url:'/v1/User/saveuserbase.action',
             data:{
-                password : info.user.password
+                password : base.userInfo.password
             },
             type:'post',
             cache:false,
@@ -488,6 +494,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
             success:function(data){
                 if(data.code == 0){
                     base.notice('信息已保存');
+                    $('.set-password-save').removeClass('button-solid-ban').addClass('button-solid');
                 }
             },
             error : function() {

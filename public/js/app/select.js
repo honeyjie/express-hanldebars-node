@@ -357,7 +357,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             }
             else if(select.language.ielts){
                 $(this).testInput({
-                    rule : base.onlyFloat,
+                    rule : base.isFloat,
                     success : function(dom){
                         if(dom.val()<0||dom.val()>9){
                             exam.V = null;
@@ -396,7 +396,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             }
             else if(select.language.ielts){
                 $(this).testInput({
-                    rule : base.onlyFloat,
+                    rule : base.isFloat,
                     success : function(dom){
                         if(dom.val()<0||dom.val()>9){
                             exam.V = null;
@@ -435,7 +435,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             }
             else if(select.language.ielts){
                 $(this).testInput({
-                    rule : base.onlyFloat,
+                    rule : base.isFloat,
                     success : function(dom){
                         if(dom.val()<0||dom.val()>9){
                             exam.V = null;
@@ -474,7 +474,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             }
             else if(select.language.ielts){
                 $(this).testInput({
-                    rule : base.onlyFloat,
+                    rule : base.isFloat,
                     success : function(dom){
                         if(dom.val()<0||dom.val()>9){
                             exam.V = null;
@@ -513,7 +513,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             }
             else if(select.language.ielts){
                 $(this).testInput({
-                    rule : base.onlyFloat,
+                    rule : base.isFloat,
                     success : function(dom){
                         if(dom.val()<0||dom.val()>9){
                             exam.V = null;
@@ -884,7 +884,39 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                     base.testFail(dom,'请输入整数数字');
                 }
             });
-            if($(this).val()>0){
+            var num = [0,0,0];
+            var name = [];
+            $.each(select.science_paper,function(index,value){
+                if(name.indexOf(value.name)==-1){
+                    name.push(value.name)
+                }
+                switch (value.name){
+                    case 1:
+                        if(value.num>0){
+                            num[0]++;
+                        }
+                        break;
+                    case 2:
+                        if(value.num>0){
+                            num[1]++;
+                        }
+                        break;
+                    case 3:
+                        if(value.num>0){
+                            num[2]++;
+                        }
+                        break;
+                }
+            });
+            function isError(){
+                for(var i=0;i<name.length;i++){
+                    if(num[name[i]-1]==0){
+                        return false;
+                    }
+                }
+                return true;
+            }
+            if(isError()){
                 $('.select-box').eq(3).find('.select-title').removeClass('error');
                 $('.select-achievement .form-item-name').eq(0).removeClass('red');
             }
@@ -1248,7 +1280,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             }
         }
         if(select.pre_major=='法学'){
-            if(!select.gpa||$.isEmptyObject(select.language)||!language.overall||!language.R||!language.L||!language.S||!language.W||!select.last){
+            if(!select.gpa||$.isEmptyObject(select.language)||!language.overall||!language.R||!language.L||!language.S||!language.W||select.last==null){
                 $('.select-box').eq(2).find('.select-title').addClass('error');
                 if(parseInt($('.select-box').eq(2).find('.select-content').css('height'))==0){
                     $('.select-box').eq(2).find('.select-title-control').click();
@@ -1259,7 +1291,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 if($.isEmptyObject(select.language)||!language.overall||!language.R||!language.L||!language.S||!language.W){
                     $('.select-language .form-item-name').addClass('red');
                 }
-                if(!select.last){
+                if(select.last==null){
                     $('.select-form-last .form-item-name').addClass('red');
                 }
             }
@@ -1292,15 +1324,39 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             }
         }
         if(select.science_paper.length>0){
-            var arr = [];
-            var num = 0;
+            var num = [0,0,0];
+            var name = [];
             $.each(select.science_paper,function(index,value){
-                arr.push(value.num);
-                if(value.num>0){
-                    num++;
+                if(name.indexOf(value.name)==-1){
+                    name.push(value.name)
+                }
+                switch (value.name){
+                    case 1:
+                        if(value.num>0){
+                            num[0]++;
+                        }
+                        break;
+                    case 2:
+                        if(value.num>0){
+                            num[1]++;
+                        }
+                        break;
+                    case 3:
+                        if(value.num>0){
+                            num[2]++;
+                        }
+                        break;
                 }
             });
-            if(num>0){
+            function isError(){
+                for(var i=0;i<name.length;i++){
+                    if(num[name[i]-1]==0){
+                        return false;
+                    }
+                }
+                return true;
+            }
+            if(isError()){
                 if(parseInt($('.select-box').eq(3).find('.select-content').css('height'))>0){
                     $('.select-box').eq(3).find('.select-title-control').click();
                 }
@@ -1335,73 +1391,73 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             select.exam_score.gmat = exam;
         }
 
-        $.ajax({
-            url:'/v1/completeform/saveform.action',
-            // data:{
-            //     nation : select.nation,
-            //     locatioin : select.locatioin,
-            //     pre_school : select.pre_school,
-            //     pre_major : select.pre_major,
-            //     pre_major2 : select.pre_major2,
-            //     school_type : select.school_type,
-            //     related_major:,
-            //     grade:,
-            //     pre_degree:,
-            //     tuition:,
-            //     gpa:,
-            //     toefl:,
-            //     toefl_l:,
-            //     toefl_s:,
-            //     toefl_w:,
-            //     gre:,
-            //     sub:,
-            //     gre_v:,
-            //     gre_q:,
-            //     gre_aw:,
-            //     ielts:,
-            //     ielts_r:,
-            //     ielts_l:,
-            //     ielts_s:,
-            //     ielts_w:,
-            //     gmat:,
-            //     gmat_v:,
-            //     gmat_q:,
-            //     gmat_aw:,
-            //     recommend_num:,
-            //     recommend_rank:,
-            //     meeting_paper_num:,
-            //     meeting_paper_rank:,
-            //     chinese_paper_rank:,
-            //     chinese_paper_num:,
-            //     international_paper_num:,
-            //     international_paper_rank:,
-            //     science_rank:,
-            //     science_time:,
-            //     work_rank:,
-            //     work_time:,
-            //     internship_time:,
-            //     internship_rank:,
-            //     match:,
-            //     exchange:,
-            //     experience:,
-            //     prize:,
-            //     location:,
-            //     scholarship:,
-            //     tuition:,
-            // },
-            type:'post',
-            cache:false,
-            dataType:'json',
-            success:function(data){
-                console.log(data);
-                window.location.href = "/select-school";
-            },
-            error : function() {
-                base.notice('网络错误');
-            }
-        });
+        //$.ajax({
+        //    url:'/v1/completeform/saveform.action',
+        //    data:{
+        //         nation : select.nation,
+        //         locatioin : select.locatioin,
+        //         pre_school : select.pre_school,
+        //         pre_major : select.pre_major,
+        //         pre_major2 : select.pre_major2,
+        //         school_type : select.school_type,
+        //         related_major:,
+        //         grade:,
+        //         pre_degree:,
+        //         tuition:,
+        //         gpa:,
+        //         toefl:,
+        //         toefl_l:,
+        //         toefl_s:,
+        //         toefl_w:,
+        //         gre:,
+        //         sub:,
+        //         gre_v:,
+        //         gre_q:,
+        //         gre_aw:,
+        //         ielts:,
+        //         ielts_r:,
+        //         ielts_l:,
+        //         ielts_s:,
+        //         ielts_w:,
+        //         gmat:,
+        //         gmat_v:,
+        //         gmat_q:,
+        //         gmat_aw:,
+        //         recommend_num:,
+        //         recommend_rank:,
+        //         meeting_paper_num:,
+        //         meeting_paper_rank:,
+        //         chinese_paper_rank:,
+        //         chinese_paper_num:,
+        //         international_paper_num:,
+        //         international_paper_rank:,
+        //         science_rank:,
+        //         science_time:,
+        //         work_rank:,
+        //         work_time:,
+        //         internship_time:,
+        //         internship_rank:,
+        //         match:,
+        //         exchange:,
+        //         experience:,
+        //         prize:,
+        //         location:,
+        //         scholarship:,
+        //         tuition:,
+        //    },
+        //    type:'post',
+        //    cache:false,
+        //    dataType:'json',
+        //    success:function(data){
+        //        console.log(data);
+        //        window.location.href = "/select-school";
+        //    },
+        //    error : function() {
+        //        base.notice('网络错误');
+        //    }
+        //});
 
-
+        console.log(select)
         $.ajax({
             url:'/v1/completeform/saveform.action',
             data:{

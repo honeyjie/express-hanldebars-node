@@ -47,7 +47,6 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
                 },
                 fail : function(dom){
                     base.userInfo.email = '';
-                    console.log("验证邮箱失败："+ base.userInfo.email);
                     base.testFail(dom,'请输入有效的 Email 地址');
                 }
             });
@@ -81,6 +80,8 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
 
         //补全信息判断提交
         $('.register.complete input').on('blur',function(){
+            console.log(base.userInfo.username, base.userInfo.password, base.userInfo.repassword, base.userInfo.email)
+
             if(!base.userInfo.username||!base.userInfo.password||!base.userInfo.repassword||!base.userInfo.email){
                 $('.complete-submit').removeClass('button-solid').addClass('button-solid-ban');
                 return;
@@ -92,6 +93,11 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         //提交信息
         $('.complete-submit').on('click',function(){
             register();
+        });
+        $('.complete-submit').keypress(function(e){
+            if(e.witch === 13) {
+                 register();
+            }
         });
 
         //未收到邮件
@@ -131,7 +137,6 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
                 rule : base.emailRule,
                 success : function(dom){
                     base.userInfo.email = dom.val();
-                    //前端修改
                     base.forgettestEmail(dom);
                 },
                 fail : function(dom){
@@ -249,7 +254,6 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
            cache:false,
            dataType:'json',
            success:function(data){
-                console.log("完善用户信息", data);
                 if (data.code === 0) {
                     //发送验证邮件
                     base.sendTestEmail();
