@@ -202,33 +202,18 @@ router.get('/user-set', function(req, res, next) {
         method: "get",
         url: "http://www.utuotu.com/v1/user/userinfo.action"
     }, function(err, response, body) {
-        data = JSON.parse(body).data;
+        data = JSON.parse(body);
+        res.render('user-set', {
+            data: data.data
+        });
     })
-    setTimeout(function(res) {
-      req.proxy.request({
-          method: "get",
-          url: "http://www.utuotu.com/v1/user/userinfo.action"
-      }, function(err, response, body) {
-          emailvalid = !JSON.parse(body).code;
-          res.render('user-set', {
-              data: data.data,
-              emailvalid: emailvalid
-          });
-      })
-    }, 500, res)
-
-
 });
 
 //注册
 router.get('/register-complete', function(req, res, next) {
-    //保存在应用中
-    app.locals.headImg = req.query.headImg;
-    app.locals.nickname = req.query.nickname;
-    console.log(req.query)
     res.render('register-complete', {
-      headImg: app.locals.headImg,
-      nickname: app.locals.nickname
+      headImg: req.query.headImg,
+      nickname: req.query.nickname
     })
 });
 

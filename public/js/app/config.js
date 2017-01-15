@@ -18,7 +18,7 @@ requirejs.config({
         school : '../app/school',
         select : '../app/select',
         help : '../app/help',
-        countries: '../countries'
+        countries: '../app/countries'
     },
     shim : {
         fullpage : ['jquery'],

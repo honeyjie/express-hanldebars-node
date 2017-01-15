@@ -576,7 +576,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             .projection(projection);
         d3.json(mapJson, function(error, root) {
             if (error){
-                return console.error(error);
+                return console.log(error);
             }
             svg.selectAll('path')
                 .data(root.features)
