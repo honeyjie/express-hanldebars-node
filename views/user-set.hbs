@@ -63,8 +63,11 @@
                     <div class="form-item clear">
                         <span class="form-item-name">年级</span>
                         <div class="form-select set-form-grade">
+                            {{#if nianji}}
+                            <div class="form-select-value">{{nianji}}</div>
+                            {{else}}
                             <div class="form-select-value">选择年级</div>
-                            <span>{{nainji}}</span>
+                            {{/if}}
                             <div class="form-select-arrow"></div>
                             <div class="form-select-option hidden" id="grade-option">
                                 <ul>
@@ -81,8 +84,11 @@
                     <div class="form-item clear">
                         <span class="form-item-name">意向留学地区</span>
                         <div class="form-select set-form-country">
+                            {{#if country}}
+                            <div class="form-select-value">{{country}}</div>
+                            {{else}}
                             <div class="form-select-value">选择地区</div>
-                             <span>{{country}}</span>
+                            {{/if}}
                             <div class="form-select-arrow"></div>
                             <div class="form-select-option hidden" id="country-option">
                                 <ul>

@@ -1,6 +1,7 @@
 define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jquery,fullpage,iscroll,clipboard,base,common){
     var scroll = [];
     var canSend = true;
+    var setTime;
     var pre_email = $('.set-form-email').val(),
         pre_phone = $('.set-form-phone').val(),
         pre_school = $('.set-form-school').val(),
@@ -61,6 +62,11 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                     base.userInfo.email = dom.val();
                     if(base.userInfo.email !== pre_email) {
                         base.testEmail(dom);
+                        clearInterval(setTime);
+                        isTestEmail();
+                        $('.set-form-send').text('验证') ;
+                        $(this).addClass('warning');
+                        canSend = true;
                         canSaveInfo();
                     }
                 },
@@ -82,9 +88,8 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                 base.sendTestEmail();
                 canSend = false;
             }
-            $(this).focus();
             var time = 60;
-            var setTime = setInterval(function() {
+            setTime = setInterval(function() {
                 time = time -1;
                 $('.set-form-send').text(time + '秒可重发'); 
                 if (time <= 0) {
@@ -181,6 +186,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                 rule : base.passwordRule,
                 success : function(dom){
                     base.userInfo.oldpassword = dom.val();
+                    //验证密码是否正确，如果不正确则清空密码
                     base.testOldpassword(dom);
                 },
                 fail : function(dom){
@@ -206,6 +212,10 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         //重复密码验证
         $('.set-form-repassword').on('blur',function(){
             var dom = $(this);
+            if(!base.userInfo.password) {
+                return;
+            }
+
             if(dom.val() == base.userInfo.password){
                 base.userInfo.repassword = dom.val();
                 base.testSuccess(dom);
@@ -418,7 +428,6 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
             cache:false,
             dataType:'json',
             success:function(data) {
-                console.log(data);
                 if(data.code==111001003){
                     //未激活
                     base.userInfo.isValid = false;  
@@ -456,6 +465,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                 console.log(data);
                 if(data.code == 0){
                     base.notice('信息已保存');
+                   $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban'); 
                 }
             },
             error : function() {
@@ -466,6 +476,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
 
     //保存密码
     function savePassword(){
+        console.log(info.user.password);
         $.ajax({
             url:'/v1/User/saveuserbase.action',
             data:{

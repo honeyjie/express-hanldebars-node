@@ -91,7 +91,6 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
 
         //提交信息
         $('.complete-submit').on('click',function(){
-            console.log("注册")
             register();
         });
 
@@ -234,7 +233,6 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
     });
 
     function register(){
-        console.log("点击注册")
         if(!base.userInfo.username||!base.userInfo.password||!base.userInfo.repassword||!base.userInfo.email){
             return;
         }
@@ -251,7 +249,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
            cache:false,
            dataType:'json',
            success:function(data){
-                console.log("发送邮件返回数据", data);
+                console.log("完善用户信息", data);
                 if (data.code === 0) {
                     //发送验证邮件
                     base.sendTestEmail();
@@ -266,7 +264,6 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
     }
 
     function openRegister(){
-        console.log("重新填写注册")
         $('.noreceive').addClass('animated fadeOutUp').addClass('hidden');
         $('.complete').addClass('animated fadeInDown').removeClass('hidden');
         // $('.noreceive').addClass('animated fadeOutUp').one(base.animationend,function(){
