@@ -2448,6 +2448,7 @@
     font-weight: 600;
     margin: 0 auto;
     color: #25baf4;
+    display: block;
 }
 .school .school-side li.school-side-revise a:hover{
     background: #f4fbfe;
