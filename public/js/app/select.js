@@ -295,7 +295,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         //GPA 失去焦点
         $('.select-gpa').on('blur',function(){
             $(this).testInput({
-                rule : base.isScore,
+                rule : base.isDouble,
                 success : function(dom){
                     if(dom.val()>100){
                         select.gpa = null;
@@ -337,168 +337,198 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         });
         //语言考试 overall
         $('.select-language-overall').on('input propertychange',function(){
-            $(this).testInput({
-                rule : base.isScore,
-                success : function(dom){
-                    if(select.language.toefl){
+            if(select.language.toefl){
+                $(this).testInput({
+                    rule : base.isInt,
+                    success : function(dom){
                         if(dom.val()<0||dom.val()>120){
                             language.overall = null;
                             base.testFail(dom,'TOFEL有效分值为0~120分');
                             return;
                         }
+                        language.overall = dom.val();
+                        base.testSuccess(dom);
+                    },
+                    fail : function(dom){
+                        language.overall = null;
+                        base.testFail(dom,'TOFEL有效分值为0~120分');
                     }
-                    else if(select.language.ielts){
+                });
+            }
+            else if(select.language.ielts){
+                $(this).testInput({
+                    rule : base.onlyFloat,
+                    success : function(dom){
                         if(dom.val()<0||dom.val()>9){
                             exam.V = null;
                             base.testFail(dom,'IELTS有效分值为0~9分');
                             return;
                         }
-                    }
-                    language.overall = dom.val();
-                    base.testSuccess(dom);
-                },
-                fail : function(dom){
-                    language.overall = null;
-                    if(select.language.toefl){
-                        base.testFail(dom,'TOFEL有效分值为0~120分');
-                    }
-                    else if(select.language.ielts){
+                        language.overall = dom.val();
+                        base.testSuccess(dom);
+                    },
+                    fail : function(dom){
+                        language.overall = null;
                         base.testFail(dom,'IELTS有效分值为0~9分');
                     }
-                }
-            });
+                });
+            }
         });
         //语言考试 R
         $('.select-language-r').on('input propertychange',function(){
-            $(this).testInput({
-                rule : base.isScore,
-                success : function(dom){
-                    if(select.language.toefl){
+            if(select.language.toefl){
+                $(this).testInput({
+                    rule : base.isInt,
+                    success : function(dom){
                         if(dom.val()<0||dom.val()>30){
                             language.R = null;
                             base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
                             return;
                         }
+                        language.R = dom.val();
+                        base.testSuccess(dom);
+                    },
+                    fail : function(dom){
+                        language.R = null;
+                        base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
                     }
-                    else if(select.language.ielts){
+                });
+            }
+            else if(select.language.ielts){
+                $(this).testInput({
+                    rule : base.onlyFloat,
+                    success : function(dom){
                         if(dom.val()<0||dom.val()>9){
                             exam.V = null;
                             base.testFail(dom,'IELTS分项成绩有效分值为0~9');
                             return;
                         }
-                    }
-                    language.R = dom.val();
-                    base.testSuccess(dom);
-                },
-                fail : function(dom){
-                    language.R = null;
-                    if(select.language.toefl){
-                        base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
-                    }
-                    else if(select.language.ielts){
+                        language.R = dom.val();
+                        base.testSuccess(dom);
+                    },
+                    fail : function(dom){
+                        language.R = null;
                         base.testFail(dom,'IELTS分项成绩有效分值为0~9');
                     }
-                }
-            });
+                });
+            }
         });
         //语言考试 L
         $('.select-language-l').on('input propertychange',function(){
-            $(this).testInput({
-                rule : base.isScore,
-                success : function(dom){
-                    if(select.language.toefl){
+            if(select.language.toefl){
+                $(this).testInput({
+                    rule : base.isInt,
+                    success : function(dom){
                         if(dom.val()<0||dom.val()>30){
                             language.R = null;
                             base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
                             return;
                         }
+                        language.L = dom.val();
+                        base.testSuccess(dom);
+                    },
+                    fail : function(dom){
+                        language.L = null;
+                        base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
                     }
-                    else if(select.language.ielts){
+                });
+            }
+            else if(select.language.ielts){
+                $(this).testInput({
+                    rule : base.onlyFloat,
+                    success : function(dom){
                         if(dom.val()<0||dom.val()>9){
                             exam.V = null;
                             base.testFail(dom,'IELTS分项成绩有效分值为0~9');
                             return;
                         }
-                    }
-                    language.L = dom.val();
-                    base.testSuccess(dom);
-                },
-                fail : function(dom){
-                    language.L = null;
-                    if(select.language.toefl){
-                        base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
-                    }
-                    else if(select.language.ielts){
+                        language.L = dom.val();
+                        base.testSuccess(dom);
+                    },
+                    fail : function(dom){
+                        language.L = null;
                         base.testFail(dom,'IELTS分项成绩有效分值为0~9');
                     }
-                }
-            });
+                });
+            }
         });
         //语言考试 S
         $('.select-language-s').on('input propertychange',function(){
-            $(this).testInput({
-                rule : base.isScore,
-                success : function(dom){
-                    if(select.language.toefl){
+            if(select.language.toefl){
+                $(this).testInput({
+                    rule : base.isInt,
+                    success : function(dom){
                         if(dom.val()<0||dom.val()>30){
                             language.R = null;
                             base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
                             return;
                         }
+                        language.S = dom.val();
+                        base.testSuccess(dom);
+                    },
+                    fail : function(dom){
+                        language.S = null;
+                        base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
                     }
-                    else if(select.language.ielts){
+                });
+            }
+            else if(select.language.ielts){
+                $(this).testInput({
+                    rule : base.onlyFloat,
+                    success : function(dom){
                         if(dom.val()<0||dom.val()>9){
                             exam.V = null;
                             base.testFail(dom,'IELTS分项成绩有效分值为0~9');
                             return;
                         }
-                    }
-                    language.S = dom.val();
-                    base.testSuccess(dom);
-                },
-                fail : function(dom){
-                    language.S = null;
-                    if(select.language.toefl){
-                        base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
-                    }
-                    else if(select.language.ielts){
+                        language.S = dom.val();
+                        base.testSuccess(dom);
+                    },
+                    fail : function(dom){
+                        language.S = null;
                         base.testFail(dom,'IELTS分项成绩有效分值为0~9');
                     }
-                }
-            });
+                });
+            }
         });
         //语言考试 W
         $('.select-language-w').on('input propertychange',function(){
-            $(this).testInput({
-                rule : base.isScore,
-                success : function(dom){
-                    if(select.language.toefl){
+            if(select.language.toefl){
+                $(this).testInput({
+                    rule : base.isInt,
+                    success : function(dom){
                         if(dom.val()<0||dom.val()>30){
                             language.R = null;
                             base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
                             return;
                         }
+                        language.W = dom.val();
+                        base.testSuccess(dom);
+                    },
+                    fail : function(dom){
+                        language.W = null;
+                        base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
                     }
-                    else if(select.language.ielts){
+                });
+            }
+            else if(select.language.ielts){
+                $(this).testInput({
+                    rule : base.onlyFloat,
+                    success : function(dom){
                         if(dom.val()<0||dom.val()>9){
                             exam.V = null;
                             base.testFail(dom,'IELTS分项成绩有效分值为0~9');
                             return;
                         }
-                    }
-                    language.W = dom.val();
-                    base.testSuccess(dom);
-                },
-                fail : function(dom){
-                    language.W = null;
-                    if(select.language.toefl){
-                        base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
-                    }
-                    else if(select.language.ielts){
+                        language.W = dom.val();
+                        base.testSuccess(dom);
+                    },
+                    fail : function(dom){
+                        language.W = null;
                         base.testFail(dom,'IELTS分项成绩有效分值为0~9');
                     }
-                }
-            });
+                });
+            }
         });
         //语言考试input显示错误提示
         $('.select-language-input input').on('focus',function(){
@@ -538,138 +568,162 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         });
         //标准化考试 overall
         $('.select-exam-overall').on('input propertychange',function(){
-            $(this).testInput({
-                rule : base.isScore,
-                success : function(dom){
-                    if(select.exam_score.gre){
+            if(select.exam_score.gre){
+                $(this).testInput({
+                    rule : base.isInt,
+                    success : function(dom){
                         if(dom.val()<0||dom.val()>340){
                             exam.overall = null;
                             base.testFail(dom,'GRE有效分值为0~340');
                             return;
                         }
+                        exam.overall = dom.val();
+                        base.testSuccess(dom);
+                    },
+                    fail : function(dom){
+                        exam.overall = null;
+                        base.testFail(dom,'GRE有效分值为0~340');
                     }
-                    else if(select.exam_score.gmat){
+                });
+            }
+            else if(select.exam_score.gmat){
+                $(this).testInput({
+                    rule : base.isInt,
+                    success : function(dom){
                         if(dom.val()<200||dom.val()>800){
                             exam.overall = null;
                             base.testFail(dom,'GMAT有效分值为200~800');
                             return;
                         }
-                    }
-                    exam.overall = dom.val();
-                    base.testSuccess(dom);
-                },
-                fail : function(dom){
-                    exam.overall = null;
-                    if(select.exam_score.gre){
-                        base.testFail(dom,'GRE有效分值为0~340');
-                    }
-                    else if(select.exam_score.gmat){
+                        exam.overall = dom.val();
+                        base.testSuccess(dom);
+                    },
+                    fail : function(dom){
+                        exam.overall = null;
                         base.testFail(dom,'GMAT有效分值为200~800');
                     }
-                }
-            });
+                });
+            }
         });
 
         //标准化考试 V
         $('.select-exam-v').on('input propertychange',function(){
-            $(this).testInput({
-                rule : base.isScore,
-                success : function(dom){
-                    if(select.exam_score.gre){
+            if(select.exam_score.gre){
+                $(this).testInput({
+                    rule : base.isInt,
+                    success : function(dom){
                         if(dom.val()<0||dom.val()>170){
                             exam.V = null;
                             base.testFail(dom,'GRE分项（V、Q ）成绩有效分值为0~170');
                             return;
                         }
+                        exam.V = dom.val();
+                        base.testSuccess(dom);
+                    },
+                    fail : function(dom){
+                        exam.V = null;
+                        base.testFail(dom,'GRE分项（V、Q ）成绩有效分值为0~170');
                     }
-                    else if(select.exam_score.gmat){
+                });
+            }
+            else if(select.exam_score.gmat){
+                $(this).testInput({
+                    rule : base.isInt,
+                    success : function(dom){
                         if(dom.val()<0||dom.val()>60){
                             exam.V = null;
                             base.testFail(dom,'GMAT分项（V、Q) 有效成绩分值为0~60');
                             return;
                         }
-                    }
-                    exam.V = dom.val();
-                    base.testSuccess(dom);
-                },
-                fail : function(dom){
-                    exam.V = null;
-                    if(select.exam_score.gre){
-                        base.testFail(dom,'GRE分项（V、Q ）成绩有效分值为0~170');
-                    }
-                    else if(select.exam_score.gmat){
+                        exam.V = dom.val();
+                        base.testSuccess(dom);
+                    },
+                    fail : function(dom){
+                        exam.V = null;
                         base.testFail(dom,'GMAT分项（V、Q) 有效成绩分值为0~60');
                     }
-                }
-            });
+                });
+            }
         });
 
         //标准化考试 Q
         $('.select-exam-q').on('input propertychange',function(){
-            $(this).testInput({
-                rule : base.isScore,
-                success : function(dom){
-                    if(select.exam_score.gre){
+            if(select.exam_score.gre){
+                $(this).testInput({
+                    rule : base.isInt,
+                    success : function(dom){
                         if(dom.val()<0||dom.val()>170){
                             exam.Q = null;
                             base.testFail(dom,'GRE分项（V、Q ）成绩有效分值为0~170');
                             return;
                         }
+                        exam.Q = dom.val();
+                        base.testSuccess(dom);
+                    },
+                    fail : function(dom){
+                        exam.Q = null;
+                        base.testFail(dom,'GRE分项（V、Q ）成绩有效分值为0~170');
                     }
-                    else if(select.exam_score.gmat){
+                });
+            }
+            else if(select.exam_score.gmat){
+                $(this).testInput({
+                    rule : base.isInt,
+                    success : function(dom){
                         if(dom.val()<0||dom.val()>60){
                             exam.Q = null;
                             base.testFail(dom,'GMAT分项（V、Q) 有效成绩分值为0~60');
                             return;
                         }
-                    }
-                    exam.Q = dom.val();
-                    base.testSuccess(dom);
-                },
-                fail : function(dom){
-                    exam.Q = null;
-                    if(select.exam_score.gre){
-                        base.testFail(dom,'GRE分项（V、Q ）成绩有效分值为0~170');
-                    }
-                    else if(select.exam_score.gmat){
+                        exam.Q = dom.val();
+                        base.testSuccess(dom);
+                    },
+                    fail : function(dom){
+                        exam.Q = null;
                         base.testFail(dom,'GMAT分项（V、Q) 有效成绩分值为0~60');
                     }
-                }
-            });
+                });
+            }
         });
 
         //标准化考试 AW
         $('.select-exam-aw').on('input propertychange',function(){
-            $(this).testInput({
-                rule : base.isScore,
-                success : function(dom){
-                    if(select.exam_score.gre){
+            if(select.exam_score.gre){
+                $(this).testInput({
+                    rule : base.isFloat,
+                    success : function(dom){
                         if(dom.val()<0||dom.val()>6){
                             exam.AW = null;
                             base.testFail(dom,'AW有效成绩分值为0~6');
                             return;
                         }
+                        exam.AW = dom.val();
+                        base.testSuccess(dom);
+                    },
+                    fail : function(dom){
+                        exam.AW = null;
+                        base.testFail(dom,'AW有效成绩分值为0~6');
                     }
-                    else if(select.exam_score.gmat){
+                });
+            }
+            else if(select.exam_score.gmat){
+                $(this).testInput({
+                    rule : base.isFloat,
+                    success : function(dom){
                         if(dom.val()<0||dom.val()>6){
                             exam.AW = null;
                             base.testFail(dom,'AW有效成绩分值为0~6');
                             return;
                         }
-                    }
-                    exam.AW = dom.val();
-                    base.testSuccess(dom);
-                },
-                fail : function(dom){
-                    exam.AW = null;
-                    if(select.exam_score.gre){
+                        exam.AW = dom.val();
+                        base.testSuccess(dom);
+                    },
+                    fail : function(dom){
+                        exam.AW = null;
                         base.testFail(dom,'AW有效成绩分值为0~6');
                     }
-                    else if(select.exam_score.gmat){
-                        base.testFail(dom,'AW有效成绩分值为0~6');
-                    }
-                }
-            });
+                });
+            }
         });
         //标准化考试input显示错误提示
         $('.select-exam-input input').on('focus',function(){
@@ -688,8 +742,13 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
 
         //LAST
         $('.select-last').on('blur',function(){
+            if($('.select-last').val()==0){
+                select.last = 0;
+                base.testSuccess($(this));
+                return;
+            }
             $(this).testInput({
-                rule : base.isScore,
+                rule : base.isInt,
                 success : function(dom){
                     if(dom.val()>180||dom.val()<120){
                         select.last = null;
@@ -801,7 +860,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         });
         $('.select-achievement .form-check-input input').on('blur',function(){
             $(this).testInput({
-                rule : base.isScore,
+                rule : base.isInt,
                 success : function(dom){
                     var val = dom.data('value');
                     var num = parseInt(dom.val());

@@ -374,6 +374,16 @@ function IScroll (el, options) {
 
 	this.scrollTo(this.options.startX, this.options.startY);
 	this.enable();
+
+
+    $(this.scroller).on('mouseenter',function(){
+        console.log($(this).parent('div').find('.iScrollVerticalScrollbar'))
+        $(this).parent('div').find('.iScrollVerticalScrollbar').css('display','block');
+    });
+    $(this.scroller).on('mouseleave',function(){
+        $(this).parent('div').find('.iScrollVerticalScrollbar').css('display','none');
+    });
+
 }
 
 IScroll.prototype = {
@@ -1677,7 +1687,7 @@ function createDefaultScrollbar (direction, interactive, type) {
 		scrollbar.className = 'iScrollHorizontalScrollbar';
 	} else {
 		if ( type === true ) {
-			scrollbar.style.cssText += ';width:7px;bottom:2px;top:2px;right:1px';
+			scrollbar.style.cssText += ';width:7px;bottom:2px;top:2px;right:1px;';
 			indicator.style.width = '100%';
 		}
 		scrollbar.className = 'iScrollVerticalScrollbar';
@@ -2119,3 +2129,5 @@ if ( typeof module != 'undefined' && module.exports ) {
 }
 
 })(window, document, Math);
+
+

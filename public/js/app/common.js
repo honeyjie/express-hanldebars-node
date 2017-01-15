@@ -150,6 +150,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
     }
 
     function closeSearch(){
+        $('.header-search input').val('');
         $('.header-search-icon').fadeIn(200);
         $('.header-search input').fadeOut(200);
         $('.header-search-result').fadeOut(200);
@@ -172,12 +173,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
                     $('.header-search-result').html(data);
                     console.log(data);
                     //模拟滚动条
-                    scroll[0] =  new iscroll('#search-school',{
-                        mouseWheel : true,
-                        scrollbars : true,
-                        interactiveScrollbars : true
-                    });
-                    scroll[1] = new iscroll('#search-article',{
+                    scroll[0] =  new iscroll('#search-scroll',{
                         mouseWheel : true,
                         scrollbars : true,
                         interactiveScrollbars : true
@@ -354,9 +350,15 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
 
                 }else if(data.code==111001004){
                     $('.login-message').removeClass('hidden').html('用户名不存在');
+                    if(!$('.login-captcha').hasClass('hidden')){
+                        captchaStart();
+                    }
                 }else if(data.code==111001005){
                     $('.login-message').removeClass('hidden').html('密码错误');
                     if(data.data.valid){
+                        captchaStart();
+                    }
+                    if(!$('.login-captcha').hasClass('hidden')){
                         captchaStart();
                     }
                 }else if(data.code==111001010){

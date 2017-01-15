@@ -1,35 +1,33 @@
-{{#if data.school.[0]}}
-<div class="header-search-result-school">
-    <div class="header-search-result-title">学校名称</div>
-    <div class="header-search-scroll" id="search-school">
-        <ul>
-        {{#each data.school}}
-         <li><a href="/school-recommend?sid={{id}}">{{zh_school_name}}({{en_school_name}})</a></li>
-        {{/each}} 
-        </ul>
-    </div>
-    {{#ifNews 5 data.school.length}}
-    <a href="/school-screen"><p>更多...</p></a>
-    {{/ifNews}}
-    
-</div>   
-{{/if}}
+<div class="header-search-scroll">
+    {{#if data.school.[0]}}
+        <div class="header-search-result-school">
+            <div class="header-search-result-title">学校名称</div>
+            <ul class="header-search-list header-search-list-school">
+                {{#each data.school}}
+                    <li><a href="/school-recommend?sid={{id}}">{{zh_school_name}}({{en_school_name}})</a></li>
+                {{/each}}
+            </ul>
+            {{#ifNews 5 data.school.length}}
+                <a href="/school-screen"><p>更多...</p></a>
+            {{/ifNews}}
 
-{{#if data.article.[0]}}
-<div class="header-search-result-article">
-    <div class="header-search-result-title">文章</div>
-    <div class="header-search-scroll" id="search-article">
-        <ul>
-        {{#each data.article}}
-         <li><a href="">{{title}}</a></li>
-        {{/each}} 
-        </ul>
-    </div>
+        </div>
+    {{/if}}
+
+    {{#if data.article.[0]}}
+        <div class="header-search-result-article">
+            <div class="header-search-result-title">文章</div>
+            <ul class="header-search-list">
+                {{#each data.article}}
+                    <li><a href="">{{title}}</a></li>
+                {{/each}}
+            </ul>
+        </div>
+    {{/if}}
+
+    {{#bothNot data.article.[0] data.school.[0]}}
+        <div class="header-search-result-none">未搜索到相关信息</div>
+    {{/bothNot}}
 </div>
-{{/if}}
-
-{{#bothNot data.article.[0] data.school.[0]}}
-<div class="header-search-result-none">未搜索到相关信息</div>
-{{/bothNot}}
 
 

@@ -75,7 +75,17 @@
         </div>
 
     </div>
-    <input id="help-file" class="hidden" type="file"/>
+
+    <!--七牛上传文件-->
+    <form class="hidden" method="post" action="http://upload.qiniu.com/" enctype="multipart/form-data">
+        <input name="key" type="hidden" value="<resource_key>">
+        <input name="x:<custom_name>" type="hidden" value="<custom_value>">
+        <input name="token" type="hidden" value="<upload_token>">
+        <input name="file" id="help-file" type="file" />
+        <input name="crc32" type="hidden" />
+        <input name="accept" type="hidden" />
+    </form>
+
     <div class="help-notice hidden"></div>
     <img class="help-back hidden" src="/img/help-back.png" alt=""/>
     <img class="help-close" src="/img/help-close.png" alt=""/>

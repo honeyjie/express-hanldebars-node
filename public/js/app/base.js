@@ -398,7 +398,10 @@ define(['jquery'],function(jquery){
         emailRule : /^[\w\.\_\-]+@(\w-?)+(\.\w{2,})$/, //邮箱正则
         phoneRule : /^(|1\d{10})$/,  //手机号正则
         codeRule : /^(|[0-9a-zA-Z]{4})$/,  //邀请码正则
-        isScore: /^[0-9]*[1-9][0-9]*$/ ,  //分数正则
+        isDouble: /^[0-9]+([.]{1}[0-9]{1,2})?$/ ,  //最多两位小数
+        onlyFloat: /^([0-9][.]{1}[0-9]{1})?$/ ,  //只能一位小数
+        isInt: /^[0-9]*[1-9][0-9]*$/ ,  //不能有小数
+        isFloat:  /^[0-9]+([.]{1}[0-9]{1})?$/ ,  //最多一位小数
         testSuccess : testSuccess,
         testFail : testFail,
         testUsername : testUsername,

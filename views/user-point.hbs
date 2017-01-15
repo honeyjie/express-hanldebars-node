@@ -45,8 +45,11 @@
             </div>
         </div>
         <div class="point-share clear">
-            <button class="point-address button-solid">复制链接地址</button>
-            <button class="point-code button-solid">复制邀请码</button>
+            <input style="position: absolute;z-index: -999" id="link" type="text" value="http://utuotu.com">
+            <input style="position: absolute;z-index: -999" id="code" type="text" value="123123123123">
+            <input class="hidden" id="code" type="text" value="123">
+            <button class="point-address button-solid" data-clipboard-link data-clipboard-target="#link">复制链接地址</button>
+            <button class="point-code button-solid" data-clipboard-code data-clipboard-target="#code">复制邀请码</button>
             <button class="point-blog">分享到微博</button>
             <button class="point-email">通过邮箱分享</button>
         </div>

@@ -9,6 +9,7 @@ requirejs.config({
         fullpage : 'jquery.fullPage.min',   //全屏滚动插件
         iscroll : 'iscroll',                //滚动条插件
         captcha : 'visualcaptcha.jquery',   //验证码插件
+        clipboard : 'clipboard',            //复制插件
         base : '../app/base',               //基础模块
         common : '../app/common',           //公共模块
         index : '../app/index',
@@ -35,6 +36,6 @@ requirejs.config({
     }
 
 });
-requirejs(['jquery','fullpage','iscroll','d3','captcha','base','common','index','register','user','school','select','help','countries','handlebars'],function(jquery,fullpage,iscroll,d3,captcha,base,common,index,register,user,school,select,help,countries,handlebars){
+requirejs(['jquery','fullpage','iscroll','d3','captcha','clipboard','base','common','index','register','user','school','select','help','countries','handlebars'],function(jquery,fullpage,iscroll,d3,captcha,clipboard,base,common,index,register,user,school,select,help,countries,handlebars){
 
 });
