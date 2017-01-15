@@ -375,13 +375,11 @@ function IScroll (el, options) {
 	this.scrollTo(this.options.startX, this.options.startY);
 	this.enable();
 
-
-    $(this.scroller).on('mouseenter',function(){
-        console.log($(this).parent('div').find('.iScrollVerticalScrollbar'))
-        $(this).parent('div').find('.iScrollVerticalScrollbar').css('display','block');
+    $(this.scroller).parent('div').on('mouseenter',function(){
+        $(this).parent('div').find('.iScrollVerticalScrollbar').css('opacity','1');
     });
-    $(this.scroller).on('mouseleave',function(){
-        $(this).parent('div').find('.iScrollVerticalScrollbar').css('display','none');
+    $(this.scroller).parent('div').on('mouseleave',function(){
+        $(this).parent('div').find('.iScrollVerticalScrollbar').css('opacity','0');
     });
 
 }
@@ -1687,7 +1685,7 @@ function createDefaultScrollbar (direction, interactive, type) {
 		scrollbar.className = 'iScrollHorizontalScrollbar';
 	} else {
 		if ( type === true ) {
-			scrollbar.style.cssText += ';width:7px;bottom:2px;top:2px;right:1px;';
+			scrollbar.style.cssText += ';width:7px;bottom:2px;top:2px;right:1px;opacity: 0;';
 			indicator.style.width = '100%';
 		}
 		scrollbar.className = 'iScrollVerticalScrollbar';
