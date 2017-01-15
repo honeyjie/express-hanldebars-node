@@ -1491,6 +1491,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 } else if(data.code === 111001006){
                     $('.login').removeClass('hidden');
                     common.openIndexLogin();
+                    
                 }
                 return;
                 
