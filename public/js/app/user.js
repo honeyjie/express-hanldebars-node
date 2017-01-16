@@ -238,6 +238,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
             if(!base.userInfo.oldpassword||!base.userInfo.password||!base.userInfo.repassword){
                 return;
             }
+            console.log("保存密码")
             savePassword();
         });
         //弹窗阻止冒泡
@@ -490,9 +491,11 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
             cache:false,
             dataType:'json',
             success:function(data){
-                if(data.code == 0){
+                console.log(data, 1);
+                if(data.code === 0){
+                    console.log("1")
+                    $('.set-password-save').removeClass('button-solid').addClass('button-solid-ban');
                     base.notice('信息已保存');
-                    $('.set-password-save').removeClass('button-solid-ban').addClass('button-solid');
                 }
             },
             error : function() {

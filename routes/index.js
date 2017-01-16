@@ -234,6 +234,7 @@ router.get('/register-test', function(req, res, next) {
     url: 'http://www.utuotu.com/v1/msg/validemail.action', 
     qs: req.query
   }, function(err, response, body) {
+    console.log(data);
     var success = false,
         done = false,
         invalid = false;
