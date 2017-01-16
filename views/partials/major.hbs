@@ -6,8 +6,7 @@
         <div class="school-major-rank"> U.S. NEWS专业排名:{{rank}}</div>
         {{/if}}
 
-        <img class="school-box-up" src="/img/icon-up.png" alt=""/>
-        <img class="school-box-down hidden" src="/img/icon-down.png" alt=""/>
+        <img class="school-box-arrow" src="/img/icon-up.png" alt=""/>
     </div>
     <div class="school-box-content major-tab">
         <ul class="tab-title clear">
@@ -292,11 +291,15 @@
                 <div class="major-from">
                     <div class="major-from-title">数据来源</div>
                     <div class="major-from-content" id="from-content">
+                        <ul>
                             {{#each reference}}
-                                <a href="/refelink?hash={{hash}}" target="_blank">
-                                    <li>{{title}}</li>
-                                </a>
+                                <li>
+                                    <a href="/refelink?hash={{hash}}" target="_blank">
+                                    {{title}}
+                                    </a>
+                                </li>
                             {{/each}}
+                        </ul>
                     </div>
                 </div>
             </div>

@@ -32,20 +32,6 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 interactiveScrollbars : true
             });
         }
-        if($('#require-content')[0]){
-            scroll[3] =  new iscroll('#require-content',{
-                mouseWheel: true,
-                scrollbars: true,
-                interactiveScrollbars : true
-            });
-        }
-        if($('#from-content')[0]){
-            scroll[4] =  new iscroll('#from-content',{
-                mouseWheel: true,
-                scrollbars: true,
-                interactiveScrollbars : true
-            });
-        }
         if($('#school-brief-describe')[0]){
             scroll[5] =  new iscroll('#school-brief-describe',{
                 mouseWheel: true,
@@ -283,6 +269,20 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 console.log(data);
                 $("#school-content-page").html(data);
                 $('.help-icon').removeClass('hidden');
+                if($('#require-content')[0]){
+                    scroll[3] =  new iscroll('#require-content',{
+                        mouseWheel: true,
+                        scrollbars: true,
+                        interactiveScrollbars : true
+                    });
+                }
+                if($('#from-content')[0]){
+                    scroll[4] =  new iscroll('#from-content',{
+                        mouseWheel: true,
+                        scrollbars: true,
+                        interactiveScrollbars : true
+                    });
+                }
             },
             error : function() {
                 base.notice('网络错误');
@@ -314,7 +314,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         });
     }
         //box展开收缩
-        $('#school-content-page').on('click', '.school-box-title img', function(e){
+        $('.school').on('click', '.school-box-title img', function(e){
              e.stopPropagation();
             var content = $(this).parents('.school-box').find('.school-box-content');
             var index = $('.school-box').index($(this).parents('.school-box'));
@@ -611,7 +611,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 $('.school-all-page').removeClass('active');
                 $('.school-recommend-page').addClass('active');
                 $('#school-content-page').html(data);
-                $('.school-brief-title .school-box-arrow').click();
+                $('.school-brief-title img').click();
                 for(var i=1;i<$('.school-box').length;i++){
                     $('.school-major .school-box-title').eq(i).find('img').click();
                 }
