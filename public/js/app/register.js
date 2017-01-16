@@ -132,12 +132,16 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
 
         //忘记密码验证邮箱
         $('.email-email').on('blur',function(){
-            //缺少向服务器发送验证邮箱是否存在的判断
+            console.log(base.emailRule)
             $('.email-email').testInput({
                 rule : base.emailRule,
-                success : function(dom){
+                success : function(dom) {
                     base.userInfo.email = dom.val();
-                    base.forgettestEmail(dom);
+                    console.log(base.userInfo.email);
+                    if(base.userInfo.email) {
+                        //可以点击重置密码
+                        canResetpassword()
+                    }
                 },
                 fail : function(dom){
                     base.userInfo.email = '';
@@ -147,47 +151,26 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         });
 
         //忘记密码判断提交
-        $('.email input').on('blur',function(){
-            if(!base.userInfo.email){
-                $('.email-submit').removeClass('button-solid').addClass('button-solid-ban');
-                return;
-            }
-            $('.email-submit').removeClass('button-solid-ban').addClass('button-solid');
-        });
-
-        
-        //补充前端代码：验证忘记密码输入邮箱是否存在
-        // $('.email-email').on('blur',function(){
-        //     console.log("验证输入邮箱是否已注册")
-        //     function forgettestEmail(dom){
-        //         $.ajax({
-        //             url:'/v1/login/validemail.action',
-        //             data:{
-        //                 value : userInfo.email
-        //             },
-        //             type:'post',
-        //             cache:false,
-        //             dataType:'json',
-        //             success:function(data){
-        //                 console.log("邮箱验证，存在" + data);
-        //                 if(!data.valid){//不存在时后端返回true
-        //                     testSuccess(dom);
-        //                 }
-        //                 else{
-        //                     userInfo.email = '';
-        //                     testFail(dom,'该邮箱未注册');
-        //                 }
-        //             },
-        //             error : function() {
-        //                 notice('网络错误');
-        //             }
-        //         });
-        //     } 
+        // $('.email input').on('blur',function(){
+        //     if(!base.userInfo.email){
+        //         $('.email-submit').removeClass('button-solid').addClass('button-solid-ban');
+        //         return;
+        //     }
+        //     $('.email-submit').removeClass('button-solid-ban').addClass('button-solid');
         // });
+
+        function canResetpassword() {
+            $('.email-submit').removeClass('button-solid-ban').addClass('button-solid');
+
+        }
+
 
         //发送邮箱
         $('.email-submit').on('click',function(){
-            forgetPassword();
+            var dom = $(this).parent().find('.email-email');
+            base.forgettestEmail(dom);
+            // forgetPassword();
+            openForgetSend();
         });
 
         //验证新密码
@@ -219,7 +202,6 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
 
         //重置密码判断提交
         $('.reset input').on('blur',function(){
-            console.log(base.userInfo)
             if(!base.userInfo.password||!base.userInfo.repassword){
                 $('.reset-submit').removeClass('button-solid').addClass('button-solid-ban');
                 return;
@@ -303,32 +285,33 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         $('.noreceive').removeClass('hidden').addClass('animated fadeInDown')
     }
 
-    function forgetPassword(){
-        if(!base.userInfo.email){
-            return;
-        }
-        openForgetSend(); //测试
-        //前端修改删除以下代码
-        // $.ajax({
-        //    url:'',
-        //    data:{
-        //        email : base.userInfo.email
-        //    },
-        //    type:'post',
-        //    cache:false,
-        //    dataType:'json',
-        //    success:function(data) {
-        //        if(data.status==200){
-        //            openSend();
-        //        }
-        //    },
-        //    error : function() {
-        //        alert('网络错误');
-        //    }
-        // });
-    }
+    // function forgetPassword(){
+    //     if(!base.userInfo.email){
+    //         return;
+    //     }
+    //     openForgetSend(); //测试
+    //     //前端修改删除以下代码
+    //     // $.ajax({
+    //     //    url:'',
+    //     //    data:{
+    //     //        email : base.userInfo.email
+    //     //    },
+    //     //    type:'post',
+    //     //    cache:false,
+    //     //    dataType:'json',
+    //     //    success:function(data) {
+    //     //        if(data.status==200){
+    //     //            openSend();
+    //     //        }
+    //     //    },
+    //     //    error : function() {
+    //     //        alert('网络错误');
+    //     //    }
+    //     // });
+    // }
 
     function openForgetSend(){
+        console.log(base.userInfo.email)
         $('.send-content span').html(base.userInfo.email);
         $('.send-jump').attr('href',base.jumpEmail(base.userInfo.email));
         $('.email').addClass('animated fadeOutUp').one(base.animationend,function(){
@@ -345,16 +328,27 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
             return;
         }
         $.ajax({
-           url:'http://utuotu.com/v1/User/saveuserbase.action',
+           url:'/v1/Msg/validforget.action',
            data:{
-               password : base.userInfo.password
+               password : base.userInfo.password,
+               token: window.location.search.split('=')[1]
            },
-           type:'post',
+           type:'get',
            cache:false,
            dataType:'json',
            success:function(data) {
+            console.log(data);
                if(data.code==0){
                    base.notice('密码重置成功');
+                   window.location.href = '/'
+               } else if(data.code === 111001012) {
+                  base.notice('新密码不能与旧密码相同');
+               } else if(data.code === 111001001) {
+                    if (data.data.type === 2) {
+                        base.notice('密码格式错误');
+                    } else {
+                        base.notice('无效链接')
+                    }
                }
            },
            error : function() {

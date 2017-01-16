@@ -90,16 +90,16 @@ define(['jquery'],function(jquery){
     //忘记密码邮箱验证?????核对邮箱
     function forgettestEmail(dom){
     $.ajax({
-        url:'/v1/login/validemail.action',
+        url:'/v1/msg/forget.action',
         data:{
-            value : userInfo.email
+            email : userInfo.email
         },
-        type:'post',
+        type:'get',
         cache:false,
         dataType:'json',
         success:function(data){
-            console.log("邮箱验证，存在" + data);
-            if(data.data.valid){
+            console.log("邮箱找回密码邮箱" + data);
+            if(data.code === 0){
                 testSuccess(dom);
             }
             else{
@@ -163,55 +163,6 @@ define(['jquery'],function(jquery){
             }
         });
     }
-    //验证学校
-    // function testSchool(dom){
-    //     $.ajax({
-    //         url:'/v1/login/validschool.action',
-    //         data:{
-    //             school : userInfo.school
-    //         },
-    //         type:'post',
-    //         cache:false,
-    //         dataType:'json',
-    //         success:function(data){
-    //             if(!data.valid){
-    //                 testSuccess(dom);
-    //             }
-    //             else{
-    //                 userInfo.school = '';
-    //                 testFail(dom,'学校名称有误');
-    //             }
-    //         },
-    //         error : function() {
-    //             notice('网络错误');
-    //         }
-    //     });
-    // }
-
-    //验证专业
-    // function testMajor(dom){
-    //     $.ajax({
-    //         url:'/v1/login/validmajor.action',
-    //         data:{
-    //             major : userInfo.major
-    //         },
-    //         type:'post',
-    //         cache:false,
-    //         dataType:'json',
-    //         success:function(data){
-    //             if(!data.valid){
-    //                 testSuccess(dom);
-    //             }
-    //             else{
-    //                 userInfo.major = '';
-    //                 testFail(dom,'专业名称有误');
-    //             }
-    //         },
-    //         error : function() {
-    //             notice('网络错误');
-    //         }
-    //     });
-    // }
 
     //邮箱跳转
     function jumpEmail(email){
@@ -257,6 +208,8 @@ define(['jquery'],function(jquery){
             case 'yahoo.com':
                 jumpLink = 'mail.yahoo.com';
                 break;
+            default: 
+                jumpLink = 'www.'+ emailArr[emailArr.length-1];
         }
         return 'http://'+jumpLink;
     }

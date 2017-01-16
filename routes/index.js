@@ -217,7 +217,16 @@ router.get('/register-forget', function(req, res, next) {
 });
 
 router.get('/register-reset', function(req, res, next) {
-  res.render('register-reset')
+    req.proxy.request({
+        method: "get",
+        url: "http://www.utuotu.com/v1/Msg/validforgetgetemail.action",
+        qs: req.query
+    }, function(err, response, body) {
+        var data = JSON.parse(body);
+        res.render('register-reset', {
+          email: data.data.email
+        });
+    })
 });
 
 router.get('/register-test', function(req, res, next) {
