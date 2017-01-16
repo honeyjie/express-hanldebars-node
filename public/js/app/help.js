@@ -189,7 +189,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
 
     function sendQuestion(){
         question = $('.help-question textarea').val();
-        if(!type||!question){
+        if(!question){
             notice('您还没有录入问题');
             return;
         }

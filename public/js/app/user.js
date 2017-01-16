@@ -181,7 +181,6 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                 rule : base.passwordRule,
                 success : function(dom){
                     base.userInfo.oldpassword = dom.val();
-                    console.log(base.userInfo.oldpassword)
                     //验证密码是否正确，如果不正确则清空密码
                 },
                 fail : function(dom){
@@ -227,7 +226,6 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
 
         //密码判断提交
         $('.set-tab-password input').on('blur',function(){
-            console.log(base.userInfo.oldpassword, base.userInfo.password, base.userInfo.repassword)
             if(!base.userInfo.oldpassword||!base.userInfo.password||!base.userInfo.repassword){
                 $('.set-password-save').removeClass('button-solid').addClass('button-solid-ban');
                 return;
@@ -239,7 +237,6 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
             if(!base.userInfo.oldpassword||!base.userInfo.password||!base.userInfo.repassword){
                 return;
             }
-            console.log("保存密码")
             savePassword();
         });
         //弹窗阻止冒泡
@@ -308,6 +305,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         $('.news-list li news-operation').on('click',function(e){
             e.stopPropagation();
             var msg_id = $(this).parent().parent().attr('data-msg_id')
+            console.log(msg_id)
             isRead(msg_id);
         });
 
@@ -390,20 +388,19 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
     }
 
     function isRead(msg_id) {
-
         $.ajax({
             url:'/v1/User/isread.action',
             data:{
-                msg_id: msg_id
+                msgid: msg_id
             },
             type:'get',
             cache:false,
             dataType:'json',
             success:function(data) {
                 console.log(data);
-                if(data.data.result == 1) {//1表示请求成功需要标记为已读，0表示已经是已读的
+                // if(data.data.result == 1) {//1表示请求成功需要标记为已读，0表示已经是已读的
                     $(this).parent().removeClass('noread');
-                }
+
                 return;
             },
             error : function() {
@@ -436,7 +433,6 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                 console.log("邮箱是否验证", data);
                 if(data.code===111001013){
                     //未激活
-                    console.log("1")
                     $('.set-form-send').removeClass('hidden');
                     $('.set-form-email').addClass('warning');
                     base.userInfo.isValid = false;  
@@ -470,7 +466,6 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
             cache:false,
             dataType:'json',
             success:function(data){
-                console.log(data);
                 if(data.code == 0){
                     base.notice('信息已保存');
                    $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban'); 
@@ -495,9 +490,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
             cache:false,
             dataType:'json',
             success:function(data){
-                console.log(data, 1);
                 if(data.code === 0){
-                    console.log("1")
                     $('.set-password-save').removeClass('button-solid').addClass('button-solid-ban');
                     base.notice('信息已保存');
                 }

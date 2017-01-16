@@ -1,8 +1,10 @@
-    <ul class="screen-list" id="screen-school">
-    <li class="screen-list-total">共{{data.page.count}}所大学</li>
-        <div class="screen-empty hidden">
-            <img src="/img/school-empty.png" alt=""/>
-        </div>
+<ul class="screen-list" id="screen-school">
+<li class="screen-list-total">共{{data.page.count}}所大学</li>
+{{#unless data.page.count}}
+    <div class="screen-empty">
+        <img src="/img/school-empty.png" alt=""/>
+    </div>
+{{else}}
     {{#each data.data}}
     <li>
         <a href="/school-recommend?sid={{id}}"><img class="screen-list-logo" src="{{logo}}?imageView2/2/w/200/h/200/format/jpg/interlace/0/q/100" alt="{{school_name}}"/></a>
@@ -24,6 +26,7 @@
         <a class="screen-list-join button-solid" href="/select?sid={{id}}">加入选校</a>
     </li>
     {{/each}}
+{{/unless}}
 </ul>
 
 <div class="list-page">

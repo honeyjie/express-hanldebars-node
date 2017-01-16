@@ -266,8 +266,12 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             cache:false,
             dataType:'html',
             success:function(data){
-                console.log(data);
                 $("#school-content-page").html(data);
+                // var academy = $('.school-box-content').attr('data-academy');
+                // console.log(academy)
+                //列表中含有这个属性值的高亮
+                // $('.school-side-son').removeClass('active');
+                // $('.school-side-son li:[data-academy="'+ academy+ '"]').addClass('active');
                 $('.help-icon').removeClass('hidden');
                 if($('#require-content')[0]){
                     scroll[3] =  new iscroll('#require-content',{
@@ -425,7 +429,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 data:{
                     nation: screen.nation,
                     state: screen.state,
-                    location: screen.location,
+                    location: screen.preference,
                     major_name: screen.major,
                     degree: screen.degree,
                     page: 0
