@@ -239,8 +239,10 @@ router.get('/register-test', function(req, res, next) {
         done = false,
         invalid = false;
 
-    if (body.code === 0) {
+    if (body.code == 0) {
+
       success = true;
+      console.log('http://www.utuotu.com/v1/msg/validemail.action', success)
     } else if (body.code === 111001007) {
       done = true;
     } else {
