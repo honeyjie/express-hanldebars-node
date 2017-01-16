@@ -147,9 +147,9 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
             base.userInfo.grade = $(this).html();
             if (base.userInfo.grade !== pre_grade) {
                 canSaveInfo();
-            }
-            
+            } 
         });
+
         $('.set-form-country .form-select-option li').on('click',function(){
             base.userInfo.country = $(this).html();
             if (base.userInfo.country !== pre_country) {
@@ -182,7 +182,6 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                     base.userInfo.oldpassword = dom.val();
                     console.log(base.userInfo.oldpassword)
                     //验证密码是否正确，如果不正确则清空密码
-                    base.testOldpassword(dom);
                 },
                 fail : function(dom){
                     base.userInfo.oldpassword = '';
@@ -192,13 +191,11 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         });
         //密码验证
         $('.set-form-password').on('blur',function(){
-            //不能和旧密码相同
-
             $('.set-form-password').testInput({
                 rule : base.passwordRule,
                 success : function(dom){
                     base.userInfo.password = dom.val();
-                    if(base.userInfo.password == base.userInfo.oldpassword) {
+                    if(base.userInfo.password === base.userInfo.oldpassword) {
                         base.testFail(dom,'新密码不能和原始密码相同');
                         return;
                     }
@@ -228,7 +225,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         });
 
         //密码判断提交
-        $('.set-form-password input').on('blur',function(){
+        $('.set-tab-password input').on('blur',function(){
             console.log(base.userInfo.oldpassword, base.userInfo.password, base.userInfo.repassword)
             if(!base.userInfo.oldpassword||!base.userInfo.password||!base.userInfo.repassword){
                 $('.set-password-save').removeClass('button-solid').addClass('button-solid-ban');
@@ -482,11 +479,12 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
 
     //保存密码
     function savePassword(){
-        console.log(base.userInfo.password);
+        console.log(base.userInfo.password, base.userInfo.oldpassword);
         $.ajax({
             url:'/v1/User/saveuserbase.action',
             data:{
-                password : base.userInfo.password
+                password : base.userInfo.password,
+                old_password: base.userInfo.oldpassword
             },
             type:'post',
             cache:false,
