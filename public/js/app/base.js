@@ -87,7 +87,7 @@ define(['jquery'],function(jquery){
         });
     }
 
-    //忘记密码邮箱验证
+    //忘记密码邮箱验证?????核对邮箱
     function forgettestEmail(dom){
     $.ajax({
         url:'/v1/login/validemail.action',
