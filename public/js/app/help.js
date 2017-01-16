@@ -111,9 +111,6 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         });
         //提交问题
         $('.help-send').on('click',function(){
-            if(!type){
-                return;
-            }
             sendQuestion();
         });
         //添加附件
