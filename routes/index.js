@@ -234,7 +234,7 @@ router.get('/register-test', function(req, res, next) {
     url: 'http://www.utuotu.com/v1/user/isvalid.action', 
     qs: req.query
   }, function(err, response, body) {
-    console.log(data);
+    console.log(body);
     var success = false,
         done = false,
         invalid = false;
