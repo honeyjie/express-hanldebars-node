@@ -235,15 +235,16 @@ router.get('/register-test', function(req, res, next) {
     qs: req.query
   }, function(err, response, body) {
     console.log('http://www.utuotu.com/v1/msg/validemail.action', body);
+    var data = JSON.parse(body);
     var success = false,
         done = false,
         invalid = false;
 
-    if (body.code == 0) {
+    if (data.code == 0) {
 
       success = true;
       console.log('http://www.utuotu.com/v1/msg/validemail.action', success)
-    } else if (body.code === 111001007) {
+    } else if (data.code === 111001007) {
       done = true;
     } else {
       invalid = true;
