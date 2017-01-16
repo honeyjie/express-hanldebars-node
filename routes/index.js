@@ -238,13 +238,15 @@ router.get('/register-test', function(req, res, next) {
     var success = false,
         done = false,
         invalid = false;
-    if (body.code == 0) {
+        
+    if (body.code === 0) {
       success = true;
-    } else if (body.code == 111001007) {
+    } else if (body.code === 111001007) {
       done = true;
     } else {
       invalid = true;
     }
+
     res.render('register-test', {
       success: success,
       done: done,
