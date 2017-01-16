@@ -630,7 +630,7 @@ router.get("/login/opencode.action", function(req, res) {
 
       //保存用户当前页路径，通过前端获得
       res.cookie('wechatPath', req.query.urlpath);
-      console.log("微信扫码data:", data, res.locals.storage.state);
+      console.log("微信扫码data:", data, req.query.urlpath);
       res.send(data);
     });
 });
