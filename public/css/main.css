@@ -217,7 +217,7 @@
 .header-user-info-operation li:hover{
     background: #f2f2f2;
 }
-.header-unit-number{
+.header-news-number{
     position: absolute;
     top: 5px;
     right: -15px;
@@ -226,22 +226,6 @@
     height: 28px;
     line-height: 28px;
     border-radius: 28px;
-    background: #ff3f3f;
-    color: #ffffff;
-    text-align: center;
-    font-weight: 900;
-    transform: scale(0.5);
-    -webkit-transform: scale(0.5);
-}
-.header-news-number{
-    position: absolute;
-    top: 5px;
-    right: -10px;
-    font-size: 20px;
-    width: 32px;
-    height: 32px;
-    line-height: 32px;
-    border-radius: 32px;
     background: #ff3f3f;
     color: #ffffff;
     text-align: center;
@@ -2645,7 +2629,7 @@
 .school .major-from-content{
     position: relative;
     margin-top: 10px;
-    height: 50px;
+    height: 40px;
     overflow: hidden;
 }
 .school .major-from-content p{
