@@ -2422,10 +2422,11 @@
     margin-top: 50px;
 }
 .school .school-major .major-empty-notice{
-    width: 380px;
+    width: 400px;
     margin: 10px auto;
     font-size: 16px;
     font-weight: 600;
+    color: #999;
 }
 .school .school-major .major-empty-can{
     width: 380px;

@@ -1,3 +1,19 @@
-{{#each dataList}} 
-    {{> major}}
-{{/each}}  
+{{#if dataList.[0]}}
+    {{#each dataList}} 
+        {{> major}}
+    {{/each}}  
+{{else}}
+ <div class="school-box school-major">
+    <div class="school-box-content major-empty">
+        <img src="/img/major-empty.png" alt=""/>
+        <div class="major-empty-notice">该学校暂无与<span>{{@root.value}}</span>相匹配的专业可供申请</div>
+        <ul class="major-empty-can">
+            <li class="major-empty-can-title">你可以：</li>
+            <li>1.点击[重新获取]修改当前就读专业</li>
+            <li>2.点击[全部专业]查看该校所有专业</li>
+            <li>3.浏览院校库中的其他学校</li>
+        </ul>
+    </div>
+</div>
+{{/if}}
+

@@ -7,7 +7,8 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         screen.major = '';
         screen.degree = '';
     var height = [];//每个模块的高度
-    var userMajor;
+    var userMajor = false;
+    var major_empty;
     $(function(){
         //模拟滚动条
         if($('#screen-country')[0]){
@@ -147,14 +148,19 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             e.stopPropagation();
             var target = e.target;
             var sid = $('.school-side').attr('data-school');
-
-            if(!userMajor) {
+            //未推荐过或推荐结果为空school-box-content major-empty
+            //只要在推荐页面出现过为空则标记
+            if($('.school-box-content').hasClass('major-empty')) {
+                 major_empty = true;
+            }
+            if(!userMajor || major_empty) {
                 //调用重新推荐函数
                 var sid = $('.school-side').attr('data-school');
                 getRecommendMajor(sid)
             } else {
                 //获取推荐专业详情
                 getMajor(userMajor, sid);
+                major_empty = false;
             }
         });
 
@@ -274,6 +280,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             cache:false,
             dataType:'html',
             success:function(data){
+                console.log(data);
                 $("#school-content-page").html(data);
                 $('.help-icon').removeClass('hidden');
             },
@@ -601,6 +608,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             success:function(data){
                 $('.school-side-revise').show();
                 $('.help-icon').removeClass('hidden');
+                $('.school-all-page').removeClass('active');
                 $('.school-recommend-page').addClass('active');
                 $('#school-content-page').html(data);
                 $('.school-brief-title .school-box-arrow').click();

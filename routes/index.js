@@ -334,6 +334,7 @@ router.get('/school-screen', function (req, res) {
     })
 });
 
+//sid=2439&mid=1791
 router.get('/school-major-partial', function(req, res, next) {
     req.proxy.request({
         method: "GET",
@@ -370,7 +371,6 @@ router.get('/school-mjlist-partial', function(req, res, next) {
         var data = JSON.parse(body).data;
         var len = data.length;
         
-
         for(var i = 0; i < len; i++) {
           req.proxy.request({
               method: "GET",
@@ -379,7 +379,7 @@ router.get('/school-mjlist-partial', function(req, res, next) {
           }, function(err, response, body) {
               var result = JSON.parse(body).data;
               dataList.push(result);
-
+              console.log(dataList);
           })
         }; 
 
@@ -388,7 +388,8 @@ router.get('/school-mjlist-partial', function(req, res, next) {
                 dataList: dataList,
                 sid: req.query.sid,
                 layout: "naked",
-                modifyMajor: true
+                modifyMajor: true,
+                value: req.query.value
           }) }, 1000) 
     });
         
