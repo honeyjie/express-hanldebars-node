@@ -54,7 +54,8 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         //邮箱验证
         //keyup时验证邮箱有效性
         // base.userInfo.email = 
-        $('.set-form-email').on('keyup',function(){
+        $('.set-form-email').on('blur',function(){
+            console.log('修改邮箱')
             $('.set-form-email').testInput({
                 rule : base.emailRule,
                 success : function(dom){
@@ -432,11 +433,14 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
             cache:false,
             dataType:'json',
             success:function(data) {
-                if(data.code==111001003){
+                console.log("邮箱是否验证", data);
+                if(data.code===111001013){
                     //未激活
-                    base.userInfo.isValid = false;  
+                    console.log("1")
                     $('.set-form-send').removeClass('hidden');
                     $('.set-form-email').addClass('warning');
+                    base.userInfo.isValid = false;  
+                    
                 }
                 else{
                     base.userInfo.isValid = true;
