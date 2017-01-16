@@ -234,11 +234,11 @@ router.get('/register-test', function(req, res, next) {
     url: 'http://www.utuotu.com/v1/msg/validemail.action', 
     qs: req.query
   }, function(err, response, body) {
-    console.log(body);
+    console.log('http://www.utuotu.com/v1/msg/validemail.action', body);
     var success = false,
         done = false,
         invalid = false;
-        
+
     if (body.code === 0) {
       success = true;
     } else if (body.code === 111001007) {
