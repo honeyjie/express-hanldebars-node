@@ -231,7 +231,7 @@ router.get('/register-reset', function(req, res, next) {
 
 router.get('/register-test', function(req, res, next) {
   req.proxy.request({
-    url: 'http://www.utuotu.com/v1/msg/validemail.action', 
+    url: 'http://www.utuotu.com/v1/user/isvalid.action', 
     qs: req.query
   }, function(err, response, body) {
     console.log(data);
