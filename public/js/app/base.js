@@ -99,7 +99,7 @@ define(['jquery'],function(jquery){
         dataType:'json',
         success:function(data){
             console.log("邮箱找回密码邮箱" + data);
-            if(data.code === 0){
+            if(data.code.valid){
                 testSuccess(dom);
             }
             else{

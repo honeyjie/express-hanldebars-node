@@ -67,7 +67,6 @@ app.use(function(req, res, next) {
       res.locals.partials.schoolid = req.query.sid;
       next();
     });
-    
 });
 
 app.use(function(req, res, next) {
@@ -80,6 +79,7 @@ app.use(function(req, res, next) {
       if (!res.locals.partials) {
         res.locals.partials = {}
       }
+      console.log(data, "_____");
       res.locals.partials.loginstate = data;
       next();
     });

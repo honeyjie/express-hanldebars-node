@@ -132,16 +132,10 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
 
         //忘记密码验证邮箱
         $('.email-email').on('blur',function(){
-            console.log(base.emailRule)
             $('.email-email').testInput({
                 rule : base.emailRule,
                 success : function(dom) {
                     base.userInfo.email = dom.val();
-                    console.log(base.userInfo.email);
-                    if(base.userInfo.email) {
-                        //可以点击重置密码
-                        canResetpassword()
-                    }
                 },
                 fail : function(dom){
                     base.userInfo.email = '';
@@ -151,26 +145,18 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         });
 
         //忘记密码判断提交
-        // $('.email input').on('blur',function(){
-        //     if(!base.userInfo.email){
-        //         $('.email-submit').removeClass('button-solid').addClass('button-solid-ban');
-        //         return;
-        //     }
-        //     $('.email-submit').removeClass('button-solid-ban').addClass('button-solid');
-        // });
+        $('.email-email').on('keyup', function() {
+            canResetpassword();
+        })
 
         function canResetpassword() {
             $('.email-submit').removeClass('button-solid-ban').addClass('button-solid');
-
         }
-
 
         //发送邮箱
         $('.email-submit').on('click',function(){
             var dom = $(this).parent().find('.email-email');
-            base.forgettestEmail(dom);
-            // forgetPassword();
-            openForgetSend();
+            forgettestEmail(dom);
         });
 
         //验证新密码
@@ -285,30 +271,32 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         $('.noreceive').removeClass('hidden').addClass('animated fadeInDown')
     }
 
-    // function forgetPassword(){
-    //     if(!base.userInfo.email){
-    //         return;
-    //     }
-    //     openForgetSend(); //测试
-    //     //前端修改删除以下代码
-    //     // $.ajax({
-    //     //    url:'',
-    //     //    data:{
-    //     //        email : base.userInfo.email
-    //     //    },
-    //     //    type:'post',
-    //     //    cache:false,
-    //     //    dataType:'json',
-    //     //    success:function(data) {
-    //     //        if(data.status==200){
-    //     //            openSend();
-    //     //        }
-    //     //    },
-    //     //    error : function() {
-    //     //        alert('网络错误');
-    //     //    }
-    //     // });
-    // }
+    //忘记密码邮箱验证
+    function forgettestEmail(dom){
+        $.ajax({
+            url:'/v1/msg/forget.action',
+            data:{
+                email : base.userInfo.email
+            },
+            type:'get',
+            cache:false,
+            dataType:'json',
+            success:function(data){
+                console.log("邮箱找回密码邮箱" + data);
+                if(data.code.valid){
+                    base.testSuccess(dom);
+                    openForgetSend();
+                }
+                else{
+                    base.userInfo.email = '';
+                    base.testFail(dom,'该邮箱未注册');
+                }
+            },
+            error : function() {
+                notice('网络错误');
+            }
+        });
+    } 
 
     function openForgetSend(){
         console.log(base.userInfo.email)
