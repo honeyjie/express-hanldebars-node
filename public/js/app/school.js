@@ -273,7 +273,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 //列表中含有这个属性值的高亮
                 // $('.school-side-son').removeClass('active');
                 // $('.school-side-son li:[data-academy="'+ academy+ '"]').addClass('active');
-                $('.help-icon').removeClass('hidden');h
+                $('.help-icon').removeClass('hidden');
                 if($('#require-content')[0]){
                     scroll[3] =  new iscroll('#require-content',{
                         mouseWheel: true,

@@ -296,6 +296,15 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 $(this).val(value.substring(0,value.indexOf(".") + 3));
             }
         });
+
+        //强制小数点位数
+        function onlynum(dom, n) {
+            var value = dom.val();
+            var reg = /.*\..*/;
+            if(reg.test(value)){
+                dom.val(value.substring(0,value.indexOf(".") + n + 1));
+            }
+        }
         //GPA 失去焦点
         $('.select-gpa').on('blur',function(){
             $(this).testInput({
@@ -360,6 +369,9 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 });
             }
             else if(select.language.ielts){
+
+                onlynum($(this), 1);
+
                 $(this).testInput({
                     rule : base.isFloat,
                     success : function(dom){
@@ -399,6 +411,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 });
             }
             else if(select.language.ielts){
+                onlynum($(this), 1);
                 $(this).testInput({
                     rule : base.isFloat,
                     success : function(dom){
@@ -438,6 +451,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 });
             }
             else if(select.language.ielts){
+                onlynum($(this), 1);
                 $(this).testInput({
                     rule : base.isFloat,
                     success : function(dom){
@@ -477,6 +491,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 });
             }
             else if(select.language.ielts){
+                onlynum($(this), 1);
                 $(this).testInput({
                     rule : base.isFloat,
                     success : function(dom){
@@ -516,6 +531,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 });
             }
             else if(select.language.ielts){
+                onlynum($(this), 1);
                 $(this).testInput({
                     rule : base.isFloat,
                     success : function(dom){
@@ -689,9 +705,9 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 });
             }
         });
-
         //标准化考试 AW
         $('.select-exam-aw').on('input propertychange',function(){
+            onlynum($(this), 1);
             if(select.exam_score.gre){
                 $(this).testInput({
                     rule : base.isFloat,
