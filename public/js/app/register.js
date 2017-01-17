@@ -1,8 +1,10 @@
 define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,common){
     $(function(){
-        // if (localStorage.getItem("isRegister")) {
-        //     openSend();
-        // }
+
+        if (localStorage.getItem("isRegister") === true) {
+            openSend();
+            console.log(localStorage.getItem("isRegister"))
+        }
         //补全信息验证
         $('.complete-username').on('blur',function(){
             $('.complete-username').testInput({
@@ -231,9 +233,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
            success:function(data){
                 if (data.code === 0) {
                     openSend();
-                    // localStorage.setItem("isRegister", true)
-                     // $('.complete').addClass('animated fadeInUp').addClass('hidden');
-                     // $('.complete').addClass('animated fadeInUp').removeClass('hidden');
+                    localStorage.setItem("isRegister", true)
                 }
            },
            error : function() {
