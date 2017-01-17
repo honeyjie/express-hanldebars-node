@@ -87,6 +87,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         $('.screen-form-major .form-select-option').on('click','li',function(e){
             e.stopPropagation();
             screen.major = $(this).html();
+            console.log(screen.major)
             $('.screen-form-major .form-select-value').html($(this).html());
             $('.screen-form-major .form-select-option').addClass('hidden');
             $('.screen-form-major').removeClass('focus');
@@ -272,7 +273,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 //列表中含有这个属性值的高亮
                 // $('.school-side-son').removeClass('active');
                 // $('.school-side-son li:[data-academy="'+ academy+ '"]').addClass('active');
-                $('.help-icon').removeClass('hidden');
+                $('.help-icon').removeClass('hidden');h
                 if($('#require-content')[0]){
                     scroll[3] =  new iscroll('#require-content',{
                         mouseWheel: true,

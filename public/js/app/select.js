@@ -242,6 +242,10 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         });
         //毕业专业2 失去焦点
         $('.select-major2').on('blur',function(){
+            console.log($('.select-major2').val())
+            if (!$('.select-major2').val()) {
+                return 
+            }
             var arr = [];
             for(var i=0;i<$('.select-info-major2 .form-select-option li').length;i++){
                 select.pre_major2 = null;
@@ -742,15 +746,15 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
 
         //LAST
         $('.select-last').on('blur',function(){
-            if($('.select-last').val()==0){
-                select.last = 0;
-                base.testSuccess($(this));
-                return;
-            }
+            // if($('.select-last').val()==0){
+            //     select.last = 0;
+            //     base.testSuccess($(this));
+            //     return;
+            // }
             $(this).testInput({
                 rule : base.isInt,
                 success : function(dom){
-                    if(dom.val()>180||dom.val()<120){
+                    if(dom.val()>180||(dom.val()<120 && dom.val()!==0)){
                         select.last = null;
                         base.testFail(dom,'LAST有效分值为120~180');
                         return;
@@ -859,6 +863,8 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             e.stopPropagation();
         });
         $('.select-achievement .form-check-input input').on('blur',function(){
+            //当一个字段有值，且其他值结果为0时，报成功
+
             $(this).testInput({
                 rule : base.isInt,
                 success : function(dom){

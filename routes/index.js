@@ -342,6 +342,7 @@ router.get('/school-screen', function (req, res) {
         urlPath = urlPath + "?search=&page="
       }
         var data = JSON.parse(body);
+        console.log(data.data);
         res.render('school-screen', {
             data: data.data,
             urlPath: urlPath
@@ -357,7 +358,7 @@ router.get('/school-major-partial', function(req, res, next) {
         qs: req.query
     }, function(err, response, body) {
         var data = JSON.parse(body);
-        console.log(data);
+        
         res.render('partials/Inslibrary/school-major', {
             data: data.data,
             sid: req.query.sid,
