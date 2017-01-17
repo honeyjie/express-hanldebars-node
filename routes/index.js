@@ -84,7 +84,8 @@ router.get('/user-news', function(req, res, next) {
       url: "http://www.utuotu.com/v1/User/getmsg.action"
   }, function(err, response, body) {
       var getmsg = JSON.parse(body);
-      console.log(getmsg.data.list, newsstate);
+      console.log(getmsg.data.list, newsstate, "_______");
+
       var urlPath = url.parse(req.url).path;
       var query = url.parse(req.url).query;
 
@@ -342,6 +343,7 @@ router.get('/school-screen', function (req, res) {
         urlPath = urlPath + "?search=&page="
       }
         var data = JSON.parse(body);
+        console.log(data.data);
         res.render('school-screen', {
             data: data.data,
             urlPath: urlPath
@@ -357,7 +359,7 @@ router.get('/school-major-partial', function(req, res, next) {
         qs: req.query
     }, function(err, response, body) {
         var data = JSON.parse(body);
-        console.log(data);
+        console.log(data, "________", data.data.reference)
         res.render('partials/Inslibrary/school-major', {
             data: data.data,
             sid: req.query.sid,
@@ -438,6 +440,7 @@ router.get('/school-recommend', function(req, res) {
     }, function(err, response, body) {
 
         var data = JSON.parse(body);
+        console.log(JSON.stringify(data, null, 4), req.query)
         if (!data) {return}
         res.render('school-recommend', {
               data: data.data,
@@ -574,7 +577,9 @@ router.get("/refelink", function(req, res) {
         url: "http://www.utuotu.com/v1/help/redirect.action",
         qs: {url: req.query.hash}
     }, function(err, response, body) {
+      console.log(body);
       var data = JSON.parse(body).data;
+      console.log(data);
       res.redirect(data.url)
     });
 });

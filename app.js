@@ -67,7 +67,6 @@ app.use(function(req, res, next) {
       res.locals.partials.schoolid = req.query.sid;
       next();
     });
-    
 });
 
 app.use(function(req, res, next) {
@@ -80,8 +79,29 @@ app.use(function(req, res, next) {
       if (!res.locals.partials) {
         res.locals.partials = {}
       }
+      console.log(data, "_____");
       res.locals.partials.loginstate = data;
       next();
+    });
+    
+});
+
+//请求消息状态
+app.use(function(req, res, next) {
+    req.proxy.request({
+        method: "GET",
+        url: "http://www.utuotu.com/v1/User/getmsgstatus.action",
+        qs: req.query
+    },function(err, response, body) {
+        var  data = JSON.parse(body).data;
+        if (!res.locals.partials) {
+            res.locals.partials = {}
+        }
+        console.log(data, "++++")
+        res.locals.partials.newsCount = data.count;
+        res.locals.partials.systemState = data.system;
+        res.locals.partials.userState = data.man;
+        next();
     });
     
 });

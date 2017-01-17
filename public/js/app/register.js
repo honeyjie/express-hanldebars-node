@@ -1,5 +1,8 @@
 define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,common){
     $(function(){
+        if (localStorage.getItem("isRegister")) {
+            openSend();
+        }
         //补全信息验证
         $('.complete-username').on('blur',function(){
             $('.complete-username').testInput({
@@ -38,12 +41,16 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
                 base.testFail(dom,'密码不一致');
             }
         });
+
+        // var pre_email = $('.complete-email').val();
+
         $('.complete-email').on('blur',function(){
+            //解决：避免值没变时重复发送邮件
             $('.complete-email').testInput({
                 rule : base.emailRule,
                 success : function(dom){
                     base.userInfo.email = dom.val();
-                    base.testEmail(dom);
+                        base.testEmail(dom);
                 },
                 fail : function(dom){
                     base.userInfo.email = '';
@@ -132,16 +139,10 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
 
         //忘记密码验证邮箱
         $('.email-email').on('blur',function(){
-            console.log(base.emailRule)
             $('.email-email').testInput({
                 rule : base.emailRule,
                 success : function(dom) {
                     base.userInfo.email = dom.val();
-                    console.log(base.userInfo.email);
-                    if(base.userInfo.email) {
-                        //可以点击重置密码
-                        canResetpassword()
-                    }
                 },
                 fail : function(dom){
                     base.userInfo.email = '';
@@ -151,26 +152,18 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         });
 
         //忘记密码判断提交
-        // $('.email input').on('blur',function(){
-        //     if(!base.userInfo.email){
-        //         $('.email-submit').removeClass('button-solid').addClass('button-solid-ban');
-        //         return;
-        //     }
-        //     $('.email-submit').removeClass('button-solid-ban').addClass('button-solid');
-        // });
+        $('.email-email').on('keyup', function() {
+            canResetpassword();
+        })
 
         function canResetpassword() {
             $('.email-submit').removeClass('button-solid-ban').addClass('button-solid');
-
         }
-
 
         //发送邮箱
         $('.email-submit').on('click',function(){
             var dom = $(this).parent().find('.email-email');
-            base.forgettestEmail(dom);
-            // forgetPassword();
-            openForgetSend();
+            forgettestEmail(dom);
         });
 
         //验证新密码
@@ -237,10 +230,10 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
            dataType:'json',
            success:function(data){
                 if (data.code === 0) {
-                    //发送验证邮件
-                    base.sendTestEmail();
-                    //打开send窗
                     openSend();
+                    localStorage.setItem("isRegister", true)
+                     // $('.complete').addClass('animated fadeInUp').addClass('hidden');
+                     // $('.complete').addClass('animated fadeInUp').removeClass('hidden');
                 }
            },
            error : function() {
@@ -261,7 +254,6 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
     }
 
     function openSend(){
-        console.log("打开发送邮件后页面")
         $('.send-button-jump').attr('href',base.jumpEmail(base.userInfo.email));
         $('.complete').addClass('animated fadeOutUp').one(base.animationend,function(){
             $('.complete').removeClass('animated fadeOutUp')
@@ -273,7 +265,6 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
     }
 
     function openNoreceive(){
-        console.log('未收到邮件')
         //点击未收到邮件
         $('.send').addClass('animated fadeOutUp').one(base.animationend,function(){
             $('.send').removeClass('animated fadeOutUp')
@@ -285,30 +276,32 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         $('.noreceive').removeClass('hidden').addClass('animated fadeInDown')
     }
 
-    // function forgetPassword(){
-    //     if(!base.userInfo.email){
-    //         return;
-    //     }
-    //     openForgetSend(); //测试
-    //     //前端修改删除以下代码
-    //     // $.ajax({
-    //     //    url:'',
-    //     //    data:{
-    //     //        email : base.userInfo.email
-    //     //    },
-    //     //    type:'post',
-    //     //    cache:false,
-    //     //    dataType:'json',
-    //     //    success:function(data) {
-    //     //        if(data.status==200){
-    //     //            openSend();
-    //     //        }
-    //     //    },
-    //     //    error : function() {
-    //     //        alert('网络错误');
-    //     //    }
-    //     // });
-    // }
+    //忘记密码邮箱验证
+    function forgettestEmail(dom){
+        $.ajax({
+            url:'/v1/msg/forget.action',
+            data:{
+                email : base.userInfo.email
+            },
+            type:'get',
+            cache:false,
+            dataType:'json',
+            success:function(data){
+                console.log("邮箱找回密码邮箱" + data);
+                if(data.code.valid){
+                    base.testSuccess(dom);
+                    openForgetSend();
+                }
+                else{
+                    base.userInfo.email = '';
+                    base.testFail(dom,'该邮箱未注册');
+                }
+            },
+            error : function() {
+                notice('网络错误');
+            }
+        });
+    } 
 
     function openForgetSend(){
         console.log(base.userInfo.email)

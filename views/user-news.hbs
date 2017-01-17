@@ -5,9 +5,9 @@
             <ul class="tab-title clear">
                 <a href="/user-news?system=1">
                     {{#if system}}
-                    <li class="active">系统消息
+                    <li class="active sys-tab">系统消息
                     {{else}}
-                    <li>系统消息
+                    <li class="sys-tab">系统消息
                     {{/if}}
         
                     {{#if newsstate.system}}
@@ -19,9 +19,9 @@
                 </a>
                 <a href="/user-news">
                     {{#unless system}}
-                    <li class="active">个人消息
+                    <li class="active user-tab">个人消息
                     {{else}}
-                    <li>个人消息
+                    <li class="user-tab">个人消息
                     {{/unless}}
                     
                     {{#if newsstate.man}}
@@ -67,7 +67,12 @@
                     </div>
                 {{else}}
                     <div class="list-button">
+                        {{#if partials.systemState}}
                         <button class="button-hollow news-system-read">全部已读</button>
+                        {{else}}
+                        <button class="button-hollow-ban news-system-read">全部已读</button>
+                        {{/if}}
+                        
                         <button class="button-hollow news-system-delete">全部删除</button>
                     </div>
                     <div class="list-page">
@@ -131,7 +136,12 @@
                     </div>
                 {{else}}
                     <div class="list-button">
-                        <button class="button-hollow news-user-read">全部已读</button>
+                    {{#if partials.userStatse}}
+                    <button class="button-hollow news-user-read">全部已读</button>
+                    {{else}}
+                    <button class="button-hollow-ban news-user-read">全部已读</button>
+                    {{/if}}
+                        
                         <button class="button-hollow news-user-delete">全部删除</button>
                     </div>
                     <div class="list-page">
