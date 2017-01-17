@@ -1,5 +1,9 @@
 define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,common){
     $(function(){
+        var isRegister = false;
+        if (isRegister) {
+            openSend();
+        }
         //补全信息验证
         $('.complete-username').on('blur',function(){
             $('.complete-username').testInput({
@@ -38,12 +42,16 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
                 base.testFail(dom,'密码不一致');
             }
         });
+
+        // var pre_email = $('.complete-email').val();
+
         $('.complete-email').on('blur',function(){
+            //解决：避免值没变时重复发送邮件
             $('.complete-email').testInput({
                 rule : base.emailRule,
                 success : function(dom){
                     base.userInfo.email = dom.val();
-                    base.testEmail(dom);
+                        base.testEmail(dom);
                 },
                 fail : function(dom){
                     base.userInfo.email = '';
@@ -223,8 +231,10 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
            dataType:'json',
            success:function(data){
                 if (data.code === 0) {
-                    //打开send窗
                     openSend();
+                    isRegister = true;
+                     // $('.complete').addClass('animated fadeInUp').addClass('hidden');
+                     // $('.complete').addClass('animated fadeInUp').removeClass('hidden');
                 }
            },
            error : function() {
@@ -245,7 +255,6 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
     }
 
     function openSend(){
-        console.log("打开发送邮件后页面")
         $('.send-button-jump').attr('href',base.jumpEmail(base.userInfo.email));
         $('.complete').addClass('animated fadeOutUp').one(base.animationend,function(){
             $('.complete').removeClass('animated fadeOutUp')
@@ -257,7 +266,6 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
     }
 
     function openNoreceive(){
-        console.log('未收到邮件')
         //点击未收到邮件
         $('.send').addClass('animated fadeOutUp').one(base.animationend,function(){
             $('.send').removeClass('animated fadeOutUp')
