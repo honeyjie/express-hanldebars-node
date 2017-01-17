@@ -397,7 +397,11 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                     $('.news-user-read').removeClass('.button-hollow').addClass('.button-hollow-ban')
                     //去掉tab红点
                     $('.user-tab').remove('active');
+                }
 
+                if (!$('.sys-tab').hasClass('active') && !$('.user-tab').hasClass('active')) {
+                    console.log("无新消息")
+                    $('.newsCenter').removeClass('.header-news-number');
                 }
             },
             error : function() {
@@ -405,10 +409,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
             }
         });
 
-        if (!$('.sys-tab').hasClass('active') && !$('.user-tab').hasClass('active')) {
-            console.log("无新消息")
-            $('.newsCenter').removeClass('.header-news-number');
-        }
+
     }
 
     function isRead(msg_id, dom) {
@@ -626,6 +627,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
             dataType:'html',
             success:function(data) {
                 $('#msganswer').html(data);
+
             },
             error : function() {
                 base.notice('网络错误');
@@ -644,7 +646,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
             $('.news-delete').removeClass('animated fadeInDown');
         });
         $('.news-delete-ensure').on('click', function(e) {
-            //删除个人消息
+            //删除单个消息
             $.ajax({
                url:'/v1/User/delmsg.action',
                data:{
@@ -657,8 +659,14 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                     if (data.code === 0 ) {
                         el.remove();
                         closeNewsDelete()
-                        //不显示该条数据
-                        //删除弹窗消失
+                        
+                        //去掉红点
+                        if(el.parent())
+
+                        if (!$('.sys-tab').hasClass('active') && !$('.user-tab').hasClass('active')) {
+                            console.log("消息清空")
+                            $('.newsCenter').removeClass('.header-news-number');
+                        }
 
                     }
                },
@@ -669,6 +677,10 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         })
     }
 
+//取消状态 
+function cancelState() {
+
+}
 //打开全部删除
     function openNewsAllDelete(system, el){
         $('.news-delete').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
@@ -686,10 +698,10 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                cache:false,
                dataType:'json',
                success:function(data) {
-                    console.log(data, el);
                     if (data.code === 0) {
                         //清空该消息列表
                         el.empty();
+                        $('.news-list-none').removeClass('hidden')
                         closeNewsDelete();
                         if(ststem) {
                             //去掉tab红点
@@ -699,6 +711,11 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                             $('.user-tab').remove('active');
 
                         }
+
+                        if (!$('.sys-tab').hasClass('active') && !$('.user-tab').hasClass('active')) {
+                            console.log("消息清空")
+                            $('.newsCenter').removeClass('.header-news-number');
+                        }
                         return;
                     }
                 },
@@ -706,10 +723,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                    base.notice('网络错误');
                }
             });
-            if (!$('.sys-tab').hasClass('active') && !$('.user-tab').hasClass('active')) {
-                console.log("消息清空")
-                $('.newsCenter').removeClass('.header-news-number');
-            }
+
         })
 
     }

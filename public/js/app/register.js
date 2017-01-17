@@ -1,7 +1,7 @@
 define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,common){
     $(function(){
-
-        if (localStorage.getItem("isRegister") === true) {
+        console.log(localStorage.getItem("isRegister"))
+        if (localStorage.getItem("isRegister") == true) {
             openSend();
             console.log(localStorage.getItem("isRegister"))
         }
@@ -43,8 +43,6 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
                 base.testFail(dom,'密码不一致');
             }
         });
-
-        // var pre_email = $('.complete-email').val();
 
         $('.complete-email').on('blur',function(){
             //解决：避免值没变时重复发送邮件
