@@ -223,8 +223,6 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
            dataType:'json',
            success:function(data){
                 if (data.code === 0) {
-                    //发送验证邮件
-                    base.sendTestEmail();
                     //打开send窗
                     openSend();
                 }
