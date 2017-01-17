@@ -93,10 +93,14 @@ app.use(function(req, res, next) {
         url: "http://www.utuotu.com/v1/User/getmsgstatus.action",
         qs: req.query
     },function(err, response, body) {
-        var  count = JSON.parse(body).data.count;
+        var  data = JSON.parse(body).data;
         if (!res.locals.partials) {
             res.locals.partials = {}
         }
+        console.log(data, "++++")
+        res.locals.partials.newsCount = data.count;
+        res.locals.partials.systemState = data.system;
+        res.locals.partials.userState = data.man;
         next();
     });
     
