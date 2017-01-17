@@ -1,7 +1,9 @@
 define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,common){
     $(function(){
         var isRegister = false;
-        if (isRegister) {
+        localStorage.setItem("isRegister", true)
+        console.log(localStorage.getItem("isRegister"))
+        if (localStorage.getItem("isRegister")) {
             openSend();
         }
         //补全信息验证
@@ -232,7 +234,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
            success:function(data){
                 if (data.code === 0) {
                     openSend();
-                    isRegister = true;
+                    localStorage.setItem("isRegister", true)
                      // $('.complete').addClass('animated fadeInUp').addClass('hidden');
                      // $('.complete').addClass('animated fadeInUp').removeClass('hidden');
                 }
