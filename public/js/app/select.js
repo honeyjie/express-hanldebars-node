@@ -55,37 +55,62 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         }
     };
 
-
     var select = {};
-        select.nation = [];                     //国家
-        select.locatioin = [];                  //地区
-        select.pre_school = '';                 //之前学校
-        select.pre_major = '';                  //之前专业1
-        select.pre_major2 = '';                 //之前专业2
-        select.school_type = null;                 //学校类别
-        select.major_only = null;                  //是否接受相关专业
-        select.degree = '';               //学位
-        select.gpa = null;                             //GPA
-        select.language = {};
-        select.exam_score = {};
-        select.last = null;
-        select.exchange = [];
-        select.science_experience = [];
-        select.recommend = [];
-        select.science_paper = [];
-        select.experience = [];
-        select.prize = [];
-    var language = {}; //语言考试子类
-        language.overall = null;
-        language.R = null;
-        language.L = null;
-        language.S = null;
-        language.W = null;
-    var exam = {};     //标准化考试子类
-        exam.overall = null;
-        exam.V = null;
-        exam.Q = null;
-        exam.AW = null;
+        select.nation = [];                                //国家
+        select.locatioin = [];                             //地区
+        select.pre_school = null;                          //之前学校
+        select.school_type = null;                         //学校类别
+        select.pre_major = null;                           //之前专业1
+        select.pre_major2 = null;                          //之前专业2
+        select.grade = null;                               //毕业时间
+        select.related_major = null;                       //申请专业
+        select.pre_degree = null;                          //申请学位
+        select.gpa = null;                                 //GPA
+        select.language = null;                            //语言考试类型(前端判断用)
+        select.toefl = null;                               //toefl overall
+        select.toefl_r = null;                             //toefl r
+        select.toefl_l = null;                             //toefl l
+        select.toefl_s = null;                             //toefl s
+        select.toefl_w = null;                             //toefl w
+        select.ielts = null;                               //ielts overall
+        select.ielts_r = null;                             //ielts r
+        select.ielts_l = null;                             //ielts l
+        select.ielts_s = null;                             //ielts s
+        select.ielts_w = null;                             //ielts w
+        select.exam = null;                                //标准化开始类型(前端判断用)
+        select.gre = null;                                 //gre overall
+        select.gre_v = null;                               //gre v
+        select.gre_q = null;                               //gre q
+        select.gre_aw = null;                              //gre aw
+        select.gmat = null;                                //gmat overall
+        select.gmat_v = null;                              //gmat v
+        select.gmat_q = null;                              //gmat q
+        select.gmat_aw = null;                             //gmat aw
+        select.lsat = null;                                //lsat
+        select.exchange = [];                              //海外学习经历
+        select.experience = [];                            //科研经历
+        select.experience_time = [0,0,0];                  //科研经历子类
+        select.recommend_rank = [];                        //推荐信
+        select.chinese_paper_rank = 0;                     //学术成就第一项
+        select.chinese_paper_num = [0,0,0];                //学术成就第一项子类
+        select.international_paper_rank = 0;               //学术成就第二项
+        select.international_paper_num = [0,0,0];          //学术成就第二项子类
+        select.meeting_paper_rank = 0;                     //学术成就第三项
+        select.meeting_paper_num = [0,0];                  //学术成就第三项子类
+        select.internship_rank = 0;                        //工作学习经历第一项
+        select.internship_time = 0;                        //工作学习经历第一项子类
+        select.work_rank = 0;                              //工作学习经历第二项
+        select.work_time = 0;                            //工作学习经历第二项子类
+        select.science_rank = 0;                           //工作学习经历第三项
+        select.science_time = 0;                           //工作学习经历第三项子类
+        select.prize = 0;                                  //获奖情况第一项
+        select.prize_rank = 0;                             //获奖情况第一项子类
+        select.match = 0;                                  //获奖情况第二项
+        select.match_rank = 0;                             //获奖情况第二项子类
+
+
+
+    var boxCanClick = true;
     var height = [];  //每个模块的高度
     var scroll = []; //模拟滚动条
     $(function(){
@@ -128,6 +153,10 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         boxSlideUp();
         //模块展开/收缩
         $('.select-title-control').on('click',function(){
+            if(!boxCanClick){
+                return;
+            }
+            boxCanClick = false;
             var content = $(this).parents('.select-box').find('.select-content');
             var index = $('.select-box').index($(this).parents('.select-box'));
             if(!height[index]){
@@ -138,11 +167,15 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             }
             if(content.css('height') == '0px'){
                 $(this).removeClass('animated rotateDown').addClass('animated rotateUp');
-                content.animate({height:height[index]},200);
+                content.animate({height:height[index]},200,function(){
+                    boxCanClick = true;
+                });
             }
             else{
                 $(this).removeClass('animated rotateUp').addClass('animated rotateDown');
-                content.animate({height:0},200);
+                content.animate({height:0},200,function(){
+                    boxCanClick = true;
+                });
             }
         });
         //选择国家
@@ -180,6 +213,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         $('.select-info-school .form-select-option').on('click','li',function(){
             base.testSuccess($('.select-school'));
             $('.select-school').val($(this).html());
+            $('.select-school').data('type',$(this).data('type'));
         });
         //毕业学校 失去焦点
         $('.select-school').on('blur',function(){
@@ -189,16 +223,17 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             }
             if(arr.indexOf($('.select-school').val())==-1){
                 select.pre_school = null;
+                select.school_type = null;
                 base.testFail($(this),'请从下拉列表中选择学校');
                 return;
             }
             base.testSuccess($(this));
             select.pre_school = $(this).val();
-            if(select.pre_school){
+            select.school_type = $(this).data('type');
+            if(select.pre_school&&select.school_type){
                 $('.select-info-school .form-item-name').removeClass('red');
             }
             infoFinished();
-            console.log(select.pre_school)
         });
         //毕业专业1 输入
         $('.select-major').on('input propertychange',function(){
@@ -223,11 +258,11 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             base.testSuccess($(this));
             select.pre_major = $(this).val();
             if(select.pre_major=='法学'){
-                $('.select-form-last').removeClass('hidden');
+                $('.select-form-lsat').removeClass('hidden');
                 $('.select-exam').addClass('hidden');
             }
             else{
-                $('.select-form-last').addClass('hidden');
+                $('.select-form-lsat').addClass('hidden');
                 $('.select-exam').removeClass('hidden');
             }
             if(select.pre_major){
@@ -262,25 +297,25 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         });
         //毕业时间
         $('.select-school-type .form-radio').on('click',function(){
-            select.school_type = $(this).data('value');
+            select.grade = $(this).find('.form-radio-value').html();
             $('.select-school-type .form-item-name').removeClass('red');
             infoFinished();
         });
         //申请专业
         $('.select-major-only .form-radio').on('click',function(){
-            if($(this).data('value')==2){
+            if($(this).data('value')==1){
                 $('.select-info-major2').removeClass('hidden');
             }
-            else if($(this).data('value')==1){
+            else if($(this).data('value')==0){
                 $('.select-info-major2').addClass('hidden');
             }
-            select.major_only = $(this).data('value');
+            select.related_major = $(this).data('value');
             $('.select-major-only .form-item-name').removeClass('red');
             infoFinished();
         });
         //申请学位
         $('.select-degree .form-radio').on('click',function(){
-            select.degree = $(this).data('value');
+            select.pre_degree = $(this).data('value');
             $('.select-degree .form-item-name').removeClass('red');
             infoFinished();
         });
@@ -323,52 +358,57 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             }
             $('.select-language-input').removeClass('hidden');
             if($(this).find('.form-radio-value').html()=='TOEFL'){
-                select.language = {toefl:{}};
+                select.language = 'toefl';
+                select.ielts = null;
+                select.ielts_r = null;
+                select.ielts_l = null;
+                select.ielts_s = null;
+                select.ielts_w = null;
             }
             else if($(this).find('.form-radio-value').html()=='IELTS'){
-                select.language = {ielts:{}};
+                select.language = 'ielts';
+                select.toefl = null;
+                select.toefl_r = null;
+                select.toefl_l = null;
+                select.toefl_s = null;
+                select.toefl_w = null;
             }
             $('.select-language-input input').removeClass('error').val('');
-            language.overall = null;
-            language.R = null;
-            language.L = null;
-            language.S = null;
-            language.W = null;
         });
         //语言考试 overall
         $('.select-language-overall').on('input propertychange',function(){
-            if(select.language.toefl){
+            if(select.language=='toefl'){
                 $(this).testInput({
                     rule : base.isInt,
                     success : function(dom){
                         if(dom.val()<0||dom.val()>120){
-                            language.overall = null;
+                            select.toefl = null;
                             base.testFail(dom,'TOFEL有效分值为0~120分');
                             return;
                         }
-                        language.overall = dom.val();
+                        select.toefl = dom.val();
                         base.testSuccess(dom);
                     },
                     fail : function(dom){
-                        language.overall = null;
+                        select.toefl = null;
                         base.testFail(dom,'TOFEL有效分值为0~120分');
                     }
                 });
             }
-            else if(select.language.ielts){
+            else if(select.language=='ielts'){
                 $(this).testInput({
                     rule : base.isFloat,
                     success : function(dom){
                         if(dom.val()<0||dom.val()>9){
-                            exam.V = null;
+                            select.ielts = null;
                             base.testFail(dom,'IELTS有效分值为0~9分');
                             return;
                         }
-                        language.overall = dom.val();
+                        select.ielts = dom.val();
                         base.testSuccess(dom);
                     },
                     fail : function(dom){
-                        language.overall = null;
+                        select.ielts = null;
                         base.testFail(dom,'IELTS有效分值为0~9分');
                     }
                 });
@@ -376,38 +416,38 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         });
         //语言考试 R
         $('.select-language-r').on('input propertychange',function(){
-            if(select.language.toefl){
+            if(select.language=='toefl'){
                 $(this).testInput({
                     rule : base.isInt,
                     success : function(dom){
                         if(dom.val()<0||dom.val()>30){
-                            language.R = null;
+                            select.toefl_r = null;
                             base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
                             return;
                         }
-                        language.R = dom.val();
+                        select.toefl_r = dom.val();
                         base.testSuccess(dom);
                     },
                     fail : function(dom){
-                        language.R = null;
+                        select.toefl_r = null;
                         base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
                     }
                 });
             }
-            else if(select.language.ielts){
+            else if(select.language=='ielts'){
                 $(this).testInput({
                     rule : base.isFloat,
                     success : function(dom){
                         if(dom.val()<0||dom.val()>9){
-                            exam.V = null;
+                            select.ielts_r = null;
                             base.testFail(dom,'IELTS分项成绩有效分值为0~9');
                             return;
                         }
-                        language.R = dom.val();
+                        select.ielts_r = dom.val();
                         base.testSuccess(dom);
                     },
                     fail : function(dom){
-                        language.R = null;
+                        select.ielts_r = null;
                         base.testFail(dom,'IELTS分项成绩有效分值为0~9');
                     }
                 });
@@ -415,38 +455,38 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         });
         //语言考试 L
         $('.select-language-l').on('input propertychange',function(){
-            if(select.language.toefl){
+            if(select.language=='toefl'){
                 $(this).testInput({
                     rule : base.isInt,
                     success : function(dom){
                         if(dom.val()<0||dom.val()>30){
-                            language.R = null;
+                            select.toefl_l = null;
                             base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
                             return;
                         }
-                        language.L = dom.val();
+                        select.toefl_l = dom.val();
                         base.testSuccess(dom);
                     },
                     fail : function(dom){
-                        language.L = null;
+                        select.toefl_l = null;
                         base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
                     }
                 });
             }
-            else if(select.language.ielts){
+            else if(select.language=='ielts'){
                 $(this).testInput({
                     rule : base.isFloat,
                     success : function(dom){
                         if(dom.val()<0||dom.val()>9){
-                            exam.V = null;
+                            select.ielts_l = null;
                             base.testFail(dom,'IELTS分项成绩有效分值为0~9');
                             return;
                         }
-                        language.L = dom.val();
+                        select.ielts_l = dom.val();
                         base.testSuccess(dom);
                     },
                     fail : function(dom){
-                        language.L = null;
+                        select.ielts_l = null;
                         base.testFail(dom,'IELTS分项成绩有效分值为0~9');
                     }
                 });
@@ -454,38 +494,38 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         });
         //语言考试 S
         $('.select-language-s').on('input propertychange',function(){
-            if(select.language.toefl){
+            if(select.language=='toefl'){
                 $(this).testInput({
                     rule : base.isInt,
                     success : function(dom){
                         if(dom.val()<0||dom.val()>30){
-                            language.R = null;
+                            select.toefl_s = null;
                             base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
                             return;
                         }
-                        language.S = dom.val();
+                        select.toefl_s = dom.val();
                         base.testSuccess(dom);
                     },
                     fail : function(dom){
-                        language.S = null;
+                        select.toefl_s = null;
                         base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
                     }
                 });
             }
-            else if(select.language.ielts){
+            else if(select.language=='ielts'){
                 $(this).testInput({
                     rule : base.isFloat,
                     success : function(dom){
                         if(dom.val()<0||dom.val()>9){
-                            exam.V = null;
+                            select.ielts_s = null;
                             base.testFail(dom,'IELTS分项成绩有效分值为0~9');
                             return;
                         }
-                        language.S = dom.val();
+                        select.ielts_s = dom.val();
                         base.testSuccess(dom);
                     },
                     fail : function(dom){
-                        language.S = null;
+                        select.ielts_s = null;
                         base.testFail(dom,'IELTS分项成绩有效分值为0~9');
                     }
                 });
@@ -493,38 +533,38 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         });
         //语言考试 W
         $('.select-language-w').on('input propertychange',function(){
-            if(select.language.toefl){
+            if(select.language=='toefl'){
                 $(this).testInput({
                     rule : base.isInt,
                     success : function(dom){
                         if(dom.val()<0||dom.val()>30){
-                            language.R = null;
+                            select.toefl_w = null;
                             base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
                             return;
                         }
-                        language.W = dom.val();
+                        select.toefl_w = dom.val();
                         base.testSuccess(dom);
                     },
                     fail : function(dom){
-                        language.W = null;
+                        select.toefl_w = null;
                         base.testFail(dom,'TOFEL分项成绩有效分值为0~30分');
                     }
                 });
             }
-            else if(select.language.ielts){
+            else if(select.language=='ielts'){
                 $(this).testInput({
                     rule : base.isFloat,
                     success : function(dom){
                         if(dom.val()<0||dom.val()>9){
-                            exam.V = null;
+                            select.ielts_w = null;
                             base.testFail(dom,'IELTS分项成绩有效分值为0~9');
                             return;
                         }
-                        language.W = dom.val();
+                        select.ielts_w = dom.val();
                         base.testSuccess(dom);
                     },
                     fail : function(dom){
-                        language.W = null;
+                        select.ielts_w = null;
                         base.testFail(dom,'IELTS分项成绩有效分值为0~9');
                     }
                 });
@@ -539,67 +579,76 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         //语言考试input隐藏错误提示
         $('.select-language-input input').on('blur',function(){
             $(this).parent('.form-item').find('.form-item-notice').css('display','none');
-            if(!$.isEmptyObject(select.language)&&language.overall&&language.R&&language.L&&language.S&&language.W){
-                $('.select-language .form-item-name').removeClass('red');
+            if(select.language=='toefl'){
+                if(select.toefl&&select.toefl_r&&select.toefl_l&&select.toefl_s&&select.toefl_w){
+                    $('.select-language .form-item-name').removeClass('red');
+                }
+            }
+            else if(select.language=='ielts'){
+                if(select.ielts&&select.ielts_r&&select.ielts_l&&select.ielts_s&&select.ielts_w){
+                    $('.select-language .form-item-name').removeClass('red');
+                }
             }
             scoreFinished();
         });
+
         //标准化考试 单选
         $('.select-exam .form-radio').on('click',function(){
             if($('.select-exam-input').hasClass('hidden')){
                 height[2] = parseInt(height[2]+$('.select-exam-input').innerHeight()+'px');
-                console.log(height[2])
                 $('.select-score').css('height',height[2]);
             }
             $('.select-exam-input').removeClass('hidden');
-            if($(this).find('.form-radio-value').html()=='GMAT'){
-                select.exam_score = {gmat:{}};
-                $('.select-gresub').addClass('hidden');
+            if($(this).find('.form-radio-value').html()=='GRE'){
+                select.exam = 'gre';
+                select.gmat = null;
+                select.gmat_v = null;
+                select.gmat_q = null;
+                select.gmat_aw = null;
             }
-            else if($(this).find('.form-radio-value').html()=='GRE'){
-                select.exam_score = {gre:{}};
-                $('.select-gresub').removeClass('hidden');
+            else if($(this).find('.form-radio-value').html()=='GMAT'){
+                select.exam = 'gmat';
+                select.gre = null;
+                select.gre_v = null;
+                select.gre_q = null;
+                select.gre_aw = null;
             }
             $('.select-exam-input input').removeClass('error').val('');
-            exam.overall = null;
-            exam.V = null;
-            exam.Q = null;
-            exam.AW = null;
         });
         //标准化考试 overall
         $('.select-exam-overall').on('input propertychange',function(){
-            if(select.exam_score.gre){
+            if(select.exam=='gre'){
                 $(this).testInput({
                     rule : base.isInt,
                     success : function(dom){
                         if(dom.val()<0||dom.val()>340){
-                            exam.overall = null;
+                            select.gre = null;
                             base.testFail(dom,'GRE有效分值为0~340');
                             return;
                         }
-                        exam.overall = dom.val();
+                        select.gre = dom.val();
                         base.testSuccess(dom);
                     },
                     fail : function(dom){
-                        exam.overall = null;
+                        select.gre = null;
                         base.testFail(dom,'GRE有效分值为0~340');
                     }
                 });
             }
-            else if(select.exam_score.gmat){
+            else if(select.exam=='gmat'){
                 $(this).testInput({
                     rule : base.isInt,
                     success : function(dom){
                         if(dom.val()<200||dom.val()>800){
-                            exam.overall = null;
+                            select.gmat = null;
                             base.testFail(dom,'GMAT有效分值为200~800');
                             return;
                         }
-                        exam.overall = dom.val();
+                        select.gmat = dom.val();
                         base.testSuccess(dom);
                     },
                     fail : function(dom){
-                        exam.overall = null;
+                        select.gmat = null;
                         base.testFail(dom,'GMAT有效分值为200~800');
                     }
                 });
@@ -608,38 +657,38 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
 
         //标准化考试 V
         $('.select-exam-v').on('input propertychange',function(){
-            if(select.exam_score.gre){
+            if(select.exam=='gre'){
                 $(this).testInput({
                     rule : base.isInt,
                     success : function(dom){
                         if(dom.val()<0||dom.val()>170){
-                            exam.V = null;
+                            select.gre_v = null;
                             base.testFail(dom,'GRE分项（V、Q ）成绩有效分值为0~170');
                             return;
                         }
-                        exam.V = dom.val();
+                        select.gre_v = dom.val();
                         base.testSuccess(dom);
                     },
                     fail : function(dom){
-                        exam.V = null;
+                        select.gre_v = null;
                         base.testFail(dom,'GRE分项（V、Q ）成绩有效分值为0~170');
                     }
                 });
             }
-            else if(select.exam_score.gmat){
+            else if(select.exam=='gmat'){
                 $(this).testInput({
                     rule : base.isInt,
                     success : function(dom){
                         if(dom.val()<0||dom.val()>60){
-                            exam.V = null;
+                            select.gmat_v = null;
                             base.testFail(dom,'GMAT分项（V、Q) 有效成绩分值为0~60');
                             return;
                         }
-                        exam.V = dom.val();
+                        select.gmat_v = dom.val();
                         base.testSuccess(dom);
                     },
                     fail : function(dom){
-                        exam.V = null;
+                        select.gmat_v = null;
                         base.testFail(dom,'GMAT分项（V、Q) 有效成绩分值为0~60');
                     }
                 });
@@ -648,38 +697,38 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
 
         //标准化考试 Q
         $('.select-exam-q').on('input propertychange',function(){
-            if(select.exam_score.gre){
+            if(select.exam=='gre'){
                 $(this).testInput({
                     rule : base.isInt,
                     success : function(dom){
                         if(dom.val()<0||dom.val()>170){
-                            exam.Q = null;
+                            select.gre_q = null;
                             base.testFail(dom,'GRE分项（V、Q ）成绩有效分值为0~170');
                             return;
                         }
-                        exam.Q = dom.val();
+                        select.gre_q = dom.val();
                         base.testSuccess(dom);
                     },
                     fail : function(dom){
-                        exam.Q = null;
+                        select.gre_q = null;
                         base.testFail(dom,'GRE分项（V、Q ）成绩有效分值为0~170');
                     }
                 });
             }
-            else if(select.exam_score.gmat){
+            else if(select.exam=='gmat'){
                 $(this).testInput({
                     rule : base.isInt,
                     success : function(dom){
                         if(dom.val()<0||dom.val()>60){
-                            exam.Q = null;
+                            select.gmat_q = null;
                             base.testFail(dom,'GMAT分项（V、Q) 有效成绩分值为0~60');
                             return;
                         }
-                        exam.Q = dom.val();
+                        select.gmat_q = dom.val();
                         base.testSuccess(dom);
                     },
                     fail : function(dom){
-                        exam.Q = null;
+                        select.gmat_q = null;
                         base.testFail(dom,'GMAT分项（V、Q) 有效成绩分值为0~60');
                     }
                 });
@@ -688,38 +737,38 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
 
         //标准化考试 AW
         $('.select-exam-aw').on('input propertychange',function(){
-            if(select.exam_score.gre){
+            if(select.exam=='gre'){
                 $(this).testInput({
                     rule : base.isFloat,
                     success : function(dom){
                         if(dom.val()<0||dom.val()>6){
-                            exam.AW = null;
+                            select.gre_aw = null;
                             base.testFail(dom,'AW有效成绩分值为0~6');
                             return;
                         }
-                        exam.AW = dom.val();
+                        select.gre_aw = dom.val();
                         base.testSuccess(dom);
                     },
                     fail : function(dom){
-                        exam.AW = null;
+                        select.gre_aw = null;
                         base.testFail(dom,'AW有效成绩分值为0~6');
                     }
                 });
             }
-            else if(select.exam_score.gmat){
+            else if(select.exam=='gmat'){
                 $(this).testInput({
                     rule : base.isFloat,
                     success : function(dom){
                         if(dom.val()<0||dom.val()>6){
-                            exam.AW = null;
+                            select.gmat_aw = null;
                             base.testFail(dom,'AW有效成绩分值为0~6');
                             return;
                         }
-                        exam.AW = dom.val();
+                        select.gmat_aw = dom.val();
                         base.testSuccess(dom);
                     },
                     fail : function(dom){
-                        exam.AW = null;
+                        select.gmat_aw = null;
                         base.testFail(dom,'AW有效成绩分值为0~6');
                     }
                 });
@@ -734,37 +783,46 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         //标准化考试input隐藏错误提示
         $('.select-exam-input input').on('blur',function(){
             $(this).parent('.form-item').find('.form-item-notice').css('display','none');
-            if(!$.isEmptyObject(select.exam_score)&&exam.overall&&exam.V&&exam.Q&&exam.AW){
-                $('.select-exam .form-item-name').removeClass('red');
+            if(select.exam=='gre'){
+                if(select.gre&&select.gre_v&&select.gre_q&&select.gre_aw){
+                    $('.select-exam .form-item-name').removeClass('red');
+                }
+            }
+            else if(select.exam=='gmat'){
+                if(select.gmat&&select.gmat_v&&select.gmat_q&&select.gmat_aw){
+                    $('.select-exam .form-item-name').removeClass('red');
+                }
             }
             scoreFinished();
         });
 
-        //LAST
-        $('.select-last').on('blur',function(){
-            if($('.select-last').val()==0){
-                select.last = 0;
+        //LSAT
+        $('.select-lsat').on('blur',function(){
+            if($('.select-lsat').val()==0){
+                select.lsat = 0;
                 base.testSuccess($(this));
-                return;
             }
-            $(this).testInput({
-                rule : base.isInt,
-                success : function(dom){
-                    if(dom.val()>180||dom.val()<120){
-                        select.last = null;
+            else{
+                $(this).testInput({
+                    rule : base.isInt,
+                    success : function(dom){
+                        if(dom.val()>180||dom.val()<120){
+                            select.lsat = null;
+                            base.testFail(dom,'LAST有效分值为120~180');
+                            return;
+                        }
+                        select.lsat = dom.val();
+                        base.testSuccess(dom);
+                    },
+                    fail : function(dom){
+                        select.lsat = null;
                         base.testFail(dom,'LAST有效分值为120~180');
-                        return;
                     }
-                    select.last = dom.val();
-                    base.testSuccess(dom);
-                },
-                fail : function(dom){
-                    select.last = null;
-                    base.testFail(dom,'LAST有效分值为120~180');
-                }
-            });
-            if(select.last){
-                $('.select-form-last .form-item-name').removeClass('red');
+                });
+            }
+            console.log(select.lsat!==null)
+            if(select.lsat!==null){
+                $('.select-form-lsat .form-item-name').removeClass('red');
             }
             scoreFinished();
         });
@@ -781,24 +839,19 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         //科研经历 选择
         $('.select-science .form-check').on('click',function(){
             var n = $(this).parents('.select-science').find('.form-check').index($(this))+1;
-            var arr = [];
-            var val = $(this).find('.form-select-option li').eq(0).data('value')?$(this).find('.form-select-option li').eq(0).data('value'):0;
-            $.each(select.science_experience,function(index,value){
-                arr.push(value.name)
-            });
-            if(arr.indexOf(n)==-1){
+            if(select.experience.indexOf(n)==-1){
                 $(this).find('.form-select').removeClass('hidden');
-                select.science_experience.push({name:n,value:val});
                 height[3] = parseInt(height[3])+$(this).find('.form-select').innerHeight()+'px';
-                $('.select-other').css('height',height[3]);
+                select.experience.push(n);
+                select.experience_time[n-1] = 1;
             }
             else{
                 $(this).find('.form-select').addClass('hidden');
-                $(this).find('.form-select-value').html($(this).find('.form-select-option li').eq(0).html());
-                select.science_experience.splice(arr.indexOf(n),1);
                 height[3] = parseInt(height[3])-$(this).find('.form-select').innerHeight()+'px';
-                $('.select-other').css('height',height[3]);
+                select.experience.splice(select.experience.indexOf(n),1);
+                select.experience_time[n-1] = 0;
             }
+            $('.select-other').css('height',height[3]);
         });
         //科研经历 下拉
         $('.select-science .form-select').on('click',function(e){
@@ -806,52 +859,72 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         });
         $('.select-science .form-select-option li').on('click',function(e){
             e.stopPropagation();
-            var val = $(this).data('value');
+            var val = $(this).index();
             var n = $(this).parents('.form-item').find('.form-select').index($(this).parents('.form-select'));
-            $.each(select.science_experience,function(index,value){
-                if(value.name == n+1){
-                    value.value = val;
-                }
-            });
+            select.experience_time[n] = val+1;
         });
         //推荐信
         $('.select-recommend .form-check').on('click',function(){
             var n = $(this).parents('.select-recommend').find('.form-check').index($(this))+1;
-            if(select.recommend.indexOf(n)==-1){
-                select.recommend.push(n);
+            if(select.recommend_rank.indexOf(n)==-1){
+                select.recommend_rank.push(n);
             }
             else{
-                select.recommend.splice(select.recommend.indexOf(n),1);
+                select.recommend_rank.splice(select.recommend_rank.indexOf(n),1);
             }
         });
         //学术成就
         $('.select-achievement .form-check').on('click',function(){
-            var n = $(this).parents('.select-achievement').find('.form-check').index($(this))+1;
-            var arr = [];
-            $.each(select.science_paper,function(index,value){
-                arr.push(value.name);
-            });
-            if(arr.indexOf(n)==-1){
-                $(this).find('.form-check-input').removeClass('hidden');
-                $(this).find('.form-check-input input').each(function(){
-                    select.science_paper.push({name:n,value:$(this).data('value'),num:0});
-                });
-                height[3] = parseInt(height[3])+$(this).find('.form-check-input').innerHeight()+'px';
-                $('.select-other').css('height',height[3]);
-            }
-            else{
-                $(this).find('.form-check-input').addClass('hidden');
-                $(this).find('.form-check-input input').val('');
-                $.each(select.science_paper,function(){
-                    select.science_paper.splice(arr.indexOf(n),1);
-                });
-                if(select.science_paper.length == 0){
-                    $('.select-box').eq(3).find('.select-title').removeClass('error');
-                    $('.select-achievement .form-item-name').eq(0).removeClass('red');
-                }
-                height[3] = parseInt(height[3])-$(this).find('.form-check-input').innerHeight()+'px';
-                $('.select-other').css('height',height[3]);
-                base.testSuccess($(this).find('input'));
+            var n = $(this).parents('.select-achievement').find('.form-check').index($(this));
+            switch (n){
+                case 0:
+                    if($(this).find('.form-check-input').hasClass('hidden')){
+                        $(this).find('.form-check-input').removeClass('hidden');
+                        height[3] = parseInt(height[3])+$(this).find('.form-check-input').innerHeight()+'px';
+                        $('.select-other').css('height',height[3]);
+                        select.chinese_paper_rank = 1;
+                    }
+                    else{
+                        $(this).find('.form-check-input').addClass('hidden');
+                        height[3] = parseInt(height[3])-$(this).find('.form-check-input').innerHeight()+'px';
+                        $('.select-other').css('height',height[3]);
+                        select.chinese_paper_rank = 0;
+                        select.chinese_paper_num = [0,0,0];
+                        base.testSuccess($(this).find('input'));
+                    }
+                    break;
+                case 1:
+                    if($(this).find('.form-check-input').hasClass('hidden')){
+                        $(this).find('.form-check-input').removeClass('hidden');
+                        height[3] = parseInt(height[3])+$(this).find('.form-check-input').innerHeight()+'px';
+                        $('.select-other').css('height',height[3]);
+                        select.international_paper_rank = 1;
+                    }
+                    else{
+                        $(this).find('.form-check-input').addClass('hidden');
+                        height[3] = parseInt(height[3])-$(this).find('.form-check-input').innerHeight()+'px';
+                        $('.select-other').css('height',height[3]);
+                        select.international_paper_rank = 0;
+                        select.international_paper_num = [0,0,0];
+                        base.testSuccess($(this).find('input'));
+                    }
+                    break;
+                case 2:
+                    if($(this).find('.form-check-input').hasClass('hidden')){
+                        $(this).find('.form-check-input').removeClass('hidden');
+                        height[3] = parseInt(height[3])+$(this).find('.form-check-input').innerHeight()+'px';
+                        $('.select-other').css('height',height[3]);
+                        select.meeting_paper_rank = 1;
+                    }
+                    else{
+                        $(this).find('.form-check-input').addClass('hidden');
+                        height[3] = parseInt(height[3])-$(this).find('.form-check-input').innerHeight()+'px';
+                        $('.select-other').css('height',height[3]);
+                        select.meeting_paper_rank = 0;
+                        select.meeting_paper_num = [0,0,0];
+                        base.testSuccess($(this).find('input'));
+                    }
+                    break;
             }
         });
         //学术成就 input
@@ -862,86 +935,112 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             $(this).testInput({
                 rule : base.isInt,
                 success : function(dom){
-                    var val = dom.data('value');
-                    var num = parseInt(dom.val());
-                    var n = dom.parents('.form-item').find('.form-check').index(dom.parents('.form-check'));
-                    $.each(select.science_paper,function(index,value){
-                        if(value.name == n+1&&value.value == val){
-                            value.num = num;
-                        }
-                    });
+                    var val = parseInt(dom.val());
+                    var n = dom.parents('.form-check-input').find('input').index(dom);
+                    var num = dom.parents('.select-achievement').find('.form-check').index(dom.parents('.form-check'));
+                    switch (num){
+                        case 0:
+                            select.chinese_paper_num[n] = val;
+                            break;
+                        case 1:
+                            select.international_paper_num[n] = val;
+                            break;
+                        case 2:
+                            select.meeting_paper_num[n] = val;
+                            break;
+                    }
                     base.testSuccess(dom);
                 },
                 fail : function(dom){
-                    var val = dom.data('value');
-                    var num = parseInt(dom.val());
-                    var n = dom.parents('.form-item').find('.form-check').index(dom.parents('.form-check'));
-                    $.each(select.science_paper,function(index,value){
-                        if(value.name == n+1&&value.value == val){
-                            value.num = 0;
-                        }
-                    });
+                    var n = dom.parents('.form-check-input').find('input').index(dom);
+                    var num = dom.parents('.select-achievement').find('.form-check').index(dom.parents('.form-check'));
+                    switch (num){
+                        case 1:
+                            select.chinese_paper_num[n] = 0;
+                            break;
+                        case 2:
+                            select.international_paper_num[n] = 0;
+                            break;
+                        case 3:
+                            select.meeting_paper_num[n] = 0;
+                            break;
+                    }
                     base.testFail(dom,'请输入整数数字');
                 }
             });
-            var num = [0,0,0];
-            var name = [];
-            $.each(select.science_paper,function(index,value){
-                if(name.indexOf(value.name)==-1){
-                    name.push(value.name)
-                }
-                switch (value.name){
-                    case 1:
-                        if(value.num>0){
-                            num[0]++;
-                        }
-                        break;
-                    case 2:
-                        if(value.num>0){
-                            num[1]++;
-                        }
-                        break;
-                    case 3:
-                        if(value.num>0){
-                            num[2]++;
-                        }
-                        break;
-                }
-            });
-            function isError(){
-                for(var i=0;i<name.length;i++){
-                    if(num[name[i]-1]==0){
-                        return false;
+            function isRight(arr){
+                for(var i=0;i<arr.length;i++){
+                    if(arr[i]>0){
+                        return true;
                     }
                 }
-                return true;
+                return false;
             }
-            if(isError()){
-                $('.select-box').eq(3).find('.select-title').removeClass('error');
-                $('.select-achievement .form-item-name').eq(0).removeClass('red');
+            if(select.chinese_paper_rank==1&&!isRight(select.chinese_paper_num)){
+                return;
             }
+            if(select.international_paper_rank==1&&!isRight(select.international_paper_num)){
+                return;
+            }
+            if(select.meeting_paper_rank==1&&!isRight(select.meeting_paper_num)){
+                return;
+            }
+            $('.select-box').eq(3).find('.select-title').removeClass('error');
+            $('.select-achievement .form-item-name').eq(0).removeClass('red');
         });
 
         //工作/实习经历 选择
         $('.select-work .form-check').on('click',function(){
-            var n = $(this).parents('.select-work').find('.form-check').index($(this))+1;
-            var arr = [];
-            var val = $(this).find('.form-select-option li').eq(0).data('value')?$(this).find('.form-select-option li').eq(0).data('value'):0;
-            $.each(select.experience,function(index,value){
-                arr.push(value.name)
-            });
-            if(arr.indexOf(n)==-1){
-                $(this).find('.form-select').removeClass('hidden');
-                select.experience.push({name:n,value:val});
-                height[3] = parseInt(height[3])+$(this).find('.form-select').innerHeight()+'px';
-                $('.select-other').css('height',height[3]);
-            }
-            else{
-                $(this).find('.form-select').addClass('hidden');
-                $(this).find('.form-select-value').html($(this).find('.form-select-option li').eq(0).html());
-                select.experience.splice(arr.indexOf(n),1);
-                height[3] = parseInt(height[3])-$(this).find('.form-select').innerHeight()+'px';
-                $('.select-other').css('height',height[3]);
+            var n = $(this).parents('.select-work').find('.form-check').index($(this));
+            switch (n){
+                case 0:
+                    if($(this).find('.form-select').hasClass('hidden')){
+                        $(this).find('.form-select').removeClass('hidden');
+                        height[3] = parseInt(height[3])+$(this).find('.form-select').innerHeight()+'px';
+                        $('.select-other').css('height',height[3]);
+                        select.internship_rank = 1;
+                        select.internship_time = 1;
+                    }
+                    else{
+                        $(this).find('.form-select').addClass('hidden');
+                        height[3] = parseInt(height[3])-$(this).find('.form-select').innerHeight()+'px';
+                        $('.select-other').css('height',height[3]);
+                        select.internship_rank = 0;
+                        select.internship_time = 0;
+                    }
+                    break;
+                case 1:
+                    if($(this).find('.form-select').hasClass('hidden')){
+                        $(this).find('.form-select').removeClass('hidden');
+                        height[3] = parseInt(height[3])+$(this).find('.form-select').innerHeight()+'px';
+                        $('.select-other').css('height',height[3]);
+                        select.work_rank = 1;
+                        select.work_time = 1;
+                    }
+                    else{
+                        $(this).find('.form-select').addClass('hidden');
+                        height[3] = parseInt(height[3])-$(this).find('.form-select').innerHeight()+'px';
+                        $('.select-other').css('height',height[3]);
+                        select.work_rank = 0;
+                        select.work_time = 0;
+                    }
+                    break;
+                case 2:
+                    if($(this).find('.form-select').hasClass('hidden')){
+                        $(this).find('.form-select').removeClass('hidden');
+                        height[3] = parseInt(height[3])+$(this).find('.form-select').innerHeight()+'px';
+                        $('.select-other').css('height',height[3]);
+                        select.science_rank = 1;
+                        select.science_time = 1;
+                    }
+                    else{
+                        $(this).find('.form-select').addClass('hidden');
+                        height[3] = parseInt(height[3])-$(this).find('.form-select').innerHeight()+'px';
+                        $('.select-other').css('height',height[3]);
+                        select.science_rank = 0;
+                        select.science_time = 0;
+                    }
+                    break;
             }
         });
         //工作/实习经历 下拉
@@ -950,35 +1049,58 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         });
         $('.select-work .form-select-option li').on('click',function(e){
             e.stopPropagation();
-            var val = $(this).data('value');
-            var n = $(this).parents('.form-item').find('.form-select').index($(this).parents('.form-select'));
-            $.each(select.experience,function(index,value){
-                if(value.name == n+1){
-                    value.value = val;
-                }
-            });
+            var val = $(this).index()+1;
+            var num = $(this).parents('.form-item').find('.form-select').index($(this).parents('.form-select'));
+            switch(num){
+                case 0:
+                    select.internship_time = val;
+                    break;
+                case 1:
+                    select.work_time = val;
+                    break;
+                case 2:
+                    select.science_time = val;
+                    break;
+            }
         });
 
         //获奖情况 选择
         $('.select-prize .form-check').on('click',function(){
-            var n = $(this).parents('.select-prize').find('.form-check').index($(this))+1;
-            var arr = [];
-            var val = $(this).find('.form-select-option li').eq(0).data('value')?$(this).find('.form-select-option li').eq(0).data('value'):0;
-            $.each(select.prize,function(index,value){
-                arr.push(value.name)
-            });
-            if(arr.indexOf(n)==-1){
-                $(this).find('.form-select').removeClass('hidden');
-                select.prize.push({name:n,value:val});
-                height[3] = parseInt(height[3])+$(this).find('.form-select').innerHeight()+'px';
-                $('.select-other').css('height',height[3]);
-            }
-            else{
-                $(this).find('.form-select').addClass('hidden');
-                $(this).find('.form-select-value').html($(this).find('.form-select-option li').eq(0).html());
-                select.prize.splice(arr.indexOf(n),1);
-                height[3] = parseInt(height[3])-$(this).find('.form-select').innerHeight()+'px';
-                $('.select-other').css('height',height[3]);
+            var n = $(this).parents('.select-prize').find('.form-check').index($(this));
+            console.log(n)
+            switch(n){
+                case 0:
+                    if($(this).find('.form-select').hasClass('hidden')){
+                        $(this).find('.form-select').removeClass('hidden');
+                        height[3] = parseInt(height[3])+$(this).find('.form-select').innerHeight()+'px';
+                        $('.select-other').css('height',height[3]);
+                        select.prize = 1;
+                        select.prize_rank = 1;
+                    }
+                    else{
+                        $(this).find('.form-select').addClass('hidden');
+                        height[3] = parseInt(height[3])-$(this).find('.form-select').innerHeight()+'px';
+                        $('.select-other').css('height',height[3]);
+                        select.prize = 0;
+                        select.prize_rank = 0;
+                    }
+                    break;
+                case 1:
+                    if($(this).find('.form-select').hasClass('hidden')){
+                        $(this).find('.form-select').removeClass('hidden');
+                        height[3] = parseInt(height[3])+$(this).find('.form-select').innerHeight()+'px';
+                        $('.select-other').css('height',height[3]);
+                        select.match = 1;
+                        select.match_rank = 1;
+                    }
+                    else{
+                        $(this).find('.form-select').addClass('hidden');
+                        height[3] = parseInt(height[3])-$(this).find('.form-select').innerHeight()+'px';
+                        $('.select-other').css('height',height[3]);
+                        select.match = 0;
+                        select.match_rank = 0;
+                    }
+                    break;
             }
         });
         //获奖情况 下拉
@@ -987,13 +1109,16 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         });
         $('.select-prize .form-select-option li').on('click',function(e){
             e.stopPropagation();
-            var val = $(this).data('value');
-            var n = $(this).parents('.form-item').find('.form-select').index($(this).parents('.form-select'));
-            $.each(select.prize,function(index,value){
-                if(value.name == n+1){
-                    value.value = val;
-                }
-            });
+            var val = $(this).index()+1;
+            var num = $(this).parents('.form-item').find('.form-select').index($(this).parents('.form-select'));
+            switch(num){
+                case 0:
+                    select.prize_rank = val;
+                    break;
+                case 1:
+                    select.match_rank = val;
+                    break;
+            }
         });
 
         $('.select-submit').on('click',function(){
@@ -1119,9 +1244,8 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             }
         }
     }
-    //基本情况填写完毕
     function infoFinished(){
-        if(select.pre_school&&select.pre_major&&select.school_type&&select.major_only&&select.degree){
+        if(select.pre_school&&select.school_type&&select.pre_major&&select.grade&&select.related_major!==null&&select.pre_degree){
             if($('.select-box').eq(1).find('.select-title').hasClass('error')){
                 $('.select-box').eq(1).find('.select-title').removeClass('error');
             }
@@ -1133,10 +1257,11 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         }
     }
     //考试成绩填写完毕
+
     function scoreFinished(){
-        if(select.gpa&&!$.isEmptyObject(select.language)&&language.overall&&language.R&&language.L&&language.S&&language.W){
-            if(select.pre_major=='法学'){
-                if(select.last){
+        if(select.pre_major=='法学'){
+            if(select.language=='toefl'){
+                if(select.gpa&&select.toefl&&select.toefl_r&&select.toefl_l&&select.toefl_s&&select.toefl_w&&(select.lsat!==null)){
                     if($('.select-box').eq(2).find('.select-title').hasClass('error')){
                         $('.select-box').eq(2).find('.select-title').removeClass('error');
                     }
@@ -1147,14 +1272,68 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                     }
                 }
             }
-            else{
-                if(!$.isEmptyObject(select.exam_score)&&exam.overall&&exam.V&&exam.Q&&exam.AW){
+            else if(select.language=='ielts'){
+                if(select.gpa&&select.ielts&&select.ielts_r&&select.ielts_l&&select.ielts_s&&select.ielts_w&&select.lsat!==null){
                     if($('.select-box').eq(2).find('.select-title').hasClass('error')){
                         $('.select-box').eq(2).find('.select-title').removeClass('error');
                     }
                     else{
                         if($('.select-box').eq(3).find('.select-content').css('height')=='0px'){
                             $('.select-box').eq(3).find('.select-title-control').click();
+                        }
+                    }
+                }
+            }
+        }
+        else{
+            if(select.language=='toefl'){
+                if(select.exam=='gre'){
+                    if(select.gpa&&select.toefl&&select.toefl_r&&select.toefl_l&&select.toefl_s&&select.toefl_w&&select.gre&&select.gre_v&&select.gre_q&&select.gre_aw){
+                        if($('.select-box').eq(2).find('.select-title').hasClass('error')){
+                            $('.select-box').eq(2).find('.select-title').removeClass('error');
+                        }
+                        else{
+                            if($('.select-box').eq(3).find('.select-content').css('height')=='0px'){
+                                $('.select-box').eq(3).find('.select-title-control').click();
+                            }
+                        }
+                    }
+                }
+                else if(select.exam=='gmat'){
+                    if(select.gpa&&select.toefl&&select.toefl_r&&select.toefl_l&&select.toefl_s&&select.toefl_w&&select.gmat&&select.gmat_v&&select.gmat_q&&select.gmat_aw){
+                        if($('.select-box').eq(2).find('.select-title').hasClass('error')){
+                            $('.select-box').eq(2).find('.select-title').removeClass('error');
+                        }
+                        else{
+                            if($('.select-box').eq(3).find('.select-content').css('height')=='0px'){
+                                $('.select-box').eq(3).find('.select-title-control').click();
+                            }
+                        }
+                    }
+                }
+            }
+            else if(select.language=='ielts'){
+                if(select.exam=='gre'){
+                    if(select.gpa&&select.ielts&&select.ielts_r&&select.ielts_l&&select.ielts_s&&select.ielts_w&&select.gre&&select.gre_v&&select.gre_q&&select.gre_aw){
+                        if($('.select-box').eq(2).find('.select-title').hasClass('error')){
+                            $('.select-box').eq(2).find('.select-title').removeClass('error');
+                        }
+                        else{
+                            if($('.select-box').eq(3).find('.select-content').css('height')=='0px'){
+                                $('.select-box').eq(3).find('.select-title-control').click();
+                            }
+                        }
+                    }
+                }
+                else if(select.exam=='gmat'){
+                    if(select.gpa&&select.ielts&&select.ielts_r&&select.ielts_l&&select.ielts_s&&select.ielts_w&&select.gmat&&select.gmat_v&&select.gmat_q&&select.gmat_aw){
+                        if($('.select-box').eq(2).find('.select-title').hasClass('error')){
+                            $('.select-box').eq(2).find('.select-title').removeClass('error');
+                        }
+                        else{
+                            if($('.select-box').eq(3).find('.select-content').css('height')=='0px'){
+                                $('.select-box').eq(3).find('.select-title-control').click();
+                            }
                         }
                     }
                 }
@@ -1253,24 +1432,24 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 $('.select-box').eq(0).find('.select-title-control').click();
             }
         }
-        if(!select.pre_school||!select.pre_major||!select.school_type||!select.major_only||!select.degree){
+        if(!select.pre_school||!select.school_type||!select.pre_major||!select.grade||!select.related_major||!select.pre_degree){
             $('.select-box').eq(1).find('.select-title').addClass('error');
             if(parseInt($('.select-box').eq(1).find('.select-content').css('height'))==0){
                 $('.select-box').eq(1).find('.select-title-control').click();
             }
-            if(!select.pre_school){
+            if(!select.pre_school||!select.school_type){
                 $('.select-info-school .form-item-name').addClass('red');
             }
             if(!select.pre_major){
                 $('.select-info-major .form-item-name').addClass('red');
             }
-            if(!select.school_type){
+            if(!select.grade){
                 $('.select-school-type .form-item-name').addClass('red');
             }
-            if(!select.major_only){
+            if(!select.related_major){
                 $('.select-major-only .form-item-name').addClass('red');
             }
-            if(!select.degree){
+            if(!select.pre_degree){
                 $('.select-degree .form-item-name').addClass('red');
             }
         }
@@ -1279,8 +1458,45 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 $('.select-box').eq(1).find('.select-title-control').click();
             }
         }
+        var language = {};
+        language.overall = null;
+        language.R = null;
+        language.L = null;
+        language.S = null;
+        language.W = null;
+        var exam = {};
+        exam.overall = null;
+        exam.V = null;
+        exam.Q = null;
+        exam.AW = null;
+        if(select.language == 'toefl'){
+            language.overall = select.toefl;
+            language.R = select.toefl_r;
+            language.L = select.toefl_l;
+            language.S = select.toefl_s;
+            language.W = select.toefl_w;
+        }
+        else if(select.language == 'ielts'){
+            language.overall = select.ielts;
+            language.R = select.ielts_r;
+            language.L = select.ielts_l;
+            language.S = select.ielts_s;
+            language.W = select.ielts_w;
+        }
+        if(select.exam == 'gre'){
+            exam.overall = select.gre;
+            exam.V = select.gre_v;
+            exam.Q = select.gre_q;
+            exam.AW = select.gre_aw;
+        }
+        else if(select.exam == 'gmat'){
+            exam.overall = select.gmat;
+            exam.V = select.gmat_v;
+            exam.Q = select.gmat_q;
+            exam.AW = select.gmat_aw;
+        }
         if(select.pre_major=='法学'){
-            if(!select.gpa||$.isEmptyObject(select.language)||!language.overall||!language.R||!language.L||!language.S||!language.W||select.last==null){
+            if(!select.gpa||!select.language||!language.overall||!language.R||!language.L||!language.S||!language.W||select.lsat==null){
                 $('.select-box').eq(2).find('.select-title').addClass('error');
                 if(parseInt($('.select-box').eq(2).find('.select-content').css('height'))==0){
                     $('.select-box').eq(2).find('.select-title-control').click();
@@ -1291,8 +1507,8 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 if($.isEmptyObject(select.language)||!language.overall||!language.R||!language.L||!language.S||!language.W){
                     $('.select-language .form-item-name').addClass('red');
                 }
-                if(select.last==null){
-                    $('.select-form-last .form-item-name').addClass('red');
+                if(select.lsat==null){
+                    $('.select-form-lsat .form-item-name').addClass('red');
                 }
             }
             else{
@@ -1302,7 +1518,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             }
         }
         else{
-            if(!select.gpa||$.isEmptyObject(select.language)||!language.overall||!language.R||!language.L||!language.S||!language.W||$.isEmptyObject(select.exam_score)||!exam.overall||!exam.V||!exam.Q||!exam.AW){
+            if(!select.gpa||!select.language||!language.overall||!language.R||!language.L||!language.S||!language.W||!select.exam||!exam.overall||!exam.V||!exam.Q||!exam.AW){
                 $('.select-box').eq(2).find('.select-title').addClass('error');
                 if(parseInt($('.select-box').eq(2).find('.select-content').css('height'))==0){
                     $('.select-box').eq(2).find('.select-title-control').click();
@@ -1323,50 +1539,45 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 }
             }
         }
-        if(select.science_paper.length>0){
-            var num = [0,0,0];
-            var name = [];
-            $.each(select.science_paper,function(index,value){
-                if(name.indexOf(value.name)==-1){
-                    name.push(value.name)
-                }
-                switch (value.name){
-                    case 1:
-                        if(value.num>0){
-                            num[0]++;
-                        }
-                        break;
-                    case 2:
-                        if(value.num>0){
-                            num[1]++;
-                        }
-                        break;
-                    case 3:
-                        if(value.num>0){
-                            num[2]++;
-                        }
-                        break;
-                }
-            });
-            function isError(){
-                for(var i=0;i<name.length;i++){
-                    if(num[name[i]-1]==0){
-                        return false;
-                    }
-                }
-                return true;
-            }
-            if(isError()){
-                if(parseInt($('.select-box').eq(3).find('.select-content').css('height'))>0){
-                    $('.select-box').eq(3).find('.select-title-control').click();
+
+        function isRight(arr){
+            for(var i=0;i<arr.length;i++){
+                if(arr[i]>0){
+                    return true;
                 }
             }
-            else{
-                $('.select-box').eq(3).find('.select-title').addClass('error');
-                $('.select-achievement .form-item-name').eq(0).addClass('red');
-                if(parseInt($('.select-box').eq(3).find('.select-content').css('height'))==0){
-                    $('.select-box').eq(3).find('.select-title-control').click();
-                }
+            return false;
+        }
+        var achievement = [0,0,0];
+        if(select.chinese_paper_rank==1&&!isRight(select.chinese_paper_num)){
+            achievement[0] = 0;
+        }
+        else{
+            achievement[0] = 1;
+        }
+        if(select.international_paper_rank==1&&!isRight(select.international_paper_num)){
+            achievement[1] = 0;
+        }
+        else{
+            achievement[1] = 1;
+        }
+        if(select.meeting_paper_rank==1&&!isRight(select.meeting_paper_num)){
+            achievement[2] = 0;
+        }
+        else{
+            achievement[2] = 1;
+        }
+        console.log(achievement)
+        if(achievement[0]==1&&achievement[1]==1&&achievement[2]==1){
+            if(parseInt($('.select-box').eq(3).find('.select-content').css('height'))>0){
+                $('.select-box').eq(3).find('.select-title-control').click();
+            }
+        }
+        else{
+            $('.select-box').eq(3).find('.select-title').addClass('error');
+            $('.select-achievement .form-item-name').eq(0).addClass('red');
+            if(parseInt($('.select-box').eq(3).find('.select-content').css('height'))==0){
+                $('.select-box').eq(3).find('.select-title-control').click();
             }
         }
 
@@ -1378,129 +1589,69 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             return;
         }
 
-        if(select.language.toefl){
-            select.language.toefl = language;
-        }
-        if(select.language.ielts){
-            select.language.ielts = language;
-        }
-        if(select.exam_score.gre){
-            select.exam_score.gre = exam;
-        }
-        if(select.exam_score.gmat){
-            select.exam_score.gmat = exam;
-        }
-
-        //$.ajax({
-        //    url:'/v1/completeform/saveform.action',
-        //    data:{
-        //         nation : select.nation,
-        //         locatioin : select.locatioin,
-        //         pre_school : select.pre_school,
-        //         pre_major : select.pre_major,
-        //         pre_major2 : select.pre_major2,
-        //         school_type : select.school_type,
-        //         related_major:,
-        //         grade:,
-        //         pre_degree:,
-        //         tuition:,
-        //         gpa:,
-        //         toefl:,
-        //         toefl_l:,
-        //         toefl_s:,
-        //         toefl_w:,
-        //         gre:,
-        //         sub:,
-        //         gre_v:,
-        //         gre_q:,
-        //         gre_aw:,
-        //         ielts:,
-        //         ielts_r:,
-        //         ielts_l:,
-        //         ielts_s:,
-        //         ielts_w:,
-        //         gmat:,
-        //         gmat_v:,
-        //         gmat_q:,
-        //         gmat_aw:,
-        //         recommend_num:,
-        //         recommend_rank:,
-        //         meeting_paper_num:,
-        //         meeting_paper_rank:,
-        //         chinese_paper_rank:,
-        //         chinese_paper_num:,
-        //         international_paper_num:,
-        //         international_paper_rank:,
-        //         science_rank:,
-        //         science_time:,
-        //         work_rank:,
-        //         work_time:,
-        //         internship_time:,
-        //         internship_rank:,
-        //         match:,
-        //         exchange:,
-        //         experience:,
-        //         prize:,
-        //         location:,
-        //         scholarship:,
-        //         tuition:,
-        //    },
-        //    type:'post',
-        //    cache:false,
-        //    dataType:'json',
-        //    success:function(data){
-        //        console.log(data);
-        //        window.location.href = "/select-school";
-        //    },
-        //    error : function() {
-        //        base.notice('网络错误');
-        //    }
-        //});
-
-        console.log(select)
         $.ajax({
             url:'/v1/completeform/saveform.action',
             data:{
                 nation : select.nation,
                 locatioin : select.locatioin,
                 pre_school : select.pre_school,
+                school_type : select.school_type,
                 pre_major : select.pre_major,
                 pre_major2 : select.pre_major2,
-                school_type : select.school_type,
-                // major_only : select.major_only,
-                degree : select.degree,
+                grade : select.grade,
+                related_major : select.related_major,
+                pre_degree : select.pre_degree,
                 gpa : select.gpa,
-                language : select.language,
-                exam_score : select.exam_score,
+                toefl : select.toefl,
+                toefl_r : select.toefl_r,
+                toefl_l : select.toefl_l,
+                toefl_s : select.toefl_s,
+                toefl_w : select.toefl_w,
+                ielts : select.ielts,
+                ielts_r : select.ielts_r,
+                ielts_l : select.ielts_l,
+                ielts_s : select.ielts_s,
+                ielts_w : select.ielts_w,
+                gre : select.gre,
+                gre_v : select.gre_v,
+                gre_q : select.gre_q,
+                gre_aw : select.gre_aw,
+                gmat : select.gmat,
+                gmat_v : select.gmat_v,
+                gmat_q : select.gmat_q,
+                gmat_aw : select.gmat_aw,
+                lsat : select.lsat,
                 exchange : select.exchange,
-                science_experience : select.science_experience,
-                recommend : select.recommend,
-                science_paper : select.science_paper,
                 experience : select.experience,
+                experience_time : select.experience_time,
+                recommend_rank : select.recommend_rank,
+                chinese_paper_rank : select.chinese_paper_rank,
+                chinese_paper_num : select.chinese_paper_num,
+                international_paper_rank : select.international_paper_rank,
+                international_paper_num : select.international_paper_num,
+                meeting_paper_rank : select.meeting_paper_rank,
+                meeting_paper_num : select.meeting_paper_num,
+                internship_rank : select.internship_rank,
+                internship_time : select.internship_time,
+                work_rank : select.work_rank,
+                work_time : select.work_time,
+                science_rank : select.science_rank,
+                science_time : select.science_time,
                 prize : select.prize,
-                enter_date : new Date().getTime()
+                prize_rank : select.prize_rank,
+                match : select.match
             },
             type:'post',
             cache:false,
             dataType:'json',
             success:function(data){
-                //请登录，登录成功后跳转
                 console.log(data);
-                if (data.code === 0) {
-                    window.location.href = "/select-school";
-                } else if(data.code === 111001006){
-                    $('.login').removeClass('hidden');
-                    common.openIndexLogin();
-                    
-                }
-                return;
-                
+                window.location.href = "/select-school";
             },
             error : function() {
                 base.notice('网络错误');
             }
         });
-
 
     }
     //生成图表
