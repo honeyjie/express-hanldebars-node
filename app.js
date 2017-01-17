@@ -86,6 +86,22 @@ app.use(function(req, res, next) {
     
 });
 
+//请求消息状态
+app.use(function(req, res, next) {
+    req.proxy.request({
+        method: "GET",
+        url: "http://www.utuotu.com/v1/User/getmsgstatus.action",
+        qs: req.query
+    },function(err, response, body) {
+        var  count = JSON.parse(body).data.count;
+        if (!res.locals.partials) {
+            res.locals.partials = {}
+        }
+        next();
+    });
+    
+});
+
 app.use('/', index); 
 
 //前端可以通过node向服务器发送请求，格式规定：/v1/login/opencode.action

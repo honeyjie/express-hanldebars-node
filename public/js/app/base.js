@@ -87,31 +87,7 @@ define(['jquery'],function(jquery){
         });
     }
 
-    //忘记密码邮箱验证?????核对邮箱
-    function forgettestEmail(dom){
-    $.ajax({
-        url:'/v1/msg/forget.action',
-        data:{
-            email : userInfo.email
-        },
-        type:'get',
-        cache:false,
-        dataType:'json',
-        success:function(data){
-            console.log("邮箱找回密码邮箱" + data);
-            if(data.code.valid){
-                testSuccess(dom);
-            }
-            else{
-                userInfo.email = '';
-                testFail(dom,'该邮箱未注册');
-            }
-        },
-        error : function() {
-            notice('网络错误');
-        }
-    });
-} 
+
 
     //检查手机号是否重复
     function testPhone(dom){
@@ -359,7 +335,6 @@ define(['jquery'],function(jquery){
         testFail : testFail,
         testUsername : testUsername,
         testEmail : testEmail,
-        forgettestEmail: forgettestEmail,
         testPhone : testPhone,
         testOldpassword : testOldpassword,
         jumpEmail : jumpEmail,

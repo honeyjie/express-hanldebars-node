@@ -1,8 +1,5 @@
 define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,common){
     $(function(){
-        var isRegister = false;
-        localStorage.setItem("isRegister", true)
-        console.log(localStorage.getItem("isRegister"))
         if (localStorage.getItem("isRegister")) {
             openSend();
         }

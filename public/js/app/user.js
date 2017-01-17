@@ -298,24 +298,26 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         $('.news-list li a').on('click',function(e){
             e.stopPropagation();
             var msg_id = $(this).parent().attr('data-msg_id')
-            isRead(msg_id);
+            isRead(msg_id, $(this));
         });
 
         //单击查看
-        $('.news-list li news-operation').on('click',function(e){
+        $('.news-list li .news-operation a').on('click',function(e){
             e.stopPropagation();
             var msg_id = $(this).parent().parent().attr('data-msg_id')
             console.log(msg_id)
-            isRead(msg_id);
+            isRead(msg_id, $(this).parent());
         });
 
 
         //标记全部已读
         $('.news-system-read').on('click', function(e) {
+            e.stopPropagation();
             //1表示系统消息
             isAllread(1)
         })
         $('.news-user-read').on('click', function(e) {
+            e.stopPropagation();
             //无参数表示个人消息
             isAllread()
         })
@@ -387,7 +389,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         });
     }
 
-    function isRead(msg_id) {
+    function isRead(msg_id, dom) {
         $.ajax({
             url:'/v1/User/isread.action',
             data:{
@@ -399,8 +401,8 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
             success:function(data) {
                 console.log(data);
                 // if(data.data.result == 1) {//1表示请求成功需要标记为已读，0表示已经是已读的
-                    $(this).parent().removeClass('noread');
-
+                    console.log(dom.parent().html())
+                    dom.parent().removeClass('noread');
                 return;
             },
             error : function() {
@@ -409,10 +411,10 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         });
 
         //当获取当消息类型小于2000时，打开弹窗
-        var openNum = $(this).parent().attr('data-type_id');
+        var openNum = dom.parent().attr('data-type_id');
 
         if (openNum < 20000) {
-            var parent = $(this).parent('li');
+            var parent = dom.parent('li');
             var msg_id = parent.attr('data-msg_id');
             openNewsArticle(msg_id);
         }

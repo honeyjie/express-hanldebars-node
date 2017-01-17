@@ -87,7 +87,6 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         $('.screen-form-major .form-select-option').on('click','li',function(e){
             e.stopPropagation();
             screen.major = $(this).html();
-            console.log(screen.major)
             $('.screen-form-major .form-select-value').html($(this).html());
             $('.screen-form-major .form-select-option').addClass('hidden');
             $('.screen-form-major').removeClass('focus');
