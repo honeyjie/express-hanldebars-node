@@ -215,8 +215,9 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         if(!base.userInfo.username||!base.userInfo.password||!base.userInfo.repassword||!base.userInfo.email){
             return;
         }
-        console.log(base.userInfo.email);
+      
         localStorage.setItem('userInfoEmail', base.userInfo.email);
+        console.log( localStorage.getItem('userInfoEmail'));
         $.ajax({
            url:'/v1/login/register.action',
            data:{
