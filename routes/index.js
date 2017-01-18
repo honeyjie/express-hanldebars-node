@@ -212,11 +212,13 @@ router.get('/register-complete', function(req, res, next) {
     res.cookie("isFirst", true);
     if (req.cookies.isFirst) {
         res.redirect('/')
+    } else {
+      res.render('register-complete', {
+        headImg: req.query.headImg,
+        nickname: req.query.nickname
+      })
     }
-    res.render('register-complete', {
-      headImg: req.query.headImg,
-      nickname: req.query.nickname
-    })
+
 });
 
 router.get('/register-forget', function(req, res, next) {
