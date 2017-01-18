@@ -215,7 +215,8 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         if(!base.userInfo.username||!base.userInfo.password||!base.userInfo.repassword||!base.userInfo.email){
             return;
         }
-        console.log(base.userInfo.email)
+        console.log(base.userInfo.email);
+        localStorage.setItem('userInfoEmail', base.userInfo.email);
         $.ajax({
            url:'/v1/login/register.action',
            data:{
@@ -254,7 +255,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
 
     function openSend(){
         console.log("1", base.userInfo.email)
-        $('.send-button-jump').attr('href',base.jumpEmail(base.userInfo.email));
+        $('.send-button-jump').attr('href',base.jumpEmail(userInfoEmail));
         // $('.complete').addClass('animated fadeOutUp').one(base.animationend,function(){
         //     $('.complete').removeClass('animated fadeOutUp')
         //     .addClass('hidden');
