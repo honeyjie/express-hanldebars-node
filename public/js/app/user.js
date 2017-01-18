@@ -1,5 +1,4 @@
 define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jquery,fullpage,iscroll,clipboard,base,common){
-    $(function(){
     var scroll = [];
     var canSend = true;
     var setTime;
@@ -11,6 +10,8 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         pre_grade = $('.set-form-grade').val(),
         pre_country = $('.set-form-country').val(),
         pre_headering = $('.inputstyle').val();
+    $(function(){
+
         //获取积分并初始化积分条
         // base.userInfo.credit = 0;; //测试数据
         // getCredit();
