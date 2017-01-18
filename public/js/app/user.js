@@ -1,4 +1,5 @@
 define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jquery,fullpage,iscroll,clipboard,base,common){
+    $(function(){
     var scroll = [];
     var canSend = true;
     var setTime;
@@ -9,7 +10,6 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         pre_grade = $('.set-form-grade').val(),
         pre_country = $('.set-form-country').val(),
         pre_headering = $('.inputstyle').val();
-    $(function(){
         //获取积分并初始化积分条
         // base.userInfo.credit = 0;; //测试数据
         // getCredit();
@@ -77,30 +77,33 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         });
 
         //发送验证邮件
+        var sendEmailClick = true;
         $('.set-form-send').on('click',function(){
-            if(!base.userInfo.email && !pre_email) {
-                return;
-            }
-            $(this).addClass('focus');
-            $('.set-form-email').removeClass('warning');
-            if(canSend) {
-                base.sendTestEmail();
-                canSend = false;
-            }
-            var time = 60;
-            setTime = setInterval(function() {
-                time = time -1;
-                $('.set-form-send').text(time + '秒可重发'); 
-                if (time <= 0) {
-                    clearInterval(setTime);
-                    $('.set-form-send').text('验证') ;
-                    $(this).addClass('warning');
-                    $(this).removeClass('focus');
-                    canSend = true;  
-                } 
-            }, 1000) 
-
-            
+            if (sendEmailClick) {
+                sendEmailClick = false;
+                if(!base.userInfo.email && !pre_email) {
+                    return;
+                }
+                $(this).addClass('focus');
+                $('.set-form-email').removeClass('warning');
+                if(canSend) {
+                    base.sendTestEmail();
+                    canSend = false;
+                }
+                var time = 60;
+                setTime = setInterval(function() {
+                    time = time -1;
+                    $('.set-form-send').text(time + '秒可重发'); 
+                    if (time <= 0) {
+                        clearInterval(setTime);
+                        $('.set-form-send').text('验证') ;
+                        $(this).addClass('warning');
+                        $(this).removeClass('focus');
+                        canSend = true;  
+                    } 
+                }, 1000) 
+                sendEmailClick = true;
+            } 
         });
 
         //手机号验证
@@ -387,7 +390,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                     $('.news-system-read').removeClass('button-hollow').addClass('button-hollow-ban');
     
                     //去掉tab红点
-                    $('.sys-tab span').remove('news-system-notice');
+                    $('.sys-tab span').removeClass('news-user-notice');
                 } else {
                     //个人消息
                     $('.news-user-list li').removeClass('noread');
@@ -514,6 +517,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                 }
                 else{
                     base.userInfo.isValid = true;
+                    $('.set-form-send').addClass('hidden');
                 }
 
             },
@@ -719,10 +723,12 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                         }
                         canEveryCancel(el);
                         //当为空时
-                        // if($('.news-list li')) {
-                        //     $('.list-button').addClass('hidden');
-                        //     $('.news-list-none').removeClass('hidden') 
-                        // }
+                        var isempty = el.parent().html();
+                        var parent = el.parent().parent()
+                        if(!isempty) {
+                            parent.find('.list-button').addClass('hidden');
+                            parent.find('.news-list-none').removeClass('hidden') 
+                        }
                         
                     }
                },
@@ -760,16 +766,27 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                         if(system) {
                             //去掉tab红点
                             $('.sys-tab span').remove('news-user-notice');
+                             //当为空时
+    
+                            var parent = el.parent().parent();
+                                parent.find('.list-button').addClass('hidden');
+                                parent.find('.news-list-none').removeClass('hidden') 
+
                         } else {
                             //去掉tab红点
                             $('.user-tab span').remove('news-user-notice');
+                            var parent = el.parent().parent();
+                            parent.find('.list-button').addClass('hidden');
+                            parent.find('.news-list-none').removeClass('hidden') 
 
                         }
 
                         if (!$('.sys-tab span').hasClass('news-user-notice') && !$('.user-tab span').hasClass('news-user-notice')) {
-                            console.log("消息清空")
+                            
                             $('.newsCenter div.header-news-tab').removeClass('header-news-number');
                         }
+
+                        //显示空消息
                         return;
                     }
                 },

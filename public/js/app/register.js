@@ -1,9 +1,9 @@
 define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,common){
     $(function(){
-        console.log(localStorage.getItem("isRegister"))
-        if (localStorage.getItem("isRegister") == true) {
+        console.log(sessionStorage.getItem("isRegister"))
+        if (sessionStorage.getItem("isRegister") === true) {
             openSend();
-            console.log(localStorage.getItem("isRegister"))
+            console.log(sessionStorage.getItem("isRegister"))
         }
         //补全信息验证
         $('.complete-username').on('blur',function(){
@@ -132,8 +132,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
             base.sendTestEmail();
             //补充前端代码
             openSend();
-            $('.noreceive').addClass('animated fadeOutUp').addClass('hidden');
-            $('.send').removeClass('hidden').addClass('animated fadeInDown')
+            
   
         });
 
@@ -231,7 +230,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
            success:function(data){
                 if (data.code === 0) {
                     openSend();
-                    localStorage.setItem("isRegister", true)
+                    sessionStorage.setItem("isRegister", true)
                 }
            },
            error : function() {
@@ -253,24 +252,28 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
 
     function openSend(){
         $('.send-button-jump').attr('href',base.jumpEmail(base.userInfo.email));
-        $('.complete').addClass('animated fadeOutUp').one(base.animationend,function(){
-            $('.complete').removeClass('animated fadeOutUp')
-            .addClass('hidden');
-        });
-        $('.send').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
-            $('.send').removeClass('animated fadeInDown');
-        });
+        // $('.complete').addClass('animated fadeOutUp').one(base.animationend,function(){
+        //     $('.complete').removeClass('animated fadeOutUp')
+        //     .addClass('hidden');
+        // });
+        $('.complete').removeClass('animated fadeOutUp').addClass('hidden');
+        // $('.send').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
+        //     $('.send').removeClass('animated fadeInDown');
+        // });
+        $('.noreceive').addClass('animated fadeOutUp').addClass('hidden');
+        $('.send').removeClass('hidden').addClass('animated fadeInDown')
     }
 
     function openNoreceive(){
         //点击未收到邮件
-        $('.send').addClass('animated fadeOutUp').one(base.animationend,function(){
-            $('.send').removeClass('animated fadeOutUp')
-            .addClass('hidden');
-        });
+        // $('.send').addClass('animated fadeOutUp').one(base.animationend,function(){
+        //     $('.send').removeClass('animated fadeOutUp')
+        //     .addClass('hidden');
+        // });
         // $('.noreceive').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
         //     $('.noreceive').removeClass('animated fadeInDown');
         // });
+        $('.send').removeClass('animated fadeOutUp').addClass('hidden');
         $('.noreceive').removeClass('hidden').addClass('animated fadeInDown')
     }
 
@@ -285,7 +288,6 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
             cache:false,
             dataType:'json',
             success:function(data){
-                console.log("邮箱找回密码邮箱" + data);
                 if(data.code.valid){
                     base.testSuccess(dom);
                     openForgetSend();
@@ -328,7 +330,6 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
            cache:false,
            dataType:'json',
            success:function(data) {
-            console.log(data);
                if(data.code==0){
                    base.notice('密码重置成功');
                    window.location.href = '/'

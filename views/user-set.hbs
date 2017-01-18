@@ -15,7 +15,6 @@
                     <img src="/img/default.png" alt=""/>
                 {{/if}}
                     <div class="changeimg">
-                        <!--<input type="file" class="inputstyle" name="file" />-->
                         <!--七牛上传文件-->
                         <form class="hidden" method="post" action="http://upload.qiniu.com/" enctype="multipart/form-data">
                             <input name="key" type="hidden" value="<resource_key>">
@@ -25,8 +24,8 @@
                             <input name="crc32" type="hidden" />
                             <input name="accept" type="hidden" />
                         </form>
-{{!--                         <button onclick="userAvatar.click()" class="set-avatar-change button-hollow">更换图像</button> --}}
-                        <input type="file" class="inputstyle" name="file" />
+                        <button onclick="userAvatar.click()" class="set-avatar-change button-hollow">更换图像</button>
+{{!--                         <input type="file" class="inputstyle" name="file" /> --}}
                     </div>
                 </div>
                 <div class="set-form set-form-info">

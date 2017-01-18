@@ -30,7 +30,6 @@ var hbs = exphbs.create({
 //渲染页面
 router.get('/', function (req, res, next) {
     res.locals.partials.code = req.query.code;
-    console.log(req.query.code)
     res.render('index', {
       show: true
     });
@@ -52,7 +51,6 @@ router.get('/testindex', function (req, res, next) {
         //从cookie中获取微信图像和昵称
         if(!!data.data.login) {
             //已经注册
-            console.log(req.cookies.wechatPath)
             res.redirect(req.cookies.wechatPath)
         }else {
             //未注册
@@ -85,7 +83,7 @@ router.get('/user-news', function(req, res, next) {
       url: "http://www.utuotu.com/v1/User/getmsg.action"
   }, function(err, response, body) {
       var getmsg = JSON.parse(body);
-      console.log(getmsg.data.list, newsstate, "_______");
+      console.log(getmsg, newsstate, "_______");
 
       var urlPath = url.parse(req.url).path;
       var query = url.parse(req.url).query;
@@ -200,6 +198,7 @@ router.get('/user-set', function(req, res, next) {
         url: "http://www.utuotu.com/v1/user/userinfo.action"
     }, function(err, response, body) {
         data = JSON.parse(body);
+        console.log('http://www.utuotu.com/v1/user/userinfo.action', data)
         res.render('user-set', {
             data: data.data,
             userset: true
@@ -643,7 +642,6 @@ router.get("/login/opencode.action", function(req, res) {
 
       //保存用户当前页路径，通过前端获得
       res.cookie('wechatPath', req.query.urlpath);
-      console.log("微信扫码data:", data, req.query.urlpath);
       res.send(data);
     });
 });

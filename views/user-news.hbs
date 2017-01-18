@@ -148,7 +148,7 @@
                         暂无消息
                     </div>
                     <div class="list-page">
-                        {{#ifNotEq data.page.list.length 1}}
+                        {{#ifNews 1 data.page.list.length}}
                         <ul class="clear hidden">
                             {{#if data.page.pre}}
                             <li class="active"><a href="{{{getString @root.urlPath @root.data.page.pre}}}"><span class="list-page-pre">{{pre}}</span></a></li>
@@ -170,7 +170,7 @@
                             <li><a href="#"><span class="list-page-next"></span></a></li>
                             {{/if}}    
                         </ul>
-                        {{/ifNotEq}}
+                        {{/ifNews}}
                     </div>
                 {{/unless}}
             </div>
