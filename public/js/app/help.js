@@ -142,6 +142,15 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         $('.help').addClass('animated fadeOutDown').one(base.animationend,function(){
             $('.help').removeClass('animated fadeOutDown').addClass('hidden');
         });
+        $('.help-tab .tab-box:eq(0)').removeClass('hidden');
+        $('.help-tab .tab-box:eq(1)').addClass('hidden');
+        $('.help-tab .tab-box:eq(1) .help-ask').removeClass('hidden');
+        $('.help-tab .tab-box:eq(1) .help-result').addClass('hidden');
+
+        $('.help-tab .tab-title li:eq(0)').addClass('active');
+        $('.help-tab .tab-title li:eq(1)').removeClass('active');
+
+        $('.help-tab textarea').val('');
     }
 
     function openArticle(){

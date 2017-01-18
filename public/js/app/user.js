@@ -55,7 +55,6 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         //keyup时验证邮箱有效性
         // base.userInfo.email = 
         $('.set-form-email').on('blur',function(){
-            console.log('修改邮箱')
             $('.set-form-email').testInput({
                 rule : base.emailRule,
                 success : function(dom){
@@ -298,15 +297,14 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         $('.news-list li a').on('click',function(e){
             e.stopPropagation();
             var msg_id = $(this).parent().attr('data-msg_id')
-            isRead(msg_id, $(this));
+            isRead(msg_id, $(this).parent());
         });
 
         //单击查看
         $('.news-list li .news-operation a').on('click',function(e){
             e.stopPropagation();
             var msg_id = $(this).parent().parent().attr('data-msg_id')
-            console.log(msg_id)
-            isRead(msg_id, $(this).parent());
+            isRead(msg_id, $(this).parent().parent());
         });
 
 
@@ -374,7 +372,6 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
     
     //标记全部已读
     function isAllread(sts) {
-        console.log(sts);
         $.ajax({
             url:'/v1/User/allread.action',
             data:{
@@ -387,21 +384,20 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                 if(sts) {
                     //系统消息
                     $('.news-system-list li').removeClass('noread');
-                    $('.news-system-read').removeClass('.button-hollow').addClass('.button-hollow-ban');
-                    console.log("1");
+                    $('.news-system-read').removeClass('button-hollow').addClass('button-hollow-ban');
+    
                     //去掉tab红点
-                    $('.sys-tab').remove('active');
+                    $('.sys-tab span').remove('news-system-notice');
                 } else {
                     //个人消息
                     $('.news-user-list li').removeClass('noread');
-                    $('.news-user-read').removeClass('.button-hollow').addClass('.button-hollow-ban')
+                    $('.news-user-read').removeClass('button-hollow').addClass('button-hollow-ban')
                     //去掉tab红点
-                    $('.user-tab').remove('active');
+                    $('.user-tab span').removeClass('news-user-notice');
                 }
 
-                if (!$('.sys-tab').hasClass('active') && !$('.user-tab').hasClass('active')) {
-                    console.log("无新消息")
-                    $('.newsCenter').removeClass('.header-news-number');
+                if (!$('.sys-tab span').hasClass('news-user-notice') && !$('.user-tab span').hasClass('news-user-notice')) {
+                    $('.newsCenter').removeClass('header-news-number');
                 }
             },
             error : function() {
@@ -422,10 +418,18 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
             cache:false,
             dataType:'json',
             success:function(data) {
-                console.log(data);
-                // if(data.data.result == 1) {//1表示请求成功需要标记为已读，0表示已经是已读的
-                    console.log(dom.parent().html())
-                    dom.parent().removeClass('noread');
+                if (dom.hasClass('noread')) {
+                    var num = $('.header-news-number').html()*1;
+                    if (num >=2) {
+                       num = num -1; 
+                   } else {
+                        num = ""
+                   }
+                    
+                   $('.header-news-number').html(num);
+                }
+                //当前全部消息都已读时
+                canEveryCancel(dom)
                 return;
             },
             error : function() {
@@ -434,16 +438,61 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         });
 
         //当获取当消息类型小于2000时，打开弹窗
-        var openNum = dom.parent().attr('data-type_id');
+        var openNum = dom.attr('data-type_id');
 
         if (openNum < 20000) {
-            var parent = dom.parent('li');
-            var msg_id = parent.attr('data-msg_id');
+            var msg_id = dom.attr('data-msg_id');
             openNewsArticle(msg_id);
         }
     }
 
+    function canEveryCancel(dom) {
+        var sysCannotCancel = false;
+        var userCannotCancel = false;
+        if (!dom.hasClass('noread')) {
+            return;
+        }
+        dom.removeClass('noread');
 
+        if (dom.parent().hasClass('news-user-list')) {
+            //个人消息，都已读时
+            var lists = dom.parent().children('li');
+            var list = Array.prototype.slice.call(lists)
+
+            userCannotCancel = list.some(function(el, i, arr){//当每一个都返回真值时
+                return $(el).hasClass('noread');
+            })
+            console.log(userCannotCancel);
+
+            if(!userCannotCancel) {
+                $('.news-user-read').removeClass('button-hollow').addClass('button-hollow-ban')
+                //去掉tab红点
+                $('.user-tab span').removeClass('news-user-notice');
+            }
+
+        } else if(dom.parent().hasClass('news-system-list')) {
+            //系统消息，都已读时
+            var lists = dom.parent().children('li');
+            var list = Array.prototype.slice.call(lists)
+
+            sysCannotCancel = list.some(function(i, el, arr){//当每一个都返回真值时
+                return $(el).hasClass('noread')
+            })
+
+            if(!sysCannotCancel) {
+                $('.news-system-read').removeClass('button-hollow').addClass('button-hollow-ban')
+                //去掉tab红点
+                $('.sys-tab span').removeClass('news-system-notice');
+            }
+
+        }
+
+        console.log(sysCannotCancel, userCannotCancel)
+        if (!sysCannotCancel && !userCannotCancel) {
+            console.log("1");
+            $('.newsCenter .header-news-tab').removeClass('header-news-number');
+        }
+    }
     //邮件是否验证
     function isTestEmail(){
         $.ajax({
@@ -659,15 +708,22 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                     if (data.code === 0 ) {
                         el.remove();
                         closeNewsDelete()
-                        
-                        //去掉红点
-                        if(el.parent())
-
-                        if (!$('.sys-tab').hasClass('active') && !$('.user-tab').hasClass('active')) {
-                            console.log("消息清空")
-                            $('.newsCenter').removeClass('.header-news-number');
+                        if (el.hasClass('noread')) {
+                            var num = $('.header-news-tab').html()*1;
+                            if (num >=2) {
+                               num = num -1  
+                            } else {
+                                num ="";
+                            }
+                           $('.header-news-tab').html(num);
                         }
-
+                        canEveryCancel(el);
+                        //当为空时
+                        // if($('.news-list li')) {
+                        //     $('.list-button').addClass('hidden');
+                        //     $('.news-list-none').removeClass('hidden') 
+                        // }
+                        
                     }
                },
                error : function() {
@@ -677,10 +733,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         })
     }
 
-//取消状态 
-function cancelState() {
 
-}
 //打开全部删除
     function openNewsAllDelete(system, el){
         $('.news-delete').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
@@ -701,20 +754,21 @@ function cancelState() {
                     if (data.code === 0) {
                         //清空该消息列表
                         el.empty();
+                        $('.list-button').addClass('hidden');
                         $('.news-list-none').removeClass('hidden')
                         closeNewsDelete();
-                        if(ststem) {
+                        if(system) {
                             //去掉tab红点
-                            $('.sys-tab').remove('active');
+                            $('.sys-tab span').remove('news-user-notice');
                         } else {
                             //去掉tab红点
-                            $('.user-tab').remove('active');
+                            $('.user-tab span').remove('news-user-notice');
 
                         }
 
-                        if (!$('.sys-tab').hasClass('active') && !$('.user-tab').hasClass('active')) {
+                        if (!$('.sys-tab span').hasClass('news-user-notice') && !$('.user-tab span').hasClass('news-user-notice')) {
                             console.log("消息清空")
-                            $('.newsCenter').removeClass('.header-news-number');
+                            $('.newsCenter div.header-news-tab').removeClass('header-news-number');
                         }
                         return;
                     }

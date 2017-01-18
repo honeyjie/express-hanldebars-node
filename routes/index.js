@@ -43,7 +43,6 @@ router.get('/testindex', function (req, res, next) {
   }, function(err, response, body) {
       
       var data = JSON.parse(body);
-      console.log("微信扫码跳转中间件", JSON.stringify(data, "", 4));
       for (var key in response.headers) {
           res.set(key, response.headers[key])
       }
@@ -183,6 +182,7 @@ router.get('/v1/User/msganswer.action', function(req, res, next) {
       qs: req.query
   }, function(err, response, body) {
       var getmsg = JSON.parse(body);
+      console.log(getmsg)
         res.render('partials/msganswer', {
           data: getmsg.data,
           layout: "naked"

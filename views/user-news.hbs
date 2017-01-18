@@ -136,13 +136,16 @@
                     </div>
                 {{else}}
                     <div class="list-button">
-                    {{#if partials.userStatse}}
+                    {{#if partials.userState}}
                     <button class="button-hollow news-user-read">全部已读</button>
                     {{else}}
                     <button class="button-hollow-ban news-user-read">全部已读</button>
                     {{/if}}
                         
                         <button class="button-hollow news-user-delete">全部删除</button>
+                    </div>
+                    <div class="news-list-none hidden">
+                        暂无消息
                     </div>
                     <div class="list-page">
                         {{#ifNotEq data.page.list.length 1}}
