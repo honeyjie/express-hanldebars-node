@@ -210,7 +210,8 @@ router.get('/user-set', function(req, res, next) {
 
 router.get('/register-complete', function(req, res, next) {
     res.cookie("isFirst", true);
-    console.log(req.cookies.isFirst)
+    console.log(req.cookies.isFirst, "------")
+
     if (req.cookies.isFirst) {
       res.render('register-complete', {
         headImg: req.query.headImg,
