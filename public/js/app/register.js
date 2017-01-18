@@ -252,7 +252,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
     }
 
     function openSend(){
-        console.log("1")
+        console.log("1", base.userInfo.email)
         $('.send-button-jump').attr('href',base.jumpEmail(base.userInfo.email));
         // $('.complete').addClass('animated fadeOutUp').one(base.animationend,function(){
         //     $('.complete').removeClass('animated fadeOutUp')
