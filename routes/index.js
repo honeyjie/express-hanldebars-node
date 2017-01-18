@@ -182,7 +182,7 @@ router.get('/v1/User/msganswer.action', function(req, res, next) {
       qs: req.query
   }, function(err, response, body) {
       var getmsg = JSON.parse(body);
-      console.log(getmsg)
+      console.log(getmsg, data.data.list, "====")
         res.render('partials/msganswer', {
           data: getmsg.data,
           layout: "naked"
@@ -344,7 +344,6 @@ router.get('/school-screen', function (req, res) {
         urlPath = urlPath + "?search=&page="
       }
         var data = JSON.parse(body);
-        console.log(data.data);
         res.render('school-screen', {
             data: data.data,
             urlPath: urlPath
@@ -360,7 +359,6 @@ router.get('/school-major-partial', function(req, res, next) {
         qs: req.query
     }, function(err, response, body) {
         var data = JSON.parse(body);
-        console.log(data, "________", data.data.reference)
         res.render('partials/Inslibrary/school-major', {
             data: data.data,
             sid: req.query.sid,
@@ -397,7 +395,6 @@ router.get('/school-mjlist-partial', function(req, res, next) {
           }, function(err, response, body) {
               var result = JSON.parse(body).data;
               dataList.push(result);
-              console.log(dataList);
           })
         }; 
 
@@ -441,7 +438,6 @@ router.get('/school-recommend', function(req, res) {
     }, function(err, response, body) {
 
         var data = JSON.parse(body);
-        console.log(JSON.stringify(data, null, 4), req.query)
         if (!data) {return}
         res.render('school-recommend', {
               data: data.data,
@@ -534,7 +530,6 @@ router.post("/completeform/chinaschool.action", function(req, res) {
         if (!data) {
             return
         }
-        console.log("学校类型", data.data.school);
         res.render('partials/school-list', {
             data: data.data,
             layout: "naked"
@@ -578,9 +573,8 @@ router.get("/refelink", function(req, res) {
         url: "http://www.utuotu.com/v1/help/redirect.action",
         qs: {url: req.query.hash}
     }, function(err, response, body) {
-      console.log(body);
+
       var data = JSON.parse(body).data;
-      console.log(data);
       res.redirect(data.url)
     });
 });
