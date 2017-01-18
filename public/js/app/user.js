@@ -633,7 +633,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                 major : base.userInfo.major || pre_major,
                 nianji : base.userInfo.grade || pre_grade,
                 country : base.userInfo.country || pre_country,
-                file : imgUrl 
+                headerimg : imgUrl 
             },
             type:'post',
             cache:false,
