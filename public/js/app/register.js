@@ -1,9 +1,9 @@
 define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,common){
     $(function(){
-        console.log(localStorage.getItem("isRegister"), typeof localStorage.getItem("isRegister"))
-        if (localStorage.getItem("isRegister") == "true") {
+        console.log(sessionStorage.getItem("isRegister"), typeof sessionStorage.getItem("isRegister"))
+        if (sessionStorage.getItem("isRegister") == "true") {
             openSend();
-            console.log(localStorage.getItem("isRegister"))
+            console.log(sessionStorage.getItem("isRegister"))
         }
         //补全信息验证
         $('.complete-username').on('blur',function(){
@@ -229,9 +229,9 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
            dataType:'json',
            success:function(data){
                 if (data.code === 0) {
-                    localStorage.setItem("isRegister", true)
+                    sessionStorage.setItem("isRegister", true)
                     openSend();
-                    console.log(localStorage.getItem("isRegister"), typeof localStorage.getItem("isRegister"))
+                    console.log(sessionStorage.getItem("isRegister"), typeof sessionStorage.getItem("isRegister"))
                 }
            },
            error : function() {
