@@ -207,11 +207,18 @@ router.get('/user-set', function(req, res, next) {
 });
 
 //注册
+
 router.get('/register-complete', function(req, res, next) {
-    res.render('register-complete', {
-      headImg: req.query.headImg,
-      nickname: req.query.nickname
-    })
+    res.cookie("isFirst", true);
+    if (req.cookies.isFirst) {
+        res.redirect('/')
+    } else {
+      res.render('register-complete', {
+        headImg: req.query.headImg,
+        nickname: req.query.nickname
+      })
+    }
+
 });
 
 router.get('/register-forget', function(req, res, next) {

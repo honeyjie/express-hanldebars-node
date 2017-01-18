@@ -1,10 +1,10 @@
 define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,common){
     $(function(){
-        console.log(sessionStorage.getItem("isRegister"))
-        if (sessionStorage.getItem("isRegister") === true) {
-            openSend();
-            console.log(sessionStorage.getItem("isRegister"))
-        }
+    //     console.log(sessionStorage.getItem("isRegister"), typeof sessionStorage.getItem("isRegister"))
+    //     if (sessionStorage.getItem("isRegister") === "true") {
+    //         openSend();
+    //         console.log(sessionStorage.getItem("isRegister"))
+    //     }
         //补全信息验证
         $('.complete-username').on('blur',function(){
             $('.complete-username').testInput({
@@ -215,6 +215,9 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         if(!base.userInfo.username||!base.userInfo.password||!base.userInfo.repassword||!base.userInfo.email){
             return;
         }
+      
+        localStorage.setItem('userInfoEmail', base.userInfo.email);
+        console.log( localStorage.getItem('userInfoEmail'));
         $.ajax({
            url:'/v1/login/register.action',
            data:{
@@ -229,9 +232,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
            dataType:'json',
            success:function(data){
                 if (data.code === 0) {
-                    sessionStorage.setItem("isRegister", true)
                     openSend();
-                    console.log(sessionStorage.getItem("isRegister"))
                 }
            },
            error : function() {
@@ -252,6 +253,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
     }
 
     function openSend(){
+
         $('.send-button-jump').attr('href',base.jumpEmail(base.userInfo.email));
         // $('.complete').addClass('animated fadeOutUp').one(base.animationend,function(){
         //     $('.complete').removeClass('animated fadeOutUp')
@@ -275,7 +277,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         //     $('.noreceive').removeClass('animated fadeInDown');
         // });
         $('.send').removeClass('animated fadeOutUp').addClass('hidden');
-        $('.noreceive').removeClass('hidden').addClass('animated fadeInDown')
+        $('.noreceive').removeClass('hidden').removeClass('animated fadeOutUp').addClass('animated fadeInDown')
     }
 
     //忘记密码邮箱验证
