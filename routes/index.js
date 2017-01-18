@@ -83,7 +83,7 @@ router.get('/user-news', function(req, res, next) {
       url: "http://www.utuotu.com/v1/User/getmsg.action"
   }, function(err, response, body) {
       var getmsg = JSON.parse(body);
-      console.log(getmsg, newsstate, "_______");
+      console.log(getmsg, newsstate, "_______", getmsg.data.page.page_count, !!getmsg.data.page.page_count);
 
       var urlPath = url.parse(req.url).path;
       var query = url.parse(req.url).query;
