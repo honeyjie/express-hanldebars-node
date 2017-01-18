@@ -344,7 +344,6 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
             $('.news-delete-content p').html('是否删除此消息');
             var $parent = $(this).parent().parent();
             var msgid = $parent.attr('data-msg_id');
-            console.log($parent)
             openNewsDelete(msgid, $parent);
             
         });
@@ -726,7 +725,9 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         $('.news-delete').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
             $('.news-delete').removeClass('animated fadeInDown');
         });
-        console.log(el)
+        var isempty = el.parent().html();
+        var parent = el.parent().parent();
+        console.log(isempty)
         $('.news-delete-ensure').on('click', function(e) {
             //删除单个消息
             $.ajax({
