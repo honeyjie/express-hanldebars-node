@@ -1,6 +1,6 @@
 define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,common){
     $(function(){
-        console.log(localStorage.getItem("isRegister"))
+        console.log(localStorage.getItem("isRegister"), typeof localStorage.getItem("isRegister"))
         if (localStorage.getItem("isRegister") == true) {
             openSend();
             console.log(localStorage.getItem("isRegister"))
@@ -252,6 +252,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
     }
 
     function openSend(){
+        console.log("1")
         $('.send-button-jump').attr('href',base.jumpEmail(base.userInfo.email));
         // $('.complete').addClass('animated fadeOutUp').one(base.animationend,function(){
         //     $('.complete').removeClass('animated fadeOutUp')
