@@ -81,6 +81,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         $('.set-form-send').on('click',function(){
             if (sendEmailClick) {
                 sendEmailClick = false;
+                console.log("false")
                 if(!base.userInfo.email && !pre_email) {
                     return;
                 }
@@ -103,6 +104,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                     } 
                 }, 1000) 
                 sendEmailClick = true;
+                console.log("true")
             } 
         });
 
