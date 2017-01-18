@@ -29,6 +29,8 @@ var hbs = exphbs.create({
 
 //渲染页面
 router.get('/', function (req, res, next) {
+    res.locals.partials.code = req.query.code;
+    console.log(req.query.code)
     res.render('index', {
       show: true
     });
