@@ -78,8 +78,8 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
 
         //发送验证邮件
         var sendEmailClick = true;
-        $('.set-form-send').on('click',function(){
-            if (sendEmailClick) {
+        if (sendEmailClick) {
+            $('.set-form-send').on('click',function(){   
                 sendEmailClick = false;
                 console.log("false")
                 if(!base.userInfo.email && !pre_email) {
@@ -105,9 +105,8 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                 }, 1000) 
                 sendEmailClick = true;
                 console.log("true")
-            } 
-        });
-
+            }); 
+        }
         //手机号验证
         $('.set-form-phone').on('blur',function(){
             $('.set-form-phone').testInput({
