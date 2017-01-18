@@ -1,10 +1,10 @@
 define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,common){
     $(function(){
-        console.log(sessionStorage.getItem("isRegister"), typeof sessionStorage.getItem("isRegister"))
-        if (sessionStorage.getItem("isRegister") === "true") {
-            openSend();
-            console.log(sessionStorage.getItem("isRegister"))
-        }
+    //     console.log(sessionStorage.getItem("isRegister"), typeof sessionStorage.getItem("isRegister"))
+    //     if (sessionStorage.getItem("isRegister") === "true") {
+    //         openSend();
+    //         console.log(sessionStorage.getItem("isRegister"))
+    //     }
         //补全信息验证
         $('.complete-username').on('blur',function(){
             $('.complete-username').testInput({
@@ -232,9 +232,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
            dataType:'json',
            success:function(data){
                 if (data.code === 0) {
-                    sessionStorage.setItem("isRegister", true)
                     openSend();
-                    console.log(sessionStorage.getItem("isRegister"), typeof sessionStorage.getItem("isRegister"))
                 }
            },
            error : function() {
@@ -255,8 +253,8 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
     }
 
     function openSend(){
-        var email = localStorage.getItem('userInfoEmail') || "@";
-        $('.send-button-jump').attr('href',base.jumpEmail(email));
+
+        $('.send-button-jump').attr('href',base.jumpEmail(base.userInfo.email));
         // $('.complete').addClass('animated fadeOutUp').one(base.animationend,function(){
         //     $('.complete').removeClass('animated fadeOutUp')
         //     .addClass('hidden');
