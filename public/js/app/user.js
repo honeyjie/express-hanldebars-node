@@ -82,9 +82,9 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                         // 每个文件上传时,处理相关的事情
                     },
                     'FileUploaded': function(up, file, info) {
+                        canSaveInfo();
                         var res = JSON.parse(info);
                         imgUrl = up.getOption('domain') + res.key;
-                        console.log(imgUrl)
                         $('.user-main .set-avatar img').attr('src', imgUrl);
                         // 每个文件上传成功后,处理相关的事情
                         // 其中 info 是文件上传成功后，服务端返回的json，形式如
