@@ -182,7 +182,7 @@ router.get('/v1/User/msganswer.action', function(req, res, next) {
       qs: req.query
   }, function(err, response, body) {
       var getmsg = JSON.parse(body);
-      console.log(getmsg, data.data.list, "====")
+      console.log(getmsg, getmsg.data.list, "====")
         res.render('partials/msganswer', {
           data: getmsg.data,
           layout: "naked"
