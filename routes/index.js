@@ -210,7 +210,7 @@ router.get('/user-set', function(req, res, next) {
 
 router.get('/register-complete', function(req, res, next) {
     res.cookie("isFirst", true);
-    if (req.cookie.isFirst) {
+    if (req.cookies.isFirst) {
         res.redirect('/')
     }
     res.render('register-complete', {
