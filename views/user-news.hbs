@@ -148,7 +148,7 @@
                         暂无消息
                     </div>
                     <div class="list-page">
-                        {{#ifNotEq data.page.list.length 1}}
+                        {{#ifNotEq data.page.list.page_count 1}}
                         <ul class="clear hidden">
                             {{#if data.page.pre}}
                             <li class="active"><a href="{{{getString @root.urlPath @root.data.page.pre}}}"><span class="list-page-pre">{{pre}}</span></a></li>
