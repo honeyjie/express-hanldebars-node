@@ -229,8 +229,9 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
            dataType:'json',
            success:function(data){
                 if (data.code === 0) {
-                    openSend();
                     sessionStorage.setItem("isRegister", true)
+                    openSend();
+                    console.log(sessionStorage.getItem("isRegister"))
                 }
            },
            error : function() {
