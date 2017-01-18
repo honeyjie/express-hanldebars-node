@@ -1,7 +1,7 @@
 define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,common){
     $(function(){
         console.log(localStorage.getItem("isRegister"), typeof localStorage.getItem("isRegister"))
-        if (localStorage.getItem("isRegister") == true) {
+        if (localStorage.getItem("isRegister") == "true") {
             openSend();
             console.log(localStorage.getItem("isRegister"))
         }
@@ -231,7 +231,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
                 if (data.code === 0) {
                     localStorage.setItem("isRegister", true)
                     openSend();
-                    console.log(localStorage.getItem("isRegister"))
+                    console.log(localStorage.getItem("isRegister"), typeof localStorage.getItem("isRegister"))
                 }
            },
            error : function() {
