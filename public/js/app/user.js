@@ -79,7 +79,10 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         //发送验证邮件
         var sendEmailClick = true;
         if (sendEmailClick) {
-            $('.set-form-send').on('click',function(){   
+            $('.set-form-send').on('click',function(){ 
+                if(!sendEmailClick) {
+                    return;
+                }
                 sendEmailClick = false;
                 console.log("false")
                 if(!base.userInfo.email && !pre_email) {
