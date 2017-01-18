@@ -1,7 +1,7 @@
 define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,common){
     $(function(){
         console.log(sessionStorage.getItem("isRegister"), typeof sessionStorage.getItem("isRegister"))
-        if (sessionStorage.getItem("isRegister") == "true") {
+        if (sessionStorage.getItem("isRegister") === "true") {
             openSend();
             console.log(sessionStorage.getItem("isRegister"))
         }
