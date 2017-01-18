@@ -209,8 +209,6 @@ router.get('/user-set', function(req, res, next) {
 //注册
 
 router.get('/register-complete', function(req, res, next) {
-    res.cookie("isFirst", true);
-    console.log(req.cookies.isFirst, "------")
 
     if (req.cookies.isFirst) {
       res.render('register-complete', {
@@ -219,9 +217,9 @@ router.get('/register-complete', function(req, res, next) {
       })
     } else {
       res.redirect('/')
-
     }
 
+    res.cookie("isFirst", true);
 });
 
 router.get('/register-forget', function(req, res, next) {
