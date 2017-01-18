@@ -1,4 +1,27 @@
 define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,fullpage,iscroll,base,common,d3){
+    //接口请求数据
+    getData = function() {
+        $.ajax({
+            url: '/v1/Completeform/historyoffer.action',
+            data: {
+                sid: $('.school-side').attr('data-school')
+            },
+            type:'get',
+            cache:false,
+            dataType:'html',
+            success:function(data){
+                $('.school-side li').removeClass('active');
+                $(target).addClass('active');
+                $('.school-side-revise').hide();
+                $('.help-icon').addClass('hidden');
+                $("#academylist").html(data);
+            },
+            error : function() {
+                base.notice('网络错误');
+            }
+        });
+    }
+
     //图表测试数据开始
     function random(){
         var randomData = [];

@@ -84,6 +84,8 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                     'FileUploaded': function(up, file, info) {
                         var res = JSON.parse(info);
                         imgUrl = up.getOption('domain') + res.key;
+                        console.log(imgUrl)
+                        $('.user-main .set-avatar img').attr('src', imgUrl);
                         // 每个文件上传成功后,处理相关的事情
                         // 其中 info 是文件上传成功后，服务端返回的json，形式如
                         // {
@@ -104,9 +106,8 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                     },
                     'Key': function(up, file) {
                         // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
-                        // 该配置必须要在 unique_names: false , save_key: false 时才生效
-
-                        var key = "";
+                        // 该配置必须要在 unique_names: false , save_key: false 时才生效 
+                        var key = "/usr/upload/"+up.uid+file.name;
                         // do something with key here
                         return key
                     }
