@@ -255,8 +255,8 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
     }
 
     function openSend(){
-        console.log("1", base.userInfo.email)
-        $('.send-button-jump').attr('href',base.jumpEmail(localStorage.getItem('userInfoEmail')));
+        var email = localStorage.getItem('userInfoEmail') || "@";
+        $('.send-button-jump').attr('href',base.jumpEmail(email));
         // $('.complete').addClass('animated fadeOutUp').one(base.animationend,function(){
         //     $('.complete').removeClass('animated fadeOutUp')
         //     .addClass('hidden');
