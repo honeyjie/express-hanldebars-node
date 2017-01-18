@@ -211,12 +211,13 @@ router.get('/user-set', function(req, res, next) {
 router.get('/register-complete', function(req, res, next) {
     res.cookie("isFirst", true);
     if (req.cookies.isFirst) {
-        res.redirect('/')
-    } else {
       res.render('register-complete', {
         headImg: req.query.headImg,
         nickname: req.query.nickname
       })
+    } else {
+      res.redirect('/')
+
     }
 
 });
