@@ -82,9 +82,11 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                         // 每个文件上传时,处理相关的事情
                     },
                     'FileUploaded': function(up, file, info) {
-                        canSaveInfo();
+
                         var res = JSON.parse(info);
                         imgUrl = up.getOption('domain') + res.key;
+                        base.userInfo.headerimg = imgUrl
+                        canSaveInfo();
                         $('.user-main .set-avatar img').attr('src', imgUrl);
                         // 每个文件上传成功后,处理相关的事情
                         // 其中 info 是文件上传成功后，服务端返回的json，形式如
@@ -235,7 +237,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
 
         //将之前的信息保存下来，当所填内容符合格式，且不相同时，可以保存
         function canSaveInfo(){
-            if(base.userInfo.email||base.userInfo.phone||base.userInfo.school||base.userInfo.major||base.userInfo.grade||base.userInfo.country){
+            if(base.userInfo.email||base.userInfo.phone||base.userInfo.school||base.userInfo.major||base.userInfo.grade||base.userInfo.country || base.userInfo.headerimg){
                 $('.set-info-save').removeClass('button-solid-ban').addClass('button-solid');
                 return;
             }
