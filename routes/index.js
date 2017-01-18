@@ -210,7 +210,7 @@ router.get('/user-set', function(req, res, next) {
 
 router.get('/register-complete', function(req, res, next) {
     console.log(req.cookies.isFirst)
-    if (req.cookies.isFirst) {
+    if (!req.cookies.isFirst) {
       res.render('register-complete', {
         headImg: req.query.headImg,
         nickname: req.query.nickname
