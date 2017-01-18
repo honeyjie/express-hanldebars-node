@@ -3,6 +3,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
     var scroll = [];
     var canSend = true;
     var setTime;
+    var imgUrl; 
     var pre_email = $('.set-form-email').val(),
         pre_phone = $('.set-form-phone').val(),
         pre_school = $('.set-form-school').val(),
@@ -57,11 +58,11 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
             var uploader = Qiniu.uploader({
                 runtimes: 'html5,flash,html4',    //上传模式,依次退化
                 browse_button: 'userAvatar',       //上传选择的点选按钮，**必需**
-                uptoken_url: '/token',            //Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
-                domain: 'http://qiniu-plupload.qiniudn.com/',   //bucket 域名，下载资源时用到，**必需**
+                uptoken_url: '/v1/help/qiqiuauth.action',            //Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
+                domain: 'http://oi7kb12ow.bkt.clouddn.com/',   //bucket 域名，下载资源时用到，**必需**
                 get_new_uptoken: false,  //设置上传文件的时候是否每次都重新获取新的token
                 max_file_size: '100mb',           //最大文件体积限制
-                flash_swf_url: 'js/plupload/Moxie.swf',  //引入flash,相对路径
+                flash_swf_url: '//cdn.bootcss.com/plupload/2.1.9/Moxie.swf',  //引入flash,相对路径
                 max_retries: 3,                   //上传失败最大重试次数
                 dragdrop: true,                   //开启可拖曳上传
                 drop_element: 'container',        //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
@@ -80,6 +81,8 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                         // 每个文件上传时,处理相关的事情
                     },
                     'FileUploaded': function(up, file, info) {
+                        var res = JSON.parse(info);
+                        imgUrl = up.getOption('domain') + res.key;
                         // 每个文件上传成功后,处理相关的事情
                         // 其中 info 是文件上传成功后，服务端返回的json，形式如
                         // {
@@ -628,7 +631,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                 major : base.userInfo.major || pre_major,
                 nianji : base.userInfo.grade || pre_grade,
                 country : base.userInfo.country || pre_country,
-                file : base.userInfo.headerimg || pre_headering
+                file : imgUrl 
             },
             type:'post',
             cache:false,
