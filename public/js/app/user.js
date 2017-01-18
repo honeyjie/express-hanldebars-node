@@ -800,14 +800,34 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                             //去掉tab红点
                             $('.sys-tab span').removeClass('news-user-notice');
                              //当为空时
-                            
+                            var n = $('.news-system-list li').length;
+                            var m = $('.newsCenter .header-news-tab').html();
+                            var num ;
+
+                            if (m-n >= 1) {
+                                num= m-n
+                            } else {
+                                num= ""
+                            }
+                             $('.newsCenter .header-news-tab').html(num); 
                             var parent = el.parent().parent();
                                 parent.find('.list-button').addClass('hidden');
                                 parent.find('.news-list-none').removeClass('hidden') 
 
                         } else {
                             //去掉tab红点
-                            $('.user-tab span').remove('news-user-notice');
+                            var n = $('.news-user-list li').length;
+                            var m = $('.newsCenter .header-news-tab').html();
+                            var num ;
+
+                            if (m-n >= 1) {
+                                num= m-n
+                            } else {
+                                num= ""
+                            }
+                             $('.newsCenter .header-news-tab').html(num); 
+                            $('.user-tab span').removeClass('news-user-notice');
+
                             var parent = el.parent().parent();
                             parent.find('.list-button').addClass('hidden');
                             parent.find('.news-list-none').removeClass('hidden') 
