@@ -106,9 +106,9 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                         canSend = true;  
                     } 
                 }, 1000) 
+                sendEmailClick = true;
+                console.log("true")
             }); 
-            sendEmailClick = true;
-            console.log("true")
         }
         //手机号验证
         $('.set-form-phone').on('blur',function(){
