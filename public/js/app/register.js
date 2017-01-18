@@ -275,7 +275,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         //     $('.noreceive').removeClass('animated fadeInDown');
         // });
         $('.send').removeClass('animated fadeOutUp').addClass('hidden');
-        $('.noreceive').removeClass('hidden').removeClass('animated fadeOutUp')addClass('animated fadeInDown')
+        $('.noreceive').removeClass('hidden').removeClass('animated fadeOutUp').addClass('animated fadeInDown')
     }
 
     //忘记密码邮箱验证
