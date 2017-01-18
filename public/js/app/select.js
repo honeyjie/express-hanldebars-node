@@ -100,7 +100,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         select.internship_rank = 0;                        //工作学习经历第一项
         select.internship_time = 0;                        //工作学习经历第一项子类
         select.work_rank = 0;                              //工作学习经历第二项
-        select.work_time = 0;                            //工作学习经历第二项子类
+        select.work_time = 0;                              //工作学习经历第二项子类
         select.science_rank = 0;                           //工作学习经历第三项
         select.science_time = 0;                           //工作学习经历第三项子类
         select.prize = 0;                                  //获奖情况第一项
