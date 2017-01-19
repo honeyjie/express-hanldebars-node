@@ -12,6 +12,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         pre_headering = $('.inputstyle').val();
     $(function(){
 
+        // localStorage.setItem("emailChange", "true");
         //获取积分并初始化积分条
         // base.userInfo.credit = 0;; //测试数据
         // getCredit();
@@ -132,7 +133,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                         clearInterval(setTime);
                         isTestEmail();
                         $('.set-form-send').text('验证') ;
-                        $(this).addClass('warning');
+                        $(this).removeClass('warning');
                         canSend = true;
                         canSaveInfo();
                     }
@@ -606,7 +607,13 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                 if(data.code===111001013){
                     //未激活
                     $('.set-form-send').removeClass('hidden');
-                    $('.set-form-email').addClass('warning');
+                    if (!(localStorage.getItem('emailChange') === "true")) {
+                        $('.set-form-email').removeClass('warning');
+                    } else {
+                        $('.set-form-email').addClass('warning');
+                        localStorage.removeItem('emailChange')
+                    }
+                    
                     base.userInfo.isValid = false;  
                     
                 }

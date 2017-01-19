@@ -1,10 +1,13 @@
 define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,common){
     $(function(){
-        console.log(sessionStorage.getItem("isRegister"), typeof sessionStorage.getItem("isRegister"))
+        console.log(localStorage.getItem("isRegister"), typeof localStorage.getItem("isRegister"), localStorage.getItem("isRegister") === "true")
         if (localStorage.getItem("isRegister") === "true") {
             openSend();
             console.log(localStorage.getItem("isRegister"))
+            debugger;
         }
+        //点击修改邮件
+
         //补全信息验证
         $('.complete-username').on('blur',function(){
             $('.complete-username').testInput({
@@ -120,13 +123,10 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         });
 
         //修改邮箱地址
-        // $('.noreceive-content-change').on('click',function(){
-        //     //定位到user-set页面
-        //     window.location.href = "/user-set"
-        //     //邮箱高亮
-            
-        //     // openRegister();
-        // });
+        $('.noreceive-content-change').on('click',function(){
+           localStorage.setItem("emailChange", "true");
+           console.log(localStorage.getItem('emailChange'));
+        });
 
         //重新发送
         $('.noreceive-content-resend').on('click',function(){
