@@ -1491,7 +1491,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 $('.select-box').eq(0).find('.select-title-control').click();
             }
         }
-        if(!select.pre_school||!select.school_type||!select.pre_major||!select.grade||!select.related_major||!select.pre_degree){
+        if(!select.pre_school||!select.school_type||!select.pre_major||!select.grade||select.related_major==null||!select.pre_degree){
             $('.select-box').eq(1).find('.select-title').addClass('error');
             if(parseInt($('.select-box').eq(1).find('.select-content').css('height'))==0){
                 $('.select-box').eq(1).find('.select-title-control').click();
