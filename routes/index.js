@@ -83,8 +83,6 @@ router.get('/user-news', function(req, res, next) {
       url: "http://www.utuotu.com/v1/User/getmsg.action"
   }, function(err, response, body) {
       var getmsg = JSON.parse(body);
-      console.log(getmsg, newsstate, "_______", getmsg.data.page.page_count, !!getmsg.data.page.page_count);
-
       var urlPath = url.parse(req.url).path;
       var query = url.parse(req.url).query;
 
@@ -209,18 +207,10 @@ router.get('/user-set', function(req, res, next) {
 //注册
 
 router.get('/register-complete', function(req, res, next) {
-    console.log(req.cookies.isFirst)
-    if (!req.cookies.isFirst) {
-      res.cookie("isFirst", true);
-      res.render('register-complete', {
-        headImg: req.query.headImg,
-        nickname: req.query.nickname
-      })
-    } else {
-      res.redirect('/')
-    }
-
-    
+    res.render('register-complete', {
+      headImg: req.query.headImg,
+      nickname: req.query.nickname
+    })
 });
 
 router.get('/register-forget', function(req, res, next) {

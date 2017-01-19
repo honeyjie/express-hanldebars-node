@@ -1,10 +1,10 @@
 define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,common){
     $(function(){
-    //     console.log(sessionStorage.getItem("isRegister"), typeof sessionStorage.getItem("isRegister"))
-    //     if (sessionStorage.getItem("isRegister") === "true") {
-    //         openSend();
-    //         console.log(sessionStorage.getItem("isRegister"))
-    //     }
+        console.log(sessionStorage.getItem("isRegister"), typeof sessionStorage.getItem("isRegister"))
+        if (localStorage.getItem("isRegister") === "true") {
+            openSend();
+            console.log(localStorage.getItem("isRegister"))
+        }
         //补全信息验证
         $('.complete-username').on('blur',function(){
             $('.complete-username').testInput({
@@ -101,9 +101,10 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         $('.complete-submit').on('click',function(){
             register();
         });
-        $('.complete-submit').keypress(function(e){
+        $('.complete-submit').on('keydown', function(e){
             if(e.witch === 13) {
-                 register();
+                console.log("1")
+                 $(this).trigger('click');
             }
         });
 
@@ -211,13 +212,13 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
 
     });
 
+    localStorage.setItem('userInfoEmail', base.userInfo.email);
     function register(){
         if(!base.userInfo.username||!base.userInfo.password||!base.userInfo.repassword||!base.userInfo.email){
             return;
         }
       
-        localStorage.setItem('userInfoEmail', base.userInfo.email);
-        console.log( localStorage.getItem('userInfoEmail'));
+
         $.ajax({
            url:'/v1/login/register.action',
            data:{
@@ -233,6 +234,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
            success:function(data){
                 if (data.code === 0) {
                     openSend();
+                    localStorage.setItem("isRegister", "true");
                 }
            },
            error : function() {
@@ -254,7 +256,9 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
 
     function openSend(){
 
-        $('.send-button-jump').attr('href',base.jumpEmail(base.userInfo.email));
+        // $('.send-button-jump').attr('href',base.jumpEmail(base.userInfo.email));
+        $('.send-button-jump').attr('href',base.jumpEmail(localStorage.getItem('userInfoEmail')));
+
         // $('.complete').addClass('animated fadeOutUp').one(base.animationend,function(){
         //     $('.complete').removeClass('animated fadeOutUp')
         //     .addClass('hidden');

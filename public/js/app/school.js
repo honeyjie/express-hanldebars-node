@@ -317,6 +317,16 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             }
         });
     }
+
+    //点击更多
+    // $('.header-search').on('click', 'p.searchmore', function(e) {
+    //     e.preventDefault();
+    //     var val = $('.header-search input').val();
+    //     console.log(val);
+    //     $('.screen-form-school').val(val);
+    //     $('.screen-side-form-search').trigger('click');
+    //     $('.screen-form-school').val('');
+    // })
         //box展开收缩
         $('.school').on('click', '.school-box-title img', function(e){
              e.stopPropagation();

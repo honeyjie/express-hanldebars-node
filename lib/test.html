@@ -3,15 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
+    <script src="../public/js/lib/jquery-2.1.3.min.js"></script>
 </head>
 <body>
+    <button class="getMessage">点击</button>
     <script>
-        function getPage(str, n) {
-            return str.replace(/page=(\d)*/, 'page='+ n);
+    $('.getMessage').on('click', function(e) {
+        
+        if (localStorage.getItem("clicked") === "true") {
+            alert("再次点击")
+        } else {
+            alert("第一次点击")
+            localStorage.setItem("clicked", "true");
+        } 
+    })
+
+    $('.getMessage').on('keydown', function(e) {
+        if (e.witch === 13) {
+            $(this).trigger('click');
         }
-        var string = "/school-screen?search=&page=2"
-        var a = getPage(string, 3);
-        console.log(a)
+    })
     </script>
 </body>
 </html>

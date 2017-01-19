@@ -119,8 +119,6 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         }
 
 
-
-
         //邮箱验证
         //keyup时验证邮箱有效性
         // base.userInfo.email = 
