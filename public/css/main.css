@@ -2489,10 +2489,12 @@
 .school .major-info>li{
     position: relative;
     float: left;
+    height: 20px;
     width: 290px;
     margin-bottom: 20px;
     margin-right: 20px;
     padding-left: 20px;
+    overflow: hidden;
 }
 .school .major-info>li>span{
     float: left;
@@ -2550,8 +2552,10 @@
     border: 1px solid #25baf4;
 }
 .school .major-info .form-select-option li{
-    height: 20px;
-    line-height: 20px;
+    width: 230px;
+    height: auto;
+    line-height: 15px;
+    padding: 4px 10px;
     background: #ffffff;
     color: #25baf4;
     margin: 0;
