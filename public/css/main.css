@@ -2499,9 +2499,9 @@
     top: 0;
     left: 0;
 }
-.school .major-info li:nth-child(3n){
-    margin-right: 0;
-}
+/*.school .major-info li:nth-child(3n){*/
+    /*margin-right: 0;*/
+/*}*/
 .school .major-info span{
     display: inline-block;
     height: 20px;

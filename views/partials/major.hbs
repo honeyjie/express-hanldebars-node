@@ -10,10 +10,10 @@
     </div>
     <div class="school-box-content major-tab" data-academy="{{academy}}">
         <ul class="tab-title clear">
-            <a><li class="active" data-mid={{mid}}>{{degree}}</li></a>
+            <li class="active" data-mid={{mid}}>{{degree}}</li>
             {{#each otherDegree}}
                 {{#ifNotEq this.degree ../degree}}
-                <a><li data-mid={{id}}>{{degree}}</li></a>
+                <li data-mid={{id}}>{{degree}}</li>
                 {{/ifNotEq}}
             {{/each}}
         </ul>

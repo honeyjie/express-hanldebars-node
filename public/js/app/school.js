@@ -44,8 +44,6 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         $('.screen-form-country').select(scroll[0]);
         $('.screen-form-state').select(scroll[1]);
         $('.screen-form-major').select(scroll[2]);
-        $('.major-info-start').select();
-        $('.major-info-direction').select();
 
 
         //下拉选择
@@ -297,6 +295,8 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                         interactiveScrollbars : true
                     });
                 }
+                $('.major-info-start').select();
+                $('.major-info-direction').select();
             },
             error : function() {
                 base.notice('网络错误');
@@ -337,7 +337,27 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
     //     $('.screen-side-form-search').trigger('click');
     //     $('.screen-form-school').val('');
     // })
+
         //box展开收缩
+        $('.school').on('click','.school-major .school-box-title',function(e){
+            e.stopPropagation();
+            var content = $(this).parents('.school-box').find('.school-box-content');
+            var index = $('.school-box').index($(this).parents('.school-box'));
+            if(!height[index]){
+                height[index] = content.innerHeight();
+            }
+            else if(height[index]&&content.innerHeight()!== 0){
+                height[index] = content.innerHeight();
+            }
+            if(content.css('height') == '0px'){
+                $(this).find('img').removeClass('animated rotateDown').addClass('animated rotateUp');
+                content.animate({height:height[index]},200);
+            }
+            else{
+                $(this).find('img').removeClass('animated rotateUp').addClass('animated rotateDown');
+                content.animate({height:0},200);
+            }
+        });
         $('.school').on('click', '.school-box-title img', function(e){
              e.stopPropagation();
             var content = $(this).parents('.school-box').find('.school-box-content');
@@ -415,10 +435,26 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 cache:false,
                 dataType:'html',
                 success:function(data){
-                    $('.major-tab .tab-title li').removeClass('active');
-                    $(target).addClass('active');
+                    //$('.major-tab .tab-title li').removeClass('active');
+                    //$(target).addClass('active');
                     $('.help-icon').removeClass('hidden');
                     $("#majorDegree").html(data);
+                    if($('#require-content')[0]){
+                        scroll[3] =  new iscroll('#require-content',{
+                            mouseWheel: true,
+                            scrollbars: true,
+                            interactiveScrollbars : true
+                        });
+                    }
+                    if($('#from-content')[0]){
+                        scroll[4] =  new iscroll('#from-content',{
+                            mouseWheel: true,
+                            scrollbars: true,
+                            interactiveScrollbars : true
+                        });
+                    }
+                    $('.major-info-start').select();
+                    $('.major-info-direction').select();
                 },
                 error : function() {
                     base.notice('网络错误');
@@ -639,6 +675,22 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 for(var i=1;i<$('.school-box').length;i++){
                     $('.school-major .school-box-title').eq(i).find('img').click();
                 }
+                if($('#require-content')[0]){
+                    scroll[3] =  new iscroll('#require-content',{
+                        mouseWheel: true,
+                        scrollbars: true,
+                        interactiveScrollbars : true
+                    });
+                }
+                if($('#from-content')[0]){
+                    scroll[4] =  new iscroll('#from-content',{
+                        mouseWheel: true,
+                        scrollbars: true,
+                        interactiveScrollbars : true
+                    });
+                }
+                $('.major-info-start').select();
+                $('.major-info-direction').select();
             },
             error : function() {
                 base.notice('网络错误');
