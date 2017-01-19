@@ -1,83 +1,80 @@
 define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,fullpage,iscroll,base,common,d3){
-    //接口请求数据
-    //每切换一个学校请求一次
-    // function getChartData(id) {
-    //     //从接口中取得数据
-    //     $.ajax({
-    //         url: '/v1/Completeform/historyoffer.action',
-    //         data: {
-    //             id: id
-    //         },
-    //         type:'get',
-    //         cache:false,
-    //         dataType:'json',
-    //         success:function(data){
-    //             console.log(data);
-    //             chartData = data;
-    //         },
-    //         error : function() {
-    //             base.notice('网络错误');
-    //         }
-    //     });
-    // }
+    console.log($('.select-school-list:first li:first').attr('school-id'));
+    getChartData($('.select-school-list:first li:first').attr('school-id'));
 
-    var chartData;
 
-    //图表测试数据开始
-    function random(){
-        var randomData = [];
-        randomData[0] = {
-            score:0,
-            number:0
-        };
-        for(var i=1;i<=25;i++){
-            randomData[i] = {};
-            randomData[i].score = (0.2*i).toFixed(1);
-            randomData[i].number = Math.floor(Math.random()*40+10);
-        }
-        return randomData;
+
+    var gpaDate,tofelDate,greDate,learningDate,recommendDate,prizeDate;
+    function getChartData(id) {
+        $.ajax({
+            url: '/v1/Completeform/historyoffer.action',
+            data: {
+                id: id
+            },
+            type:'get',
+            cache:false,
+            dataType:'json',
+            success:function(data){
+                console.log(data);
+                chartData = data.data;
+                gpaDate = {
+                    before : null,
+                    now : {
+                        data : chartData.gpa.data,  
+                        myScore : chartData.gpa.user_data.x   
+                    }
+                };
+                tofelDate = {
+                    before : null,
+                    now : {
+                        data : chartData.toefl.data,  
+                        myScore : chartData.toefl.user_data.x  
+                    }
+                };
+                greDate = {
+                    before : null,
+                    now : {
+                        data : chartData.gre.data,  
+                        myScore : chartData.gre.user_data.x  
+                    }
+                };
+                learningDate = {
+                    before : null,
+                    now : {
+                        ratio : chartData.science_paper
+                    }
+                };
+                recommendDate = {
+                    before : null,
+                    now : {
+                        ratio : chartData.recommend
+                    }
+                };
+                prizeDate = {
+                    before : null,
+                    now: {
+                        ratio : chartData.prize
+                    }
+                };
+                chart();
+                $('.select-dis-gpa span').html(data.gpa.user_data.y);
+                $('.select-dis-tofel span').html(data.toefl.user_data.y);
+                $('.select-dis-gre span').html(data.gre.user_data.y);
+
+                $('.select-school-chart hardrate span').html(data.hard);
+                $('.select-school-chart softrate span').html(data.soft);
+                $('.select-chart-summary li.countrate span').html(data.soft);
+                //硬实力data.hard，软实力data.soft，综合实力data.count
+            },
+            error : function() {
+                base.notice('网络错误');
+            }
+        });
     }
-    //图表测试数据结束
 
-    var gpaDate = {
-        before : null ,
-        now : {
-            data : random(),  //测试数据
-            myScore : 2.4     //测试数据
-        }
-    };
-    var tofelDate = {
-        before : null ,
-        now : {
-            data : random(),  //测试数据
-            myScore : 3.2     //测试数据
-        }
-    };
-    var greDate = {
-        before : null ,
-        now : {
-            data : random(),  //测试数据
-            myScore : 1.2     //测试数据
-        }
-    };
-    var learningDate = {
-        before : null ,
-        now : {
-            ratio : '30%'   //测试数据
-        }
-    };
-    var recommendDate = {
-        before : null ,
-        now : {
-            ratio : '50%'  //测试数据
-        }
-    };
-    var prizeDate = {
-        before : null ,
-        now : {
-            ratio : '80%'  //测试数据
-        }
-    };
+
+
+
 
     var select = {};
         select.nation = [];                                //国家
@@ -139,7 +136,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
     var scroll = []; //模拟滚动条
     $(function(){
 
-        chart();
+        // chart();
 
         //模拟下拉
         $('.select-special').select();
@@ -1194,7 +1191,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             $(this).parents('.tab-box').find('.select-school-rank').html($(this).parent('li').find('.school-list-rank').html());
             //请求接口获取图表
 
-            var id = $(this).parent().attr('school-id');
+            var id = $(this).parent('li').attr('school-id');
             console.log(id);
 
             getChartData(id);
@@ -1212,36 +1209,35 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                         console.log(data);
                         chartData = data.data;
                         gpaDate.now = {
-                            data : data.gpa.max.x,  
-                            myScore : data.gpa.user_data.x  
+                            data : chartData.gpa.data,  
+                            myScore : chartData.gpa.user_data.x  
                         };
                         tofelDate.now = {
-                            data : data.toefl.data.max.x, 
-                            myScore : data.toefl.user_data.x 
+                            data : chartData.toefl.data, 
+                            myScore : chartData.toefl.user_data.x 
                         };
                         greDate.now = {
-                            data : data.gre.data.max.x, 
-                            myScore : data.gre.user_data.x 
+                            data : chartData.gre.data, 
+                            myScore : chartData.gre.user_data.x 
                         };
                         learningDate.now = {
-                            ratio : data.science_paper
+                            ratio : chartData.science_paper
                         };
                         recommendDate.now = {
-                            ratio : data.recommend
+                            ratio : chartData.recommend
                         };
                         prizeDate.now = {
-                            ratio : data.prize
+                            ratio : chartData.prize
                         };
                         chart();
-                        $('.select-dis-gpa span').html(data.gpa.user_data.y);
-                        $('.select-dis-tofel span').html(data.toefl.user_data.y);
-                        $('.select-dis-gre span').html(data.gre.user_data.y);
+                        $('.select-dis-gpa span').html(chartData.gpa.user_data.y);
+                        $('.select-dis-tofel span').html(chartData.toefl.user_data.y);
+                        $('.select-dis-gre span').html(chartData.gre.user_data.y);
 
-                        $('.select-school-chart hardrate span').html(data.hard);
-                        $('.select-school-chart softrate span').html(data.soft);
-                        $('.select-chart-summary li.countrate span').html(data.soft);
+                        $('.select-school-chart hardrate span').html(chartData.hard);
+                        $('.select-school-chart softrate span').html(chartData.soft);
+                        $('.select-chart-summary li.countrate span').html(chartData.soft);
                         //硬实力data.hard，软实力data.soft，综合实力data.count
-
                     },
                     error : function() {
                         base.notice('网络错误');
