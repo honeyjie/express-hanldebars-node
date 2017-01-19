@@ -1,10 +1,13 @@
 define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,common){
     $(function(){
-        console.log(localStorage.getItem("isRegister"), typeof localStorage.getItem("isRegister"), localStorage.getItem("isRegister") === "true")
-        if (localStorage.getItem("isRegister") === "true") {
+        console.log(localStorage.getItem("Register"), typeof localStorage.getItem("Register"), localStorage.getItem("Register") === "true")
+        if (localStorage.getItem("Register") === "true") {
             openSend();
-            console.log(localStorage.getItem("isRegister"))
+            localStorage.removeItem('isRegister');
+
+            console.log(localStorage)
         }
+        console.log(localStorage)
         //点击修改邮件
 
         //补全信息验证
@@ -233,7 +236,8 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
            success:function(data){
                 if (data.code === 0) {
                     openSend();
-                    localStorage.setItem("isRegister", "true");
+                    console.log("已注册");
+                    localStorage.setItem("Register", "true");
                 }
            },
            error : function() {
