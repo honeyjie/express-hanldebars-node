@@ -1,58 +1,97 @@
 define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,fullpage,iscroll,base,common,d3){
 
-    //图表测试数据开始
-    function random(){
-        var randomData = [];
-        randomData[0] = {
-            score:0,
-            number:0
-        };
-        for(var i=1;i<=25;i++){
-            randomData[i] = {};
-            randomData[i].score = (0.2*i).toFixed(1);
-            randomData[i].number = Math.floor(Math.random()*40+10);
-        }
-        return randomData;
-    }
-    //图表测试数据结束
+    getChartData($('.select-school-list li').eq(0).attr('school-id'));
+    console.log($('.select-school-list li').eq(0).attr('school-id'))
+    function getChartData(id) {
+        $.ajax({
+            url: '/v1/Completeform/historyoffer.action',
+            data: {
+                id: id
+            },
+            type:'get',
+            cache:false,
+            dataType:'json',
+            success:function(data){
+                console.log(data);
+                chartData = data.data;
+                var gpaDate = {
+                    before : null ,
+                    now : {
+                        data : chartData.gpa.data,  
+                        myScore : chartData.gpa.user_data.x   
+                    }
+                };
+                var tofelDate = {
+                    before : null ,
+                    now : {
+                        data : chartData.tofel.data,  
+                        myScore : chartData.tofel.user_data.x  
+                    }
+                };
+                var greDate = {
+                    before : null ,
+                    now : {
+                        data : chartData.gre.data,  
+                        myScore : chartData.gre.user_data.x  
+                    }
+                };
+                var learningDate = {
+                    before : null ,
+                    now : {
+                        ratio : chartData.science_paper
+                    }
+                };
+                var recommendDate = {
+                    before : null ,
+                    now : {
+                        ratio : chartData.recommend
+                    }
+                };
+                var prizeDate = {
+                    before : null ,
+                    now: {
+                        ratio : chartData.data.prize
+                    }
+                };
 
-    var gpaDate = {
-        before : null ,
-        // now : {
-        //     data : data.gpa.data,  
-        //     myScore : data.gpa.user_data.x   
-        // }
-    };
-    var tofelDate = {
-        before : null ,
-        // now : {
-        //     data : data.tofel.data,  
-        //     myScore : data.tofel.user_data.x  
-        // }
-    };
-    var greDate = {
-        before : null ,
-        // now : {
-        //     data : data.gre.data,  
-        //     myScore : data.gre.user_data.x  
-        // }
-    };
-    var learningDate = {
-        before : null ,
-        // now : {
-        //     ratio : data.science_paper
-        // }
-    };
-    var recommendDate = {
-        before : null ,
-        // now : {
-        //     ratio : data.recommend
-        // }
-    };
-    var prizeDate = {
-        before : null ,
+                // gpaDate.now = {
+                //     data : chartData.data.gpa.data,  
+                //     myScore : chartData.data.gpa.user_data.x  
+                // };
+                // tofelDate.now = {
+                //     data : chartData.data.toefl.data, 
+                //     myScore : chartData.data.toefl.user_data.x 
+                // };
+                // greDate.now = {
+                //     data : chartData.data.gre.data, 
+                //     myScore : chartData.data.gre.user_data.x 
+                // };
+                // learningDate.now = {
+                //     ratio : chartData.data.science_paper
+                // };
+                // recommendDate.now = {
+                //     ratio : chartData.data.recommend
+                // };
+                // prizeDate.now = {
+                //     ratio : chartData.data.prize
+                // };
+                // chart();
+                // $('.select-dis-gpa span').html(data.gpa.user_data.y);
+                // $('.select-dis-tofel span').html(data.toefl.user_data.y);
+                // $('.select-dis-gre span').html(data.gre.user_data.y);
 
-    };
+                // $('.select-school-chart hardrate span').html(data.hard);
+                // $('.select-school-chart softrate span').html(data.soft);
+                // $('.select-chart-summary li.countrate span').html(data.soft);
+                //硬实力data.hard，软实力data.soft，综合实力data.count
+            },
+            error : function() {
+                base.notice('网络错误');
+            }
+        });
+
+
+
 
 
     var select = {};
@@ -1188,25 +1227,25 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                         console.log(data);
                         chartData = data.data;
                         gpaDate.now = {
-                            data : data.gpa.data,  
-                            myScore : data.gpa.user_data.x  
+                            data : chartData.data.gpa.data,  
+                            myScore : data.data.gpa.user_data.x  
                         };
                         tofelDate.now = {
-                            data : data.toefl.data, 
-                            myScore : data.toefl.user_data.x 
+                            data : chartData.data.toefl.data, 
+                            myScore : data.data.toefl.user_data.x 
                         };
                         greDate.now = {
-                            data : data.gre.data, 
-                            myScore : data.gre.user_data.x 
+                            data : chartData.data.gre.data, 
+                            myScore : data.data.gre.user_data.x 
                         };
                         learningDate.now = {
-                            ratio : data.science_paper
+                            ratio : chartData.data.science_paper
                         };
                         recommendDate.now = {
-                            ratio : data.recommend
+                            ratio : chartData.data.recommend
                         };
                         prizeDate.now = {
-                            ratio : data.prize
+                            ratio : chartData.data.prize
                         };
                         chart();
                         $('.select-dis-gpa span').html(data.gpa.user_data.y);
