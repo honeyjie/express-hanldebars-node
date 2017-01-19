@@ -2494,6 +2494,9 @@
     margin-right: 20px;
     padding-left: 20px;
 }
+.school .major-info>li>span{
+    float: left;
+}
 .school .major-info>li>img{
     position: absolute;
     top: 0;
