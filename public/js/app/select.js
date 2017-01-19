@@ -1,24 +1,27 @@
 define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,fullpage,iscroll,base,common,d3){
     //接口请求数据
     //每切换一个学校请求一次
-    function getChartData() {
-        //从接口中取得数据
-        $.ajax({
-            url: '/v1/Completeform/historyoffer.action',
-            data: {
-                id: $('').attr('school-id')
-            },
-            type:'get',
-            cache:false,
-            dataType:'json',
-            success:function(data){
-                console.log(data);
-            },
-            error : function() {
-                base.notice('网络错误');
-            }
-        });
-    }
+    // function getChartData(id) {
+    //     //从接口中取得数据
+    //     $.ajax({
+    //         url: '/v1/Completeform/historyoffer.action',
+    //         data: {
+    //             id: id
+    //         },
+    //         type:'get',
+    //         cache:false,
+    //         dataType:'json',
+    //         success:function(data){
+    //             console.log(data);
+    //             chartData = data;
+    //         },
+    //         error : function() {
+    //             base.notice('网络错误');
+    //         }
+    //     });
+    // }
+
+    var chartData;
 
     //图表测试数据开始
     function random(){
@@ -1088,7 +1091,6 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         //获奖情况 选择
         $('.select-prize .form-check').on('click',function(){
             var n = $(this).parents('.select-prize').find('.form-check').index($(this));
-            console.log(n)
             switch(n){
                 case 0:
                     if($(this).find('.form-select').hasClass('hidden')){
@@ -1190,28 +1192,64 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             $(this).parent('li').addClass('active');
             console.log($(this).find('.school-list-rank').html())
             $(this).parents('.tab-box').find('.select-school-rank').html($(this).parent('li').find('.school-list-rank').html());
-            gpaDate.now = {
-                data : random(),  //测试数据
-                myScore : 2.0     //测试数据
-            };
-            tofelDate.now = {
-                data : random(),  //测试数据
-                myScore : 3.2     //测试数据
-            };
-            greDate.now = {
-                data : random(),  //测试数据
-                myScore : 2.4     //测试数据
-            };
-            learningDate.now = {
-                ratio : '70%'   //测试数据
-            };
-            recommendDate.now = {
-                ratio : '0'   //测试数据
-            };
-            prizeDate.now = {
-                ratio : '20%'   //测试数据
-            };
-            chart();
+            //请求接口获取图表
+
+            var id = $(this).parent().attr('school-id');
+            console.log(id);
+
+            getChartData(id);
+            function getChartData(id) {
+                //从接口中取得数据
+                $.ajax({
+                    url: '/v1/Completeform/historyoffer.action',
+                    data: {
+                        id: id
+                    },
+                    type:'get',
+                    cache:false,
+                    dataType:'json',
+                    success:function(data){
+                        console.log(data);
+                        chartData = data.data;
+                        gpaDate.now = {
+                            data : data.gpa.max.x,  
+                            myScore : data.gpa.user_data.x  
+                        };
+                        tofelDate.now = {
+                            data : data.toefl.data.max.x, 
+                            myScore : data.toefl.user_data.x 
+                        };
+                        greDate.now = {
+                            data : data.gre.data.max.x, 
+                            myScore : data.gre.user_data.x 
+                        };
+                        learningDate.now = {
+                            ratio : data.science_paper
+                        };
+                        recommendDate.now = {
+                            ratio : data.recommend
+                        };
+                        prizeDate.now = {
+                            ratio : data.prize
+                        };
+                        chart();
+                        $('.select-dis-gpa span').html(data.gpa.user_data.y);
+                        $('.select-dis-tofel span').html(data.toefl.user_data.y);
+                        $('.select-dis-gre span').html(data.gre.user_data.y);
+
+                        $('.select-school-chart hardrate span').html(data.hard);
+                        $('.select-school-chart softrate span').html(data.soft);
+                        $('.select-chart-summary li.countrate span').html(data.soft);
+                        //硬实力data.hard，软实力data.soft，综合实力data.count
+
+                    },
+                    error : function() {
+                        base.notice('网络错误');
+                    }
+                });
+            }
+
+
         });
         //加入申请
         $('.select-school-switch').on('click',function(e){
