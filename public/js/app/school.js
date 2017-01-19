@@ -7,6 +7,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         screen.major = '';
         screen.degree = '';
     var height = [];//每个模块的高度
+
     var userMajor = false;
     var major_empty;
     $(function(){
@@ -120,7 +121,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         var searchquery = window.location.search;
         console.log(searchquery.slice(1, searchquery.indexOf("=")), searchquery.slice(searchquery.indexOf("=") + 1, searchquery.indexOf("&")))
         if (searchquery.slice(1, searchquery.indexOf("=")) === "value") {
-            $('.screen-form-school').val(searchquery.slice(searchquery.indexOf("=") + 1, searchquery.indexOf("&")));
+            $('.screen-form-school').val(decodeURIComponent(searchquery.slice(searchquery.indexOf("=") + 1, searchquery.indexOf("&"))));
             var school = $('.screen-form-school').val();
             searchSchool(school);
         }
