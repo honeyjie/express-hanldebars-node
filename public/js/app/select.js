@@ -1,8 +1,13 @@
 define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,fullpage,iscroll,base,common,d3){
+    console.log($('.select-school-list:first li:first').attr('school-id'));
+    getChartData($('.select-school-list:first li:first').attr('school-id'));
 
-    getChartData($('.select-school-list li').eq(0).attr('school-id'));
-    console.log($('.select-school-list li').eq(0).attr('school-id'))
+
+
+    var gpaDate,tofelDate,greDate,learningDate,recommendDate,prizeDate;
+
     function getChartData(id) {
+        console.log("1");
         $.ajax({
             url: '/v1/Completeform/historyoffer.action',
             data: {
@@ -14,81 +19,60 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             success:function(data){
                 console.log(data);
                 chartData = data.data;
-                var gpaDate = {
-                    before : null ,
+                gpaDate = {
+                    before : null,
                     now : {
                         data : chartData.gpa.data,  
                         myScore : chartData.gpa.user_data.x   
                     }
                 };
-                var tofelDate = {
-                    before : null ,
+                tofelDate = {
+                    before : null,
                     now : {
                         data : chartData.tofel.data,  
                         myScore : chartData.tofel.user_data.x  
                     }
                 };
-                var greDate = {
-                    before : null ,
+                greDate = {
+                    before : null,
                     now : {
                         data : chartData.gre.data,  
                         myScore : chartData.gre.user_data.x  
                     }
                 };
-                var learningDate = {
-                    before : null ,
+                learningDate = {
+                    before : null,
                     now : {
                         ratio : chartData.science_paper
                     }
                 };
-                var recommendDate = {
-                    before : null ,
+                recommendDate = {
+                    before : null,
                     now : {
                         ratio : chartData.recommend
                     }
                 };
-                var prizeDate = {
-                    before : null ,
+                prizeDate = {
+                    before : null,
                     now: {
                         ratio : chartData.data.prize
                     }
                 };
+                chart();
+                $('.select-dis-gpa span').html(data.gpa.user_data.y);
+                $('.select-dis-tofel span').html(data.toefl.user_data.y);
+                $('.select-dis-gre span').html(data.gre.user_data.y);
 
-                // gpaDate.now = {
-                //     data : chartData.data.gpa.data,  
-                //     myScore : chartData.data.gpa.user_data.x  
-                // };
-                // tofelDate.now = {
-                //     data : chartData.data.toefl.data, 
-                //     myScore : chartData.data.toefl.user_data.x 
-                // };
-                // greDate.now = {
-                //     data : chartData.data.gre.data, 
-                //     myScore : chartData.data.gre.user_data.x 
-                // };
-                // learningDate.now = {
-                //     ratio : chartData.data.science_paper
-                // };
-                // recommendDate.now = {
-                //     ratio : chartData.data.recommend
-                // };
-                // prizeDate.now = {
-                //     ratio : chartData.data.prize
-                // };
-                // chart();
-                // $('.select-dis-gpa span').html(data.gpa.user_data.y);
-                // $('.select-dis-tofel span').html(data.toefl.user_data.y);
-                // $('.select-dis-gre span').html(data.gre.user_data.y);
-
-                // $('.select-school-chart hardrate span').html(data.hard);
-                // $('.select-school-chart softrate span').html(data.soft);
-                // $('.select-chart-summary li.countrate span').html(data.soft);
+                $('.select-school-chart hardrate span').html(data.hard);
+                $('.select-school-chart softrate span').html(data.soft);
+                $('.select-chart-summary li.countrate span').html(data.soft);
                 //硬实力data.hard，软实力data.soft，综合实力data.count
             },
             error : function() {
                 base.notice('网络错误');
             }
         });
+    }
 
 
 
@@ -154,7 +138,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
     var scroll = []; //模拟滚动条
     $(function(){
 
-        chart();
+        // chart();
 
         //模拟下拉
         $('.select-special').select();
@@ -1209,7 +1193,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             $(this).parents('.tab-box').find('.select-school-rank').html($(this).parent('li').find('.school-list-rank').html());
             //请求接口获取图表
 
-            var id = $(this).parent().attr('school-id');
+            var id = $(this).parent('li').attr('school-id');
             console.log(id);
 
             getChartData(id);
