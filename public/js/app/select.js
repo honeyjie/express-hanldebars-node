@@ -1,27 +1,4 @@
 define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,fullpage,iscroll,base,common,d3){
-    //接口请求数据
-    //每切换一个学校请求一次
-    // function getChartData(id) {
-    //     //从接口中取得数据
-    //     $.ajax({
-    //         url: '/v1/Completeform/historyoffer.action',
-    //         data: {
-    //             id: id
-    //         },
-    //         type:'get',
-    //         cache:false,
-    //         dataType:'json',
-    //         success:function(data){
-    //             console.log(data);
-    //             chartData = data;
-    //         },
-    //         error : function() {
-    //             base.notice('网络错误');
-    //         }
-    //     });
-    // }
-
-    var chartData;
 
     //图表测试数据开始
     function random(){
@@ -41,43 +18,42 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
 
     var gpaDate = {
         before : null ,
-        now : {
-            data : random(),  //测试数据
-            myScore : 2.4     //测试数据
-        }
+        // now : {
+        //     data : data.gpa.data,  
+        //     myScore : data.gpa.user_data.x   
+        // }
     };
     var tofelDate = {
         before : null ,
-        now : {
-            data : random(),  //测试数据
-            myScore : 3.2     //测试数据
-        }
+        // now : {
+        //     data : data.tofel.data,  
+        //     myScore : data.tofel.user_data.x  
+        // }
     };
     var greDate = {
         before : null ,
-        now : {
-            data : random(),  //测试数据
-            myScore : 1.2     //测试数据
-        }
+        // now : {
+        //     data : data.gre.data,  
+        //     myScore : data.gre.user_data.x  
+        // }
     };
     var learningDate = {
         before : null ,
-        now : {
-            ratio : '30%'   //测试数据
-        }
+        // now : {
+        //     ratio : data.science_paper
+        // }
     };
     var recommendDate = {
         before : null ,
-        now : {
-            ratio : '50%'  //测试数据
-        }
+        // now : {
+        //     ratio : data.recommend
+        // }
     };
     var prizeDate = {
         before : null ,
-        now : {
-            ratio : '80%'  //测试数据
-        }
+
     };
+
 
     var select = {};
         select.nation = [];                                //国家
@@ -1212,15 +1188,15 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                         console.log(data);
                         chartData = data.data;
                         gpaDate.now = {
-                            data : data.gpa.max.x,  
+                            data : data.gpa.data,  
                             myScore : data.gpa.user_data.x  
                         };
                         tofelDate.now = {
-                            data : data.toefl.data.max.x, 
+                            data : data.toefl.data, 
                             myScore : data.toefl.user_data.x 
                         };
                         greDate.now = {
-                            data : data.gre.data.max.x, 
+                            data : data.gre.data, 
                             myScore : data.gre.user_data.x 
                         };
                         learningDate.now = {
@@ -1241,6 +1217,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                         $('.select-school-chart softrate span').html(data.soft);
                         $('.select-chart-summary li.countrate span').html(data.soft);
                         //硬实力data.hard，软实力data.soft，综合实力data.count
+
 
                     },
                     error : function() {
