@@ -219,21 +219,21 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
         });
         //请求文章内容并添加进去
         $.ajax({
-                url:'/v1/Msg/article.action',
-                data:{
-                    id : id
-                },
-                type:'get',
-                cache:false,
-                dataType:'json',
-                success:function(data){
-                    console.log(data);
-                    $('.view-article-content p').html(data.data.content);
-                },
-                error : function() {
-                    base.notice('网络错误');
-                }
-            });
+            url:'/v1/Msg/article.action',
+            data:{
+                id : id
+            },
+            type:'get',
+            cache:false,
+            dataType:'json',
+            success:function(data){
+                console.log(data);
+                $('.view-article-content p').html(data.data.content);
+            },
+            error : function() {
+                base.notice('网络错误');
+            }
+        });
     }
 
     function closeArticle(){

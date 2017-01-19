@@ -5,6 +5,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
 
 
     var gpaDate,tofelDate,greDate,learningDate,recommendDate,prizeDate;
+
     function getChartData(id) {
         $.ajax({
             url: '/v1/Completeform/historyoffer.action',
@@ -21,59 +22,102 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                     before : null,
                     now : {
                         data : chartData.gpa.data,  
-                        myScore : chartData.gpa.user_data.x   
+                        myScore : chartData.gpa.user_data.x,
+                        user_data: {
+                            x: chartData.gpa.user_data.x,
+                            y: chartData.gpa.user_data.y
+                        },
+                        max: {
+                            x: chartData.gpa.max.x,
+                            y: chartData.gpa.max.y
+                        }  
                     }
                 };
+
                 tofelDate = {
                     before : null,
                     now : {
                         data : chartData.toefl.data,  
-                        myScore : chartData.toefl.user_data.x  
+                        myScore : chartData.toefl.user_data.x,
+                        user_data: {
+                            x: chartData.toefl.user_data.x,
+                            y: chartData.toefl.user_data.y
+                        },
+                        max: {
+                            x: chartData.toefl.max.x,
+                            y: chartData.toefl.max.y
+                        }  
                     }
+
                 };
+
                 greDate = {
                     before : null,
                     now : {
                         data : chartData.gre.data,  
-                        myScore : chartData.gre.user_data.x  
+                        myScore : chartData.gre.user_data.x,
+                        user_data: {
+                            x: chartData.gre.user_data.x,
+                            y: chartData.gre.user_data.y
+                        },
+                        max: {
+                            x: chartData.gre.max.x,
+                            y: chartData.gre.max.y 
+                        },
                     }
                 };
+
                 learningDate = {
                     before : null,
                     now : {
                         ratio : chartData.science_paper
                     }
                 };
+
                 recommendDate = {
                     before : null,
                     now : {
                         ratio : chartData.recommend
                     }
                 };
+
                 prizeDate = {
                     before : null,
                     now: {
                         ratio : chartData.prize
                     }
                 };
-                chart();
-                $('.select-dis-gpa span').html(data.gpa.user_data.y);
-                $('.select-dis-tofel span').html(data.toefl.user_data.y);
-                $('.select-dis-gre span').html(data.gre.user_data.y);
 
-                $('.select-school-chart hardrate span').html(data.hard);
-                $('.select-school-chart softrate span').html(data.soft);
-                $('.select-chart-summary li.countrate span').html(data.soft);
-                //硬实力data.hard，软实力data.soft，综合实力data.count
+                chart();
+                $('.select-dis-gpa span').html(getRatio(chartData.gpa.user_data.y));
+                $('.select-dis-tofel span').html(getRatio(chartData.toefl.user_data.y));
+                $('.select-dis-gre span').html(getRatio(chartData.gre.user_data.y));
+
+                console.log(chartData.hard, chartData.soft, chartData.count)
+                $('.select-school-chart .hardrate span').html(getRatio(chartData.hard));
+                $('.select-school-chart .softrate span').html(getRatio(chartData.soft));
+                $('.select-chart-summary li.countrate span').html(getRatio(chartData.count));
+                $('.select-chart-summary span').html(getRatio(chartData.count));
+
             },
             error : function() {
                 base.notice('网络错误');
             }
-        });
+        })
     }
 
 
-
+    //转换百分比
+    function getRatio(num) {
+        var str =  num*100
+        console.log(str)
+        var dot = str.toString().indexOf(".") ;
+        if (dot !== -1) {
+            return str.toString().slice(0, dot) + "%";
+        } else {
+            return str + "%";
+        }
+    }
 
 
     var select = {};
@@ -1193,10 +1237,8 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
 
             var id = $(this).parent('li').attr('school-id');
             console.log(id);
-
-            getChartData(id);
-            function getChartData(id) {
-                //从接口中取得数据
+            // getChartData(id)
+            // function getChartData(id) {
                 $.ajax({
                     url: '/v1/Completeform/historyoffer.action',
                     data: {
@@ -1208,45 +1250,90 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                     success:function(data){
                         console.log(data);
                         chartData = data.data;
-                        gpaDate.now = {
-                            data : chartData.gpa.data,  
-                            myScore : chartData.gpa.user_data.x  
+                        gpaDate = {
+                            now : {
+                                data : chartData.gpa.data,  
+                                myScore : chartData.gpa.user_data.x,
+                                user_data: {
+                                    x: chartData.gpa.user_data.x,
+                                    y: chartData.gpa.user_data.y
+                                },
+                                max: {
+                                    x: chartData.gpa.max.x,
+                                    y: chartData.gpa.max.y
+                                }  
+                            }
                         };
-                        tofelDate.now = {
-                            data : chartData.toefl.data, 
-                            myScore : chartData.toefl.user_data.x 
-                        };
-                        greDate.now = {
-                            data : chartData.gre.data, 
-                            myScore : chartData.gre.user_data.x 
-                        };
-                        learningDate.now = {
-                            ratio : chartData.science_paper
-                        };
-                        recommendDate.now = {
-                            ratio : chartData.recommend
-                        };
-                        prizeDate.now = {
-                            ratio : chartData.prize
-                        };
-                        chart();
-                        $('.select-dis-gpa span').html(chartData.gpa.user_data.y);
-                        $('.select-dis-tofel span').html(chartData.toefl.user_data.y);
-                        $('.select-dis-gre span').html(chartData.gre.user_data.y);
 
-                        $('.select-school-chart hardrate span').html(chartData.hard);
-                        $('.select-school-chart softrate span').html(chartData.soft);
-                        $('.select-chart-summary li.countrate span').html(chartData.soft);
-                        //硬实力data.hard，软实力data.soft，综合实力data.count
+                        tofelDate = {
+                            now : {
+                                data : chartData.toefl.data,  
+                                myScore : chartData.toefl.user_data.x,
+                                user_data: {
+                                    x: chartData.toefl.user_data.x,
+                                    y: chartData.toefl.user_data.y
+                                },
+                                max: {
+                                    x: chartData.toefl.max.x,
+                                    y: chartData.toefl.max.y
+                                }  
+                            }
+
+                        };
+
+                        greDate = {
+                            now : {
+                                data : chartData.gre.data,  
+                                myScore : chartData.gre.user_data.x,
+                                user_data: {
+                                    x: chartData.gre.user_data.x,
+                                    y: chartData.gre.user_data.y
+                                },
+                                max: {
+                                    x: chartData.gre.max.x,
+                                    y: chartData.gre.max.y 
+                                },
+                            }
+                        };
+
+                        learningDate = {
+                            now : {
+                                ratio : chartData.science_paper
+                            }
+                        };
+
+                        recommendDate = {
+                            now : {
+                                ratio : chartData.recommend
+                            }
+                        };
+
+                        prizeDate = {
+                            now: {
+                                ratio : chartData.prize
+                            }
+                        };
+
+                        chart();
+                        $('.select-dis-gpa span').html(getRatio(chartData.gpa.user_data.y));
+                        $('.select-dis-tofel span').html(getRatio(chartData.toefl.user_data.y));
+                        $('.select-dis-gre span').html(getRatio(chartData.gre.user_data.y));
+
+                        console.log(chartData.hard, chartData.soft, chartData.count)
+                        $('.select-school-chart .hardrate span').html(getRatio(chartData.hard));
+                        $('.select-school-chart .softrate span').html(getRatio(chartData.soft));
+                        $('.select-chart-summary li.countrate span').html(getRatio(chartData.count));
+                        $('.select-chart-summary span').html(getRatio(chartData.count));
+
                     },
                     error : function() {
                         base.notice('网络错误');
                     }
-                });
-            }
+                })
+            })
 
 
-        });
+        // });
         //加入申请
         $('.select-school-switch').on('click',function(e){
             e.stopPropagation();
@@ -1711,13 +1798,14 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
     }
     //生成图表
     function chart(){
-        chartArea('.select-svg-gpa',gpaDate.before,gpaDate.now,5,50,function(){
+        console.log(gpaDate.now);
+        chartArea('.select-svg-gpa',gpaDate.before,gpaDate.now,4,gpaDate.now.max.y,function(){
             gpaDate.before = gpaDate.now;
         });
-        chartArea('.select-svg-tofel',tofelDate.before,tofelDate.now,5,50,function(){
+        chartArea('.select-svg-tofel',tofelDate.before,tofelDate.now,120,tofelDate.now.max.y,function(){
             tofelDate.before = tofelDate.now;
         });
-        chartArea('.select-svg-gre',greDate.before,greDate.now,5,50,function(){
+        chartArea('.select-svg-gre',greDate.before,greDate.now,340,greDate.now.max.y,function(){
             greDate.before = greDate.now;
         });
 
@@ -1734,6 +1822,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
 
 
     function chartArea(dom,data1,data2,maxScore,maxNumber,cb){  //dom 数据1 数据2 满分 最多人数 cb
+        console.log(data1, data2, maxScore, maxNumber)
         if($(dom).find('svg')){
             $(dom).find('svg').remove();
         }
@@ -1741,58 +1830,65 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             data1 = {};
             data1.data = [];
             data1.lessMe = [];
-            data1.dotMax = {};
-            data1.dotMe = {};
-            data1.dotMax.score = 0;
-            data1.dotMax.number = 0;
-            data1.dotMe.score = 0;
-            data1.dotMe.number = 0;
+            data1.max = {};
+            data1.user_data = {};
+            data1.max.x = 0;
+            data1.max.y = 0;
+            data1.user_data.x = 0;
+            data1.user_data.y = 0;
             data1.color = {
                 stroke : '#ffffff',
                 fill : '#ffffff'
             };
             for(var i=0;i<data2.data.length;i++){
                 data1.data.push({
-                    score : 0,
-                    number : 0
+                    x : 0,
+                    y : 0
                 });
                 data1.lessMe.push({
-                    score : 0,
-                    number : 0
+                    x : 0,
+                    y : 0
                 })
             }
         }
         else{
             data1.lessMe = lessArr(data1);
-            data1.dotMax = maxObj(data1);
-            data1.dotMe = meObj(data1);
+            data1.max = maxObj(data1);//最大处
+            data1.user_data = meObj(data1);//我的得分
             data1.color = color(data1);
+            data1.min = minObj(data1);
+            data1.maxScorex = maxScoreObj(data1);
         }
         data2.lessMe = lessArr(data2);
-        data2.dotMax = maxObj(data2);
-        data2.dotMe = meObj(data2);
+        data2.max = maxObj(data2);
+        data2.user_data = meObj(data2);
         data2.color = color(data2);
+        data2.min = minObj(data2)
+        data2.maxScorex = maxScoreObj(data2);
 
-
+        //最小的x和最小的y(0)
+        var minX;
+        var minNumber;
+        var maxX;
         //得分小于我的数据
         function lessArr(data){
             var less = [];
             for(var i=0;i<data.data.length;i++){
-                if(data.data[i].score<=data.myScore){
+                if(data.data[i].x<=data.myScore){
                     less.push(data.data[i])
                 }
             }
             return less;
         }
-        //最高分数据
+        //最多人数的数据,峰值
         function maxObj(data){
             var max = [];
             for(var i=0;i<data.data.length;i++){
-                max.push(data.data[i].number)
+                max.push(data.data[i].y)
             }
             var maxY = d3.max(max);
             for(var n=0;n<data.data.length;n++){
-                if(data.data[n].number==maxY){
+                if(data.data[n].y==maxY){
                     return data.data[n];
                 }
             }
@@ -1800,27 +1896,53 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         //我的得分数据
         function meObj(data){
             for(var i=0;i<data.data.length;i++){
-                if(data.data[i].score==data.myScore){
+                if(data.data[i].x==data.myScore){
                     return data.data[i];
                 }
             }
         }
-
+        //最低得分
+        function minObj(data){
+            var min = [];
+            for(var i=0;i<data.data.length;i++){
+                min.push(data.data[i].x)
+            }
+            minX = d3.min(min);//最少得分
+            for(var n=0;n<data.data.length;n++){
+                if(data.data[n].x==minX){
+                    return data.data[n];
+                }
+            }
+        }
+        //最高得分
+        function maxScoreObj(data){
+            var maxScorex = [];
+            for(var i=0;i<data.data.length;i++){
+                maxScorex.push(data.data[i].x)
+            }
+            maxX = d3.max(maxScorex);//最少得分
+            for(var n=0;n<data.data.length;n++){
+                if(data.data[n].x==maxX){
+                    return data.data[n];
+                }
+            }
+        }
         //颜色
         function color(data){
+            console.log(data)
             var color = {
                 stroke : '',
                 fill : ''
             };
-            if(data.myScore>parseInt(data.dotMax.score)+parseInt((maxScore-data.dotMax.score)/2)){
+            if(data.myScore>parseInt(data.max.x)+parseInt((maxScore-data.max.x)/2)){
                 color.stroke = '#55ccff';
                 color.fill = '#bdeafc';
             }
-            else if(data.myScore>data.dotMax.score&&data.myScore<=parseInt(data.dotMax.score)+parseInt((maxScore-data.dotMax.score)/2)){
+            else if(data.myScore>data.max.x&&data.myScore<=parseInt(data.max.x)+parseInt((maxScore-data.max.x)/2)){
                 color.stroke = '#72d38a';
                 color.fill = '#c7f6d5';
             }
-            else if(data.myScore<=data.dotMax.score){
+            else if(data.myScore<=data.max.x){
                 color.stroke = '#f14141';
                 color.fill = '#ffcccc';
             }
@@ -1840,7 +1962,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             .attr('transform','translate('+margin.left+','+margin.top+')');
         //缩放比例
         var x = d3.scaleLinear()
-            .domain([0,maxScore])
+            .domain([data2.min.x,data2.maxScorex.x])
             .range([0,g_width]);
         var y = d3.scaleLinear()
             .domain([0,maxNumber])
@@ -1848,20 +1970,20 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         //面积生成器
         var area = d3.area()
             .x(function(d){
-                return x(d.score);
+                return x(d.x);
             })
             .y0(g_height)
             .y1(function(d){
-                return y(d.number);
+                return y(d.y);
             })
             .curve(d3.curveCatmullRom.alpha(0.5));
         //线条生成器
         var line = d3.line()
             .x(function(d){
-                return x(d.score);
+                return x(d.x);
             })
             .y(function(d) {
-                return y(d.number)-1;
+                return y(d.y)-1;
             })
             .curve(d3.curveCatmullRom.alpha(0.5));
 
@@ -1885,40 +2007,40 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             .append('g')
             .append('circle')
             .style('fill',data1.color.fill)
-            .attr('cx', x(data1.dotMax.score))
-            .attr('cy', y(data1.dotMax.number))
+            .attr('cx', x(data1.max.x))
+            .attr('cy', y(data1.max.y))
             .transition()
             .duration(1000)
             .style('fill',data2.color.fill)
-            .attr('cx', x(data2.dotMax.score))
-            .attr('cy', y(data2.dotMax.number))
+            .attr('cx', x(data2.max.x))
+            .attr('cy', y(data2.max.y))
             .attr('r', 5);
         svg     //自己
             .append('g')
             .append('circle')
             .attr('class','svg-dot')
             .style('stroke',data1.color.stroke)
-            .attr('cx', x(data1.dotMe.score))
-            .attr('cy', y(data1.dotMe.number))
+            .attr('cx', x(data1.user_data.x))
+            .attr('cy', y(data1.user_data.y))
             .transition()
             .duration(1000)
             .style('stroke',data2.color.stroke)
-            .attr('cx', x(data2.dotMe.score))
-            .attr('cy', y(data2.dotMe.number))
+            .attr('cx', x(data2.user_data.x))
+            .attr('cy', y(data2.user_data.y))
             .attr('r', 4);
         svg     //最高点线
             .append('g')
             .append('line')
             .style('stroke','#ffffff')
             .style('stroke-width',1)
-            .attr('x1', x(data1.dotMax.score))
-            .attr('y1', y(data1.dotMax.number)+5)
-            .attr('x2', x(data1.dotMax.score))
+            .attr('x1', x(data1.max.x))
+            .attr('y1', y(data1.max.y)+5)
+            .attr('x2', x(data1.max.x))
             .transition()
             .duration(1000)
-            .attr('x1', x(data2.dotMax.score))
-            .attr('y1', y(data2.dotMax.number)+5)
-            .attr('x2', x(data2.dotMax.score))
+            .attr('x1', x(data2.max.x))
+            .attr('y1', y(data2.max.y)+5)
+            .attr('x2', x(data2.max.x))
             .attr('y2', g_height);
         svg     //底线
             .append('g')
@@ -1932,45 +2054,45 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         svg     //大多数人得分文字
             .append('g')
             .append('text')
-            .attr('x', x(data1.dotMax.score)-36)
-            .attr('y', y(data1.dotMax.number)-15)
+            .attr('x', x(data1.max.x)-36)
+            .attr('y', y(data1.max.y)-15)
             .transition()
             .duration(1000)
-            .attr('x', x(data2.dotMax.score)-36)
-            .attr('y', y(data2.dotMax.number)-15)
+            .attr('x', x(data2.max.x)-36)
+            .attr('y', y(data2.max.y)-15)
             .text('大多数人得分');
         svg     //我的得分文字
             .append('g')
             .append('text')
-            .attr('x', x(data1.dotMe.score)-24)
-            .attr('y', y(data1.dotMe.number)-15)
+            .attr('x', x(data1.user_data.x)-24)
+            .attr('y', y(data1.user_data.y)-15)
             .transition()
             .duration(1000)
-            .attr('x', x(data2.dotMe.score)-24)
-            .attr('y', y(data2.dotMe.number)-15)
+            .attr('x', x(data2.user_data.x)-24)
+            .attr('y', y(data2.user_data.y)-15)
             .text('我的得分');
         svg     //大多数人得分
             .append('g')
             .append('text')
-            .attr('x', x(data1.dotMax.score)-8)
+            .attr('x', x(data1.max.x)-8)
             .attr('y', g_height-5)
-            .text(data1.dotMax.score)
+            .text(data1.max.x)
             .transition()
             .duration(1000)
-            .attr('x', x(data2.dotMax.score)-8)
+            .attr('x', x(data2.max.x)-8)
             .attr('y', g_height-5)
-            .text(data2.dotMax.score);
+            .text(data2.max.x);
         svg     //我的得分
             .append('g')
             .append('text')
-            .attr('x', x(data1.dotMe.score)-8)
+            .attr('x', x(data1.user_data.x)-8)
             .attr('y', g_height-5)
-            .text(data1.dotMax.score)
+            .text(data1.max.x)
             .transition()
             .duration(1000)
-            .attr('x', x(data2.dotMe.score)-8)
+            .attr('x', x(data2.user_data.x)-8)
             .attr('y', g_height-5)
-            .text(data2.dotMe.score);
+            .text(data2.user_data.x);
 
         svg     //最低分文字
             .append('g')
@@ -1989,7 +2111,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             .append('text')
             .attr('x', g_width-8)
             .attr('y', g_height-5)
-            .text(maxScore);
+            .text(data2.maxScorex.x);
         if(cb){
             cb();
         }
@@ -2046,7 +2168,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             if(!percent){
                 return 0;
             }
-            var str = percent.replace("%","")/100;
+            var str = percent;
             return str;
         }
 
