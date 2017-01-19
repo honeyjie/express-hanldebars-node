@@ -455,20 +455,26 @@ router.get('/select-school', function(req, res) {
         url: "http://www.utuotu.com/v1/completeform/intelligentselection.action",
     }, function(err, response, body) {
         schoollist = JSON.parse(body).data;
+        console.log(schoollist)
+        res.render('select-school',{
+          schoollist: schoollist
+        })
     });
+              
     //请求图表
-    setTimeout(function(res) {
-      req.proxy.request({
-          method: "GET",
-          url: "http://www.utuotu.com/v1/Completeform/historyoffer.action"
-      }, function(err, response, body) {
-          var formResult = JSON.parse(body).data;
-          res.render('select-school',{
-            formResult: formResult,
-            schoollist: schoollist
-          })
-      });
-    }, 500, res)
+    // setTimeout(function(res) {
+    //   req.proxy.request({
+    //       method: "GET",
+    //       url: "http://www.utuotu.com/v1/Completeform/historyoffer.action"
+    //   }, function(err, response, body) {
+    //       var formResult = JSON.parse(body).data;
+
+    //       res.render('select-school',{
+    //         formResult: formResult,
+    //         schoollist: schoollist
+    //       })
+    //   });
+    // }, 500, res)
     
 
     
