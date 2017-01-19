@@ -607,6 +607,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                 if(data.code===111001013){
                     //未激活
                     $('.set-form-send').removeClass('hidden');
+                    console.log(localStorage.getItem('emailChange') === "true")
                     if (!(localStorage.getItem('emailChange') === "true")) {
                         $('.set-form-email').removeClass('warning');
                     } else {

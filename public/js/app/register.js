@@ -4,7 +4,6 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         if (localStorage.getItem("isRegister") === "true") {
             openSend();
             console.log(localStorage.getItem("isRegister"))
-            debugger;
         }
         //点击修改邮件
 
