@@ -559,6 +559,7 @@ router.get("/Help/search.action", function(req, res) {
         url: "http://www.utuotu.com/v1/Help/search.action",
     }, function(err, response, body) {
       var data = JSON.parse(body);
+      console.log(data.data.article[0]);
       res.render('partials/searchlist', {
             data: data.data,
             layout: "naked"

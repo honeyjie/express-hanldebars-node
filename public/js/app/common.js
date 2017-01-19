@@ -96,9 +96,11 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             e.stopPropagation();
         });
         //打开文章
-        $('.header-search-result-article li').on('click',function(e){
+        $('#search-scroll').on('click', '.header-search-result-article ul li', function(e){
+            e.preventDefault()
             e.stopPropagation();
-            openArticle();
+            console.log($(this).attr('article-id'));
+            openArticle( $(this).attr('article-id'));
         });
         //关闭文章
         $('.view-article-close').on('click',function(e){
@@ -208,14 +210,32 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
         }
     }
 
-    function openArticle(){
+    function openArticle(id){
         closeSearch();
         base.openMask();
         $('.view-article').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
             scroll[2].refresh();
             $('.view-article').removeClass('animated fadeInDown');
         });
+        //请求文章内容并添加进去
+        $.ajax({
+                url:'/v1/Msg/article.action',
+                data:{
+                    id : id
+                },
+                type:'get',
+                cache:false,
+                dataType:'json',
+                success:function(data){
+                    console.log(data);
+                    $('.view-article-content p').html(data.data.content);
+                },
+                error : function() {
+                    base.notice('网络错误');
+                }
+            });
     }
+
     function closeArticle(){
         base.closeMask()
         $('.view-article').addClass('animated fadeOutUp').one(base.animationend,function(){
