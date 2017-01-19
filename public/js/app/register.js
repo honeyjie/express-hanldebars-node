@@ -1,14 +1,14 @@
 define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,common){
     $(function(){
-        console.log(localStorage.getItem("Register"), typeof localStorage.getItem("Register"), localStorage.getItem("Register") === "true")
-        if (localStorage.getItem("Register") === "true") {
-            openSend();
-            localStorage.removeItem('isRegister');
+        // console.log(localStorage.getItem("Register"), typeof localStorage.getItem("Register"), localStorage.getItem("Register") === "true")
+        // if (localStorage.getItem("Register") === "true") {
+        //     openSend();
+        //     localStorage.removeItem('isRegister');
 
-            console.log(localStorage)
-        }
-        localStorage.removeItem('isRegister');
-        console.log(localStorage)
+        //     console.log(localStorage)
+        // }
+        // localStorage.removeItem('isRegister');
+        // console.log(localStorage)
         //点击修改邮件
 
         //补全信息验证
@@ -215,7 +215,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
 
     });
 
-    localStorage.setItem('userInfoEmail', base.userInfo.email);
+    // localStorage.setItem('userInfoEmail', base.userInfo.email);
     function register(){
         if(!base.userInfo.username||!base.userInfo.password||!base.userInfo.repassword||!base.userInfo.email){
             return;
@@ -238,7 +238,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
                 if (data.code === 0) {
                     openSend();
                     console.log("已注册");
-                    localStorage.setItem("Register", "true");
+                    // localStorage.setItem("Register", "true");
                 }
            },
            error : function() {
@@ -260,8 +260,8 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
 
     function openSend(){
 
-        // $('.send-button-jump').attr('href',base.jumpEmail(base.userInfo.email));
-        $('.send-button-jump').attr('href',base.jumpEmail(localStorage.getItem('userInfoEmail')));
+        $('.send-button-jump').attr('href',base.jumpEmail(base.userInfo.email));
+        // $('.send-button-jump').attr('href',base.jumpEmail(localStorage.getItem('userInfoEmail')));
 
         // $('.complete').addClass('animated fadeOutUp').one(base.animationend,function(){
         //     $('.complete').removeClass('animated fadeOutUp')

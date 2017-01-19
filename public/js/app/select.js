@@ -1,20 +1,18 @@
 define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,fullpage,iscroll,base,common,d3){
     //接口请求数据
-    getData = function() {
+    //每切换一个学校请求一次
+    function getChartData() {
+        //从接口中取得数据
         $.ajax({
             url: '/v1/Completeform/historyoffer.action',
             data: {
-                sid: $('.school-side').attr('data-school')
+                id: $('').attr('school-id')
             },
             type:'get',
             cache:false,
-            dataType:'html',
+            dataType:'json',
             success:function(data){
-                $('.school-side li').removeClass('active');
-                $(target).addClass('active');
-                $('.school-side-revise').hide();
-                $('.help-icon').addClass('hidden');
-                $("#academylist").html(data);
+                console.log(data);
             },
             error : function() {
                 base.notice('网络错误');
