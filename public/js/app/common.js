@@ -71,22 +71,23 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             openSearch();
         });
         //搜索输入
-        // $('.header-search input').on('input propertychange',function(){
-        //     var searchVal = $(this).val();
-        //     search(searchVal);
-        //     console.log(searchVal)
-        //     setTimeout(function() {
-        //         $('.searchmore').attr('href', '/school-screen?value='+ searchVal + '&page=0'); 
-        //         console.log($('.searchmore'), $('.searchmore').attr('href'));
-        //     }, 500);
+        $('.header-search input').on('input propertychange',function(){
+            var searchVal = $(this).val();
+            search(searchVal);
+            console.log(searchVal)
+            setTimeout(function() {
+                $('.searchmore').attr('href', '/school-screen?value='+ searchVal + '&page=0'); 
+                console.log($('.searchmore'), $('.searchmore').attr('href'));
+            }, 500);
 
-        //     //跳转到school-screen 页面，将选中值填入，并搜索
-        //     var searchquery = window.location.search;
-        //     if (searchquery.slice(1, searchquery.indexOf("=")) == "value") {
-        //         $('.screen-form-school').val(searchquery.slice(searchquery.indexOf("=") + 1, searchquery.indexOf("&"))
-        //     }
-        // });
+            //跳转到school-screen 页面，将选中值填入，并搜索
+   
+        });
 
+        var searchquery = window.location.search;
+        if (searchquery.slice(1, searchquery.indexOf("=")) == "value") {
+            $('.screen-form-school').val(searchquery.slice(searchquery.indexOf("=") + 1, searchquery.indexOf("&")));
+        }
 
         // $('.screen-side-form-search').on('click',function(){
         //     var school = $('.screen-form-school').val();

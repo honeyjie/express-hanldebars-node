@@ -116,6 +116,14 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 searchSchool(school);
             }
         });
+
+        var searchquery = window.location.search;
+        console.log(searchquery.slice(1, searchquery.indexOf("=")), searchquery.slice(searchquery.indexOf("=") + 1, searchquery.indexOf("&")))
+        if (searchquery.slice(1, searchquery.indexOf("=")) === "value") {
+            $('.screen-form-school').val(searchquery.slice(searchquery.indexOf("=") + 1, searchquery.indexOf("&")));
+            var school = $('.screen-form-school').val();
+            searchSchool(school);
+        }
         //条件搜索院校
         $('.screen-side-search').on('click',function(){
             // canSearch();
