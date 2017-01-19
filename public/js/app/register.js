@@ -7,6 +7,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
 
             console.log(localStorage)
         }
+        localStorage.removeItem('isRegister');
         console.log(localStorage)
         //点击修改邮件
 

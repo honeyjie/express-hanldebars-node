@@ -84,10 +84,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
    
         });
 
-        var searchquery = window.location.search;
-        if (searchquery.slice(1, searchquery.indexOf("=")) == "value") {
-            $('.screen-form-school').val(searchquery.slice(searchquery.indexOf("=") + 1, searchquery.indexOf("&")));
-        }
+
 
         // $('.screen-side-form-search').on('click',function(){
         //     var school = $('.screen-form-school').val();
@@ -155,10 +152,12 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             login();
         });
 
-         $('.login-submit').on('keydown', function(e) {
-            $(this).trigger('click');
-         })
-
+        $('.login-submit').on('keydown', function(e) {
+            if (e.witch === 13) {
+                $(this).trigger('click');
+                 console.log("111")
+            }
+        })
         //退出登录
         $('.header-user-logout').on('click',function(e){
             e.stopPropagation();
