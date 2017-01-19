@@ -5,9 +5,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
 
 
     var gpaDate,tofelDate,greDate,learningDate,recommendDate,prizeDate;
-
     function getChartData(id) {
-        console.log("1");
         $.ajax({
             url: '/v1/Completeform/historyoffer.action',
             data: {
@@ -29,8 +27,8 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 tofelDate = {
                     before : null,
                     now : {
-                        data : chartData.tofel.data,  
-                        myScore : chartData.tofel.user_data.x  
+                        data : chartData.toefl.data,  
+                        myScore : chartData.toefl.user_data.x  
                     }
                 };
                 greDate = {
@@ -55,7 +53,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 prizeDate = {
                     before : null,
                     now: {
-                        ratio : chartData.data.prize
+                        ratio : chartData.prize
                     }
                 };
                 chart();
@@ -1211,37 +1209,35 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                         console.log(data);
                         chartData = data.data;
                         gpaDate.now = {
-                            data : chartData.data.gpa.data,  
-                            myScore : data.data.gpa.user_data.x  
+                            data : chartData.gpa.data,  
+                            myScore : chartData.gpa.user_data.x  
                         };
                         tofelDate.now = {
-                            data : chartData.data.toefl.data, 
-                            myScore : data.data.toefl.user_data.x 
+                            data : chartData.toefl.data, 
+                            myScore : chartData.toefl.user_data.x 
                         };
                         greDate.now = {
-                            data : chartData.data.gre.data, 
-                            myScore : data.data.gre.user_data.x 
+                            data : chartData.gre.data, 
+                            myScore : chartData.gre.user_data.x 
                         };
                         learningDate.now = {
-                            ratio : chartData.data.science_paper
+                            ratio : chartData.science_paper
                         };
                         recommendDate.now = {
-                            ratio : chartData.data.recommend
+                            ratio : chartData.recommend
                         };
                         prizeDate.now = {
-                            ratio : chartData.data.prize
+                            ratio : chartData.prize
                         };
                         chart();
-                        $('.select-dis-gpa span').html(data.gpa.user_data.y);
-                        $('.select-dis-tofel span').html(data.toefl.user_data.y);
-                        $('.select-dis-gre span').html(data.gre.user_data.y);
+                        $('.select-dis-gpa span').html(chartData.gpa.user_data.y);
+                        $('.select-dis-tofel span').html(chartData.toefl.user_data.y);
+                        $('.select-dis-gre span').html(chartData.gre.user_data.y);
 
-                        $('.select-school-chart hardrate span').html(data.hard);
-                        $('.select-school-chart softrate span').html(data.soft);
-                        $('.select-chart-summary li.countrate span').html(data.soft);
+                        $('.select-school-chart hardrate span').html(chartData.hard);
+                        $('.select-school-chart softrate span').html(chartData.soft);
+                        $('.select-chart-summary li.countrate span').html(chartData.soft);
                         //硬实力data.hard，软实力data.soft，综合实力data.count
-
-
                     },
                     error : function() {
                         base.notice('网络错误');
