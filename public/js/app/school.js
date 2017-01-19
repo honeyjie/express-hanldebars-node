@@ -45,7 +45,6 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         $('.screen-form-state').select(scroll[1]);
         $('.screen-form-major').select(scroll[2]);
 
-
         //下拉选择
         $('.screen-form-country .form-select-option li').on('click',function(){
             screen.country = $(this).attr('short_country');
@@ -297,6 +296,11 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 }
                 $('.major-info-start').select();
                 $('.major-info-direction').select();
+                $('.major-info-direction .form-select-option li').on('click',function(){
+                    if($(this).html().length>20){
+                        $('.major-info-direction .form-select-value').html($(this).html().substring(0,20)+'...');
+                    }
+                })
             },
             error : function() {
                 base.notice('网络错误');
@@ -455,6 +459,11 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                     }
                     $('.major-info-start').select();
                     $('.major-info-direction').select();
+                    $('.major-info-direction .form-select-option li').on('click',function(){
+                        if($(this).html().length>20){
+                            $('.major-info-direction .form-select-value').html($(this).html().substring(0,20)+'...');
+                        }
+                    })
                 },
                 error : function() {
                     base.notice('网络错误');
@@ -691,6 +700,11 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 }
                 $('.major-info-start').select();
                 $('.major-info-direction').select();
+                $('.major-info-direction .form-select-option li').on('click',function(){
+                    if($(this).html().length>20){
+                        $('.major-info-direction .form-select-value').html($(this).html().substring(0,20)+'...');
+                    }
+                })
             },
             error : function() {
                 base.notice('网络错误');
