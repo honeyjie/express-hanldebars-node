@@ -180,7 +180,7 @@ router.get('/v1/User/msganswer.action', function(req, res, next) {
       qs: req.query
   }, function(err, response, body) {
       var getmsg = JSON.parse(body);
-      // console.log(getmsg, getmsg.data.list, "====")
+
         res.render('partials/msganswer', {
           data: getmsg.data,
           layout: "naked"
@@ -196,7 +196,7 @@ router.get('/user-set', function(req, res, next) {
         url: "http://www.utuotu.com/v1/user/userinfo.action"
     }, function(err, response, body) {
         data = JSON.parse(body);
-        // console.log('http://www.utuotu.com/v1/user/userinfo.action', data)
+
         res.render('user-set', {
             data: data.data,
             userset: true
@@ -235,7 +235,7 @@ router.get('/register-test', function(req, res, next) {
     url: 'http://www.utuotu.com/v1/msg/validemail.action', 
     qs: req.query
   }, function(err, response, body) {
-    // console.log('http://www.utuotu.com/v1/msg/validemail.action', body);
+
     var data = JSON.parse(body);
     var success = false,
         done = false,
@@ -244,7 +244,7 @@ router.get('/register-test', function(req, res, next) {
     if (data.code == 0) {
 
       success = true;
-      // console.log('http://www.utuotu.com/v1/msg/validemail.action', success)
+
     } else if (data.code === 111001007) {
       done = true;
     } else {
@@ -455,7 +455,7 @@ router.get('/select-school', function(req, res) {
         url: "http://www.utuotu.com/v1/completeform/intelligentselection.action",
     }, function(err, response, body) {
         schoollist = JSON.parse(body).data;
-        console.log(schoollist)
+
         res.render('select-school',{
           schoollist: schoollist
         })
@@ -570,7 +570,6 @@ router.get("/Help/search.action", function(req, res) {
         url: "http://www.utuotu.com/v1/Help/search.action",
     }, function(err, response, body) {
       var data = JSON.parse(body);
-      // console.log(data.data.article[0]);
       res.render('partials/searchlist', {
             data: data.data,
             layout: "naked"
@@ -632,7 +631,7 @@ router.get("/captcha/try.action", function(req, res) {
 });
 
 //表单提交
-router.get("/completeform/saveform.action", function(req, res) {
+router.post("/completeform/saveform.action", function(req, res) {
     req.proxy.request({
         method: "POST",
         url: "http://www.utuotu.com/v1/completeform/saveform.action",
@@ -640,7 +639,7 @@ router.get("/completeform/saveform.action", function(req, res) {
       for (var key in response.headers) {
           res.set(key, response.headers[key])
       }
-      console.log("前端请求数据", req.body);
+      console.log("前端请求数据", req.body, req);
       console.log("后端返回数据", body)
 
       var data = JSON.parse(body);
