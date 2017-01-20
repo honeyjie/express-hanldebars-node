@@ -37,8 +37,9 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
             });
         }
 
-        //七牛上传文件
-        if($('.help-file')[0]){
+        //七牛上传头像
+        if($('.help-file-icon')[0]){
+            console.log("---")
             var uploader = Qiniu.uploader({
                 runtimes: 'html5,flash,html4',    //上传模式,依次退化
                 browse_button: 'helpFile',       //上传选择的点选按钮，**必需**
@@ -65,9 +66,12 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                         // 每个文件上传时,处理相关的事情
                     },
                     'FileUploaded': function(up, file, info) {
+
                         var res = JSON.parse(info);
                         imgUrl = up.getOption('domain') + res.key;
-
+                        // base.userInfo.headerimg = imgUrl
+                        console.log(imgUrl)
+                        upLoadFile();
                         // 每个文件上传成功后,处理相关的事情
                         // 其中 info 是文件上传成功后，服务端返回的json，形式如
                         // {
@@ -88,9 +92,8 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                     },
                     'Key': function(up, file) {
                         // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
-                        // 该配置必须要在 unique_names: false , save_key: false 时才生效
-
-                        var key = "";
+                        // 该配置必须要在 unique_names: false , save_key: false 时才生效 
+                        var key = "/usr/upload/"+up.uid+file.name;
                         // do something with key here
                         return key
                     }
@@ -176,20 +179,23 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         });
         //提交问题
         $('.help-send').on('click',function(){
-            sendQuestion();
+              var urlImg = urlImg || ""
+              console.log(urlImg)
+               sendQuestion(urlImg); 
+            
         });
         //添加附件
         $('.help-file').on('click',function(){
             if(!type){
                 return;
             }
-            $('#help-file')[0].click();
+            // $('#help-file')[0].click();
         });
-        if($('#help-file')[0]){
-            $('#help-file')[0].addEventListener('change',function(){
-                upLoadFile();
-            },false)
-        }
+        // if($('#help-file')[0]){
+        //     $('#help-file')[0].addEventListener('change',function(){
+        //         upLoadFile();
+        //     },false)
+        // }
     }
 
 
@@ -261,13 +267,14 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         });
     }
 
-    function sendQuestion(){
-        question = $('.help-question textarea').val();
+    function sendQuestion(urlImg){
+        console.log(urlImg)
+        question = $('.help-question textarea').val() + "<br/>"+ urlImg;
         if(!question){
             notice('您还没有录入问题');
             return;
         }
-
+        console.log(question)
         sendMessage(question, type);
         
     }

@@ -87,6 +87,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                         var res = JSON.parse(info);
                         imgUrl = up.getOption('domain') + res.key;
                         base.userInfo.headerimg = imgUrl
+                        console.log(imgUrl)
                         canSaveInfo();
                         $('.user-main .set-avatar img').attr('src', imgUrl);
                         // 每个文件上传成功后,处理相关的事情
