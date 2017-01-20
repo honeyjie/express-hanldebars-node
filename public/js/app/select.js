@@ -2,7 +2,6 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
     console.log($('.select-school-list:first li:first').attr('school-id'));
     getChartData($('.select-school-list:first li:first').attr('school-id'));
     var gpaDate,tofelDate,greDate,learningDate,recommendDate,prizeDate;
-
     function getChartData(id) {
         $.ajax({
             url: '/v1/Completeform/historyoffer.action',
@@ -1214,7 +1213,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             //请求接口获取图表
 
             var id = $(this).parent('li').attr('school-id');
-            console.log(id);
+            console.log(id, "切换学校");
             // getChartData(id)
             // function getChartData(id) {
                 $.ajax({
@@ -1781,7 +1780,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
     //生成图表
     function chart(){
         chartArea('.select-svg-gpa',gpaDate.before,gpaDate.now,4,gpaDate.now.max.y,function(){
-            // console.log(gpaDate.before, gpaDate.now);
+            console.log(gpaDate.before, gpaDate.now);
             gpaDate.before = gpaDate.now;
 
         });
@@ -1835,16 +1834,16 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             }
         }
         else{
-            data1.lessMe = lessArr(data1);
-            data1.max = maxObj(data1);//最大处
-            data1.user_data = meObj(data1);//我的得分
+            data1.lessMe = lessArr(data1);//小于我的得分数组
+            data1.max = maxObj(data1);//最多人数处（已知）
+            data1.user_data = meObj(data1);//我的得分（已知）
             data1.color = color(data1);
-            data1.min = minObj(data1);
-            data1.maxScorex = maxScoreObj(data1);
+            data1.min = minObj(data1);//最低得分点
+            data1.maxScorex = maxScoreObj(data1);//最高得分点
         }
         data2.lessMe = lessArr(data2);
-        data2.max = maxObj(data2);
-        data2.user_data = meObj(data2);
+        // data2.max = maxObj(data2);
+        // data2.user_data = meObj(data2);
         data2.color = color(data2);
         data2.min = minObj(data2)
         data2.maxScorex = maxScoreObj(data2);

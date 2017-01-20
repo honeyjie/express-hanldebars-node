@@ -180,7 +180,7 @@ router.get('/v1/User/msganswer.action', function(req, res, next) {
       qs: req.query
   }, function(err, response, body) {
       var getmsg = JSON.parse(body);
-      console.log(getmsg, getmsg.data.list, "====")
+      // console.log(getmsg, getmsg.data.list, "====")
         res.render('partials/msganswer', {
           data: getmsg.data,
           layout: "naked"
@@ -196,7 +196,7 @@ router.get('/user-set', function(req, res, next) {
         url: "http://www.utuotu.com/v1/user/userinfo.action"
     }, function(err, response, body) {
         data = JSON.parse(body);
-        console.log('http://www.utuotu.com/v1/user/userinfo.action', data)
+        // console.log('http://www.utuotu.com/v1/user/userinfo.action', data)
         res.render('user-set', {
             data: data.data,
             userset: true
@@ -235,7 +235,7 @@ router.get('/register-test', function(req, res, next) {
     url: 'http://www.utuotu.com/v1/msg/validemail.action', 
     qs: req.query
   }, function(err, response, body) {
-    console.log('http://www.utuotu.com/v1/msg/validemail.action', body);
+    // console.log('http://www.utuotu.com/v1/msg/validemail.action', body);
     var data = JSON.parse(body);
     var success = false,
         done = false,
@@ -244,7 +244,7 @@ router.get('/register-test', function(req, res, next) {
     if (data.code == 0) {
 
       success = true;
-      console.log('http://www.utuotu.com/v1/msg/validemail.action', success)
+      // console.log('http://www.utuotu.com/v1/msg/validemail.action', success)
     } else if (data.code === 111001007) {
       done = true;
     } else {
