@@ -901,7 +901,9 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             var n = $(this).parents('.select-science').find('.form-check').index($(this));
             if(select.science_rank[n]==0){
                 $(this).find('.form-select').removeClass('hidden');
-                height[3] = parseInt(height[3])+$(this).find('.form-select').innerHeight()+'px';
+                if($(this).find('.form-select')[0]){
+                    height[3] = parseInt(height[3])+$(this).find('.form-select').innerHeight()+'px';
+                }
                 select.science_rank[n] = $(this).data('value');
                 if(n==2){
                     select.science_rank_time[n] = 1;
@@ -912,7 +914,9 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             }
             else{
                 $(this).find('.form-select').addClass('hidden');
-                height[3] = parseInt(height[3])-$(this).find('.form-select').innerHeight()+'px';
+                if($(this).find('.form-select')[0]){
+                    height[3] = parseInt(height[3])-$(this).find('.form-select').innerHeight()+'px';
+                }
                 select.science_rank[n] = 0;
                 select.science_rank_time[n] = 0;
             }
@@ -1075,7 +1079,9 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             var n = $(this).parents('.select-work').find('.form-check').index($(this));
             if(select.work_rank[n]==0){
                 $(this).find('.form-select').removeClass('hidden');
-                height[3] = parseInt(height[3])+$(this).find('.form-select').innerHeight()+'px';
+                if($(this).find('.form-select')[0]){
+                    height[3] = parseInt(height[3])+$(this).find('.form-select').innerHeight()+'px';
+                }
                 select.work_rank[n] = $(this).data('value');
                 if(n==2){
                     select.work_time[n] = 1;
@@ -1086,13 +1092,13 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             }
             else{
                 $(this).find('.form-select').addClass('hidden');
-                height[3] = parseInt(height[3])-$(this).find('.form-select').innerHeight()+'px';
+                if($(this).find('.form-select')[0]){
+                    height[3] = parseInt(height[3])-$(this).find('.form-select').innerHeight()+'px';
+                }
                 select.work_rank[n] = 0;
                 select.work_time[n] = 0;
             }
             $('.select-other').css('height',height[3]);
-            console.log(select.work_rank)
-            console.log(select.work_time)
         });
         //工作/实习经历 下拉
         $('.select-work .form-select').on('click',function(e){
@@ -1641,6 +1647,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             if(!select.gpa||!select.language||!language.overall||!language.R||!language.L||!language.S||!language.W||!select.exam||!exam.overall||!exam.V||!exam.Q||!exam.AW){
                 $('.select-box').eq(2).find('.select-title').addClass('error');
                 if(parseInt($('.select-box').eq(2).find('.select-content').css('height'))==0){
+                    boxCanClick = true;
                     $('.select-box').eq(2).find('.select-title-control').click();
                 }
                 if(!select.gpa){
