@@ -2,6 +2,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
     console.log($('.select-school-list:first li:first').attr('school-id'));
     getChartData($('.select-school-list:first li:first').attr('school-id'));
     var gpaDate,tofelDate,greDate,learningDate,recommendDate,prizeDate;
+    var formdata;
     function getChartData(id) {
         $.ajax({
             url: '/v1/Completeform/historyoffer.action',
@@ -91,7 +92,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 $('.select-school-chart .hardrate span').html(getRatio(chartData.hard));
                 $('.select-school-chart .softrate span').html(getRatio(chartData.soft));
                 $('.select-chart-summary li.countrate span').html(getRatio(chartData.count));
-                $('.select-chart-summary li.match span').html(getRatio(chartData.match));
+                $('.select-chart-summary li.match span').html(chartData.match);
             },
             error : function() {
                 base.notice('网络错误');
@@ -1717,59 +1718,65 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             return;
         }
 
+        formdata = {
+            nation : select.nation,
+            locatioin : select.locatioin,
+            pre_school : select.pre_school,
+            school_type : select.school_type,
+            pre_major : select.pre_major,
+            pre_major2 : select.pre_major2,
+            grade : select.grade,
+            related_major : select.related_major,
+            degree : select.degree,
+            gpa : select.gpa,
+            toefl : select.toefl,
+            toefl_r : select.toefl_r,
+            toefl_l : select.toefl_l,
+            toefl_s : select.toefl_s,
+            toefl_w : select.toefl_w,
+            ielts : select.ielts,
+            ielts_r : select.ielts_r,
+            ielts_l : select.ielts_l,
+            ielts_s : select.ielts_s,
+            ielts_w : select.ielts_w,
+            gre : select.gre,
+            gre_v : select.gre_v,
+            gre_q : select.gre_q,
+            gre_aw : select.gre_aw,
+            gmat : select.gmat,
+            gmat_v : select.gmat_v,
+            gmat_q : select.gmat_q,
+            gmat_aw : select.gmat_aw,
+            lsat : select.lsat,
+            exchange : select.exchange,
+            science_rank : select.science_rank,
+            science_rank_time : select.science_rank_time,
+            recommend_rank : select.recommend_rank,
+            international_paper_rank : select.international_paper_rank,
+            international_paper_num : select.international_paper_num,
+            chinese_paper_rank : select.chinese_paper_rank,
+            chinese_paper_num : select.chinese_paper_num,
+            meeting_paper_rank : select.meeting_paper_rank,
+            meeting_paper_num : select.meeting_paper_num,
+            work_rank : select.work_rank,
+            work_time : select.work_time,
+            prize : select.prize,
+            match : select.match
+        }
+
         $.ajax({
             url:'/v1/completeform/saveform.action',
-            data:{
-                nation : select.nation,
-                locatioin : select.locatioin,
-                pre_school : select.pre_school,
-                school_type : select.school_type,
-                pre_major : select.pre_major,
-                pre_major2 : select.pre_major2,
-                grade : select.grade,
-                related_major : select.related_major,
-                degree : select.degree,
-                gpa : select.gpa,
-                toefl : select.toefl,
-                toefl_r : select.toefl_r,
-                toefl_l : select.toefl_l,
-                toefl_s : select.toefl_s,
-                toefl_w : select.toefl_w,
-                ielts : select.ielts,
-                ielts_r : select.ielts_r,
-                ielts_l : select.ielts_l,
-                ielts_s : select.ielts_s,
-                ielts_w : select.ielts_w,
-                gre : select.gre,
-                gre_v : select.gre_v,
-                gre_q : select.gre_q,
-                gre_aw : select.gre_aw,
-                gmat : select.gmat,
-                gmat_v : select.gmat_v,
-                gmat_q : select.gmat_q,
-                gmat_aw : select.gmat_aw,
-                lsat : select.lsat,
-                exchange : select.exchange,
-                science_rank : select.science_rank,
-                science_rank_time : select.science_rank_time,
-                recommend_rank : select.recommend_rank,
-                international_paper_rank : select.international_paper_rank,
-                international_paper_num : select.international_paper_num,
-                chinese_paper_rank : select.chinese_paper_rank,
-                chinese_paper_num : select.chinese_paper_num,
-                meeting_paper_rank : select.meeting_paper_rank,
-                meeting_paper_num : select.meeting_paper_num,
-                work_rank : select.work_rank,
-                work_time : select.work_time,
-                prize : select.prize,
-                match : select.match
-    },
+            data: formdata,
             type:'post',
             cache:false,
             dataType:'json',
             success:function(data){
                 console.log(data);
-                window.location.href = "/select-school";
+                localStorage.removeItem("formdata", formdata);
+                console.log("清除数据", formdata);
+                localStorage.setItem("formdata", formdata);
+                console.log("存储数据", formdata);
+                // window.location.href = "/select-school";
             },
             error : function() {
                 base.notice('网络错误');
