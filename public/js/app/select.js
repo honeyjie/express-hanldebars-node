@@ -1,4 +1,5 @@
 define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,fullpage,iscroll,base,common,d3){
+    
     console.log($('.select-school-list:first li:first').attr('school-id'));
     getChartData($('.select-school-list:first li:first').attr('school-id'));
     var gpaDate,tofelDate,greDate,learningDate,recommendDate,prizeDate;
@@ -1301,7 +1302,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                         $('.select-school-chart .hardrate span').html(getRatio(chartData.hard));
                         $('.select-school-chart .softrate span').html(getRatio(chartData.soft));
                         $('.select-chart-summary li.countrate span').html(getRatio(chartData.count));
-                        $('.select-chart-summary span').html(getRatio(chartData.match));
+                        $('.select-chart-summary span').html(chartData.match);
 
                     },
                     error : function() {
@@ -1776,7 +1777,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 console.log("清除数据", formdata);
                 localStorage.setItem("formdata", formdata);
                 console.log("存储数据", formdata);
-                // window.location.href = "/select-school";
+                window.location.href = "/select-school";
             },
             error : function() {
                 base.notice('网络错误');
