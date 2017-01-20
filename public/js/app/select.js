@@ -1777,12 +1777,13 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             cache:false,
             dataType:'json',
             success:function(data){
-                console.log(data);
-                localStorage.removeItem("formdata", formdata);
-                console.log("清除数据", formdata);
-                localStorage.setItem("formdata", formdata);
-                console.log("存储数据", formdata);
-                window.location.href = "/select-school";
+                console.log("提交数据", formdata);
+                console.log("返回数据", data);
+                // localStorage.removeItem("formdata", formdata);
+                // console.log("清除数据", formdata);
+                // localStorage.setItem("formdata", formdata);
+                // console.log("存储数据", formdata);
+                // window.location.href = "/select-school";
             },
             error : function() {
                 base.notice('网络错误');
