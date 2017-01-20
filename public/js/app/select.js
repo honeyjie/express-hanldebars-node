@@ -123,7 +123,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         select.pre_major2 = null;                          //之前专业2
         select.grade = null;                               //毕业时间
         select.related_major = null;                       //申请专业
-        select.pre_degree = null;                          //申请学位
+        select.degree = null;                          //申请学位
         select.gpa = null;                                 //GPA
         select.language = null;                            //语言考试类型(前端判断用)
         select.toefl = null;                               //toefl overall
@@ -372,7 +372,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         });
         //申请学位
         $('.select-degree .form-radio').on('click',function(){
-            select.pre_degree = $(this).data('value');
+            select.degree = $(this).data('value');
             $('.select-degree .form-item-name').removeClass('red');
             infoFinished();
         });
@@ -933,11 +933,12 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         $('.select-recommend .form-check').on('click',function(){
             var n = $(this).parents('.select-recommend').find('.form-check').index($(this));
             if(select.recommend_rank[n]==0){
-                select.recommend_rank[n] = $(this).val();
+                select.recommend_rank[n] = $(this).data('value');
             }
             else{
                 select.recommend_rank[n] = 0;
             }
+            console.log(select.recommend_rank)
         });
         //学术成就
         $('.select-achievement .form-check').on('click',function(){
@@ -1150,10 +1151,10 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             var num = $(this).parents('.form-item').find('.form-select').index($(this).parents('.form-select'));
             switch(num){
                 case 0:
-                    select.prize = val;
+                    select.prize = $(this).data('value');
                     break;
                 case 1:
-                    select.match = val;
+                    select.match = $(this).data('value');
                     break;
             }
             console.log(select.prize)
@@ -1362,7 +1363,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         }
     }
     function infoFinished(){
-        if(select.pre_school&&select.school_type&&select.pre_major&&select.grade&&select.related_major!==null&&select.pre_degree){
+        if(select.pre_school&&select.school_type&&select.pre_major&&select.grade&&select.related_major!==null&&select.degree){
             if($('.select-box').eq(1).find('.select-title').hasClass('error')){
                 $('.select-box').eq(1).find('.select-title').removeClass('error');
             }
@@ -1551,7 +1552,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 $('.select-box').eq(0).find('.select-title-control').click();
             }
         }
-        if(!select.pre_school||!select.school_type||!select.pre_major||!select.grade||select.related_major==null||!select.pre_degree){
+        if(!select.pre_school||!select.school_type||!select.pre_major||!select.grade||select.related_major==null||!select.degree){
             $('.select-box').eq(1).find('.select-title').addClass('error');
             if(parseInt($('.select-box').eq(1).find('.select-content').css('height'))==0){
                 boxCanClick = true;
@@ -1569,7 +1570,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             if(!select.related_major){
                 $('.select-major-only .form-item-name').addClass('red');
             }
-            if(!select.pre_degree){
+            if(!select.degree){
                 $('.select-degree .form-item-name').addClass('red');
             }
         }
@@ -1726,7 +1727,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 pre_major2 : select.pre_major2,
                 grade : select.grade,
                 related_major : select.related_major,
-                pre_degree : select.pre_degree,
+                degree : select.degree,
                 gpa : select.gpa,
                 toefl : select.toefl,
                 toefl_r : select.toefl_r,
@@ -1767,7 +1768,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             dataType:'json',
             success:function(data){
                 console.log(data);
-                window.location.href = "/select-school";
+                //window.location.href = "/select-school";
             },
             error : function() {
                 base.notice('网络错误');
