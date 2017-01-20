@@ -1118,6 +1118,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                         $(this).find('.form-select').removeClass('hidden');
                         height[3] = parseInt(height[3])+$(this).find('.form-select').innerHeight()+'px';
                         $('.select-other').css('height',height[3]);
+                        select.prize = $(this).find('.form-select-option li').eq(0).data('value');
                     }
                     else{
                         $(this).find('.form-select').addClass('hidden');
@@ -1131,6 +1132,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                         $(this).find('.form-select').removeClass('hidden');
                         height[3] = parseInt(height[3])+$(this).find('.form-select').innerHeight()+'px';
                         $('.select-other').css('height',height[3]);
+                        select.match = $(this).find('.form-select-option li').eq(0).data('value');
                     }
                     else{
                         $(this).find('.form-select').addClass('hidden');
@@ -1768,7 +1770,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             dataType:'json',
             success:function(data){
                 console.log(data);
-                //window.location.href = "/select-school";
+                window.location.href = "/select-school";
             },
             error : function() {
                 base.notice('网络错误');
