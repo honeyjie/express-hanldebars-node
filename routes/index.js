@@ -639,12 +639,12 @@ router.post("/completeform/saveform.action", function(req, res) {
         method: "POST",
         url: "http://www.utuotu.com/v1/completeform/saveform.action",
     }, function(err, response, body) {
-      for (var key in response.headers) {
-           res.set(key, response.headers[key])
-       }
+      // for (var key in response.headers) {
+      //      res.set(key, response.headers[key])
+      //  }
       // res.set("Content-Length", "4000");
       console.log("前端请求数据", req.body, req);
-     // console.log("后端返回数据", body, response)
+      console.log("后端返回数据", body, response)
 
       var data = JSON.parse(body);
       res.send(data);
