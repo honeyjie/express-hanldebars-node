@@ -143,26 +143,21 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         select.gmat_q = null;                              //gmat q
         select.gmat_aw = null;                             //gmat aw
         select.lsat = null;                                //lsat
-        select.exchange = [];                              //海外学习经历
-        select.experience = [];                            //科研经历
-        select.experience_time = [0,0,0];                  //科研经历子类
-        select.recommend_rank = [];                        //推荐信
-        select.chinese_paper_rank = 0;                     //学术成就第一项
-        select.chinese_paper_num = [0,0,0];                //学术成就第一项子类
-        select.international_paper_rank = 0;               //学术成就第二项
-        select.international_paper_num = [0,0,0];          //学术成就第二项子类
-        select.meeting_paper_rank = 0;                     //学术成就第三项
+        select.exchange = [0,0,0];                         //海外学习经历
+        select.science_rank = [0,0,0];                     //科研经历
+        select.science_rank_time = [0,0,0];                //科研经历子类
+        select.recommend_rank = [0,0,0];                   //推荐信
+        select.achievement = [0,0,0];                      //学术成就(前端判断用)
+        select.international_paper_rank = [0,0,0];         //学术成就第一项
+        select.international_paper_num = [0,0,0];          //学术成就第一项子类
+        select.chinese_paper_rank = [0,0,0];               //学术成就第二项
+        select.chinese_paper_num = [0,0,0];                //学术成就第二项子类
+        select.meeting_paper_rank = [0,0];                 //学术成就第三项
         select.meeting_paper_num = [0,0];                  //学术成就第三项子类
-        select.internship_rank = 0;                        //工作学习经历第一项
-        select.internship_time = 0;                        //工作学习经历第一项子类
-        select.work_rank = 0;                              //工作学习经历第二项
-        select.work_time = 0;                              //工作学习经历第二项子类
-        select.science_rank = 0;                           //工作学习经历第三项
-        select.science_time = 0;                           //工作学习经历第三项子类
+        select.work_rank = [0,0,0];                        //工作学习经历
+        select.work_time = [0,0,0];                        //工作学习经历子类
         select.prize = 0;                                  //获奖情况第一项
-        select.prize_rank = 0;                             //获奖情况第一项子类
         select.match = 0;                                  //获奖情况第二项
-        select.match_rank = 0;                             //获奖情况第二项子类
 
 
 
@@ -894,28 +889,37 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         });
         //海外学习
         $('.select-exchange .form-check').on('click',function(){
-            var n = $(this).parents('.select-exchange').find('.form-check').index($(this))+1;
-            if(select.exchange.indexOf(n)==-1){
-                select.exchange.push(n);
+            var n = $(this).parents('.select-exchange').find('.form-check').index($(this));
+            if(select.exchange[n]==0){
+                select.exchange[n] = $(this).data('value');
             }
             else{
-                select.exchange.splice(select.exchange.indexOf(n),1);
+                select.exchange[n] = 0;
             }
         });
         //科研经历 选择
         $('.select-science .form-check').on('click',function(){
-            var n = $(this).parents('.select-science').find('.form-check').index($(this))+1;
-            if(select.experience.indexOf(n)==-1){
+            var n = $(this).parents('.select-science').find('.form-check').index($(this));
+            if(select.science_rank[n]==0){
                 $(this).find('.form-select').removeClass('hidden');
-                height[3] = parseInt(height[3])+$(this).find('.form-select').innerHeight()+'px';
-                select.experience.push(n);
-                select.experience_time[n-1] = 1;
+                if($(this).find('.form-select')[0]){
+                    height[3] = parseInt(height[3])+$(this).find('.form-select').innerHeight()+'px';
+                }
+                select.science_rank[n] = $(this).data('value');
+                if(n==2){
+                    select.science_rank_time[n] = 1;
+                }
+                else{
+                    select.science_rank_time[n] = $(this).find('.form-select-option li').eq(0).data('value');
+                }
             }
             else{
                 $(this).find('.form-select').addClass('hidden');
-                height[3] = parseInt(height[3])-$(this).find('.form-select').innerHeight()+'px';
-                select.experience.splice(select.experience.indexOf(n),1);
-                select.experience_time[n-1] = 0;
+                if($(this).find('.form-select')[0]){
+                    height[3] = parseInt(height[3])-$(this).find('.form-select').innerHeight()+'px';
+                }
+                select.science_rank[n] = 0;
+                select.science_rank_time[n] = 0;
             }
             $('.select-other').css('height',height[3]);
         });
@@ -925,18 +929,18 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         });
         $('.select-science .form-select-option li').on('click',function(e){
             e.stopPropagation();
-            var val = $(this).index();
+            var val = $(this).data('value');
             var n = $(this).parents('.form-item').find('.form-select').index($(this).parents('.form-select'));
-            select.experience_time[n] = val+1;
+            select.science_rank_time[n] = val;
         });
         //推荐信
         $('.select-recommend .form-check').on('click',function(){
-            var n = $(this).parents('.select-recommend').find('.form-check').index($(this))+1;
-            if(select.recommend_rank.indexOf(n)==-1){
-                select.recommend_rank.push(n);
+            var n = $(this).parents('.select-recommend').find('.form-check').index($(this));
+            if(select.recommend_rank[n]==0){
+                select.recommend_rank[n] = $(this).val();
             }
             else{
-                select.recommend_rank.splice(select.recommend_rank.indexOf(n),1);
+                select.recommend_rank[n] = 0;
             }
         });
         //学术成就
@@ -948,15 +952,17 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                         $(this).find('.form-check-input').removeClass('hidden');
                         height[3] = parseInt(height[3])+$(this).find('.form-check-input').innerHeight()+'px';
                         $('.select-other').css('height',height[3]);
-                        select.chinese_paper_rank = 1;
+                        select.achievement[n] = 1;
                     }
                     else{
                         $(this).find('.form-check-input').addClass('hidden');
                         height[3] = parseInt(height[3])-$(this).find('.form-check-input').innerHeight()+'px';
                         $('.select-other').css('height',height[3]);
-                        select.chinese_paper_rank = 0;
-                        select.chinese_paper_num = [0,0,0];
+                        $(this).find('.form-check-input input').val('');
                         base.testSuccess($(this).find('input'));
+                        select.achievement[n] = 0;
+                        select.international_paper_rank = [0,0,0];
+                        select.international_paper_num = [0,0,0];
                     }
                     break;
                 case 1:
@@ -964,15 +970,17 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                         $(this).find('.form-check-input').removeClass('hidden');
                         height[3] = parseInt(height[3])+$(this).find('.form-check-input').innerHeight()+'px';
                         $('.select-other').css('height',height[3]);
-                        select.international_paper_rank = 1;
+                        select.achievement[n] = 1;
                     }
                     else{
                         $(this).find('.form-check-input').addClass('hidden');
                         height[3] = parseInt(height[3])-$(this).find('.form-check-input').innerHeight()+'px';
                         $('.select-other').css('height',height[3]);
-                        select.international_paper_rank = 0;
-                        select.international_paper_num = [0,0,0];
+                        $(this).find('.form-check-input input').val('');
                         base.testSuccess($(this).find('input'));
+                        select.achievement[n] = 0;
+                        select.chinese_paper_rank = [0,0,0];
+                        select.chinese_paper_num = [0,0,0];
                     }
                     break;
                 case 2:
@@ -980,17 +988,23 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                         $(this).find('.form-check-input').removeClass('hidden');
                         height[3] = parseInt(height[3])+$(this).find('.form-check-input').innerHeight()+'px';
                         $('.select-other').css('height',height[3]);
-                        select.meeting_paper_rank = 1;
+                        select.achievement[n] = 1;
                     }
                     else{
                         $(this).find('.form-check-input').addClass('hidden');
                         height[3] = parseInt(height[3])-$(this).find('.form-check-input').innerHeight()+'px';
                         $('.select-other').css('height',height[3]);
-                        select.meeting_paper_rank = 0;
-                        select.meeting_paper_num = [0,0,0];
+                        $(this).find('.form-check-input input').val('');
                         base.testSuccess($(this).find('input'));
+                        select.achievement[n] = 0;
+                        select.meeting_paper_rank = [0,0];
+                        select.meeting_paper_num = [0,0];
                     }
                     break;
+            }
+            if(select.achievement[n]==0&&select.achievement[1]==0&&select.achievement[2]==0){
+                $('.select-box').eq(3).find('.select-title').removeClass('error');
+                $('.select-achievement .form-item-name').eq(0).removeClass('red');
             }
         });
         //学术成就 input
@@ -1006,12 +1020,15 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                     var num = dom.parents('.select-achievement').find('.form-check').index(dom.parents('.form-check'));
                     switch (num){
                         case 0:
-                            select.chinese_paper_num[n] = val;
-                            break;
-                        case 1:
+                            select.international_paper_rank[n] = dom.data('value');
                             select.international_paper_num[n] = val;
                             break;
+                        case 1:
+                            select.chinese_paper_rank[n] = dom.data('value');
+                            select.chinese_paper_num[n] = val;
+                            break;
                         case 2:
+                            select.meeting_paper_rank[n] = dom.data('value');
                             select.meeting_paper_num[n] = val;
                             break;
                     }
@@ -1021,13 +1038,16 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                     var n = dom.parents('.form-check-input').find('input').index(dom);
                     var num = dom.parents('.select-achievement').find('.form-check').index(dom.parents('.form-check'));
                     switch (num){
+                        case 0:
+                            select.international_paper_rank[n] = 0;
+                            select.international_paper_num[n] = 0;
+                            break;
                         case 1:
+                            select.chinese_paper_rank[n] = 0;
                             select.chinese_paper_num[n] = 0;
                             break;
                         case 2:
-                            select.international_paper_num[n] = 0;
-                            break;
-                        case 3:
+                            select.meeting_paper_rank[n] = 0;
                             select.meeting_paper_num[n] = 0;
                             break;
                     }
@@ -1042,13 +1062,13 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 }
                 return false;
             }
-            if(select.chinese_paper_rank==1&&!isRight(select.chinese_paper_num)){
+            if(select.achievement[0]==1&&!isRight(select.international_paper_num)){
                 return;
             }
-            if(select.international_paper_rank==1&&!isRight(select.international_paper_num)){
+            if(select.achievement[1]==1&&!isRight(select.chinese_paper_num)){
                 return;
             }
-            if(select.meeting_paper_rank==1&&!isRight(select.meeting_paper_num)){
+            if(select.achievement[2]==1&&!isRight(select.meeting_paper_num)){
                 return;
             }
             $('.select-box').eq(3).find('.select-title').removeClass('error');
@@ -1058,56 +1078,28 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         //工作/实习经历 选择
         $('.select-work .form-check').on('click',function(){
             var n = $(this).parents('.select-work').find('.form-check').index($(this));
-            switch (n){
-                case 0:
-                    if($(this).find('.form-select').hasClass('hidden')){
-                        $(this).find('.form-select').removeClass('hidden');
-                        height[3] = parseInt(height[3])+$(this).find('.form-select').innerHeight()+'px';
-                        $('.select-other').css('height',height[3]);
-                        select.internship_rank = 1;
-                        select.internship_time = 1;
-                    }
-                    else{
-                        $(this).find('.form-select').addClass('hidden');
-                        height[3] = parseInt(height[3])-$(this).find('.form-select').innerHeight()+'px';
-                        $('.select-other').css('height',height[3]);
-                        select.internship_rank = 0;
-                        select.internship_time = 0;
-                    }
-                    break;
-                case 1:
-                    if($(this).find('.form-select').hasClass('hidden')){
-                        $(this).find('.form-select').removeClass('hidden');
-                        height[3] = parseInt(height[3])+$(this).find('.form-select').innerHeight()+'px';
-                        $('.select-other').css('height',height[3]);
-                        select.work_rank = 1;
-                        select.work_time = 1;
-                    }
-                    else{
-                        $(this).find('.form-select').addClass('hidden');
-                        height[3] = parseInt(height[3])-$(this).find('.form-select').innerHeight()+'px';
-                        $('.select-other').css('height',height[3]);
-                        select.work_rank = 0;
-                        select.work_time = 0;
-                    }
-                    break;
-                case 2:
-                    if($(this).find('.form-select').hasClass('hidden')){
-                        $(this).find('.form-select').removeClass('hidden');
-                        height[3] = parseInt(height[3])+$(this).find('.form-select').innerHeight()+'px';
-                        $('.select-other').css('height',height[3]);
-                        select.science_rank = 1;
-                        select.science_time = 1;
-                    }
-                    else{
-                        $(this).find('.form-select').addClass('hidden');
-                        height[3] = parseInt(height[3])-$(this).find('.form-select').innerHeight()+'px';
-                        $('.select-other').css('height',height[3]);
-                        select.science_rank = 0;
-                        select.science_time = 0;
-                    }
-                    break;
+            if(select.work_rank[n]==0){
+                $(this).find('.form-select').removeClass('hidden');
+                if($(this).find('.form-select')[0]){
+                    height[3] = parseInt(height[3])+$(this).find('.form-select').innerHeight()+'px';
+                }
+                select.work_rank[n] = $(this).data('value');
+                if(n==2){
+                    select.work_time[n] = 1;
+                }
+                else{
+                    select.work_time[n] = $(this).find('.form-select-option li').eq(0).data('value');
+                }
             }
+            else{
+                $(this).find('.form-select').addClass('hidden');
+                if($(this).find('.form-select')[0]){
+                    height[3] = parseInt(height[3])-$(this).find('.form-select').innerHeight()+'px';
+                }
+                select.work_rank[n] = 0;
+                select.work_time[n] = 0;
+            }
+            $('.select-other').css('height',height[3]);
         });
         //工作/实习经历 下拉
         $('.select-work .form-select').on('click',function(e){
@@ -1116,18 +1108,8 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         $('.select-work .form-select-option li').on('click',function(e){
             e.stopPropagation();
             var val = $(this).index()+1;
-            var num = $(this).parents('.form-item').find('.form-select').index($(this).parents('.form-select'));
-            switch(num){
-                case 0:
-                    select.internship_time = val;
-                    break;
-                case 1:
-                    select.work_time = val;
-                    break;
-                case 2:
-                    select.science_time = val;
-                    break;
-            }
+            var n = $(this).parents('.form-item').find('.form-select').index($(this).parents('.form-select'));
+            select.work_time[n] = val;
         });
 
         //获奖情况 选择
@@ -1139,15 +1121,12 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                         $(this).find('.form-select').removeClass('hidden');
                         height[3] = parseInt(height[3])+$(this).find('.form-select').innerHeight()+'px';
                         $('.select-other').css('height',height[3]);
-                        select.prize = 1;
-                        select.prize_rank = 1;
                     }
                     else{
                         $(this).find('.form-select').addClass('hidden');
                         height[3] = parseInt(height[3])-$(this).find('.form-select').innerHeight()+'px';
                         $('.select-other').css('height',height[3]);
                         select.prize = 0;
-                        select.prize_rank = 0;
                     }
                     break;
                 case 1:
@@ -1155,15 +1134,12 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                         $(this).find('.form-select').removeClass('hidden');
                         height[3] = parseInt(height[3])+$(this).find('.form-select').innerHeight()+'px';
                         $('.select-other').css('height',height[3]);
-                        select.match = 1;
-                        select.match_rank = 1;
                     }
                     else{
                         $(this).find('.form-select').addClass('hidden');
                         height[3] = parseInt(height[3])-$(this).find('.form-select').innerHeight()+'px';
                         $('.select-other').css('height',height[3]);
                         select.match = 0;
-                        select.match_rank = 0;
                     }
                     break;
             }
@@ -1174,16 +1150,18 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         });
         $('.select-prize .form-select-option li').on('click',function(e){
             e.stopPropagation();
-            var val = $(this).index()+1;
+            var val = $(this).data('value');
             var num = $(this).parents('.form-item').find('.form-select').index($(this).parents('.form-select'));
             switch(num){
                 case 0:
-                    select.prize_rank = val;
+                    select.prize = val;
                     break;
                 case 1:
-                    select.match_rank = val;
+                    select.match = val;
                     break;
             }
+            console.log(select.prize)
+            console.log(select.match)
         });
 
         $('.select-submit').on('click',function(){
@@ -1561,6 +1539,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         if(select.nation.length<=0||select.locatioin<=0){
             $('.select-box').eq(0).find('.select-title').addClass('error');
             if(parseInt($('.select-box').eq(0).find('.select-content').css('height'))==0){
+                boxCanClick = true;
                 $('.select-box').eq(0).find('.select-title-control').click();
             }
             if(select.nation.length<=0){
@@ -1572,12 +1551,14 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         }
         else{
             if(parseInt($('.select-box').eq(0).find('.select-content').css('height'))>0){
+                boxCanClick = true;
                 $('.select-box').eq(0).find('.select-title-control').click();
             }
         }
         if(!select.pre_school||!select.school_type||!select.pre_major||!select.grade||select.related_major==null||!select.pre_degree){
             $('.select-box').eq(1).find('.select-title').addClass('error');
             if(parseInt($('.select-box').eq(1).find('.select-content').css('height'))==0){
+                boxCanClick = true;
                 $('.select-box').eq(1).find('.select-title-control').click();
             }
             if(!select.pre_school||!select.school_type){
@@ -1598,6 +1579,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         }
         else{
             if(parseInt($('.select-box').eq(1).find('.select-content').css('height'))>0){
+                boxCanClick = true;
                 $('.select-box').eq(1).find('.select-title-control').click();
             }
         }
@@ -1642,6 +1624,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             if(!select.gpa||!select.language||!language.overall||!language.R||!language.L||!language.S||!language.W||select.lsat==null){
                 $('.select-box').eq(2).find('.select-title').addClass('error');
                 if(parseInt($('.select-box').eq(2).find('.select-content').css('height'))==0){
+                    boxCanClick = true;
                     $('.select-box').eq(2).find('.select-title-control').click();
                 }
                 if(!select.gpa){
@@ -1656,6 +1639,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             }
             else{
                 if(parseInt($('.select-box').eq(2).find('.select-content').css('height'))>0){
+                    boxCanClick = true;
                     $('.select-box').eq(2).find('.select-title-control').click();
                 }
             }
@@ -1664,6 +1648,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             if(!select.gpa||!select.language||!language.overall||!language.R||!language.L||!language.S||!language.W||!select.exam||!exam.overall||!exam.V||!exam.Q||!exam.AW){
                 $('.select-box').eq(2).find('.select-title').addClass('error');
                 if(parseInt($('.select-box').eq(2).find('.select-content').css('height'))==0){
+                    boxCanClick = true;
                     $('.select-box').eq(2).find('.select-title-control').click();
                 }
                 if(!select.gpa){
@@ -1678,6 +1663,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             }
             else{
                 if(parseInt($('.select-box').eq(2).find('.select-content').css('height'))>0){
+                    boxCanClick = true;
                     $('.select-box').eq(2).find('.select-title-control').click();
                 }
             }
@@ -1692,27 +1678,27 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             return false;
         }
         var achievement = [0,0,0];
-        if(select.chinese_paper_rank==1&&!isRight(select.chinese_paper_num)){
+        if(select.achievement[0]==1&&!isRight(select.international_paper_num)){
             achievement[0] = 0;
         }
         else{
             achievement[0] = 1;
         }
-        if(select.international_paper_rank==1&&!isRight(select.international_paper_num)){
+        if(select.achievement[1]==1&&!isRight(select.chinese_paper_num)){
             achievement[1] = 0;
         }
         else{
             achievement[1] = 1;
         }
-        if(select.meeting_paper_rank==1&&!isRight(select.meeting_paper_num)){
+        if(select.achievement[2]==1&&!isRight(select.meeting_paper_num)){
             achievement[2] = 0;
         }
         else{
             achievement[2] = 1;
         }
-        console.log(achievement)
         if(achievement[0]==1&&achievement[1]==1&&achievement[2]==1){
             if(parseInt($('.select-box').eq(3).find('.select-content').css('height'))>0){
+                boxCanClick = true;
                 $('.select-box').eq(3).find('.select-title-control').click();
             }
         }
@@ -1720,6 +1706,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             $('.select-box').eq(3).find('.select-title').addClass('error');
             $('.select-achievement .form-item-name').eq(0).addClass('red');
             if(parseInt($('.select-box').eq(3).find('.select-content').css('height'))==0){
+                boxCanClick = true;
                 $('.select-box').eq(3).find('.select-title-control').click();
             }
         }
@@ -1765,25 +1752,20 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 gmat_aw : select.gmat_aw,
                 lsat : select.lsat,
                 exchange : select.exchange,
-                experience : select.experience,
-                experience_time : select.experience_time,
+                science_rank : select.science_rank,
+                science_rank_time : select.science_rank_time,
                 recommend_rank : select.recommend_rank,
-                chinese_paper_rank : select.chinese_paper_rank,
-                chinese_paper_num : select.chinese_paper_num,
                 international_paper_rank : select.international_paper_rank,
                 international_paper_num : select.international_paper_num,
+                chinese_paper_rank : select.chinese_paper_rank,
+                chinese_paper_num : select.chinese_paper_num,
                 meeting_paper_rank : select.meeting_paper_rank,
                 meeting_paper_num : select.meeting_paper_num,
-                internship_rank : select.internship_rank,
-                internship_time : select.internship_time,
                 work_rank : select.work_rank,
                 work_time : select.work_time,
-                science_rank : select.science_rank,
-                science_time : select.science_time,
                 prize : select.prize,
-                prize_rank : select.prize_rank,
                 match : select.match
-            },
+    },
             type:'post',
             cache:false,
             dataType:'json',
