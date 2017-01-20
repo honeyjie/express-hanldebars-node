@@ -645,10 +645,10 @@ router.post("/completeform/saveform.action", function(req, res) {
       // }
       // res.set("Content-Length", "4000");
       console.log("前端请求数据", req.body, req);
-      console.log("后端返回数据", body, response.headers, response.ContentLength)
+      // console.log("后端返回数据", body, response.headers, response.ContentLength)
 
       // var data = JSON.parse(body);
-      res.send(data);
+
     });
 });
 
