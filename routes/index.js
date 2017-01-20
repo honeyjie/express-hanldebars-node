@@ -631,9 +631,12 @@ router.get("/captcha/try.action", function(req, res) {
 });
 
 //表单提交
-router.post("/completeform/saveform.action", function(req, res) {
-    req.set("Content-Length", "4000");
+router.post("/completeform/saveform.action", function(req, res) { 
     req.proxy.request({
+       headers:{
+          "Content-Length":4000,
+          "Content-Type":'application/x-www-form-urlencoded',
+       },
         method: "POST",
         url: "http://www.utuotu.com/v1/completeform/saveform.action",
     }, function(err, response, body) {
