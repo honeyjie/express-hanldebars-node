@@ -1,7 +1,7 @@
 define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,fullpage,iscroll,base,common,d3){
 
-    console.log($('.select-school-list:first li:first').attr('school-id'));
-    getChartData($('.select-school-list:first li:first').attr('school-id'));
+    // console.log($('.select-school-list:first li:first').attr('school-id'));
+    // getChartData($('.select-school-list:first li:first').attr('school-id'));
     var gpaDate,tofelDate,greDate,learningDate,recommendDate,prizeDate;
     var formdata;
     function getChartData(id) {
