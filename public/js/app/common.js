@@ -149,6 +149,8 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             }
             $('.login-submit').removeClass('button-solid-ban').addClass('button-solid');
         });
+
+        
         $('.login-submit').on('click',function(e){
             e.stopPropagation();
             login();
