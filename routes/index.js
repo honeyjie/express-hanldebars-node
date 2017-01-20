@@ -634,8 +634,7 @@ router.get("/captcha/try.action", function(req, res) {
 router.post("/completeform/saveform.action", function(req, res) { 
     req.proxy.request({
        headers:{
-          "Content-Length":4000,
-          "Content-Type":'application/x-www-form-urlencoded',
+          "Content-Length":4000
        },
         method: "POST",
         url: "http://www.utuotu.com/v1/completeform/saveform.action",
@@ -645,7 +644,7 @@ router.post("/completeform/saveform.action", function(req, res) {
       // }
       // res.set("Content-Length", "4000");
       console.log("前端请求数据", req.body, req);
-      // console.log("后端返回数据", body, response.headers, response.ContentLength)
+      console.log("后端返回数据", body, response)
 
       // var data = JSON.parse(body);
 
