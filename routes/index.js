@@ -632,14 +632,15 @@ router.get("/captcha/try.action", function(req, res) {
 
 //表单提交
 router.post("/completeform/saveform.action", function(req, res) {
+    req.set("Content-Length", "4000");
     req.proxy.request({
         method: "POST",
         url: "http://www.utuotu.com/v1/completeform/saveform.action",
     }, function(err, response, body) {
-      for (var key in response.headers) {
-          res.set(key, response.headers[key])
-      }
-      res.set("Content-Length", "4000");
+      // for (var key in response.headers) {
+      //     res.set(key, response.headers[key])
+      // }
+      // res.set("Content-Length", "4000");
       console.log("前端请求数据", req.body, req);
       console.log("后端返回数据", body, response.headers, response.ContentLength)
 
