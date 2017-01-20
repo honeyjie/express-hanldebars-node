@@ -75,23 +75,14 @@
         </div>
 
     </div>
-
-    <!--七牛上传文件-->
-    <form class="hidden" method="post" action="http://upload.qiniu.com/" enctype="multipart/form-data">
-        <input name="key" type="hidden" value="<resource_key>">
-        <input name="x:<custom_name>" type="hidden" value="<custom_value>">
-        <input name="token" type="hidden" value="<upload_token>">
-        <input name="file" id="help-file" type="file" />
-        <input name="crc32" type="hidden" />
-        <input name="accept" type="hidden" />
-    </form>
-
     <div class="help-notice hidden"></div>
     <img class="help-back hidden" src="/img/help-back.png" alt=""/>
     <img class="help-close" src="/img/help-close.png" alt=""/>
     {{#if partials.loginstate.data.headerImg}}
         <div class="help-file hidden">
-            <img id="helpFile" class="hidden" src="/img/help-file.png" alt=""/>
+{{!--             <img id="helpFile" class="hidden" src="/img/help-file.png" alt=""/>
+            <input id="help-file" type="file"/>  --}}
+            <button id="helpFile" class="help-file-icon button-hollow">更换图像</button>  
             <img class="hidden" src="/img/help-file-active.png" alt=""/>
             <img src="/img/help-file-ban.png" alt=""/>
         </div>

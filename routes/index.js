@@ -459,8 +459,7 @@ router.get('/select-school', function(req, res) {
         res.render('select-school',{
           schoollist: schoollist
         })
-    });
-              
+    });        
     //请求图表
     // setTimeout(function(res) {
     //   req.proxy.request({
@@ -474,16 +473,23 @@ router.get('/select-school', function(req, res) {
     //         schoollist: schoollist
     //       })
     //   });
-    // }, 500, res)
-    
-
-    
+    // }, 500, res)   
 });
 router.get('/select-form', function(req, res) {
     var year =  (new Date()).getFullYear() + 1;
-    res.render('select-form', {
-      year: year
-    })
+        req.proxy.request({
+        method: "GET",
+        url: "http://www.utuotu.com/v1/completeform/form.action",
+    }, function(err, response, body) {
+        var formdata = JSON.parse(body).data;
+        if (!formdata) {
+            return
+        }
+          res.render('select-form', {
+          year: year,
+          formdata: formdata 
+        })
+    });
 });
 
 router.get('/test', function(req, res) {

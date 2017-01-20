@@ -88,16 +88,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                     }
                 };
 
-                chart();
-                $('.select-dis-gpa span').html(getRatio(chartData.gpa.user_data.y));
-                $('.select-dis-tofel span').html(getRatio(chartData.toefl.user_data.y));
-                $('.select-dis-gre span').html(getRatio(chartData.gre.user_data.y));
 
-                console.log(chartData.hard, chartData.soft, chartData.count)
-                $('.select-school-chart .hardrate span').html(getRatio(chartData.hard));
-                $('.select-school-chart .softrate span').html(getRatio(chartData.soft));
-                $('.select-chart-summary li.countrate span').html(getRatio(chartData.count));
-                $('.select-chart-summary span').html(getRatio(chartData.count));
 
             },
             error : function() {
@@ -176,6 +167,16 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
     $(function(){
 
         // chart();
+        chart();
+        $('.select-dis-gpa span').html(getRatio(chartData.gpa.user_data.y));
+        $('.select-dis-tofel span').html(getRatio(chartData.toefl.user_data.y));
+        $('.select-dis-gre span').html(getRatio(chartData.gre.user_data.y));
+
+        console.log(chartData.hard, chartData.soft, chartData.count)
+        $('.select-school-chart .hardrate span').html(getRatio(chartData.hard));
+        $('.select-school-chart .softrate span').html(getRatio(chartData.soft));
+        $('.select-chart-summary li.countrate span').html(getRatio(chartData.count));
+        $('.select-chart-summary span').html(getRatio(chartData.count));
 
         //模拟下拉
         $('.select-special').select();
@@ -1781,9 +1782,11 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
     }
     //生成图表
     function chart(){
-        console.log(gpaDate.now);
+        
         chartArea('.select-svg-gpa',gpaDate.before,gpaDate.now,4,gpaDate.now.max.y,function(){
+            console.log(gpaDate.before, gpaDate.now);
             gpaDate.before = gpaDate.now;
+
         });
         chartArea('.select-svg-tofel',tofelDate.before,tofelDate.now,120,tofelDate.now.max.y,function(){
             tofelDate.before = tofelDate.now;
