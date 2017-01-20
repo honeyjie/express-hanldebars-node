@@ -155,11 +155,13 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
         });
 
         $('.login-submit').on('keydown', function(e) {
+            alert(e.keyCode);
             if (e.witch === 13) {
                 $(this).trigger('click');
                  console.log("111")
             }
         })
+
         //退出登录
         $('.header-user-logout').on('click',function(e){
             e.stopPropagation();
