@@ -14,9 +14,6 @@ Proxy.prototype.request = function(options, callback) {
         method: this.req.method,
         url: this.protocol + this.host + this.req.path,
         headers: this.req.headers,
-        headers: {
-            "Content-Length": this.req.body.length
-        }
     }
 
     options = options || {};
@@ -24,6 +21,7 @@ Proxy.prototype.request = function(options, callback) {
         _options[k] = options[k];
     }
     _options.headers.host = this.host;
+    _options.headers.ContentLength = this.req.body.length;
     // 自动转发文件
     if (!!this.req.file) {
         _options.attachments = [
