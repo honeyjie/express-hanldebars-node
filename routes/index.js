@@ -477,19 +477,18 @@ router.get('/select-school', function(req, res) {
 });
 router.get('/select-form', function(req, res) {
     var year =  (new Date()).getFullYear() + 1;
-        req.proxy.request({
-        method: "GET",
-        url: "http://www.utuotu.com/v1/completeform/form.action",
-    }, function(err, response, body) {
-        var formdata = JSON.parse(body).data;
-        if (!formdata) {
-            return
-        }
+    //     req.proxy.request({
+    //     method: "GET",
+    //     url: "http://www.utuotu.com/v1/completeform/form.action",
+    // }, function(err, response, body) {
+    //     var formdata = JSON.parse(body).data;
+    //     if (!formdata) {
+    //         return
+    //     }
           res.render('select-form', {
-          year: year,
-          formdata: formdata 
+          year: year
         })
-    });
+    // });
 });
 
 router.get('/test', function(req, res) {

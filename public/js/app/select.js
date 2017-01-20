@@ -1,9 +1,6 @@
 define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,fullpage,iscroll,base,common,d3){
     console.log($('.select-school-list:first li:first').attr('school-id'));
     getChartData($('.select-school-list:first li:first').attr('school-id'));
-
-
-
     var gpaDate,tofelDate,greDate,learningDate,recommendDate,prizeDate;
 
     function getChartData(id) {
@@ -87,9 +84,15 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                         ratio : chartData.prize
                     }
                 };
-
-
-
+                chart();
+                $('.select-dis-gpa span').html(getRatio(chartData.gpa.user_data.y));
+                $('.select-dis-tofel span').html(getRatio(chartData.toefl.user_data.y));
+                $('.select-dis-gre span').html(getRatio(chartData.gre.user_data.y));
+                        console.log(chartData.hard, chartData.soft, chartData.count)
+                $('.select-school-chart .hardrate span').html(getRatio(chartData.hard));
+                $('.select-school-chart .softrate span').html(getRatio(chartData.soft));
+                $('.select-chart-summary li.countrate span').html(getRatio(chartData.count));
+                $('.select-chart-summary span').html(getRatio(chartData.count));
             },
             error : function() {
                 base.notice('网络错误');
@@ -167,16 +170,9 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
     $(function(){
 
         // chart();
-        chart();
-        $('.select-dis-gpa span').html(getRatio(chartData.gpa.user_data.y));
-        $('.select-dis-tofel span').html(getRatio(chartData.toefl.user_data.y));
-        $('.select-dis-gre span').html(getRatio(chartData.gre.user_data.y));
 
-        console.log(chartData.hard, chartData.soft, chartData.count)
-        $('.select-school-chart .hardrate span').html(getRatio(chartData.hard));
-        $('.select-school-chart .softrate span').html(getRatio(chartData.soft));
-        $('.select-chart-summary li.countrate span').html(getRatio(chartData.count));
-        $('.select-chart-summary span').html(getRatio(chartData.count));
+
+
 
         //模拟下拉
         $('.select-special').select();
@@ -1781,9 +1777,8 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
     }
     //生成图表
     function chart(){
-        
         chartArea('.select-svg-gpa',gpaDate.before,gpaDate.now,4,gpaDate.now.max.y,function(){
-            console.log(gpaDate.before, gpaDate.now);
+            // console.log(gpaDate.before, gpaDate.now);
             gpaDate.before = gpaDate.now;
 
         });
