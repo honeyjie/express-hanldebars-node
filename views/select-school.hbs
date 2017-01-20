@@ -5,7 +5,7 @@
             <li>主申院校</li>
             <li>保底院校</li>
         </ul>
-        <div class="select-school-main">
+        <div class="select-school-main school">
 
             <div class="tab-box clear">
                 <div class="select-school-rank"></div>
@@ -13,10 +13,17 @@
                     {{#each schoollist.Sprint}}
                     <li school-id= "{{id}}">
                         <div class="school-list-rank">
-                            <span>QS世界排名{{school_rank.qs}}</span>
-                            <span>U.S.NEWS排名{{school_rank.maikaolin}}</span>
-                            <span>麦考林（医博类）排名{{school_rank.usnews}}</span>
-                            <span>U.S.NEWS专业排名{{major_rank}}</span>
+                            {{#if school_rank.qs}}
+                            <p><span>QS世界排名:</span><span>{{school_rank.qs}}</span></p>
+                            {{/if}}
+                            {{#if school_rank.usnews}}
+                            <p><span>U.S. NEWS排名:</span><span>{{school_rank.usnews}}</span></p>
+                            {{else}}
+                                {{#if school_rank.maikaolin}}
+                                <p><span>麦考林（医博类）排名:</span><span>{{school_rank.maikaolin}}</span></p>
+                                {{/if}}
+                            {{/if}} 
+                            <p><span>U.S.NEWS专业排名:</span><span>{{major_rank}}</span></p>
                         </div>
                         <div class="school-list-main">
                             <img class="school-list-logo" src="{{logo}}" alt=""/>
@@ -45,10 +52,17 @@
                     {{#each schoollist.Middle}}
                     <li school-id= "{{id}}">
                         <div class="school-list-rank">
-                            <span>QS世界排名{{school_rank.qs}}</span>
-                            <span>U.S.NEWS排名{{school_rank.maikaolin}}</span>
-                            <span>麦考林（医博类）排名{{school_rank.usnews}}</span>
-                            <span>U.S.NEWS专业排名{{major_rank}}</span>
+                            {{#if school_rank.qs}}
+                            <p><span>QS世界排名:</span><span>{{school_rank.qs}}</span></p>
+                            {{/if}}
+                            {{#if school_rank.usnews}}
+                            <p><span>U.S. NEWS排名:</span><span>{{school_rank.usnews}}</span></p>
+                            {{else}}
+                                {{#if school_rank.maikaolin}}
+                                <p><span>麦考林（医博类）排名:</span><span>{{school_rank.maikaolin}}</span></p>
+                                {{/if}}
+                            {{/if}} 
+                            <p>U.S.NEWS专业排名{{major_rank}}</p>
                         </div>
                         <div class="school-list-main">
                             <img class="school-list-logo" src="{{logo}}" alt=""/>
@@ -76,10 +90,17 @@
                     {{#each schoollist.Bottom}}
                     <li school-id= "{{id}}">
                         <div class="school-list-rank">
-                            <span>QS世界排名{{school_rank.qs}}</span>
-                            <span>U.S.NEWS排名{{school_rank.maikaolin}}</span>
-                            <span>麦考林（医博类）排名{{school_rank.usnews}}</span>
-                            <span>U.S.NEWS专业排名{{major_rank}}</span>
+                            {{#if school_rank.qs}}
+                            <p><span>QS世界排名:</span><span>{{school_rank.qs}}</span></p>
+                            {{/if}}
+                            {{#if school_rank.usnews}}
+                            <p><span>U.S. NEWS排名:</span><span>{{school_rank.usnews}}</span></p>
+                            {{else}}
+                                {{#if school_rank.maikaolin}}
+                                <p><span>麦考林（医博类）排名:</span><span>{{school_rank.maikaolin}}</span></p>
+                                {{/if}}
+                            {{/if}} 
+                            <p><span>U.S.NEWS专业排名</span><span>{{major_rank}}</span></p>
                         </div>
                         <div class="school-list-main">
                             <img class="school-list-logo" src="{{logo}}" alt=""/>
@@ -103,31 +124,31 @@
                 <li>
                     <div class="select-chart-title hardrate">
                         <p>硬实力</p>
-                        超过了<span>80%</span>的成功申请者
+                        超过了<span></span>的成功申请者
                     </div>
                     <div class="select-chart-svg select-svg-gpa">
                         <div class="select-chart-name" >GPA分布</div>
                     </div>
                     <div class="select-chart-dis select-dis-gpa">
-                        你的GPA超过了<span>87%</span>的成功申请者
+                        你的GPA超过了<span></span>的成功申请者
                     </div>
                     <div class="select-chart-svg select-svg-tofel">
                         <div class="select-chart-name">TOFEL分值分布</div>
                     </div>
                     <div class="select-chart-dis select-dis-tofel">
-                        你的TOFEL超过了<span>90%</span>的成功申请者
+                        你的TOFEL超过了<span></span>的成功申请者
                     </div>
                     <div class="select-chart-svg select-svg-gre">
                         <div class="select-chart-name">GRE分值分布</div>
                     </div>
                     <div class="select-chart-dis select-dis-gre">
-                        你的GRE超过了<span>100%</span>的成功申请者
+                        你的GRE超过了<span></span>的成功申请者
                     </div>
                 </li>
                 <li>
                     <div class="select-chart-title softrate">
                         <p>软实力</p>
-                        超过了<span>85%</span>的成功申请者
+                        超过了<span></span>的成功申请者
                     </div>
                     <div class="select-chart-svg select-svg-learning">
                         <div class="select-svg-number"></div>
