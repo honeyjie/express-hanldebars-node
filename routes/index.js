@@ -634,7 +634,6 @@ router.get("/captcha/try.action", function(req, res) {
 router.post("/completeform/saveform.action", function(req, res) { 
     console.log(req.body.length);
     req.proxy.request({
-        headers["Content-Length"]: 4000,
         method: "POST",
         url: "http://www.utuotu.com/v1/completeform/saveform.action",
     }, function(err, response, body) {
