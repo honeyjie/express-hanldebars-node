@@ -1,5 +1,5 @@
 define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,fullpage,iscroll,base,common,d3){
-    
+
     console.log($('.select-school-list:first li:first').attr('school-id'));
     getChartData($('.select-school-list:first li:first').attr('school-id'));
     var gpaDate,tofelDate,greDate,learningDate,recommendDate,prizeDate;
@@ -15,7 +15,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             dataType:'json',
             success:function(data){
                 console.log(data);
-                chartData = data.data;
+                var chartData = data.data;
                 gpaDate = {
                     before : null,
                     now : {
@@ -86,10 +86,11 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                     }
                 };
                 chart();
+                console.log(gpaDate.before, gpaDate.now)
                 $('.select-dis-gpa span').html(getRatio(chartData.gpa.user_data.y));
                 $('.select-dis-tofel span').html(getRatio(chartData.toefl.user_data.y));
                 $('.select-dis-gre span').html(getRatio(chartData.gre.user_data.y));
-                        console.log(chartData.hard, chartData.soft, chartData.count)
+                        console.log(chartData.hard, chartData.soft, chartData.count, getRatio(chartData.count))
                 $('.select-school-chart .hardrate span').html(getRatio(chartData.hard));
                 $('.select-school-chart .softrate span').html(getRatio(chartData.soft));
                 $('.select-chart-summary li.countrate span').html(getRatio(chartData.count));
@@ -149,7 +150,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         select.lsat = null;                                //lsat
         select.exchange = [0,0,0];                         //海外学习经历
         select.science_rank = [0,0,0];                     //科研经历
-        select.science_rank_time = [0,0,0];                //科研经历子类
+        select.science_time = [0,0,0];                //科研经历子类
         select.recommend_rank = [0,0,0];                   //推荐信
         select.achievement = [0,0,0];                      //学术成就(前端判断用)
         select.international_paper_rank = [0,0,0];         //学术成就第一项
@@ -904,10 +905,10 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 }
                 select.science_rank[n] = $(this).data('value');
                 if(n==2){
-                    select.science_rank_time[n] = 1;
+                    select.science_time[n] = 1;
                 }
                 else{
-                    select.science_rank_time[n] = $(this).find('.form-select-option li').eq(0).data('value');
+                    select.science_time[n] = $(this).find('.form-select-option li').eq(0).data('value');
                 }
             }
             else{
@@ -916,7 +917,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                     height[3] = parseInt(height[3])-$(this).find('.form-select').innerHeight()+'px';
                 }
                 select.science_rank[n] = 0;
-                select.science_rank_time[n] = 0;
+                select.science_time[n] = 0;
             }
             $('.select-other').css('height',height[3]);
         });
@@ -928,7 +929,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             e.stopPropagation();
             var val = $(this).data('value');
             var n = $(this).parents('.form-item').find('.form-select').index($(this).parents('.form-select'));
-            select.science_rank_time[n] = val;
+            select.science_time[n] = val;
         });
         //推荐信
         $('.select-recommend .form-check').on('click',function(){
@@ -1228,7 +1229,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                     dataType:'json',
                     success:function(data){
                         console.log(data);
-                        chartData = data.data;
+                        var chartData = data.data;
                         gpaDate = {
                             now : {
                                 data : chartData.gpa.data,  
@@ -1751,7 +1752,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             lsat : select.lsat,
             exchange : select.exchange,
             science_rank : select.science_rank,
-            science_rank_time : select.science_rank_time,
+            science_time : select.science_time,
             recommend_rank : select.recommend_rank,
             international_paper_rank : select.international_paper_rank,
             international_paper_num : select.international_paper_num,
@@ -1793,26 +1794,30 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
 
         });
         chartArea('.select-svg-tofel',tofelDate.before,tofelDate.now,120,tofelDate.now.max.y,function(){
+            console.log(gpaDate.before, gpaDate.now);
             tofelDate.before = tofelDate.now;
         });
         chartArea('.select-svg-gre',greDate.before,greDate.now,340,greDate.now.max.y,function(){
+            console.log(gpaDate.before, gpaDate.now);
             greDate.before = greDate.now;
         });
 
         chartRound('.select-svg-learning',learningDate.before,learningDate.now,function(){
+            console.log(gpaDate.before, gpaDate.now);
             learningDate.before = learningDate.now;
         });
         chartRound('.select-svg-recommend',recommendDate.before,recommendDate.now,function(){
+            console.log(gpaDate.before, gpaDate.now);
             recommendDate.before = recommendDate.now;
         });
         chartRound('.select-svg-prize',prizeDate.before,prizeDate.now,function(){
+            console.log(gpaDate.before, gpaDate.now);
             prizeDate.before = prizeDate.now;
         });
     }
 
 
     function chartArea(dom,data1,data2,maxScore,maxNumber,cb){  //dom 数据1 数据2 满分 最多人数 cb
-        console.log(data1, data2, maxScore, maxNumber)
         if($(dom).find('svg')){
             $(dom).find('svg').remove();
         }
@@ -1919,7 +1924,6 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         }
         //颜色
         function color(data){
-            console.log(data)
             var color = {
                 stroke : '',
                 fill : ''
