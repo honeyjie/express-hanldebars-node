@@ -630,6 +630,25 @@ router.get("/captcha/try.action", function(req, res) {
       res.send(data);
     });
 });
+
+//表单提交
+router.get("/completeform/saveform.action", function(req, res) {
+    req.proxy.request({
+        method: "POST",
+        url: "http://www.utuotu.com/v1/completeform/saveform.action",
+    }, function(err, response, body) {
+      for (var key in response.headers) {
+          res.set(key, response.headers[key])
+      }
+      console.log("前端请求数据", req.body);
+      console.log("后端返回数据", body)
+
+      var data = JSON.parse(body);
+      res.send(data);
+    });
+});
+
+
 //login/opencode.action
 router.get("/login/opencode.action", function(req, res) {
     req.proxy.request({

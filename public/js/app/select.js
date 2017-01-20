@@ -85,16 +85,18 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                         ratio : chartData.prize
                     }
                 };
-                chart();
+                
                 console.log(gpaDate.before, gpaDate.now)
                 $('.select-dis-gpa span').html(getRatio(chartData.gpa.user_data.y));
                 $('.select-dis-tofel span').html(getRatio(chartData.toefl.user_data.y));
                 $('.select-dis-gre span').html(getRatio(chartData.gre.user_data.y));
-                        console.log(chartData.hard, chartData.soft, chartData.count, getRatio(chartData.count))
+                console.log(chartData.hard, chartData.soft, chartData.count, getRatio(chartData.count), getRatio(1))
                 $('.select-school-chart .hardrate span').html(getRatio(chartData.hard));
                 $('.select-school-chart .softrate span').html(getRatio(chartData.soft));
                 $('.select-chart-summary li.countrate span').html(getRatio(chartData.count));
                 $('.select-chart-summary li.match span').html(chartData.match);
+                chart();
+                console.log(gpaDate.before, gpaDate.now)
             },
             error : function() {
                 base.notice('网络错误');
@@ -102,16 +104,17 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         })
     }
 
-
+    // console.log(getRatio(1), getRatio(chartData.count))
     //转换百分比
     function getRatio(num) {
         var str =  num*100
         console.log(str)
         var dot = str.toString().indexOf(".") ;
-        if (dot !== -1) {
+        console.log(dot)
+        if (dot !== -1 ) {//有小数点
             return str.toString().slice(0, dot) + "%";
-        } else {
-            return str + "%";
+        } else { //整数
+            return str.toString() + "%";
         }
     }
 
@@ -1294,16 +1297,17 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                             }
                         };
 
-                        chart();
+                        
                         $('.select-dis-gpa span').html(getRatio(chartData.gpa.user_data.y));
                         $('.select-dis-tofel span').html(getRatio(chartData.toefl.user_data.y));
                         $('.select-dis-gre span').html(getRatio(chartData.gre.user_data.y));
 
-                        console.log(chartData.hard, chartData.soft, chartData.count)
+                        console.log(chartData.hard, chartData.soft, chartData.count, getRatio(chartData.count))
                         $('.select-school-chart .hardrate span').html(getRatio(chartData.hard));
                         $('.select-school-chart .softrate span').html(getRatio(chartData.soft));
                         $('.select-chart-summary li.countrate span').html(getRatio(chartData.count));
                         $('.select-chart-summary span').html(chartData.match);
+                        chart();
 
                     },
                     error : function() {
@@ -1767,7 +1771,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         }
 
         $.ajax({
-            url:'/v1/completeform/saveform.action',
+            url:'/completeform/saveform.action',
             data: formdata,
             type:'post',
             cache:false,
