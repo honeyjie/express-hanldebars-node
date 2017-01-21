@@ -39,7 +39,7 @@ router.get('/', function (req, res, next) {
 router.get('/testindex', function (req, res, next) {
   req.proxy.request({
       method: "GET",
-      url: "http://www.utuotu.com/v1/Login/redicturl.action",
+      url: "api.utuotu.com.utuotu.com/v1/Login/redicturl.action",
       qs: req.query
   }, function(err, response, body) {
       
@@ -71,7 +71,7 @@ router.get('/user-news', function(req, res, next) {
   var newsstate;
   req.proxy.request({
       method: "GET",
-      url: "http://www.utuotu.com/v1/User/getmsgstatus.action"
+      url: "api.utuotu.com.utuotu.com/v1/User/getmsgstatus.action"
   }, function(err, response, body) {
       var data = JSON.parse(body);
       newsstate = data.data;
@@ -80,7 +80,7 @@ router.get('/user-news', function(req, res, next) {
   req.proxy.request({
       method: "GET",
       qs: {system: req.query.system},
-      url: "http://www.utuotu.com/v1/User/getmsg.action"
+      url: "api.utuotu.com.utuotu.com/v1/User/getmsg.action"
   }, function(err, response, body) {
       var getmsg = JSON.parse(body);
       var urlPath = url.parse(req.url).path;
@@ -114,7 +114,7 @@ router.get('/user-point', function(req, res, next) {
       inviteCode;
     req.proxy.request({
         method: "GET",
-        url: "http://www.utuotu.com/v1/User/currnetcredit.action",
+        url: "api.utuotu.com.utuotu.com/v1/User/currnetcredit.action",
         qs: req.query
     }, function(err, response, body) {
         currnetcredit = JSON.parse(body);
@@ -122,7 +122,7 @@ router.get('/user-point', function(req, res, next) {
     })
     req.proxy.request({
         method: "GET",
-        url: "http://www.utuotu.com/v1/User/creditlog.action",
+        url: "api.utuotu.com.utuotu.com/v1/User/creditlog.action",
         qs: req.query
     }, function(err, response, body) {
         creditlog = JSON.parse(body).data;
@@ -130,7 +130,7 @@ router.get('/user-point', function(req, res, next) {
     })
     req.proxy.request({
         method: "GET",
-        url: "http://www.utuotu.com/v1/User/mission.action",
+        url: "api.utuotu.com.utuotu.com/v1/User/mission.action",
         qs: req.query
     }, function(err, response, body) {
         mission = JSON.parse(body);
@@ -139,7 +139,7 @@ router.get('/user-point', function(req, res, next) {
     //有效邀请
     req.proxy.request({
         method: "GET",
-        url: "http://www.utuotu.com/v1/User/invite.action",
+        url: "api.utuotu.com.utuotu.com/v1/User/invite.action",
         qs: req.query
     }, function(err, response, body) {
         inviteCode = JSON.parse(body).data;
@@ -149,7 +149,7 @@ router.get('/user-point', function(req, res, next) {
 
     req.proxy.request({
         method: "GET",
-        url: "http://www.utuotu.com/v1/User/invitenum.action",
+        url: "api.utuotu.com.utuotu.com/v1/User/invitenum.action",
         qs: req.query
     }, function(err, response, body) {
           invitenum = JSON.parse(body);
@@ -176,7 +176,7 @@ router.get('/user-point', function(req, res, next) {
 router.get('/v1/User/msganswer.action', function(req, res, next) {
   req.proxy.request({
       method: "GET",
-      url: "http://www.utuotu.com/v1/User/msganswer.action",
+      url: "api.utuotu.com.utuotu.com/v1/User/msganswer.action",
       qs: req.query
   }, function(err, response, body) {
       var getmsg = JSON.parse(body);
@@ -193,7 +193,7 @@ router.get('/user-set', function(req, res, next) {
   var emailvalid = "";
     req.proxy.request({
         method: "get",
-        url: "http://www.utuotu.com/v1/user/userinfo.action"
+        url: "api.utuotu.com.utuotu.com/v1/user/userinfo.action"
     }, function(err, response, body) {
         data = JSON.parse(body);
 
@@ -220,7 +220,7 @@ router.get('/register-forget', function(req, res, next) {
 router.get('/register-reset', function(req, res, next) {
     req.proxy.request({
         method: "get",
-        url: "http://www.utuotu.com/v1/Msg/validforgetgetemail.action",
+        url: "api.utuotu.com/v1/Msg/validforgetgetemail.action",
         qs: req.query
     }, function(err, response, body) {
         var data = JSON.parse(body);

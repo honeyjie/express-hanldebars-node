@@ -604,7 +604,6 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
             cache:false,
             dataType:'json',
             success:function(data) {
-                console.log("邮箱是否验证", data);
                 if(data.code===111001013){
                     //未激活
                     $('.set-form-send').removeClass('hidden');
