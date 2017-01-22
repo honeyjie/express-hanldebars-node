@@ -128,7 +128,7 @@
                         </li>
                         {{/ifNotEq}}
 
-                        {{#ifNotEq language -1}}
+                        {{#noneShow language}}
                         <li>
                             <img src="/img/require5.png" alt=""/>
                             <div class="major-require-list-name">语言成绩</div>
@@ -196,9 +196,9 @@
                             </div>
                             <div class="major-require-list-arrow"></div>
                         </li>
-                        {{/ifNotEq}}
+                        {{/noneShow}}
 
-                        {{#ifNotEq exam -1}}
+                        {{#noneShow exam}}
                         <li>
                             <img src="/img/require6.png" alt=""/>
                             <div class="major-require-list-name">标准化考试</div>
@@ -263,7 +263,7 @@
                             </div>    
                             <div class="major-require-list-arrow"></div>
                         </li>
-                        {{/ifNotEq}}
+                        {{/noneShow}}
 
                         {{#ifNotEq additional_requirements -1}}
                         <li>
@@ -278,10 +278,10 @@
                     </ul>
                     <div class="major-require-content" id="require-content">
                         <div>
-                            <div class="major-require-content-name">个人称述</div>
+                            <div class="major-require-content-name"></div>
                             <div class="major-require-content-result">
                                 <div class="major-require-list-result">
-                                    <p>{{showRequest ps 'A Personal Statement is Required.' '' ''}}<p>
+                                    <p><p>
                                 </div> 
                             </div>
                         </div>

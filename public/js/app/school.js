@@ -42,7 +42,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         }
         //模拟下拉
         $('.screen-form-country').select(scroll[0]);
-        $('.screen-form-state').select(scroll[1]);
+    
         $('.screen-form-major').select(scroll[2]);
 
         //下拉选择
@@ -62,9 +62,16 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 }
                 $('.screen-form-state .form-select-option ul').html(dom);
             });
+            $('.screen-form-state').select(scroll[1]);
             canSearch();
+           
         });
+
+
         $('.screen-form-state .form-select-option').on('click','li',function(e){
+            if(!screen.country) {
+                $('.screen-form-state').removeClass('focus');
+            }
             e.stopPropagation();
             screen.state = $(this).attr('short_state');
             $('.screen-form-state .form-select-value').html($(this).html());
@@ -72,6 +79,8 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             $('.screen-form-state').removeClass('focus');
             canSearch();
         });
+
+
         //读取特色专业
         if($('.screen-form-major')[0]){
             $.getJSON('js/country/major.json',function(data){
@@ -273,11 +282,18 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             dataType:'html',
             success:function(data){
                 $("#school-content-page").html(data);
-                // var academy = $('.school-box-content').attr('data-academy');
-                // console.log(academy)
+                setTimeout(function() {
+                    var academy = $('.school-box-content.major-tab').eq(0).data('academy');
+                    console.log($('.school-box-content.major-tab').eq(0), academy)
+                    $('.school-side-son').removeClass('active');
+                    $('.school-side-son li[data-academy="'+ academy+ '"]').addClass('active');
+
+                    $('#school-content-page .major-require-list li:eq(0)').trigger('click');
+                }
+                ,100)
+                
                 //列表中含有这个属性值的高亮
-                // $('.school-side-son').removeClass('active');
-                // $('.school-side-son li:[data-academy="'+ academy+ '"]').addClass('active');
+                
                 $('.help-icon').removeClass('hidden');
                 if($('#require-content')[0]){
                     scroll[3] =  new iscroll('#require-content',{
@@ -471,6 +487,8 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         });
 
         //查看申请要求 school-major
+        
+
         $('#school-content-page').on('click', '.major-require-list li', function(e){
             e.stopPropagation();
             requireTab($(this));
@@ -718,6 +736,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         _this.parents('.major-require').find('.major-require-content-result').html(_this.find('.major-require-list-result').html());
         scroll[3].refresh();
     }
+
     return{
 
     }

@@ -358,6 +358,7 @@ router.get('/school-major-partial', function(req, res, next) {
         qs: req.query
     }, function(err, response, body) {
         var data = JSON.parse(body);
+        console.log(data);
         res.render('partials/Inslibrary/school-major', {
             data: data.data,
             sid: req.query.sid,
@@ -417,6 +418,7 @@ router.get('/school-recommend-partial', function(req, res) {
     }, function(err, response, body) {
 
         var data = JSON.parse(body);
+
         if (!data) {return}
         res.render('partials/Inslibrary/school-recommend', {
               data: data.data,
@@ -437,6 +439,7 @@ router.get('/school-recommend', function(req, res) {
     }, function(err, response, body) {
 
         var data = JSON.parse(body);
+        console.log(data);
         if (!data) {return}
         res.render('school-recommend', {
               data: data.data,
@@ -460,35 +463,13 @@ router.get('/select-school', function(req, res) {
           schoollist: schoollist
         })
     });        
-    //请求图表
-    // setTimeout(function(res) {
-    //   req.proxy.request({
-    //       method: "GET",
-    //       url: "http://api.inner.utuotu.com/v1/Completeform/historyoffer.action"
-    //   }, function(err, response, body) {
-    //       var formResult = JSON.parse(body).data;
-
-    //       res.render('select-school',{
-    //         formResult: formResult,
-    //         schoollist: schoollist
-    //       })
-    //   });
-    // }, 500, res)   
 });
 router.get('/select-form', function(req, res) {
     var year =  (new Date()).getFullYear() + 1;
-    //     req.proxy.request({
-    //     method: "GET",
-    //     url: "http://api.inner.utuotu.com/v1/completeform/form.action",
-    // }, function(err, response, body) {
-    //     var formdata = JSON.parse(body).data;
-    //     if (!formdata) {
-    //         return
-    //     }
-          res.render('select-form', {
+
+        res.render('select-form', {
           year: year
         })
-    // });
 });
 
 router.get('/test', function(req, res) {

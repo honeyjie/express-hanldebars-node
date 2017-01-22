@@ -648,7 +648,9 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
             dataType:'json',
             success:function(data){
                 if(data.code == 0){
-                    base.notice('信息已保存');
+                    setTimeout(function() {
+                        base.notice('信息已保存');
+                    })
                    $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban'); 
                 }
             },
