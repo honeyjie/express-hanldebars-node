@@ -3,7 +3,7 @@ var fs = require("fs");
 
 function Proxy() {
     this.protocol = "http://";
-    this.host = "api.utuotu.com";
+    this.host = "doc.utuotu.com";
 }
 
 Proxy.prototype.request = function(options, callback) {
