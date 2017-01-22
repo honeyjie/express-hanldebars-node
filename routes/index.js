@@ -39,7 +39,7 @@ router.get('/', function (req, res, next) {
 router.get('/testindex', function (req, res, next) {
   req.proxy.request({
       method: "GET",
-      url: "http://api.utuotu.com/v1/Login/redicturl.action",
+      url: "http://api.inner.utuotu.com/v1/Login/redicturl.action",
       qs: req.query
   }, function(err, response, body) {
       
@@ -71,7 +71,7 @@ router.get('/user-news', function(req, res, next) {
   var newsstate;
   req.proxy.request({
       method: "GET",
-      url: "http://api.utuotu.com/v1/User/getmsgstatus.action"
+      url: "http://api.inner.utuotu.com/v1/User/getmsgstatus.action"
   }, function(err, response, body) {
       var data = JSON.parse(body);
       newsstate = data.data;
@@ -80,7 +80,7 @@ router.get('/user-news', function(req, res, next) {
   req.proxy.request({
       method: "GET",
       qs: {system: req.query.system},
-      url: "http://api.utuotu.com/v1/User/getmsg.action"
+      url: "http://api.inner.utuotu.com/v1/User/getmsg.action"
   }, function(err, response, body) {
       var getmsg = JSON.parse(body);
       var urlPath = url.parse(req.url).path;
@@ -114,7 +114,7 @@ router.get('/user-point', function(req, res, next) {
       inviteCode;
     req.proxy.request({
         method: "GET",
-        url: "http://api.utuotu.com/v1/User/currnetcredit.action",
+        url: "http://api.inner.utuotu.com/v1/User/currnetcredit.action",
         qs: req.query
     }, function(err, response, body) {
         currnetcredit = JSON.parse(body);
@@ -122,7 +122,7 @@ router.get('/user-point', function(req, res, next) {
     })
     req.proxy.request({
         method: "GET",
-        url: "http://api.utuotu.com/v1/User/creditlog.action",
+        url: "http://api.inner.utuotu.com/v1/User/creditlog.action",
         qs: req.query
     }, function(err, response, body) {
         creditlog = JSON.parse(body).data;
@@ -130,7 +130,7 @@ router.get('/user-point', function(req, res, next) {
     })
     req.proxy.request({
         method: "GET",
-        url: "http://api.utuotu.com/v1/User/mission.action",
+        url: "http://api.inner.utuotu.com/v1/User/mission.action",
         qs: req.query
     }, function(err, response, body) {
         mission = JSON.parse(body);
@@ -139,7 +139,7 @@ router.get('/user-point', function(req, res, next) {
     //有效邀请
     req.proxy.request({
         method: "GET",
-        url: "http://api.utuotu.com/v1/User/invite.action",
+        url: "http://api.inner.utuotu.com/v1/User/invite.action",
         qs: req.query
     }, function(err, response, body) {
         inviteCode = JSON.parse(body).data;
@@ -149,7 +149,7 @@ router.get('/user-point', function(req, res, next) {
 
     req.proxy.request({
         method: "GET",
-        url: "http://api.utuotu.com/v1/User/invitenum.action",
+        url: "http://api.inner.utuotu.com/v1/User/invitenum.action",
         qs: req.query
     }, function(err, response, body) {
           invitenum = JSON.parse(body);
@@ -176,7 +176,7 @@ router.get('/user-point', function(req, res, next) {
 router.get('/v1/User/msganswer.action', function(req, res, next) {
   req.proxy.request({
       method: "GET",
-      url: "http://api.utuotu.com/v1/User/msganswer.action",
+      url: "http://api.inner.utuotu.com/v1/User/msganswer.action",
       qs: req.query
   }, function(err, response, body) {
       var getmsg = JSON.parse(body);
@@ -193,7 +193,7 @@ router.get('/user-set', function(req, res, next) {
   var emailvalid = "";
     req.proxy.request({
         method: "get",
-        url: "http://api.utuotu.com/v1/user/userinfo.action"
+        url: "http://api.inner.utuotu.com/v1/user/userinfo.action"
     }, function(err, response, body) {
         data = JSON.parse(body);
 
@@ -220,7 +220,7 @@ router.get('/register-forget', function(req, res, next) {
 router.get('/register-reset', function(req, res, next) {
     req.proxy.request({
         method: "get",
-        url: "http://api.utuotu.com/v1/Msg/validforgetgetemail.action",
+        url: "http://api.inner.utuotu.com/v1/Msg/validforgetgetemail.action",
         qs: req.query
     }, function(err, response, body) {
         var data = JSON.parse(body);
@@ -232,7 +232,7 @@ router.get('/register-reset', function(req, res, next) {
 
 router.get('/register-test', function(req, res, next) {
   req.proxy.request({
-    url: 'http://api.utuotu.com/v1/msg/validemail.action', 
+    url: 'http://api.inner.utuotu.com/v1/msg/validemail.action', 
     qs: req.query
   }, function(err, response, body) {
 
@@ -270,13 +270,13 @@ router.get('/email-reset', function(req, res, next) {
 });
 
 router.get('/email-test', function(req, res, next) {
-    req.proxy.request('http://api.utuotu.com/v1/msg/validemail.action', function(err, response, body) {
+    req.proxy.request('http://api.inner.utuotu.com/v1/msg/validemail.action', function(err, response, body) {
       res.render('email-test', body);
    });
 });
 
 router.get('/school-all-partial', function(req, res, next) {
-  req.proxy.request({method: "GET", url: "http://api.utuotu.com/v1/schoolinfo/getallschoolmajor.action"}, function(err, response, body) {
+  req.proxy.request({method: "GET", url: "http://api.inner.utuotu.com/v1/schoolinfo/getallschoolmajor.action"}, function(err, response, body) {
       var data = JSON.parse(body);
       var major, sid;
       res.render('partials/Inslibrary/school-all', {
@@ -289,7 +289,7 @@ router.get('/school-all-partial', function(req, res, next) {
 });
 
 router.get('/school-academylist-partial', function(req, res, next) {
-  req.proxy.request({method: "GET", url: "http://api.utuotu.com/v1/schoolinfo/getallschoolmajor.action"}, function(err, response, body) {
+  req.proxy.request({method: "GET", url: "http://api.inner.utuotu.com/v1/schoolinfo/getallschoolmajor.action"}, function(err, response, body) {
       var data = JSON.parse(body);
       var major, sid;
       res.render('partials/Inslibrary/school-academylist', {
@@ -302,7 +302,7 @@ router.get('/school-academylist-partial', function(req, res, next) {
 });
 
 router.get('/school-majorlist-partial', function(req, res, next) {
-  req.proxy.request({method: "GET", url: "http://api.utuotu.com/v1/schoolinfo/getallschoolmajor.action"}, function(err, response, body) {
+  req.proxy.request({method: "GET", url: "http://api.inner.utuotu.com/v1/schoolinfo/getallschoolmajor.action"}, function(err, response, body) {
       var data = JSON.parse(body);
 
       var major, sid;
@@ -333,7 +333,7 @@ router.get('/school-screen', function (req, res) {
     //将&page=3&置换
     req.proxy.request({
         method: "GET",
-        url: "http://api.utuotu.com/v1/schoolmajor/searchschool.action",
+        url: "http://api.inner.utuotu.com/v1/schoolmajor/searchschool.action",
         qs: req.query
     }, function(err, response, body) {
       var urlPath = url.parse(req.url).path;
@@ -354,7 +354,7 @@ router.get('/school-screen', function (req, res) {
 router.get('/school-major-partial', function(req, res, next) {
     req.proxy.request({
         method: "GET",
-        url: "http://api.utuotu.com/v1/schoolinfo/getschoolmajorinfo.action",
+        url: "http://api.inner.utuotu.com/v1/schoolinfo/getschoolmajorinfo.action",
         qs: req.query
     }, function(err, response, body) {
         var data = JSON.parse(body);
@@ -380,7 +380,7 @@ router.get('/school-mjlist-partial', function(req, res, next) {
   var sid = req.query.sid;
     req.proxy.request({
         method: "GET",
-        url: "http://api.utuotu.com/v1/schoolinfo/getrecommend.action",
+        url: "http://api.inner.utuotu.com/v1/schoolinfo/getrecommend.action",
         qs: req.query
     }, function(err, response, body) {
         var data = JSON.parse(body).data;
@@ -389,7 +389,7 @@ router.get('/school-mjlist-partial', function(req, res, next) {
         for(var i = 0; i < len; i++) {
           req.proxy.request({
               method: "GET",
-              url: "http://api.utuotu.com/v1/schoolinfo/getschoolmajorinfo.action",
+              url: "http://api.inner.utuotu.com/v1/schoolinfo/getschoolmajorinfo.action",
               qs: {sid: sid, mid: data[i].mid}
           }, function(err, response, body) {
               var result = JSON.parse(body).data;
@@ -412,7 +412,7 @@ router.get('/school-mjlist-partial', function(req, res, next) {
 router.get('/school-recommend-partial', function(req, res) {
     req.proxy.request({
         method: "GET",
-        url: "http://api.utuotu.com/v1/schoolInfo/hot.action",
+        url: "http://api.inner.utuotu.com/v1/schoolInfo/hot.action",
         qs: req.query
     }, function(err, response, body) {
 
@@ -432,7 +432,7 @@ router.get('/school-recommend-partial', function(req, res) {
 router.get('/school-recommend', function(req, res) {
     req.proxy.request({
         method: "GET",
-        url: "http://api.utuotu.com/v1/schoolInfo/hot.action",
+        url: "http://api.inner.utuotu.com/v1/schoolInfo/hot.action",
         qs: req.query
     }, function(err, response, body) {
 
@@ -452,7 +452,7 @@ router.get('/select-school', function(req, res) {
     var schoollist;
     req.proxy.request({
         method: "GET",
-        url: "http://api.utuotu.com/v1/completeform/intelligentselection.action",
+        url: "http://api.inner.utuotu.com/v1/completeform/intelligentselection.action",
     }, function(err, response, body) {
         schoollist = JSON.parse(body).data;
 
@@ -464,7 +464,7 @@ router.get('/select-school', function(req, res) {
     // setTimeout(function(res) {
     //   req.proxy.request({
     //       method: "GET",
-    //       url: "http://api.utuotu.com/v1/Completeform/historyoffer.action"
+    //       url: "http://api.inner.utuotu.com/v1/Completeform/historyoffer.action"
     //   }, function(err, response, body) {
     //       var formResult = JSON.parse(body).data;
 
@@ -479,7 +479,7 @@ router.get('/select-form', function(req, res) {
     var year =  (new Date()).getFullYear() + 1;
     //     req.proxy.request({
     //     method: "GET",
-    //     url: "http://api.utuotu.com/v1/completeform/form.action",
+    //     url: "http://api.inner.utuotu.com/v1/completeform/form.action",
     // }, function(err, response, body) {
     //     var formdata = JSON.parse(body).data;
     //     if (!formdata) {
@@ -498,7 +498,7 @@ router.get('/test', function(req, res) {
 router.get("/schoolmajor/filterschool.action", function(req, res) {
     req.proxy.request({
         method: "GET",
-        url: "http://api.utuotu.com/v1/schoolmajor/filterschool.action",
+        url: "http://api.inner.utuotu.com/v1/schoolmajor/filterschool.action",
     }, function(err, response, body) {
         var data = JSON.parse(body);
         if (!data) {
@@ -515,7 +515,7 @@ router.get("/schoolmajor/filterschool.action", function(req, res) {
 router.get("/schoolmajor/searchschool.action", function(req, res) {
     req.proxy.request({
         method: "GET",
-        url: "http://api.utuotu.com/v1/schoolmajor/searchschool.action",
+        url: "http://api.inner.utuotu.com/v1/schoolmajor/searchschool.action",
     }, function(err, response, body) {
         var data = JSON.parse(body);
         if (!data) {
@@ -534,7 +534,7 @@ router.get("/schoolmajor/searchschool.action", function(req, res) {
 router.post("/completeform/chinaschool.action", function(req, res) {
     req.proxy.request({
         method: "POST",
-        url: "http://api.utuotu.com/v1/completeform/chinaschool.action",
+        url: "http://api.inner.utuotu.com/v1/completeform/chinaschool.action",
     }, function(err, response, body) {
         var data = JSON.parse(body);
         if (!data) {
@@ -551,7 +551,7 @@ router.post("/completeform/chinaschool.action", function(req, res) {
 router.post("/completeform/chinamajor.action", function(req, res) {
     req.proxy.request({
         method: "POST",
-        url: "http://api.utuotu.com/v1/completeform/chinamajor.action",
+        url: "http://api.inner.utuotu.com/v1/completeform/chinamajor.action",
     }, function(err, response, body) {
         var data = JSON.parse(body);
         if (!data) {
@@ -567,7 +567,7 @@ router.post("/completeform/chinamajor.action", function(req, res) {
 router.get("/Help/search.action", function(req, res) {
     req.proxy.request({
         method: "GET",
-        url: "http://api.utuotu.com/v1/Help/search.action",
+        url: "http://api.inner.utuotu.com/v1/Help/search.action",
     }, function(err, response, body) {
       var data = JSON.parse(body);
       res.render('partials/searchlist', {
@@ -580,7 +580,7 @@ router.get("/Help/search.action", function(req, res) {
 router.get("/refelink", function(req, res) {
     req.proxy.request({
         method: "GET",
-        url: "http://api.utuotu.com/v1/help/redirect.action",
+        url: "http://api.inner.utuotu.com/v1/help/redirect.action",
         qs: {url: req.query.hash}
     }, function(err, response, body) {
 
@@ -594,7 +594,7 @@ router.get("/captcha/image.action", function(req, res) {
     req.proxy.request({
         encoding: null,
         method: "GET",
-        url: "http://api.utuotu.com/v1/captcha/image.action",
+        url: "http://api.inner.utuotu.com/v1/captcha/image.action",
         qs: req.query
     }, function(err, response, body) {
       res.send(body);
@@ -605,7 +605,7 @@ router.get("/captcha/image.action", function(req, res) {
 router.get("/captcha/start.action", function(req, res) {
     req.proxy.request({
         method: "GET",
-        url: "http://api.utuotu.com/v1/captcha/start.action",
+        url: "http://api.inner.utuotu.com/v1/captcha/start.action",
         qs: req.query
     }, function(err, response, body) {
       for (var key in response.headers) {
@@ -619,7 +619,7 @@ router.get("/captcha/start.action", function(req, res) {
 router.get("/captcha/try.action", function(req, res) {
     req.proxy.request({
         method: "GET",
-        url: "http://api.utuotu.com/v1/captcha/try.action",
+        url: "http://api.inner.utuotu.com/v1/captcha/try.action",
         qs: req.query
     }, function(err, response, body) {
       for (var key in response.headers) {
@@ -635,7 +635,7 @@ router.post("/completeform/saveform.action", function(req, res) {
     console.log(req.body.length);
     req.proxy.request({
         method: "POST",
-        url: "http://api.utuotu.com/v1/completeform/saveform.action",
+        url: "http://api.inner.utuotu.com/v1/completeform/saveform.action",
     }, function(err, response, body) {
       for (var key in response.headers) {
            res.set(key, response.headers[key])
@@ -654,7 +654,7 @@ router.post("/completeform/saveform.action", function(req, res) {
 router.get("/login/opencode.action", function(req, res) {
     req.proxy.request({
         method: "GET",
-        url: "http://api.utuotu.com/v1/login/opencode.action",
+        url: "http://api.inner.utuotu.com/v1/login/opencode.action",
         qs: req.query
     }, function(err, response, body) {
       for (var key in response.headers) {

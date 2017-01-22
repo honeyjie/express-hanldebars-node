@@ -125,13 +125,9 @@ app.use(function(req, res, next) {
             for (var key in response.headers) {
                 res.set(key, response.headers[key])
             }
-            // 1. 获取图片内容可能不是body，而是别的参数
-            // 2. 读取body没有读取完
             try {
                 body = JSON.parse(body)
             } catch(e) {
-                // var fs = require("fs");
-                // fs.writeFileSync("/tmp/hello.png", body)
                 console.log(e);
             }
             res.send(body); 
