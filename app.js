@@ -95,7 +95,7 @@ app.use( function(req, res, next) {
         url: "http://api.utuotu.com/v1/User/getmsgstatus.action",
         qs: req.query
     },function(err, response, body) {
-        console.log(data);
+        console.log(body);
         var  data = JSON.parse(body).data;
         if (!res.locals.partials) {
             res.locals.partials = {}
