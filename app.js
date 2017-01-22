@@ -60,13 +60,14 @@ app.use(function(req, res, next) {
         url: "http://api.utuotu.com/v1/schoolinfo/getschoolbase.action",
         qs: req.query
     }, function(err, response, body) {
-      var data = JSON.parse(body);
-      if (!res.locals.partials) {
-        res.locals.partials = {}
-      }
-      res.locals.partials.schooldetail = data.data;
-      res.locals.partials.schoolid = req.query.sid;
-      next();
+        console.log(body);
+      // var data = JSON.parse(body);
+      // if (!res.locals.partials) {
+      //   res.locals.partials = {}
+      // }
+      // res.locals.partials.schooldetail = data.data;
+      // res.locals.partials.schoolid = req.query.sid;
+      // next();
     });
 });
 
