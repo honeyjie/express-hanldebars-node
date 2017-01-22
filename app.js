@@ -57,7 +57,7 @@ app.use(function(req, res, next) {
 app.use(function(req, res, next) {
     req.proxy.request({
         method: "GET",
-        url: "http://doc.utuotu.com/v1/schoolinfo/getschoolbase.action",
+        url: "http://api.utuotu.com/v1/schoolinfo/getschoolbase.action",
         qs: req.query
     }, function(err, response, body) {
       var data = JSON.parse(body);
@@ -73,7 +73,7 @@ app.use(function(req, res, next) {
 app.use(function(req, res, next) {
     req.proxy.request({
         method: "GET",
-        url: "http://doc.utuotu.com/v1/user/cache.action",
+        url: "http://api.utuotu.com/v1/user/cache.action",
         qs: req.query
     },function(err, response, body) {
       var  data = JSON.parse(body);
@@ -90,7 +90,7 @@ app.use(function(req, res, next) {
 app.use( function(req, res, next) {
     req.proxy.request({
         method: "GET",
-        url: "http://doc.utuotu.com/v1/User/getmsgstatus.action",
+        url: "http://api.utuotu.com/v1/User/getmsgstatus.action",
         qs: req.query
     },function(err, response, body) {
         console.log(data);
