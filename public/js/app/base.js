@@ -202,7 +202,7 @@ define(['jquery'],function(jquery){
                         cb();
                     }
                 });
-            },1000);
+            },2000);
         });
     }
 
