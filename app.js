@@ -61,13 +61,13 @@ app.use(function(req, res, next) {
         qs: req.query
     }, function(err, response, body) {
         console.log(body);
-      // var data = JSON.parse(body);
-      // if (!res.locals.partials) {
-      //   res.locals.partials = {}
-      // }
-      // res.locals.partials.schooldetail = data.data;
-      // res.locals.partials.schoolid = req.query.sid;
-      // next();
+      var data = JSON.parse(body);
+      if (!res.locals.partials) {
+        res.locals.partials = {}
+      }
+      res.locals.partials.schooldetail = data.data;
+      res.locals.partials.schoolid = req.query.sid;
+      next();
     });
 });
 
@@ -77,6 +77,7 @@ app.use(function(req, res, next) {
         url: "http://api.utuotu.com/v1/user/cache.action",
         qs: req.query
     },function(err, response, body) {
+        console.log(body)
       var  data = JSON.parse(body);
       if (!res.locals.partials) {
         res.locals.partials = {}
