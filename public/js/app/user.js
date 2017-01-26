@@ -371,7 +371,13 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         });
 
         //消息弹窗阻止冒泡
-        $('.news-article').on('click',function(e){
+        $('.news-article-type').on('click',function(e){
+            e.stopPropagation();
+        });
+        $('.news-article-title').on('click',function(e){
+            e.stopPropagation();
+        });
+        $('.news-article-content').on('click',function(e){
             e.stopPropagation();
         });
         //查看消息
@@ -404,7 +410,6 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
 
         //关闭消息
         $('.news-article').on('click','news-article-close',function(){
-            alert('123')
             closeNewsArticle();
         });
         base.closeAll.closeNewsArticle = closeNewsArticle;
