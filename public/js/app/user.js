@@ -403,8 +403,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         })
 
         //关闭消息
-        $('.news-article-close').on('click',function(e){
-            e.stopPropagation();
+        $('.news-article-close').on('click',function(){
             closeNewsArticle();
         });
         base.closeAll.closeNewsArticle = closeNewsArticle;
