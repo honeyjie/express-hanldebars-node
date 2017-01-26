@@ -371,13 +371,13 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         });
 
         //消息弹窗阻止冒泡
-        $('.news-article-type').on('click',function(e){
+        $('.news-article').on('click','.news-article-type',function(e){
             e.stopPropagation();
         });
-        $('.news-article-title').on('click',function(e){
+        $('.news-article').on('click','.news-article-title',function(e){
             e.stopPropagation();
         });
-        $('.news-article-content').on('click',function(e){
+        $('.news-article').on('click','.news-article-content',function(e){
             e.stopPropagation();
         });
         //查看消息
