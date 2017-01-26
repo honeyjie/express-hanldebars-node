@@ -3359,3 +3359,19 @@
     font-weight: 600;
     margin: 0 20px;
 }
+.apply{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 60px 0 50px;
+    background: #ffffff;
+}
+.apply img{
+    position: absolute;
+    width: 100%;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
