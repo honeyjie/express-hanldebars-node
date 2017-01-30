@@ -371,6 +371,16 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
             $('.point-share-notice').fadeOut(200);
         });
 
+        //消息弹窗阻止冒泡
+        $('.news-article').on('click','.news-article-type',function(e){
+            e.stopPropagation();
+        });
+        $('.news-article').on('click','.news-article-title',function(e){
+            e.stopPropagation();
+        });
+        $('.news-article').on('click','.news-article-content',function(e){
+            e.stopPropagation();
+        });
         //查看消息
         $('.news-list li a').on('click',function(e){
             e.stopPropagation();
@@ -400,8 +410,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         })
 
         //关闭消息
-        $('.news-article-close').on('click',function(e){
-            e.stopPropagation();
+        $('.news-article').on('click','news-article-close',function(){
             closeNewsArticle();
         });
         base.closeAll.closeNewsArticle = closeNewsArticle;
