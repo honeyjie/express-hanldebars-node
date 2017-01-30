@@ -10,6 +10,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         pre_grade = $('.set-form-grade').val(),
         pre_country = $('.set-form-country').val(),
         pre_headering = $('.inputstyle').val();
+        pre_Url = $('.set-avatar img').attr('src');
     $(function(){
 
         // localStorage.setItem("emailChange", "true");
@@ -559,8 +560,8 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
             var lists = dom.parent().children('li');
             var list = Array.prototype.slice.call(lists)
 
-            userCannotCancel = list.some(function(el, i, arr){//当每一个都返回真值时
-                return $(el).hasClass('noread');
+            userCannotCancel = list.some(function(i, ele, arr){//当每一个都返回真值时
+                return $(ele).hasClass('noread');
             })
             console.log(userCannotCancel);
 
@@ -575,8 +576,8 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
             var lists = dom.parent().children('li');
             var list = Array.prototype.slice.call(lists)
 
-            sysCannotCancel = list.some(function(i, el, arr){//当每一个都返回真值时
-                return $(el).hasClass('noread')
+            sysCannotCancel = list.some(function(i, ele, arr){//当每一个都返回真值时
+                return $(ele).hasClass('noread')
             })
 
             if(!sysCannotCancel) {
@@ -607,7 +608,6 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                 if(data.code===111001013){
                     //未激活
                     $('.set-form-send').removeClass('hidden');
-                    console.log(localStorage.getItem('emailChange') === "true")
                     if (!(localStorage.getItem('emailChange') === "true")) {
                         $('.set-form-email').removeClass('warning');
                     } else {
@@ -641,17 +641,19 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                 major : base.userInfo.major || pre_major,
                 nianji : base.userInfo.grade || pre_grade,
                 country : base.userInfo.country || pre_country,
-                headerimg : imgUrl 
+                headerimg : imgUrl || pre_Url
             },
             type:'post',
             cache:false,
             dataType:'json',
             success:function(data){
                 if(data.code == 0){
-                    setTimeout(function() {
-                        base.notice('信息已保存');
-                    })
+                    base.notice('信息已保存');
                    $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban'); 
+                   console.log(imgUrl, pre_Url)
+                   if (imgUrl !== pre_Url) {
+                        location.reload();
+                   }
                 }
             },
             error : function() {

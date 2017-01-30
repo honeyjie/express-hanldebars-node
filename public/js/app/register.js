@@ -299,7 +299,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
             cache:false,
             dataType:'json',
             success:function(data){
-                if(data.code.valid){
+                if(data.code === 0){
                     base.testSuccess(dom);
                     openForgetSend();
                 }

@@ -12,7 +12,16 @@
         <li><a href="#">申请管理</a></li>
         <li><a href="#">网申插件</a></li>
         <li class="newsCenter">
+            {{#if partials.systemState}}
             <a href="/user-news?system=1">消息中心</a>
+            {{else}}
+                {{#if partials.userState}}
+                <a href="/user-news">消息中心</a>
+                {{else}}
+                <a href="/user-news?system=1">消息中心</a>
+                {{/if}}
+            {{/if}}
+            
             {{#if partials.newsCount}}
             <div class="header-news-tab header-news-number">{{partials.newsCount}}</div>
             {{/if}}
