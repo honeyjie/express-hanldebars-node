@@ -210,8 +210,8 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         $.ajax({
             url:'/v1/schoolinfo/ad.action',
             data:{
-                sid: ,
-                mid: 
+                // sid: ,
+                // mid: 
             },
             type:'get',
             cache:false,
