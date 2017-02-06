@@ -294,15 +294,15 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 //列表中含有这个属性值的高亮
                 
                 $('.help-icon').removeClass('hidden');
-                if($('#require-content')[0]){
-                    scroll[3] =  new iscroll('#require-content',{
+                if($('.require-content')[0]){
+                    scroll[3] =  new iscroll('.require-content',{
                         mouseWheel: true,
                         scrollbars: true,
                         interactiveScrollbars : true
                     });
                 }
-                if($('#from-content')[0]){
-                    scroll[4] =  new iscroll('#from-content',{
+                if($('.from-content')[0]){
+                    scroll[4] =  new iscroll('.from-content',{
                         mouseWheel: true,
                         scrollbars: true,
                         interactiveScrollbars : true
@@ -431,6 +431,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         $('#school-content-page').on('click', '.recommend-major-get', function(){
             var sid = $('.school-info').attr('data-sid');
             getMajor(userMajor, sid);
+            
         });
 
 
@@ -462,15 +463,15 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                     $(this).parents('.school-box').find('.majorDegree').addClass('animated fadeInDown').html(Math.random());
                     console.log("1")
                     //????
-                    if($('#require-content')[0]){
-                        scroll[3] =  new iscroll('#require-content',{
+                    if($('.require-content')[0]){
+                        scroll[3] =  new iscroll('.require-content',{
                             mouseWheel: true,
                             scrollbars: true,
                             interactiveScrollbars : true
                         });
                     }
-                    if($('#from-content')[0]){
-                        scroll[4] =  new iscroll('#from-content',{
+                    if($('.from-content')[0]){
+                        scroll[4] =  new iscroll('.from-content',{
                             mouseWheel: true,
                             scrollbars: true,
                             interactiveScrollbars : true
@@ -704,19 +705,24 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 $('.school-all-page').removeClass('active');
                 $('.school-recommend-page').addClass('active');
                 $('#school-content-page').html(data);
-                $('.school-brief-title img').click();
-                for(var i=1;i<$('.school-box').length;i++){
-                    $('.school-major .school-box-title').eq(i).find('img').click();
+                // $('.school-brief-title img').click();
+                for(var i= 0;i<$('.school-box').length;i++){
+                    // console.log( $('.school-major').eq(i-1).find('.school-box-title img').eq(0))
+                    // $('.school-major').eq(i-1).find('.school-box-title img').eq(0).trigger('click');
+                    console.log($('.school-box').eq(i).find('.school-box-title img'));
+                    // $('.school-box').eq(i).find('.school-box-title img').trigger('click');
+                    console.log($('.school-major').eq(i));
+                    $('.school-major').eq(i).find('.major-require-list li img').eq(0).trigger('click');
                 }
-                if($('#require-content')[0]){
-                    scroll[3] =  new iscroll('#require-content',{
+                if($('.require-content')[0]){
+                    scroll[3] =  new iscroll('.require-content',{
                         mouseWheel: true,
                         scrollbars: true,
                         interactiveScrollbars : true
                     });
                 }
-                if($('#from-content')[0]){
-                    scroll[4] =  new iscroll('#from-content',{
+                if($('.from-content')[0]){
+                    scroll[4] =  new iscroll('.from-content',{
                         mouseWheel: true,
                         scrollbars: true,
                         interactiveScrollbars : true
@@ -741,7 +747,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         _this.addClass('active');
         _this.parents('.major-require').find('.major-require-content-name').html(_this.find('.major-require-list-name').html());
         _this.parents('.major-require').find('.major-require-content-result').html(_this.find('.major-require-list-result').html());
-        scroll[3].refresh();
+        // scroll[3].refresh();
     }
 
     return{

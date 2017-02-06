@@ -556,6 +556,36 @@ router.get("/Help/search.action", function(req, res) {
     });
 });
 
+///schoolinfo/ad.action
+router.get("/schoolinfo/ad.action", function(req, res) {
+    req.proxy.request({
+        method: "GET",
+        url: "http://api.inner.utuotu.com/v1/schoolinfo/ad.action",
+    }, function(err, response, body) {
+      var data = JSON.parse(body);
+      res.render('partials/helplist', {
+            article: data.data,
+            layout: "naked"
+      });
+    });
+});
+
+///schoolinfo/ad.action
+router.get("/Help/selectschoolad.action", function(req, res) {
+    req.proxy.request({
+        method: "GET",
+        url: "http://api.inner.utuotu.com/v1/Help/selectschoolad.action",
+    }, function(err, response, body) {
+      console.log(body);
+      var data = JSON.parse(body);
+      res.render('partials/helplist', {
+            article: data.data,
+            layout: "naked"
+      });
+    });
+});
+
+
 router.get("/refelink", function(req, res) {
     req.proxy.request({
         method: "GET",

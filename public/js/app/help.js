@@ -129,8 +129,9 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
             base.closeAll.closeHelp();
         });
         //打开文章
-        $('.help-list').on('click',function(){
-            openArticle();
+        $('.help-list').on('click','li', function(){
+            console.log($(this))
+            openArticle($(this));
         });
         //关闭文章
         $('.help-back').on('click',function(){
@@ -207,26 +208,48 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
             $('.help').removeClass('animated fadeInUp');
         });
         //请求推荐文章
-        $.ajax({
-            url:'/v1/schoolinfo/ad.action',
-            data:{
-                // sid: ,
-                // mid: 
-            },
-            type:'get',
-            cache:false,
-            dataType:'json',
-            success:function(data){
-                console.log(data);
-                if (data.code === 0) {
-                }
-                return;
+        var school_id = $('.school-info').data('sid');
+        if (school_id) {
+            $.ajax({
+                url:'/schoolinfo/ad.action',
+                data:{
+                    sid: school_id
+                },
+                type:'get',
+                cache:false,
+                dataType:'html',
+                success:function(data){
+                    console.log(data);
+                    //补充内容
+                    $('#help-list').html(data);
+                    return;
 
-            },
-            error : function() {
-                base.notice('网络错误');
-            }
-        });
+                },
+                error : function() {
+                    base.notice('网络错误');
+                }
+            });
+        }else{
+            console.log("1")
+            //智能选校结果页
+            $.ajax({
+                url:'/Help/selectschoolad.action',
+                data:{
+                },
+                type:'get',
+                cache:false,
+                dataType:'html',
+                success:function(data){
+                    console.log(data);
+                    //补充内容
+                    $('#help-list').html(data);
+                    return;
+                },
+                error : function() {
+                    base.notice('网络错误');
+                }
+            });
+        }
     }
     base.closeAll.closeHelp = function(){
         $('.help-icon').removeClass('hidden');
@@ -244,13 +267,18 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         $('.help-tab textarea').val('');
     }
 
-    function openArticle(){
+    function openArticle(dom){
+        console.log("1")
         $('.help-back').removeClass('hidden');
         $('.help-article').removeClass('hidden').addClass('animated slideInLeft').one(base.animationend,function(){
             $('.help-article').removeClass('animated slideInLeft');
             $('.help-list').addClass('hidden');
             scroll[1].refresh();
         });
+
+        //填写内容和标题
+        $('.help-article-title').html(dom.find('p').eq(0).html());
+        $('.help-article-content').html(dom.find('.help-article-content-hid').html())
     }
     function closeArticle(){
         $('.help-list').removeClass('hidden');
