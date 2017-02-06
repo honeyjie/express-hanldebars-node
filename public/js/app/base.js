@@ -302,8 +302,8 @@ define(['jquery'],function(jquery){
             var option = $(this).find('.form-select-option');
             select.on('click',function(e){
                 e.stopPropagation();
-                $('.form-select-option').addClass('hidden');
-                if(option.hasClass('hidden')){
+                // $('.form-select-option').addClass('hidden');
+                if(option.hasClass('hidden') && option.find('ul').html()){
                     select.addClass('focus');
                     option.removeClass('hidden');
                     if(scroll){

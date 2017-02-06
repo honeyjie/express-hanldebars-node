@@ -2296,7 +2296,7 @@
 .school .recommend-major{
     margin-top: 20px;
     border-top: 1px solid #dcdcdc;
-    padding: 30px 0;
+    padding: 40px 0;
 }
 .school .recommen-major-total{
     float: left;
@@ -2320,6 +2320,7 @@
 .school .recommend-major-form{
     float: left;
     margin-left: 100px;
+    margin-top: 50px;
 }
 .school .recommend-major-form input{
     width: 250px;
@@ -2352,9 +2353,10 @@
     font-weight: 600;
 }
 .school .recommend-major-notice{
-    margin-left: 50px;
     margin-top: 10px;
-    color: red;
+    color: #25baf4;
+    line-height: 28px;
+    font-size: 14px;
 }
 .school .recommend-major-title{
     font-size: 16px;

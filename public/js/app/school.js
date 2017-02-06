@@ -72,13 +72,17 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 }
                 $('.screen-form-state .form-select-option ul').html(dom);
             });
-            $('.screen-form-state').select(scroll[1]);
+            if (screen.country) {
+                $('.screen-form-state').select(scroll[1]);
+            }
+            
             canSearch();
-           
+           console.log(screen.country)
         });
 
 
         $('.screen-form-state .form-select-option').on('click','li',function(e){
+            console.log(screen.country)
             if(!screen.country) {
                 $('.screen-form-state').removeClass('focus');
             }
@@ -144,7 +148,9 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         //条件搜索院校
         $('.screen-side-search').on('click',function(){
             // canSearch();
+
             if(screen.country||screen.state||screen.preference||screen.major||screen.degree){
+                console.log(screen.country)
                 searchSchool();
             }
         });
@@ -452,10 +458,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         //切换学位 school-major
         $('#school-content-page').on('click', '.major-tab .tab-title li',function(e){
             e.stopPropagation();
-            console.log($(this));
-            if($(this).hasClass('none')) {
-                return;
-            }
+
             majorTab($(this));
             // $('.major-require-list li:eq(0)').addClass('active');
             // //重新选择专业(学位)
@@ -474,8 +477,6 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                     //$(target).addClass('active');
                     $('.help-icon').removeClass('hidden');
                     $(this).parents('.school-box').find('.majorDegree').addClass('animated fadeInDown').html(Math.random());
-                    console.log("1")
-                    //????
                     if($('.require-content')[0]){
                         scroll[3] =  new iscroll('.require-content',{
                             mouseWheel: true,
@@ -530,7 +531,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             $.ajax({
                 url:'/schoolmajor/filterschool.action',
                 data:{
-                    nation: screen.nation,
+                    nation: screen.country,
                     state: screen.state,
                     location: screen.preference,
                     major_name: screen.major,
@@ -605,6 +606,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         screen.major = '';
         screen.degree = '';
         $('.screen-form-country .form-select-value').html('选择地区');
+        $('#screen-state ul').html('');
         $('.screen-form-state .form-select-value').html('选择州');
         $('.screen-form-major .form-select-value').html('选择专业');
         $('.screen-form-radio button').removeClass('active');
