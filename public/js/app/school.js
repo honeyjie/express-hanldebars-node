@@ -7,9 +7,17 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         screen.major = '';
         screen.degree = '';
     var height = [];//每个模块的高度
+    var sid = $('.school-info').data('sid');
 
     var userMajor = false;
+
+    console.log(localStorage.getItem("userMajor"));
     var major_empty;
+
+    if (localStorage.getItem("userMajor")) {
+        getMajor(localStorage.getItem("userMajor"), sid);
+    }
+
     $(function(){
         //模拟滚动条
         if($('#screen-country')[0]){
@@ -40,6 +48,8 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 interactiveScrollbars : true
             });
         }
+
+
         //模拟下拉
         $('.screen-form-country').select(scroll[0]);
     
@@ -148,19 +158,19 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             //阻止冒泡
             e.stopPropagation();
             var target = e.target;
-            var sid = $('.school-side').attr('data-school');
             //未推荐过或推荐结果为空school-box-content major-empty
             //只要在推荐页面出现过为空则标记
             if($('.school-box-content').hasClass('major-empty')) {
                  major_empty = true;
             }
-            if(!userMajor || major_empty) {
+            if(!localStorage.getItem("userMajor") || major_empty) {
                 //调用重新推荐函数
-                var sid = $('.school-side').attr('data-school');
                 getRecommendMajor(sid)
             } else {
                 //获取推荐专业详情
-                getMajor(userMajor, sid);
+                // getMajor(userMajor, sid);
+                getMajor(localStorage.getItem("userMajor"), sid);
+
                 major_empty = false;
             }
         });
@@ -169,7 +179,6 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             e.stopPropagation();
             var target = e.target;
             $(target).addClass('active');
-            var sid = $('.school-side').attr('data-school');
             //重新推荐
             getRecommendMajor(sid)
         });
@@ -204,7 +213,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             $.ajax({
                 url: '/school-academylist-partial',
                 data: {
-                    sid: $('.school-side').attr('data-school')
+                    sid: sid
                 },
                 type:'get',
                 cache:false,
@@ -229,7 +238,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             $.ajax({
                 url: '/school-majorlist-partial',
                 data: {
-                    sid: $('.school-side').attr('data-school'),
+                    sid: sid,
                     academy: $(this).attr("data-academy")
                 },
                 type:'get',
@@ -253,7 +262,6 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         //绑定专业详情页
         $('#school-content-page').on("click",  ".all-list li", function(e){
             e.stopPropagation();
-            var sid =  $('.school-side').attr('data-school');
             var mid = $(this).attr("data-mid");
             var target = e.target;
             $(target).addClass('active');
@@ -264,7 +272,6 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
     //点击热门专业
     $('#school-content-page').on("click",  ".recommend-major-list li", function(e){
         e.stopPropagation();
-        var sid =  $('.school-side').attr('data-school');
         var mid = $(this).attr("data-major");
         getOneMajor(sid, mid)
     });
@@ -426,10 +433,11 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             }
             base.testSuccess($(this));
             userMajor = $(this).val();
+            localStorage.setItem("userMajor", userMajor);
         });
         //获取推荐
         $('#school-content-page').on('click', '.recommend-major-get', function(){
-            var sid = $('.school-info').attr('data-sid');
+            
             getMajor(userMajor, sid);
             
         });
@@ -449,7 +457,6 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             $.ajax({
                 url: '/school-major-partial',
                 data: {
-                    sid: $('.school-side').attr('data-school'),
                     mid: $(this).attr("data-mid"),
                     majorDegree: true
                 },
@@ -701,6 +708,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             dataType:'html',
             success:function(data){
                 $('.school-side-revise').show();
+                $('.school-side-son').addClass('hidden');
                 $('.help-icon').removeClass('hidden');
                 $('.school-all-page').removeClass('active');
                 $('.school-recommend-page').addClass('active');
