@@ -607,7 +607,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         screen.degree = '';
         $('.screen-form-country .form-select-value').html('选择地区');
         $('#screen-state ul').html('');
-        $('.screen-form-state .form-select-value').html('选择州');
+        $('.screen-form-state .form-select-value').html('选择州(省)');
         $('.screen-form-major .form-select-value').html('选择专业');
         $('.screen-form-radio button').removeClass('active');
         $('.screen-side-search').removeClass('button-solid').addClass('button-solid-ban');
