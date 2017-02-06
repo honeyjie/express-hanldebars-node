@@ -192,6 +192,7 @@
 }
 .header-user-info-avatar{
     height: 34px;
+    width: 34px;
     margin: 13px 0;
     cursor: pointer;
     border-radius: 50%;
@@ -1118,6 +1119,7 @@
 .user .set-avatar img{
     display: block;
     width: 100px;
+    height: 100px;
     border-radius: 50%;
 }
 .user .set-avatar-change{

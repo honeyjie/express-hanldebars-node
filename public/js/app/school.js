@@ -284,7 +284,6 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 $("#school-content-page").html(data);
                 setTimeout(function() {
                     var academy = $('.school-box-content.major-tab').eq(0).data('academy');
-                    console.log($('.school-box-content.major-tab').eq(0), academy)
                     $('.school-side-son').removeClass('active');
                     $('.school-side-son li[data-academy="'+ academy+ '"]').addClass('active');
 
@@ -422,7 +421,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             }
             if(arr.indexOf($('.recommend-major-form input').val())==-1){
                 userMajor = null;
-                base.testFail($(this),'请用中文输入所就读专业');
+                base.testFail($(this),'请从下拉列表中选择专业');
                 return;
             }
             base.testSuccess($(this));
@@ -440,7 +439,10 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         //切换学位 school-major
         $('#school-content-page').on('click', '.major-tab .tab-title li',function(e){
             e.stopPropagation();
-            majorTab($(this));
+            
+           
+           majorTab($(this));
+            // $('.major-require-list li:eq(0)').addClass('active');
             // //重新选择专业(学位)
             var target = e.target;
             $.ajax({
@@ -457,7 +459,9 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                     //$('.major-tab .tab-title li').removeClass('active');
                     //$(target).addClass('active');
                     $('.help-icon').removeClass('hidden');
-                    $("#majorDegree").html(data);
+                    $(this).parents('.school-box').find('.majorDegree').addClass('animated fadeInDown').html(Math.random());
+                    console.log("1")
+                    //????
                     if($('#require-content')[0]){
                         scroll[3] =  new iscroll('#require-content',{
                             mouseWheel: true,
@@ -479,6 +483,9 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                             $('.major-info-direction .form-select-value').html($(this).html().substring(0,20)+'...');
                         }
                     })
+
+                    // console.log($('.major-require-list li:eq(0)'))
+                    // requireTab('.major-require-list li:eq(0)');
                 },
                 error : function() {
                     base.notice('网络错误');

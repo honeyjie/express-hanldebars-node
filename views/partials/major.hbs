@@ -19,7 +19,7 @@
         </ul>
 
         <div class="tab-box">
-            <div id="majorDegree">
+            <div class="majorDegree">
 {{/unless}}
                 <ul class="major-info clear">
                     <li>
@@ -156,7 +156,7 @@
                             S-{{toefl_s}}分,
                             {{/ifShowLogic}}
 
-                            {{#ifShowLogic toefl_w -1 0 'W-无最低分要求<br/>'}}
+                            {{#ifShowLogic toefl_w -1 0 'W-无最低分要求'}}
                             W-{{toefl_w}}分<br/>
                             {{/ifShowLogic}}
                             
@@ -164,7 +164,7 @@
                             {{#ifNotEq toefl_code -1}}
                             TOEFL官方成绩电子寄送 Code：{{toefl_code}}(Institute;Department)<br/>
                             {{/ifNotEq}}
-                            <br/>
+                      
 
                             {{#ifShowLogic ielts -1 0 'IELTS总成绩无最低要求<br/>'}}
                             IELTS最低要求：{{ielts}}分<br/>

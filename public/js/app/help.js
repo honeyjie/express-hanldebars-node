@@ -46,7 +46,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                 uptoken_url: '/v1/help/qiqiuauth.action',            //Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
                 domain: 'http://oi7kb12ow.bkt.clouddn.com/',   //bucket 域名，下载资源时用到，**必需**
                 get_new_uptoken: false,  //设置上传文件的时候是否每次都重新获取新的token
-                max_file_size: '100mb',           //最大文件体积限制
+                max_file_size: '5mb',           //最大文件体积限制
                 flash_swf_url: '//cdn.bootcss.com/plupload/2.1.9/Moxie.swf',  //引入flash,相对路径
                 max_retries: 3,                   //上传失败最大重试次数
                 dragdrop: true,                   //开启可拖曳上传
@@ -70,7 +70,6 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                         var res = JSON.parse(info);
                         imgUrl = up.getOption('domain') + res.key;
                         // base.userInfo.headerimg = imgUrl
-                        console.log(imgUrl)
                         upLoadFile();
                         // 每个文件上传成功后,处理相关的事情
                         // 其中 info 是文件上传成功后，服务端返回的json，形式如
@@ -93,7 +92,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                     'Key': function(up, file) {
                         // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
                         // 该配置必须要在 unique_names: false , save_key: false 时才生效 
-                        var key = "/usr/upload/"+up.uid+file.name;
+                        var key = "/usr/upload/"+up.uid;
                         // do something with key here
                         return key
                     }
@@ -198,7 +197,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         // }
     }
 
-
+    //智能选校结果页和院校详情页
     function openHelp(){
         clearTimeout(helpTimer);
         $('.help-icon').addClass('hidden');
@@ -206,6 +205,27 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         $('.help-icon-notice').addClass('hidden');
         $('.help').removeClass('hidden').addClass('animated fadeInUp').one(base.animationend,function(){
             $('.help').removeClass('animated fadeInUp');
+        });
+        //请求推荐文章
+        $.ajax({
+            url:'/v1/schoolinfo/ad.action',
+            data:{
+                sid: ,
+                mid: 
+            },
+            type:'get',
+            cache:false,
+            dataType:'json',
+            success:function(data){
+                console.log(data);
+                if (data.code === 0) {
+                }
+                return;
+
+            },
+            error : function() {
+                base.notice('网络错误');
+            }
         });
     }
     base.closeAll.closeHelp = function(){

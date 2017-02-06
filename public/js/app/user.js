@@ -84,7 +84,6 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                         // 每个文件上传时,处理相关的事情
                     },
                     'FileUploaded': function(up, file, info) {
-
                         var res = JSON.parse(info);
                         imgUrl = up.getOption('domain') + res.key;
                         base.userInfo.headerimg = imgUrl
@@ -112,7 +111,8 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                     'Key': function(up, file) {
                         // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
                         // 该配置必须要在 unique_names: false , save_key: false 时才生效 
-                        var key = "/usr/upload/"+up.uid+file.name;
+                        // console.log(up, encodeURI(file.name))
+                        var key = "/usr/upload/" + up.uid;
                         // do something with key here
                         return key
                     }

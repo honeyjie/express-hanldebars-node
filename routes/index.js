@@ -418,14 +418,13 @@ router.get('/school-recommend-partial', function(req, res) {
     }, function(err, response, body) {
 
         var data = JSON.parse(body);
-
         if (!data) {return}
         res.render('partials/Inslibrary/school-recommend', {
-              data: data.data,
-              total: data.data.Count.master + data.data.Count.doctor,
-              sid: req.query.sid,
-              button: true,
-              layout: "naked"
+            data: data.data,
+            total: data.data.Count.master + data.data.Count.doctor,
+            sid: req.query.sid,
+            button: true,
+            layout: "naked"
         });
     });
 });
@@ -439,7 +438,6 @@ router.get('/school-recommend', function(req, res) {
     }, function(err, response, body) {
 
         var data = JSON.parse(body);
-        console.log(data);
         if (!data) {return}
         res.render('school-recommend', {
               data: data.data,
