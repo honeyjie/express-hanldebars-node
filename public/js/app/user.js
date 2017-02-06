@@ -71,6 +71,14 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                 drop_element: 'container',        //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
                 chunk_size: '5mb',                //分块上传时，每片的体积
                 auto_start: true,                 //选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                multi_selection: false,
+                filters : {
+                    prevent_duplicates: true,
+                    // Specify what files to browse for
+                    mime_types: [
+                        {title : "Image files", extensions : "jpg,gif,png"}, // 限定jpg,gif,png后缀上传
+                    ]
+                },
                 init: {
                     'FilesAdded': function(up, files) {
                         plupload.each(files, function(file) {
@@ -85,7 +93,6 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                     },
                     'FileUploaded': function(up, file, info) {
                         if (file.size > 5e6) {
-                            //提示图片内容过大
                             base.notice('上传图片大小不得超过5MB');
                             return;
                         }
