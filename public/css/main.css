@@ -3097,6 +3097,12 @@
 .select-school .select-school-tab .tab-title li:hover{
     color: #25baf4;
 }
+
+.select-school .select-school-tab .tab-title li.none{
+    color: #bdbdbd;
+    background: #fbfbfb;
+}
+
 .select-school .select-school-tab .tab-title li:nth-child(2){
     width: 398px;
     border-left: 1px solid #dcdcdc;

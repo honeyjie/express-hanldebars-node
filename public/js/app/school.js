@@ -442,9 +442,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
 
         $('#school-content-page').on('keydown', function(e){ 
             var e = e || window.event;
-            // console.log(e.keyCode, typeof e.keyCode)
-            if(e.keyCode == 13) {
-                console.log("13")
+            if(e.keyCode === 13) {
                 getMajor(userMajor, sid);
             }  
         });
@@ -454,9 +452,11 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         //切换学位 school-major
         $('#school-content-page').on('click', '.major-tab .tab-title li',function(e){
             e.stopPropagation();
-            
-           
-           majorTab($(this));
+            console.log($(this));
+            if($(this).hasClass('none')) {
+                return;
+            }
+            majorTab($(this));
             // $('.major-require-list li:eq(0)').addClass('active');
             // //重新选择专业(学位)
             var target = e.target;

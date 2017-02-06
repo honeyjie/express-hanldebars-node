@@ -275,6 +275,10 @@ define(['jquery'],function(jquery){
             var title = tab.find('.tab-title li');
             var box = tab.find('.tab-box');
             title.on('click',function(){
+                console.log($(this));
+                if ($(this).hasClass('none')) {
+                    return;
+                }
                 var n = $(this).index();
                 title.removeClass('active');
                 $(this).addClass('active');
