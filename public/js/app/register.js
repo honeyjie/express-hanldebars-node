@@ -299,6 +299,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
             cache:false,
             dataType:'json',
             success:function(data){
+                console.log(data);
                 if(data.code === 0){
                     base.testSuccess(dom);
                     openForgetSend();
@@ -309,7 +310,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
                 }
             },
             error : function() {
-                notice('网络错误');
+                base.notice('网络错误');
             }
         });
     } 

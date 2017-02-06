@@ -436,12 +436,18 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             localStorage.setItem("userMajor", userMajor);
         });
         //获取推荐
-        $('#school-content-page').on('click', '.recommend-major-get', function(){
-            
+        $('#school-content-page').on('click', '.recommend-major-get', function(e){
             getMajor(userMajor, sid);
-            
         });
 
+        $('#school-content-page').on('keydown', function(e){ 
+            var e = e || window.event;
+            // console.log(e.keyCode, typeof e.keyCode)
+            if(e.keyCode == 13) {
+                console.log("13")
+                getMajor(userMajor, sid);
+            }  
+        });
 
         //学位宽度
         majorWidth();
@@ -714,12 +720,12 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 $('.school-recommend-page').addClass('active');
                 $('#school-content-page').html(data);
                 // $('.school-brief-title img').click();
-                for(var i= 0;i<$('.school-box').length;i++){
-                    // console.log( $('.school-major').eq(i-1).find('.school-box-title img').eq(0))
-                    // $('.school-major').eq(i-1).find('.school-box-title img').eq(0).trigger('click');
-                    console.log($('.school-box').eq(i).find('.school-box-title img'));
-                    // $('.school-box').eq(i).find('.school-box-title img').trigger('click');
-                    console.log($('.school-major').eq(i));
+
+                //仅展开第一个
+                $('.school-major:not(:first)').find('.school-box-title img').trigger('click');
+                for(var i= 0;i<$('.school-major').length;i++){
+        
+                    console.log($('.school-major').eq(i).find('.school-box-title img'));
                     $('.school-major').eq(i).find('.major-require-list li img').eq(0).trigger('click');
                 }
                 if($('.require-content')[0]){

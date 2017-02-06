@@ -150,22 +150,17 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             $('.login-submit').removeClass('button-solid-ban').addClass('button-solid');
         });
 
-
-
-        $('.login-account .login-submit').eq(0).keydown(function(e) {
-            var e = e || window.e;
-            alert(e)
-            if (e.witch === 13) {
-                $(this).trigger('click');
-                 console.log("111")
-            }
-        })
-
         $('.login-submit').on('click',function(e){
-            // e.stopPropagation();
+            e.stopPropagation();
             login();
         });
 
+        $('.login-box').on('keydown', function(e){ 
+            var e = e || window.event;
+            if(e.keyCode === 13) {
+               login(); 
+            }  
+        });
 
         //退出登录
         $('.header-user-logout').on('click',function(e){
