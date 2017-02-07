@@ -1,7 +1,4 @@
 define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,fullpage,iscroll,base,common,d3){
-
-    // console.log($('.select-school-list:first li:first').attr('school-id'));
-    // getChartData($('.select-school-list:first li:first').attr('school-id'));
     var gpaDate,tofelDate,greDate,learningDate,recommendDate,prizeDate;
     var formdata;
     function getChartData(id) {
@@ -93,8 +90,8 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 console.log(chartData.hard, chartData.soft, chartData.count, getRatio(chartData.count), getRatio(1))
                 $('.select-school-chart .hardrate span').html(getRatio(chartData.hard));
                 $('.select-school-chart .softrate span').html(getRatio(chartData.soft));
-                $('.select-chart-summary li.countrate span').html(getRatio(chartData.count));
-                $('.select-chart-summary li.match span').html(chartData.match);
+                $('.select-chart-summary .countrate span').html(getRatio(chartData.count));
+                $('.select-chart-summary .match span').html(chartData.match);
                 chart();
                 console.log(gpaDate.before, gpaDate.now)
             },
@@ -1217,7 +1214,9 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             }
         });
         //切换学校图表
-        $('.school-list-main').on('click',function(){
+        $('.school-list-main').on('click',function(e){
+            console.log(e, "1");
+
             if($(this).parent('li').hasClass('active')){
                 return;
             }
@@ -1316,8 +1315,8 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                         console.log(chartData.hard, chartData.soft, chartData.count, getRatio(chartData.count))
                         $('.select-school-chart .hardrate span').html(getRatio(chartData.hard));
                         $('.select-school-chart .softrate span').html(getRatio(chartData.soft));
-                        $('.select-chart-summary li.countrate span').html(getRatio(chartData.count));
-                        $('.select-chart-summary span').html(chartData.match);
+                        $('.select-chart-summary .countrate span').html(getRatio(chartData.count));
+                        $('.select-chart-summary .match span').html(chartData.match);
                         chart();
 
                     },
