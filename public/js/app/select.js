@@ -1192,6 +1192,15 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             $(this).find('.school-list-info').animate({height:0},200);
             $(this).find('.school-list-mask').fadeOut(200);
         });
+        //专业长度限定
+        if($('.school-list-major span').html().length>5){
+            $('.school-list-major span').html($('.school-list-major span').html().slice(1,5)+'...');
+        }
+        $('.school-list-major').on('mouseover',function(){
+            $('.school-list-major-all').removeClass('hidden');
+        }).on('mouseleave',function(){
+            $('.school-list-major-all').addClass('hidden');
+        })
         //加入取消申请
         $('.switch-box').on('click',function(){
             if($(this).hasClass('on')){
