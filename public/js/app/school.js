@@ -36,7 +36,7 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
 
 
         //模拟下拉
-        $('.screen-form-country').select(scroll[0]);
+        $('.screen-form-country').select();
     
         $('.screen-form-major').select(scroll[2]);
 
@@ -55,6 +55,7 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                 for(var i=0;i<data.length;i++){
                     dom = dom+'<li short_state="'+data[i].shortName+'">'+data[i].fullName+'</li>';
                 }
+                console.log(dom)
                 $('.screen-form-state .form-select-option ul').html(dom);
             });
             if (screen.country) {
