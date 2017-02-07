@@ -52,11 +52,13 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
 
         //模拟下拉
         $('.screen-form-country').select(scroll[0]);
-    
         $('.screen-form-major').select(scroll[2]);
+        $('.screen-form-state').select(scroll[1]);
+
 
         //下拉选择
         $('.screen-form-country .form-select-option li').on('click',function(){
+            $('.screen-form-state .form-select-value').html('选择州(省)');
             screen.country = $(this).attr('short_country');
             var jsonUrl;
             if(screen.country=='US'){
@@ -72,20 +74,16 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 }
                 $('.screen-form-state .form-select-option ul').html(dom);
             });
-            if (screen.country) {
-                $('.screen-form-state').select(scroll[1]);
-            }
-            
+            // if (screen.country) {
+            //     console.log(screen.country);
+            //     $('.screen-form-state').select(scroll[1]);
+            // }
             canSearch();
-           console.log(screen.country)
         });
 
-
         $('.screen-form-state .form-select-option').on('click','li',function(e){
-            console.log(screen.country)
-            if(!screen.country) {
-                $('.screen-form-state').removeClass('focus');
-            }
+            console.log(screen.country, screen.state);
+            $('.screen-form-state').find('.form-select-option').removeClass('hidden');
             e.stopPropagation();
             screen.state = $(this).attr('short_state');
             $('.screen-form-state .form-select-value').html($(this).html());
@@ -599,15 +597,15 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             success:function(data){
                 $('#select-major ul').html(data);
                 $('.recommend-major-form').find('.form-select-option').removeClass('hidden');
-                if(!scroll[1]){
-                    scroll[1] = new iscroll('#select-major',{
+                if(!scroll[6]){
+                    scroll[6] = new iscroll('#select-major',{
                         mouseWheel : true,
                         scrollbars : true,
                         interactiveScrollbars : true
                     });
                 }
                 else{
-                    scroll[1].refresh();
+                    scroll[6].refresh();
                 }
             },
             error : function() {

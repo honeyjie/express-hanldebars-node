@@ -247,6 +247,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
     //打开登录
     function openLogin(){
         $.get('/login/opencode.action', {urlpath: window.location.pathname + window.location.search }, function(res){
+            console.log(res.data.redirect_uri)
             var obj = new WxLogin({
                 id: "login_container",
                 appid: res.data.appid,

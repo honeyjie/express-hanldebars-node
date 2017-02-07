@@ -30,10 +30,7 @@ var hbs = exphbs.create({
 //渲染页面
 router.get('/', function (req, res, next) {
     if(req.query.code) {
-      //存储在cookie中
-        // res.locals.partials.code = req.query.code;
         res.cookie('code', req.query.code);
-        console.log(req.query.code, req.cookies, '___');
     }
     res.render('index', {
       show: true
@@ -56,6 +53,7 @@ router.get('/testindex', function (req, res, next) {
         //从cookie中获取微信图像和昵称
         if(!!data.data.login) {
             //已经注册
+            console.log(req.cookies.wechatPath)
             res.redirect(req.cookies.wechatPath)
         }else {
             //未注册
