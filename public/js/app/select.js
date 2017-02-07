@@ -1198,10 +1198,10 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         }
         $('.school-list-major').on('mouseenter',function(e){
             e.stopPropagation();
-            $(this).parent('.school-list-main').find('.school-list-major-all').removeClass('hidden');
+            $(this).parents('.school-list-main').find('.school-list-major-all').removeClass('hidden');
         }).on('mouseleave',function(e){
             e.stopPropagation();
-            $(this).parent('.school-list-main').find('.school-list-major-all').addClass('hidden');
+            $(this).parents('.school-list-main').find('.school-list-major-all').addClass('hidden');
         })
         //加入取消申请
         $('.switch-box').on('click',function(){
