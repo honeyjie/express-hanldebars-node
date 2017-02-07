@@ -1783,7 +1783,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 // console.log("清除数据", formdata);
                 // localStorage.setItem("formdata", formdata);
                 // console.log("存储数据", formdata);
-                // window.location.href = "/select-school";
+                window.location.href = "/select-school";
             },
             error : function() {
                 base.notice('网络错误');

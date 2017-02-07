@@ -3,7 +3,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
     var type;
     var question;
     var helpTimer;
-    var imgUrl;
+    var fileUrl;
     if($('.help')[0]){
         //阻止冒泡
         $('.help').on('click',function(e){
@@ -38,8 +38,15 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         }
 
         //七牛上传头像
-        if($('.help-file-icon')[0]){
-            console.log("---")
+        // var canLoad = false;
+        // $('.help-file img').eq(0).click(function() {
+        //     if (!$('.help-file img').eq(0).hasClass('hidden')) {
+        //         console.log(canLoad)
+        //         canLoad = true;
+
+        //     }
+        // })
+        if($('.help-file-icon')){
             var uploader = Qiniu.uploader({
                 runtimes: 'html5,flash,html4',    //上传模式,依次退化
                 browse_button: 'helpFile',       //上传选择的点选按钮，**必需**
@@ -53,8 +60,19 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                 drop_element: 'container',        //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
                 chunk_size: '4mb',                //分块上传时，每片的体积
                 auto_start: true,                 //选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                filters : {
+                    prevent_duplicates: true,
+                    // Specify what files to browse for
+                    mime_types: [
+                        {title : "Image files", extensions : "jpg,gif,png"}, // 限定jpg,gif,png后缀上传
+                    ]
+                },
                 init: {
                     'FilesAdded': function(up, files) {
+                        if ($('.help-file img:eq(0)').hasClass('hidden')) {
+                            console.log("1")
+                            return;
+                        }
                         plupload.each(files, function(file) {
                             // 文件添加进队列后,处理相关的事情
                         });
@@ -68,9 +86,12 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                     'FileUploaded': function(up, file, info) {
 
                         var res = JSON.parse(info);
-                        imgUrl = up.getOption('domain') + res.key;
+                        var imgUrl = up.getOption('domain') + res.key;
+                        console.log(imgUrl, file, file.name);
                         // base.userInfo.headerimg = imgUrl
                         upLoadFile();
+                        $('.help-question .help-upload span').html(file.name);
+                        $('.help-question .help-upload span').attr('data-href', imgUrl);
                         // 每个文件上传成功后,处理相关的事情
                         // 其中 info 是文件上传成功后，服务端返回的json，形式如
                         // {
@@ -98,8 +119,9 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                     }
                 }
             });
-
         }
+ 
+
 
 
         //帮助提示显示
@@ -120,6 +142,7 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         //})
         //打开帮助
         $('.help-icon-pic').on('click',function(e){
+            console.log("1");
             e.stopPropagation();
             openHelp();
             scroll[0].refresh();
@@ -164,33 +187,34 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
             $(this).find('img').addClass('hidden');
             $(this).find('img').eq(0).removeClass('hidden');
         });
-        $('.help-file').on('mouseenter',function(){
-            if(!type){
-                return;
-            }
-            $(this).find('img').addClass('hidden');
-            $(this).find('img').eq(1).removeClass('hidden');
-        }).on('mouseleave',function(){
-            if(!type){
-                return;
-            }
-            $(this).find('img').addClass('hidden');
-            $(this).find('img').eq(0).removeClass('hidden');
-        });
+        // $('.help-file').on('mouseenter',function(){
+        //     if(!type){
+        //         return;
+        //     }
+        //     $(this).find('img').addClass('hidden');
+        //     $(this).find('img').eq(1).removeClass('hidden');
+        // }).on('mouseleave',function(){
+        //     if(!type){
+        //         return;
+        //     }
+        //     $(this).find('img').addClass('hidden');
+        //     $(this).find('img').eq(0).removeClass('hidden');
+        // });
         //提交问题
-        $('.help-send').on('click',function(){
-              var urlImg = urlImg || ""
-              console.log(urlImg)
-               sendQuestion(urlImg); 
-            
+
+        $('.help-send').click(function(e){
+            var imgUrl = $('.help-question .help-upload span').attr('data-href');
+            console.log(imgUrl)
+              var imgUrl = imgUrl || ""
+            sendQuestion(imgUrl); 
         });
-        //添加附件
-        $('.help-file').on('click',function(){
-            if(!type){
-                return;
-            }
-            // $('#help-file')[0].click();
-        });
+        //删除附件
+        $('.help-upload-delete').click(function() {
+            //清空span中内容
+            $('.help-question .help-upload span').html('');
+            $('.help-question .help-upload span').attr('data-href', '');
+            $('.help-upload').addClass('hidden');
+        })
         // if($('#help-file')[0]){
         //     $('#help-file')[0].addEventListener('change',function(){
         //         upLoadFile();
@@ -219,7 +243,6 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
                 cache:false,
                 dataType:'html',
                 success:function(data){
-                    console.log(data);
                     //补充内容
                     $('#help-list').html(data);
                     return;
@@ -316,8 +339,9 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
     }
 
     function sendQuestion(urlImg){
-        console.log(urlImg)
+        
         question = $('.help-question textarea').val() + "<br/>"+ urlImg;
+        console.log(urlImg, question)
         if(!question){
             notice('您还没有录入问题');
             return;
@@ -337,7 +361,6 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
 
     //发送消息
     function sendMessage(msg, type){
-        console.log(msg, type)
         $.ajax({
             url:'/v1/User/feedback.action',
             data:{

@@ -1880,6 +1880,9 @@
     bottom: 18px;
     cursor: pointer;
 }
+.help .help-file-icon {
+    opacity: 0;
+}
 .help .help-file img,.help .help-send img{
     position: absolute;
     width: 100%;
