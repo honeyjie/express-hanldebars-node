@@ -1196,9 +1196,12 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         if($('.school-list-major span').html().length>5){
             $('.school-list-major span').html($('.school-list-major span').html().slice(1,5)+'...');
         }
-        $('.school-list-major').on('mouseover',function(){
+        $('.school-list-major').on('mouseover',function(e){
+            e.stopPropagation();
+            alert('123')
             $('.school-list-major-all').removeClass('hidden');
-        }).on('mouseleave',function(){
+        }).on('mouseleave',function(e){
+            e.stopPropagation();
             $('.school-list-major-all').addClass('hidden');
         })
         //加入取消申请
