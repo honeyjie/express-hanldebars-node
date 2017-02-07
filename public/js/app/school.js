@@ -23,13 +23,13 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
         if($('#screen-state')[0]){
             $('#screen-state').scrollbar();
         }
-        if($('#screen-major')[0]){
-            scroll[2] =  new iscroll('#screen-major',{
-                mouseWheel: true,
-                scrollbars: true,
-                interactiveScrollbars : true
-            });
-        }
+        //if($('#screen-major')[0]){
+        //    scroll[2] =  new iscroll('#screen-major',{
+        //        mouseWheel: true,
+        //        scrollbars: true,
+        //        interactiveScrollbars : true
+        //    });
+        //}
         if($('.school-brief-describe')[0]){
             $('.school-brief-describe').scrollbar();
         }
