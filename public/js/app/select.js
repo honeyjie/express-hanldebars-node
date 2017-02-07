@@ -1196,12 +1196,12 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         if($('.school-list-major span')[0]&&$('.school-list-major span').html().length>25){
             $('.school-list-major span').html($('.school-list-major span').html().slice(0,25)+'...');
         }
-        $('.school-list-major').on('mouseenter',function(e){
+        $('.school-list-info').on('mouseenter',function(e){
             e.stopPropagation();
-            $(this).parents('.school-list-main').find('.school-list-major-all').removeClass('hidden');
+            $(this).find('.school-list-major-all').removeClass('hidden');
         }).on('mouseleave',function(e){
             e.stopPropagation();
-            $(this).parents('.school-list-main').find('.school-list-major-all').addClass('hidden');
+            $(this).find('.school-list-major-all').addClass('hidden');
         })
         //加入取消申请
         $('.switch-box').on('click',function(){
