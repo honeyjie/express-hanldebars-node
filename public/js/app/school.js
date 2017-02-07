@@ -333,6 +333,13 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 if($('.major-email-all').html().length>20){
                     $('.major-email-all').html($('.major-email-all').html().substring(0,20)+'...');
                 }
+                $('.major-email').on('mouseenter',function(e){
+                    e.stopPropagation();
+                    $(this).find('.major-email-all').removeClass('hidden');
+                }).on('mouseleave',function(e){
+                    e.stopPropagation();
+                    $(this).find('.major-email-all').addClass('hidden');
+                });
             },
             error : function() {
                 base.notice('网络错误');
@@ -502,6 +509,13 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                     if($('.major-email-all').html().length>20){
                         $('.major-email-all').html($('.major-email-all').html().substring(0,20)+'...');
                     }
+                    $('.major-email').on('mouseenter',function(e){
+                        e.stopPropagation();
+                        $(this).find('.major-email-all').removeClass('hidden');
+                    }).on('mouseleave',function(e){
+                        e.stopPropagation();
+                        $(this).find('.major-email-all').addClass('hidden');
+                    });
                     // console.log($('.major-require-list li:eq(0)'))
                     // requireTab('.major-require-list li:eq(0)');
                 },
@@ -509,15 +523,6 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                     base.notice('网络错误');
                 }
             });
-        });
-
-        //招生邮箱
-        $('.major-email').on('mouseenter',function(e){
-            e.stopPropagation();
-            $(this).find('.major-email-all').removeClass('hidden');
-        }).on('mouseleave',function(e){
-            e.stopPropagation();
-            $(this).find('.major-email-all').addClass('hidden');
         });
 
         //查看申请要求 school-major
@@ -766,6 +771,13 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 if($('.major-email-all').html().length>20){
                     $('.major-email-all').html($('.major-email-all').html().substring(0,20)+'...');
                 }
+                $('.major-email').on('mouseenter',function(e){
+                    e.stopPropagation();
+                    $(this).find('.major-email-all').removeClass('hidden');
+                }).on('mouseleave',function(e){
+                    e.stopPropagation();
+                    $(this).find('.major-email-all').addClass('hidden');
+                });
             },
             error : function() {
                 base.notice('网络错误');
