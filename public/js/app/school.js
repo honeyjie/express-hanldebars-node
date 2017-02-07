@@ -20,19 +20,8 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
 
     $(function(){
         //模拟滚动条
-        if($('#screen-country')[0]){
-            scroll[0] =  new iscroll('#screen-country',{
-                mouseWheel: true,
-                scrollbars: true,
-                interactiveScrollbars : true
-            });
-        }
         if($('#screen-state')[0]){
-            scroll[1] =  new iscroll('#screen-state',{
-                mouseWheel: true,
-                scrollbars: true,
-                interactiveScrollbars : true
-            });
+            $('#screen-state').scrollbar();
         }
         if($('#screen-major')[0]){
             scroll[2] =  new iscroll('#screen-major',{
@@ -69,7 +58,7 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                 $('.screen-form-state .form-select-option ul').html(dom);
             });
             if (screen.country) {
-                $('.screen-form-state').select(scroll[1]);
+                $('.screen-form-state').select();
             }
             
             canSearch();
