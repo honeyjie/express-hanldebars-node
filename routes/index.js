@@ -29,7 +29,12 @@ var hbs = exphbs.create({
 
 //渲染页面
 router.get('/', function (req, res, next) {
-    res.locals.partials.code = req.query.code;
+    if(req.query.code) {
+      //存储在cookie中
+        // res.locals.partials.code = req.query.code;
+        res.cookie('code', req.query.code);
+        console.log(req.query.code, req.cookies, '___');
+    }
     res.render('index', {
       show: true
     });
@@ -207,9 +212,11 @@ router.get('/user-set', function(req, res, next) {
 //注册
 
 router.get('/register-complete', function(req, res, next) {
+  console.log(req.cookies.code, req.cookie)
     res.render('register-complete', {
       headImg: req.query.headImg,
-      nickname: req.query.nickname
+      nickname: req.query.nickname,
+      code: req.cookies.code
     })
 });
 
