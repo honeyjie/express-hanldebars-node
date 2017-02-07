@@ -260,7 +260,7 @@
 
 .scrollbar-macosx > .scroll-element .scroll-element_track { display: none; }
 .scrollbar-macosx > .scroll-element .scroll-bar {
-    background-color: #6C6E71;
+    background-color: #dadee8;
     display: block;
 
     -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
