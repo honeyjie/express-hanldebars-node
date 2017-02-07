@@ -41,7 +41,7 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                 interactiveScrollbars : true
             });
         }
-        if($('#school-brief-describe')[0]){
+        if($('.school-brief-describe')[0]){
             $('.school-brief-describe').scrollbar();
         }
 
