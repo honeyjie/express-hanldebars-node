@@ -2513,7 +2513,7 @@
 .school .major-email-all{
     position: absolute;
     top: -5px;
-    left: 0;
+    left: -1px;
     background: #fbfbfb;
     border: 1px dotted #dcdcdc;
     height: 30px;
