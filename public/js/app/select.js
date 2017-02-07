@@ -1193,16 +1193,15 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             $(this).find('.school-list-mask').fadeOut(200);
         });
         //专业长度限定
-        if($('.school-list-major span').html().length>5){
-            $('.school-list-major span').html($('.school-list-major span').html().slice(1,5)+'...');
+        if($('.school-list-major span').html().length>25){
+            $('.school-list-major span').html($('.school-list-major span').html().slice(0,25)+'...');
         }
-        $('.school-list-major').on('mouseover',function(e){
+        $('.school-list-major').on('mouseenter',function(e){
             e.stopPropagation();
-            alert('123')
-            $('.school-list-major-all').removeClass('hidden');
+            $(this).parent('.school-list-main').find('.school-list-major-all').removeClass('hidden');
         }).on('mouseleave',function(e){
             e.stopPropagation();
-            $('.school-list-major-all').addClass('hidden');
+            $(this).parent('.school-list-main').find('.school-list-major-all').addClass('hidden');
         })
         //加入取消申请
         $('.switch-box').on('click',function(){
