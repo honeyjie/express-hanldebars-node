@@ -9,7 +9,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
     var height = [];//每个模块的高度
     var sid = $('.school-info').data('sid');
 
-    var userMajor = false;
+    var userMajor;
 
     console.log(localStorage.getItem("userMajor"));
     var major_empty;
@@ -186,6 +186,8 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             var target = e.target;
             $(target).addClass('active');
             //重新推荐
+            //清空历史推荐记录
+            localStorage.removeItem("userMajor")
             getRecommendMajor(sid)
         });
 
@@ -359,16 +361,6 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         });
     }
 
-    //点击更多
-    // $('.header-search').on('click', 'p.searchmore', function(e) {
-    //     e.preventDefault();
-    //     var val = $('.header-search input').val();
-    //     console.log(val);
-    //     $('.screen-form-school').val(val);
-    //     $('.screen-side-form-search').trigger('click');
-    //     $('.screen-form-school').val('');
-    // })
-
         //box展开收缩
         $('.school').on('click','.school-major .school-box-title',function(e){
             e.stopPropagation();
@@ -415,12 +407,16 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         //专业输入
         $('#school-content-page').on('input propertychange', '.recommend-major-form input', function(){
             selectMajor($(this).val());
+            console.log($(this).val())
             canGet($(this).val());
         });
         //专业 选择
         $('#school-content-page').on('click','.recommend-major-form .form-select-option li',function(e){
             e.stopPropagation();
             base.testSuccess($('.recommend-major-form input'));
+            console.log($(this).html())
+            userMajor = $(this).html();
+            localStorage.setItem("userMajor", userMajor);
             $('.recommend-major-form input').val($(this).html());
             $('.form-select-option').addClass('hidden');
             $('.recommend-major-get').removeClass('button-solid-ban').addClass('button-solid');
@@ -432,17 +428,19 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             for(var i=0;i<$('.recommend-major-form .form-select-option li').length;i++){
                 arr.push($('.recommend-major-form .form-select-option li').eq(i).html())
             }
+            console.log(arr, $('.recommend-major-form input').val())
             if(arr.indexOf($('.recommend-major-form input').val())==-1){
-                userMajor = null;
+                // userMajor = null;
+                console.log("+++")
                 base.testFail($(this),'请从下拉列表中选择专业');
                 return;
             }
             base.testSuccess($(this));
-            userMajor = $(this).val();
-            localStorage.setItem("userMajor", userMajor);
         });
         //获取推荐
         $('#school-content-page').on('click', '.recommend-major-get', function(e){
+
+            console.log("1", userMajor, sid)
             getMajor(userMajor, sid);
         });
 
