@@ -859,7 +859,6 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
                         var parent = el.parent().parent();
                         console.log(isempty)
                         if(!isempty) {
-                            console.log("ooo")
                             parent.find('.list-button').addClass('hidden');
                             parent.find('.news-list-none').removeClass('hidden') 
                         }
