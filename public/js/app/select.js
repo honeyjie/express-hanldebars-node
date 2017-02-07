@@ -83,17 +83,15 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                     }
                 };
                 
-                console.log(gpaDate.before, gpaDate.now)
                 $('.select-dis-gpa span').html(getRatio(chartData.gpa.user_data.y));
                 $('.select-dis-tofel span').html(getRatio(chartData.toefl.user_data.y));
                 $('.select-dis-gre span').html(getRatio(chartData.gre.user_data.y));
-                console.log(chartData.hard, chartData.soft, chartData.count, getRatio(chartData.count), getRatio(1))
                 $('.select-school-chart .hardrate span').html(getRatio(chartData.hard));
                 $('.select-school-chart .softrate span').html(getRatio(chartData.soft));
                 $('.select-chart-summary .countrate span').html(getRatio(chartData.count));
                 $('.select-chart-summary .match span').html(chartData.match);
                 chart();
-                console.log(gpaDate.before, gpaDate.now)
+
             },
             error : function() {
                 base.notice('网络错误');
@@ -101,7 +99,9 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         })
     }
 
-    // console.log(getRatio(1), getRatio(chartData.count))
+    $('.select-school-buttons button').eq(0).click(function() {
+        window.location.href = "/select-form";
+    })
     //转换百分比
     function getRatio(num) {
         var str =  num*100
