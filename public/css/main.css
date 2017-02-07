@@ -2501,7 +2501,6 @@
     margin-bottom: 20px;
     margin-right: 20px;
     padding-left: 20px;
-    overflow: hidden;
 }
 .school .major-info>li>span{
     float: left;
@@ -2510,6 +2509,16 @@
     position: absolute;
     top: 0;
     left: 0;
+}
+.school .major-email-all{
+    position: absolute;
+    top: -5px;
+    left: 0;
+    background: #fbfbfb;
+    border: 1px dotted #dcdcdc;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
 }
 /*.school .major-info li:nth-child(3n){*/
     /*margin-right: 0;*/
