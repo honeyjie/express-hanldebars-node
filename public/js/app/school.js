@@ -23,13 +23,9 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
         if($('#screen-state')[0]){
             $('#screen-state').scrollbar();
         }
-        //if($('#screen-major')[0]){
-        //    scroll[2] =  new iscroll('#screen-major',{
-        //        mouseWheel: true,
-        //        scrollbars: true,
-        //        interactiveScrollbars : true
-        //    });
-        //}
+        if($('#screen-major')[0]){
+            $('#screen-major').scrollbar();
+        }
         if($('.school-brief-describe')[0]){
             $('.school-brief-describe').scrollbar();
         }
@@ -37,8 +33,8 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
 
         //模拟下拉
         $('.screen-form-country').select();
-    
-        $('.screen-form-major').select(scroll[2]);
+        $('.screen-form-state').select();
+        $('.screen-form-major').select();
 
         //下拉选择
         $('.screen-form-country .form-select-option li').on('click',function(){
