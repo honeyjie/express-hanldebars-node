@@ -1,4 +1,4 @@
-define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,fullpage,iscroll,base,common,d3){
+define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,fullpage,scrollbar,base,common,d3){
     var gpaDate,tofelDate,greDate,learningDate,recommendDate,prizeDate;
     var formdata;
     function getChartData(id) {
