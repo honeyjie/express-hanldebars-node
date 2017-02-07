@@ -58,9 +58,6 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                 console.log(dom)
                 $('.screen-form-state .form-select-option ul').html(dom);
             });
-            if (screen.country) {
-                $('.screen-form-state').select();
-            }
             
             canSearch();
            console.log(screen.country)
