@@ -220,7 +220,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         if(!base.userInfo.username||!base.userInfo.password||!base.userInfo.repassword||!base.userInfo.email){
             return;
         }
-      
+        console.log(base.userInfo.username,base.userInfo.password,base.userInfo.email, base.userInfo.phone, base.userInfo.code)
 
         $.ajax({
            url:'/v1/login/register.action',
@@ -235,6 +235,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
            cache:false,
            dataType:'json',
            success:function(data){
+            console.log(data);
                 if (data.code === 0) {
                     openSend();
                     console.log("已注册");

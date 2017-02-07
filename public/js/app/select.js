@@ -1,7 +1,4 @@
 define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,fullpage,iscroll,base,common,d3){
-
-    // console.log($('.select-school-list:first li:first').attr('school-id'));
-    // getChartData($('.select-school-list:first li:first').attr('school-id'));
     var gpaDate,tofelDate,greDate,learningDate,recommendDate,prizeDate;
     var formdata;
     function getChartData(id) {
@@ -86,17 +83,15 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                     }
                 };
                 
-                console.log(gpaDate.before, gpaDate.now)
                 $('.select-dis-gpa span').html(getRatio(chartData.gpa.user_data.y));
                 $('.select-dis-tofel span').html(getRatio(chartData.toefl.user_data.y));
                 $('.select-dis-gre span').html(getRatio(chartData.gre.user_data.y));
-                console.log(chartData.hard, chartData.soft, chartData.count, getRatio(chartData.count), getRatio(1))
                 $('.select-school-chart .hardrate span').html(getRatio(chartData.hard));
                 $('.select-school-chart .softrate span').html(getRatio(chartData.soft));
-                $('.select-chart-summary li.countrate span').html(getRatio(chartData.count));
-                $('.select-chart-summary li.match span').html(chartData.match);
+                $('.select-chart-summary .countrate span').html(getRatio(chartData.count));
+                $('.select-chart-summary .match span').html(chartData.match);
                 chart();
-                console.log(gpaDate.before, gpaDate.now)
+
             },
             error : function() {
                 base.notice('网络错误');
@@ -104,7 +99,9 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         })
     }
 
-    // console.log(getRatio(1), getRatio(chartData.count))
+    $('.select-school-buttons button').eq(0).click(function() {
+        window.location.href = "/select-form";
+    })
     //转换百分比
     function getRatio(num) {
         var str =  num*100
@@ -1217,7 +1214,9 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             }
         });
         //切换学校图表
-        $('.school-list-main').on('click',function(){
+        $('.school-list-main').on('click',function(e){
+            console.log(e, "1");
+
             if($(this).parent('li').hasClass('active')){
                 return;
             }
@@ -1316,8 +1315,8 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                         console.log(chartData.hard, chartData.soft, chartData.count, getRatio(chartData.count))
                         $('.select-school-chart .hardrate span').html(getRatio(chartData.hard));
                         $('.select-school-chart .softrate span').html(getRatio(chartData.soft));
-                        $('.select-chart-summary li.countrate span').html(getRatio(chartData.count));
-                        $('.select-chart-summary span').html(chartData.match);
+                        $('.select-chart-summary .countrate span').html(getRatio(chartData.count));
+                        $('.select-chart-summary .match span').html(chartData.match);
                         chart();
 
                     },
@@ -1794,7 +1793,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
                 // console.log("清除数据", formdata);
                 // localStorage.setItem("formdata", formdata);
                 // console.log("存储数据", formdata);
-                // window.location.href = "/select-school";
+                window.location.href = "/select-school";
             },
             error : function() {
                 base.notice('网络错误');

@@ -463,7 +463,7 @@ router.get('/select-school', function(req, res) {
         url: "http://api.inner.utuotu.com/v1/completeform/intelligentselection.action",
     }, function(err, response, body) {
         schoollist = JSON.parse(body).data;
-
+        console.log(schoollist)
         res.render('select-school',{
           schoollist: schoollist
         })
