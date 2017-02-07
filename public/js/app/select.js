@@ -1193,8 +1193,7 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
             $(this).find('.school-list-mask').fadeOut(200);
         });
         //专业长度限定
-        alert('123')
-        if($('.school-list-major span').html().length>25){
+        if($('.school-list-major span')[0]&&$('.school-list-major span').html().length>25){
             $('.school-list-major span').html($('.school-list-major span').html().slice(0,25)+'...');
         }
         $('.school-list-major').on('mouseenter',function(e){
