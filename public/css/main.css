@@ -3162,9 +3162,9 @@
 }
 .select-school .school-list-major-all{
     position: absolute;
-    right: 10px;
-    bottom: 10px;
-    left: 10px;
+    right: 0;
+    bottom: 0;
+    left: 0;
     border: 1px solid #333333;
     padding: 0 5px;
     background: #fff;
