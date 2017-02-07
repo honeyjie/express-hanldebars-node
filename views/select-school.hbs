@@ -44,8 +44,9 @@
                             <div class="school-list-info">
                                 <div class="school-list-name">{{zh_school_name}}</div>
                                 <div class="school-list-major">
-                                    <span>{{major_name}}</span>/<span>{{degree}}</span>
+                                    <span>{{major_name}}/{{degree}}</span>
                                 </div>
+                                <div class="school-list-major-all hidden">{{major_name}}/{{degree}}</div>
                             </div>
                             <div class="school-list-mask">点击查看更多</div>
                         </div>
@@ -83,14 +84,15 @@
                             <div class="school-list-info">
                                 <div class="school-list-name">{{zh_school_name}}</div>
                                 <div class="school-list-major">
-                                    <span>{{major_name}}</span>/<span>{{degree}}</span>
+                                    <span>{{major_name}}/{{degree}}</span>
                                 </div>
+                                <div class="school-list-major-all hidden">{{major_name}}/{{degree}}</div>
                             </div>
                             <div class="school-list-mask">点击查看更多</div>
                         </div>
                         <div class="school-list-switch">
-                            <span>点击加入申请</span>
-                            <div class="switch-box">
+                            <span>点击取消申请</span>
+                            <div class="switch-box on">
                                 <img src="/img/icon-swich.png" alt=""/>
                             </div>
                         </div>
@@ -121,14 +123,17 @@
                             <div class="school-list-info">
                                 <div class="school-list-name">{{zh_school_name}}</div>
                                 <div class="school-list-major">
-                                    <span>{{major_name}}</span>/<span>{{degree}}</span>
+                                    <span>{{major_name}}/{{degree}}</span>
                                 </div>
+                                <div class="school-list-major-all hidden">{{major_name}}/{{degree}}</div>
                             </div>
                             <div class="school-list-mask">点击查看更多</div>
                         </div>
-                        <div class="switch-box school-list-switch">
-                            <span>点击加入申请</span>
-                            <img src="/img/icon-swich.png" alt=""/>
+                        <div class="school-list-switch">
+                            <span>点击取消申请</span>
+                            <div class="switch-box on">
+                                <img src="/img/icon-swich.png" alt=""/>
+                            </div>
                         </div>
                     </li>
                     {{/each}}

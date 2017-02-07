@@ -2504,7 +2504,6 @@
     margin-bottom: 20px;
     margin-right: 20px;
     padding-left: 20px;
-    overflow: hidden;
 }
 .school .major-info>li>span{
     float: left;
@@ -2513,6 +2512,16 @@
     position: absolute;
     top: 0;
     left: 0;
+}
+.school .major-email-all{
+    position: absolute;
+    top: -5px;
+    left: -1px;
+    background: #fbfbfb;
+    border: 1px dashed #dcdcdc;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
 }
 /*.school .major-info li:nth-child(3n){*/
     /*margin-right: 0;*/
@@ -3160,8 +3169,17 @@
     font-weight: 600;
 }
 .select-school .school-list-major{
-    overflow: hidden;
+    position: relative;
     text-align: center;
+}
+.select-school .school-list-major-all{
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+    border: 1px solid #333333;
+    padding: 0 5px;
+    background: #fff;
 }
 .select-school .school-list-mask{
     position: absolute;
