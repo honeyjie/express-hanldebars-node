@@ -1,4 +1,4 @@
-define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','common'],function(jquery,handlebars,d3,countries,fullpage,iscroll,base,common){
+define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','common'],function(jquery,handlebars,d3,countries,fullpage,scrollbar,base,common){
     var scroll = []; //滚动条
     var screen = {};
         screen.country = '';
@@ -42,11 +42,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             });
         }
         if($('#school-brief-describe')[0]){
-            scroll[5] =  new iscroll('#school-brief-describe',{
-                mouseWheel: true,
-                scrollbars: true,
-                interactiveScrollbars : true
-            });
+            $('.school-brief-describe').scrollbar();
         }
 
 
@@ -330,8 +326,8 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                         $('.major-info-direction .form-select-value').html($(this).html().substring(0,20)+'...');
                     }
                 });
-                if($('.major-email-all').html().length>20){
-                    $('.major-email-all').html($('.major-email-all').html().substring(0,20)+'...');
+                if($('.major-email').html().length>20){
+                    $('.major-email').html($('.major-email').html().substring(0,20)+'...');
                 }
                 $('.major-email').on('mouseenter',function(e){
                     e.stopPropagation();
@@ -506,8 +502,8 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                             $('.major-info-direction .form-select-value').html($(this).html().substring(0,20)+'...');
                         }
                     });
-                    if($('.major-email-all').html().length>20){
-                        $('.major-email-all').html($('.major-email-all').html().substring(0,20)+'...');
+                    if($('.major-email').html().length>20){
+                        $('.major-email').html($('.major-email').html().substring(0,20)+'...');
                     }
                     $('.major-email').on('mouseenter',function(e){
                         e.stopPropagation();
@@ -768,8 +764,8 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                         $('.major-info-direction .form-select-value').html($(this).html().substring(0,20)+'...');
                     }
                 });
-                if($('.major-email-all').html().length>20){
-                    $('.major-email-all').html($('.major-email-all').html().substring(0,20)+'...');
+                if($('.major-email').html().length>20){
+                    $('.major-email').html($('.major-email').html().substring(0,20)+'...');
                 }
                 $('.major-email').on('mouseenter',function(e){
                     e.stopPropagation();

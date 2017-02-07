@@ -2519,6 +2519,7 @@
     height: 30px;
     line-height: 30px;
     padding: 0 10px;
+    border-radius: 5px;
 }
 /*.school .major-info li:nth-child(3n){*/
     /*margin-right: 0;*/
