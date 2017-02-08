@@ -102,6 +102,9 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
     $('.select-school-buttons button').eq(0).click(function() {
         window.location.href = "/select-form";
     })
+    $('.select-school-buttons button').eq(1).click(function() {
+        window.location.href = "/addApply";
+    })
     //转换百分比
     function getRatio(num) {
         var str =  num*100
