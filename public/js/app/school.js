@@ -33,15 +33,9 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
 
 
         //模拟下拉
-// <<<<<<< HEAD
-        // $('.screen-form-country').select(scroll[0]);
-        // $('.screen-form-major').select(scroll[2]);
-        // $('.screen-form-state').select(scroll[1]);
-// =======
         $('.screen-form-country').select();
         $('.screen-form-state').select();
         $('.screen-form-major').select();
-// >>>>>>> a5a30a38b3c5d78fe50229934eaf6bb7fed6a4ec
 
         //下拉选择
         $('.screen-form-country .form-select-option li').on('click',function(){
@@ -598,21 +592,7 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
             success:function(data){
                 $('#select-major ul').html(data);
                 $('.recommend-major-form').find('.form-select-option').removeClass('hidden');
-// <<<<<<< HEAD
-//                 if(!scroll[6]){
-//                     scroll[6] = new iscroll('#select-major',{
-//                         mouseWheel : true,
-//                         scrollbars : true,
-//                         interactiveScrollbars : true
-//                     });
-//                 }
-//                 else{
-//                     scroll[6].refresh();
-//                 }
-//                 console.log(scroll[6])
-// =======
                 $('#select-major').scrollbar();
-// >>>>>>> 722ba8025656e318992a8b91e1f95429d15edbc5
             },
             error : function() {
                 base.notice('网络错误');

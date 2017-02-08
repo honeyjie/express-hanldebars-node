@@ -1,5 +1,4 @@
-define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jquery,fullpage,iscroll,clipboard,base,common){
-    var scroll = [];
+define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jquery,fullpage,scrollbar,clipboard,base,common){
     var canSend = true;
     var setTime;
     var imgUrl; 
@@ -26,34 +25,19 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         // getCode();
 
         //模拟滚动条
-        if($('#news-content')[0]){
-            scroll[0] =  new iscroll('#news-content',{
-                mouseWheel: true,
-                scrollbars: true,
-                interactiveScrollbars : true
-            });
-        }
         if($('#grade-option')[0]){
-            scroll[1] =  new iscroll('#grade-option',{
-                mouseWheel: true,
-                scrollbars: true,
-                interactiveScrollbars : true
-            });
+            $('#grade-option').scrollbar();
         }
         if($('#country-option')[0]){
-            scroll[2] =  new iscroll('#country-option',{
-                mouseWheel: true,
-                scrollbars: true,
-                interactiveScrollbars : true
-            });
+            $('#country-option').scrollbar();
         }
         //tab切换
         $('.set-tab').tab();
         $('.news-tab').tab();
 
         //下拉
-        $('.set-form-grade').select(scroll[1]);
-        $('.set-form-country').select(scroll[2]);
+        $('.set-form-grade').select();
+        $('.set-form-country').select();
 
 
         //七牛上传头像
@@ -809,7 +793,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
             dataType:'html',
             success:function(data) {
                 $('#msganswer').html(data);
-
+                $('#msganswer').scrollbar();
             },
             error : function() {
                 base.notice('网络错误');

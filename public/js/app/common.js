@@ -1,5 +1,4 @@
 define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
-    var scroll = [];
     var imageFieldName;
         //关闭所有弹出层
         $(document).on('click',function(){
@@ -216,7 +215,6 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
         closeSearch();
         base.openMask();
         $('.view-article').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
-            scroll[2].refresh();
             $('.view-article').removeClass('animated fadeInDown');
         });
         //请求文章内容并添加进去
