@@ -255,7 +255,7 @@ router.get('/register-reset', function(req, res, next) {
 
 });
 
-router.get('/register-result', function(req, res, next) {
+router.get('/validate-email', function(req, res, next) {
   req.proxy.request({
     url: 'http://api.inner.utuotu.com/v1/msg/validemail.action', 
     qs: req.query
@@ -276,7 +276,7 @@ router.get('/register-result', function(req, res, next) {
       invalid = true;
     }
 
-    res.render('register-result', {
+    res.render('validate-email', {
       success: success,
       done: done,
       invalid : invalid
