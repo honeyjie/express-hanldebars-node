@@ -270,17 +270,18 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         //毕业学校 输入
         $('.select-school').on('input propertychange',function(){
             selectSchool($(this).val());
-            schoolBlur();
         });
         //毕业学校 选择
         $('.select-info-school .form-select-option').on('click','li',function(){
-            base.testSuccess($('.select-school'));
             $('.select-school').val($(this).html());
             $('.select-school').data('type',$(this).data('type'));
+            schoolBlur();
         });
         //毕业学校 失去焦点
         $('.select-school').on('blur',function(){
-            schoolBlur();
+            setTimeout(function(){
+                schoolBlur();
+            },500);
         });
         function schoolBlur(){
             var arr = [];
@@ -312,7 +313,9 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         });
         //毕业专业1 失去焦点
         $('.select-major').on('blur',function(){
-            majorBlur();
+            setTimeout(function(){
+                majorBlur();
+            },500)
         });
         function majorBlur(){
             var arr = [];
