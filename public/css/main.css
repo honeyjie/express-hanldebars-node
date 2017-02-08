@@ -3078,11 +3078,12 @@
     text-align: center;
     padding: 20px;
     z-index: 99;
+    background: #ffffff;
 }
 .select-form-noresult-title{
     color: #25baf4;
     font-weight: 900;
-    font-size: 14px;
+    font-size: 18px;
 }
 .select-form-noresult img{
     margin-top: 20px;
@@ -3091,6 +3092,7 @@
 .select-form-noresult-dis{
     margin-top: 20px;
     color: #cdcdcd;
+    font-size: 14px;
 }
 .select-form-noresult-buttons{
     margin-top: 50px;
@@ -3099,11 +3101,12 @@
     display: block;
     width: 120px;
     height: 32px;
+    line-height: 30px;
 }
-.select-form-noresult-buttons a:nth-child(0){
+.select-form-noresult-school{
     float: left;
 }
-.select-form-noresult-buttons a:nth-child(0){
+.select-form-noresult-info{
     float: right;
 }
 /*.select-form .select-form-view-main{*/
