@@ -591,19 +591,7 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
             success:function(data){
                 $('#select-major ul').html(data);
                 $('.recommend-major-form').find('.form-select-option').removeClass('hidden');
-// <<<<<<< HEAD
-//                 if(!scroll[6]){
-//                     scroll[6] = new iscroll('#select-major',{
-//                         mouseWheel : true,
-//                         scrollbars : true,
-//                         interactiveScrollbars : true
-//                     });
-//                 }
-//                 else{
-//                     scroll[6].refresh();
-//                 }
-// =======
-// >>>>>>> a5a30a38b3c5d78fe50229934eaf6bb7fed6a4ec
+                $('#select-major').scrollbar();
             },
             error : function() {
                 base.notice('网络错误');
