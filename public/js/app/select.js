@@ -303,37 +303,38 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         });
         //毕业专业1 选择
         $('.select-info-major .form-select-option').on('click','li',function(){
-            base.testSuccess($('.select-major'));
             $('.select-major').val($(this).html());
+            majorBlur();
         });
         //毕业专业1 失去焦点
         $('.select-major').on('blur',function(){
-            setTimeout(function(){
-                var arr = [];
-                for(var i=0;i<$('.select-info-major .form-select-option li').length;i++){
-                    arr.push($('.select-info-major .form-select-option li').eq(i).html())
-                }
-                if(arr.indexOf($('.select-major').val())==-1){
-                    select.pre_major = null;
-                    base.testFail($(this),'请从下拉列表中选择专业');
-                    return;
-                }
-                base.testSuccess($(this));
-                select.pre_major = $(this).val();
-                if(select.pre_major=='法学'){
-                    $('.select-form-lsat').removeClass('hidden');
-                    $('.select-exam').addClass('hidden');
-                }
-                else{
-                    $('.select-form-lsat').addClass('hidden');
-                    $('.select-exam').removeClass('hidden');
-                }
-                if(select.pre_major){
-                    $('.select-info-major .form-item-name').removeClass('red');
-                }
-                infoFinished();
-            },500);
+            majorBlur();
         });
+        function majorBlur(){
+            var arr = [];
+            for(var i=0;i<$('.select-info-major .form-select-option li').length;i++){
+                arr.push($('.select-info-major .form-select-option li').eq(i).html())
+            }
+            if(arr.indexOf($('.select-major').val())==-1){
+                select.pre_major = null;
+                base.testFail($(this),'请从下拉列表中选择专业');
+                return;
+            }
+            base.testSuccess($(this));
+            select.pre_major = $(this).val();
+            if(select.pre_major=='法学'){
+                $('.select-form-lsat').removeClass('hidden');
+                $('.select-exam').addClass('hidden');
+            }
+            else{
+                $('.select-form-lsat').addClass('hidden');
+                $('.select-exam').removeClass('hidden');
+            }
+            if(select.pre_major){
+                $('.select-info-major .form-item-name').removeClass('red');
+            }
+            infoFinished();
+        }
         //毕业专业2 输入
         $('.select-major2').on('input propertychange',function(){
             // $('.select-info-major2').find('.form-select-option').removeClass('hidden');  //测试
