@@ -2649,6 +2649,10 @@
     font-weight: 600;
     margin: 30px auto;
 }
+.school .major-join a {
+    display: block;
+    color: #fff;
+}
 .school .major-from{
     margin-bottom: 20px;
 }
