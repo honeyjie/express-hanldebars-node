@@ -69,7 +69,7 @@ define(['jquery'],function(jquery){
             data:{
                 value : userInfo.email
             },
-            type:'post',
+            type:'get',
             cache:false,
             dataType:'json',
             success:function(data){

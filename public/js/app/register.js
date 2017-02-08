@@ -197,8 +197,10 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         });
 
         //重置密码判断提交
-        $('.reset input').on('blur',function(){
-            if(!base.userInfo.password||!base.userInfo.repassword){
+        $('.reset input').on('input propertychange',function(){
+            console.log("1")
+            console.log($('.reset-password').val(), $('.reset-repassword').val())
+            if(!$('.reset-password').val() || !$('.reset-repassword').val()){
                 $('.reset-submit').removeClass('button-solid').addClass('button-solid-ban');
                 return;
             }
@@ -343,6 +345,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
            cache:false,
            dataType:'json',
            success:function(data) {
+                console.log(data)
                if(data.code==0){
                    base.notice('密码重置成功');
                    window.location.href = '/'

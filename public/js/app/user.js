@@ -211,7 +211,7 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         });
 
         //学校验证
-        $('.set-form-school').on('blur',function(){
+        $('.set-form-school').on('input propertychange',function(){
             base.userInfo.school = $('.set-form-school').val();
             if (base.userInfo.school !== pre_school) {
                 canSaveInfo();
@@ -219,19 +219,20 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         });
 
         //专业验证
-        $('.set-form-major').on('blur',function(){
+        $('.set-form-major').on('input propertychange',function(){
             base.userInfo.major = $('.set-form-major').val();
             if (base.userInfo.major !== pre_major) {
                 canSaveInfo();
             }
         });
 
-        //个人信息判断提交
-        $('.set-form-info input').on('input propertychange',function(){
-            //表单失去焦点后判断，如果修改信息且符合判断，则显示保存按钮
-            //当表单数据发生变化
-            $('.set-info-save').removeClass('button-solid-ban').addClass('button-solid');
-        });
+        // //个人信息判断提交
+        // $('.set-form-info input').on('input propertychange',function(){
+        //     //表单失去焦点后判断，如果修改信息且符合判断，则显示保存按钮
+        //     //当表单数据发生变化
+        //     console.log("1");
+        //     canSaveInfo();
+        // });
         $('.set-form-grade .form-select-option li').on('click',function(){
             base.userInfo.grade = $(this).html();
             if (base.userInfo.grade !== pre_grade) {
@@ -249,12 +250,13 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
 
         //将之前的信息保存下来，当所填内容符合格式，且不相同时，可以保存
         function canSaveInfo(){
-            if(base.userInfo.email||base.userInfo.phone||base.userInfo.school||base.userInfo.major||base.userInfo.grade||base.userInfo.country || base.userInfo.headerimg){
-                $('.set-info-save').removeClass('button-solid-ban').addClass('button-solid');
+            if(!base.userInfo.email && !base.userInfo.phone && !base.userInfo.school && !base.userInfo.major && !base.userInfo.grade && !base.userInfo.country && !base.userInfo.headerimg){
+                $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban');
+                console.log("0")
                 return;
             }
-            
-            $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban');
+            console.log("2")
+            $('.set-info-save').removeClass('button-solid-ban').addClass('button-solid');
         };
 
         //保存个人信息
@@ -313,8 +315,8 @@ define(['jquery','fullpage','iscroll','clipboard','base','common'],function(jque
         });
 
         //密码判断提交
-        $('.set-tab-password input').on('blur',function(){
-            if(!base.userInfo.oldpassword||!base.userInfo.password||!base.userInfo.repassword){
+        $('.set-tab-password input').on('input propertychange',function(){
+            if(!base.userInfo.oldpassword || !base.userInfo.password || !base.userInfo.repassword){
                 $('.set-password-save').removeClass('button-solid').addClass('button-solid-ban');
                 return;
             }

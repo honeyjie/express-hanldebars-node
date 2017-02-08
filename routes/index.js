@@ -227,11 +227,31 @@ router.get('/register-reset', function(req, res, next) {
         url: "http://api.inner.utuotu.com/v1/account/forget_get_email.action",
         qs: req.query
     }, function(err, response, body) {
-        var data = JSON.parse(body);
+        var data = JSON.parse(body);  
+        console.log(data);
+        var validsite;
+        if (data.code === 0) {
+            validsite = true
+        } else if(data.code === 111002001){
+            validsite = false;
+        }
         res.render('register-reset', {
-          email: data.data.email
+          email: data.data.email,
+          validsite: validsite
         });
     })
+
+    // req.proxy.request({
+    //     method: "get",
+    //     url: "http://api.inner.utuotu.com/v1/account/forget_get_email.action",
+    //     qs: req.query
+    // }, function(err, response, body) {
+    //     var forgetemail = JSON.parse(body);   
+    // })
+
+
+
+
 });
 
 router.get('/register-result', function(req, res, next) {
