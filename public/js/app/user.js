@@ -115,7 +115,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                     }
                 }
             });
-
         }
 
 
@@ -213,10 +212,10 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         });
 
         //个人信息判断提交
-        $('.set-form-info input').on('blur',function(){
+        $('.set-form-info input').on('input propertychange',function(){
             //表单失去焦点后判断，如果修改信息且符合判断，则显示保存按钮
             //当表单数据发生变化
-            canSaveInfo();
+            $('.set-info-save').removeClass('button-solid-ban').addClass('button-solid');
         });
         $('.set-form-grade .form-select-option li').on('click',function(){
             base.userInfo.grade = $(this).html();

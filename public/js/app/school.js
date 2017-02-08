@@ -452,13 +452,15 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                 return;
             }
             console.log("1", userMajor, sid)
+            $('.school-recommend .loader').removeClass('hidden');
             getMajor(userMajor, sid);
         });   
 
         $('#school-content-page').on('keydown', function(e){
             if (!userMajor) {
                 return;
-            } 
+            }
+            $('.school-recommend .loader').removeClass('hidden');
             var e = e || window.event;
             console.log(e.keyCode);
             if(e.keyCode === 13) {
@@ -734,6 +736,7 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
             cache:false,
             dataType:'html',
             success:function(data){
+                $('.school-recommend .loader').addClass('hidden');
                 $('.school-side-revise').show();
                 $('.school-side-son').addClass('hidden');
                 $('.help-icon').removeClass('hidden');
