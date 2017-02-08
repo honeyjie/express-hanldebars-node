@@ -200,6 +200,9 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
                     console.log(data);
                     //模拟滚动条
                     $('#search-scroll').scrollbar();
+                    $('#search-scroll').on('wheel',function(e){
+                        e.stopPropagation();
+                    })
                 },
                 error : function() {
                     base.notice('网络错误');
