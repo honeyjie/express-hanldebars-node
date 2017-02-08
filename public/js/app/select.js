@@ -270,6 +270,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         //毕业学校 输入
         $('.select-school').on('input propertychange',function(){
             selectSchool($(this).val());
+            schoolBlur();
         });
         //毕业学校 选择
         $('.select-info-school .form-select-option').on('click','li',function(){
@@ -279,6 +280,9 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         });
         //毕业学校 失去焦点
         $('.select-school').on('blur',function(){
+            schoolBlur();
+        });
+        function schoolBlur(){
             var arr = [];
             for(var i=0;i<$('.select-info-school .form-select-option li').length;i++){
                 arr.push($('.select-info-school .form-select-option li').eq(i).html())
@@ -286,17 +290,17 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             if(arr.indexOf($('.select-school').val())==-1){
                 select.pre_school = null;
                 select.school_type = null;
-                base.testFail($(this),'请从下拉列表中选择学校');
+                base.testFail($('.select-school'),'请从下拉列表中选择学校');
                 return;
             }
-            base.testSuccess($(this));
-            select.pre_school = $(this).val();
-            select.school_type = $(this).data('type');
+            base.testSuccess($('.select-school'));
+            select.pre_school = $('.select-school').val();
+            select.school_type = $('.select-school').data('type');
             if(select.pre_school&&select.school_type){
                 $('.select-info-school .form-item-name').removeClass('red');
             }
             infoFinished();
-        });
+        }
         //毕业专业1 输入
         $('.select-major').on('input propertychange',function(){
             selectMajor($(this).val(),1);
@@ -315,10 +319,9 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             for(var i=0;i<$('.select-info-major .form-select-option li').length;i++){
                 arr.push($('.select-info-major .form-select-option li').eq(i).html())
             }
-            console.log($('.select-major').val())
             if(arr.indexOf($('.select-major').val())==-1){
                 select.pre_major = null;
-                base.testFail($(this),'请从下拉列表中选择专业');
+                base.testFail($('.select-major'),'请从下拉列表中选择专业');
                 return;
             }
             base.testSuccess($('.select-major'));
@@ -341,26 +344,28 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             // $('.select-info-major2').find('.form-select-option').removeClass('hidden');  //测试
             selectMajor($(this).val(),2);
         });
+        //毕业专业2 选择
+        $('.select-info-major2 .form-select-option').on('click','li',function(){
+            $('.select-major2').val($(this).html());
+            major2Blur();
+        });
         //毕业专业2 失去焦点
         $('.select-major2').on('blur',function(){
+            major2Blur();
+        });
+        function major2Blur(){
             var arr = [];
             for(var i=0;i<$('.select-info-major2 .form-select-option li').length;i++){
                 select.pre_major2 = null;
                 arr.push($('.select-info-major2 .form-select-option li').eq(i).html())
             }
             if(arr.indexOf($('.select-major2').val())==-1){
-                base.testFail($(this),'请从下拉列表中选择专业');
+                base.testFail($('.select-major2'),'请从下拉列表中选择专业');
                 return;
             }
-            base.testSuccess($(this));
-            select.pre_major2 = $(this).val();
-        });
-        //毕业专业2 选择
-        $('.select-info-major2 .form-select-option').on('click','li',function(){
             base.testSuccess($('.select-major2'));
-            $('.select-major2').val($(this).html());
-
-        });
+            select.pre_major2 = $('.select-major2').val();
+        }
         //毕业时间
         $('.select-school-type .form-radio').on('click',function(){
             select.grade = $(this).find('.form-radio-value').html();
