@@ -136,7 +136,6 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
             console.log("1");
             e.stopPropagation();
             openHelp();
-            scroll[0].refresh();
         });
         //关闭帮助
         $('.help-close').on('click',function(){
@@ -287,7 +286,6 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         $('.help-article').removeClass('hidden').addClass('animated slideInLeft').one(base.animationend,function(){
             $('.help-article').removeClass('animated slideInLeft');
             $('.help-list').addClass('hidden');
-            scroll[1].refresh();
         });
 
         //填写内容和标题

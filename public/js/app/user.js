@@ -1,5 +1,4 @@
 define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jquery,fullpage,scrollbar,clipboard,base,common){
-    var scroll = [];
     var canSend = true;
     var setTime;
     var imgUrl; 
@@ -37,8 +36,8 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         $('.news-tab').tab();
 
         //下拉
-        $('.set-form-grade').select(scroll[1]);
-        $('.set-form-country').select(scroll[2]);
+        $('.set-form-grade').select();
+        $('.set-form-country').select();
 
 
         //七牛上传头像

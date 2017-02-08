@@ -171,7 +171,6 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
 
     var boxCanClick = true;
     var height = [];  //每个模块的高度
-    var scroll = []; //模拟滚动条
     $(function(){
 
         // chart();
