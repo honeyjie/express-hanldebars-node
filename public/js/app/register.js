@@ -292,7 +292,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
     //忘记密码邮箱验证
     function forgettestEmail(dom){
         $.ajax({
-            url:'/v1/msg/forget.action',
+            url:'/v1/account/forget.action',
             data:{
                 email : base.userInfo.email
             },
@@ -334,12 +334,12 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
             return;
         }
         $.ajax({
-           url:'/v1/Msg/validforget.action',
+           url:'/v1/account/reset_pwd.action',
            data:{
                password : base.userInfo.password,
                token: window.location.search.split('=')[1]
            },
-           type:'get',
+           type:'POST',
            cache:false,
            dataType:'json',
            success:function(data) {

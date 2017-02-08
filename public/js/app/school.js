@@ -31,20 +31,27 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
 
 
         //模拟下拉
-<<<<<<< HEAD
-        $('.screen-form-country').select(scroll[0]);
-        $('.screen-form-major').select(scroll[2]);
-        $('.screen-form-state').select(scroll[1]);
-
-=======
+// <<<<<<< HEAD
+        // $('.screen-form-country').select(scroll[0]);
+        // $('.screen-form-major').select(scroll[2]);
+        // $('.screen-form-state').select(scroll[1]);
+// =======
         $('.screen-form-country').select();
         $('.screen-form-state').select();
         $('.screen-form-major').select();
->>>>>>> a5a30a38b3c5d78fe50229934eaf6bb7fed6a4ec
+// >>>>>>> a5a30a38b3c5d78fe50229934eaf6bb7fed6a4ec
 
         //下拉选择
         $('.screen-form-country .form-select-option li').on('click',function(){
-            $('.screen-form-state .form-select-value').html('选择州(省)');
+            // $('#screen-state').addClass('hidden');
+            if ($(this).text() === "全部") {
+                $('.screen-form-state .form-select-value').html('全部');
+                $('#screen-state ul').html('');
+            } else {
+                $('.screen-form-state .form-select-value').html('选择州(省)');
+                $('#screen-state ul').html('');
+            }
+            
             screen.country = $(this).attr('short_country');
             var jsonUrl;
             if(screen.country=='US'){
@@ -54,22 +61,16 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                 jsonUrl = 'js/country/CA.json';
             }
             $.getJSON(jsonUrl,function(data){
-                var dom = '';
+                var dom = '<li>全部</li>';
                 for(var i=0;i<data.length;i++){
+                    if (data[i].shortName.length > 20) {
+                        data[i].shortName = data[i].shortName.substring(0,20) + '...'
+                    }
                     dom = dom+'<li short_state="'+data[i].shortName+'">'+data[i].fullName+'</li>';
                 }
-                console.log(dom)
-                $('.screen-form-state .form-select-option ul').html(dom);
+                $('.screen-form-state .form-select-option ul').append(dom);
             });
-<<<<<<< HEAD
-            // if (screen.country) {
-            //     console.log(screen.country);
-            //     $('.screen-form-state').select(scroll[1]);
-            // }
-=======
-            
->>>>>>> a5a30a38b3c5d78fe50229934eaf6bb7fed6a4ec
-            canSearch();
+
         });
 
         $('.screen-form-state .form-select-option').on('click','li',function(e){
@@ -91,7 +92,7 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                 for(var i=0;i<data.length;i++){
                     dom = dom+'<li>'+data[i]+'</li>';
                 }
-                $('.screen-form-major .form-select-option ul').html(dom);
+                $('.screen-form-major .form-select-option ul').append(dom);
             });
         }
         $('.screen-form-major .form-select-option').on('click','li',function(e){
@@ -103,11 +104,28 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
             canSearch();
         });
         //模拟单选
+        var preferenceFlag = false;
         $('.screen-form-preference button').on('click',function(){
+            console.log(preferenceFlag);
             $('.screen-form-preference button').removeClass('active');
-            $(this).addClass('active');
-            screen.preference = $(this).html();
-            canSearch();
+            //确定点击的是哪一个tab
+            if (!preferenceFlag) { 
+                $(this).addClass('active');
+                screen.preference = $(this).html();
+                canSearch();
+                preferenceFlag = true;
+            } else {
+                //若已经有active,则判断点击的是哪个元素
+                if($(this).hasClass('active')) {
+                    screen.preference = "";
+                    preferenceFlag = false;
+                } else {
+                    screen.preference = $(this).html();
+                    canSearch();
+                    preferenceFlag = false;
+                }
+            }
+            console.log(screen.preference)
         });
         $('.screen-form-degree button').on('click',function(){
             $('.screen-form-degree button').removeClass('active');
@@ -572,19 +590,19 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
             success:function(data){
                 $('#select-major ul').html(data);
                 $('.recommend-major-form').find('.form-select-option').removeClass('hidden');
-<<<<<<< HEAD
-                if(!scroll[6]){
-                    scroll[6] = new iscroll('#select-major',{
-                        mouseWheel : true,
-                        scrollbars : true,
-                        interactiveScrollbars : true
-                    });
-                }
-                else{
-                    scroll[6].refresh();
-                }
-=======
->>>>>>> a5a30a38b3c5d78fe50229934eaf6bb7fed6a4ec
+// <<<<<<< HEAD
+//                 if(!scroll[6]){
+//                     scroll[6] = new iscroll('#select-major',{
+//                         mouseWheel : true,
+//                         scrollbars : true,
+//                         interactiveScrollbars : true
+//                     });
+//                 }
+//                 else{
+//                     scroll[6].refresh();
+//                 }
+// =======
+// >>>>>>> a5a30a38b3c5d78fe50229934eaf6bb7fed6a4ec
             },
             error : function() {
                 base.notice('网络错误');

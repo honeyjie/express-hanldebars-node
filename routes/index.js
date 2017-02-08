@@ -225,7 +225,7 @@ router.get('/register-forget', function(req, res, next) {
 router.get('/register-reset', function(req, res, next) {
     req.proxy.request({
         method: "get",
-        url: "http://api.inner.utuotu.com/v1/Msg/validforgetgetemail.action",
+        url: "http://api.inner.utuotu.com/v1/account/forget_get_email.action",
         qs: req.query
     }, function(err, response, body) {
         var data = JSON.parse(body);
@@ -235,7 +235,7 @@ router.get('/register-reset', function(req, res, next) {
     })
 });
 
-router.get('/register-test', function(req, res, next) {
+router.get('/register-result', function(req, res, next) {
   req.proxy.request({
     url: 'http://api.inner.utuotu.com/v1/msg/validemail.action', 
     qs: req.query
@@ -256,7 +256,7 @@ router.get('/register-test', function(req, res, next) {
       invalid = true;
     }
 
-    res.render('register-test', {
+    res.render('register-result', {
       success: success,
       done: done,
       invalid : invalid

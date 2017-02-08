@@ -65,7 +65,7 @@ define(['jquery'],function(jquery){
     //检查邮箱是否重复
     function testEmail(dom){
         $.ajax({
-            url:'/v1/login/validemail.action',
+            url:'/v1/account/valid_email.action',
             data:{
                 value : userInfo.email
             },
@@ -302,6 +302,7 @@ define(['jquery'],function(jquery){
             var option = $(this).find('.form-select-option');
             select.on('click',function(e){
                 e.stopPropagation();
+                $('.form-select-option').addClass('hidden');
                 console.log(option.find('li').length);
                 if(option.hasClass('hidden') && option.find('li').length){
                     select.addClass('focus');
