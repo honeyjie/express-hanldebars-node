@@ -196,7 +196,7 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
                 cache:false,
                 dataType:'html',
                 success:function(data){
-                    $('.header-search-result').html(data);
+                    $('.header-search-result div').html(data);
                     console.log(data);
                     //模拟滚动条
                     $('#search-scroll').scrollbar();
