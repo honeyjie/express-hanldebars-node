@@ -1,4 +1,4 @@
-define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','common'],function(jquery,handlebars,d3,countries,fullpage,scrollbar,base,common){
+define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','common','iscroll'],function(jquery,handlebars,d3,countries,fullpage,scrollbar,base,common, iscroll){
     var screen = {};
         screen.country = '';
         screen.state = '';
@@ -6,6 +6,7 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
         screen.major = '';
         screen.degree = '';
     var height = [];//每个模块的高度
+    var scroll = [];
     var sid = $('.school-info').data('sid');
 
     var userMajor;
@@ -16,6 +17,7 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
     if (localStorage.getItem("userMajor")) {
         getMajor(localStorage.getItem("userMajor"), sid);
     }
+
 
     $(function(){
         //模拟滚动条
@@ -441,7 +443,6 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
             console.log(arr, $('.recommend-major-form input').val())
             if(arr.indexOf($('.recommend-major-form input').val())==-1){
                 // userMajor = null;
-                console.log("+++")
                 base.testFail($(this),'请从下拉列表中选择专业');
                 return;
             }
@@ -449,13 +450,11 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
         });
         //获取推荐
         $('#school-content-page').on('click', '.recommend-major-get', function(e){
-
             console.log("1", userMajor, sid)
             getMajor(userMajor, sid);
-        });
-
-        $('#school-content-page').on('keydown', function(e){ 
+        });        $('#school-content-page').on('keydown', function(e){ 
             var e = e || window.event;
+            console.log(e.keyCode);
             if(e.keyCode === 13) {
                 getMajor(userMajor, sid);
             }  
@@ -591,19 +590,17 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
             success:function(data){
                 $('#select-major ul').html(data);
                 $('.recommend-major-form').find('.form-select-option').removeClass('hidden');
-// <<<<<<< HEAD
-//                 if(!scroll[6]){
-//                     scroll[6] = new iscroll('#select-major',{
-//                         mouseWheel : true,
-//                         scrollbars : true,
-//                         interactiveScrollbars : true
-//                     });
-//                 }
-//                 else{
-//                     scroll[6].refresh();
-//                 }
-// =======
-// >>>>>>> a5a30a38b3c5d78fe50229934eaf6bb7fed6a4ec
+                if(!scroll[6]){
+                    scroll[6] = new iscroll('#select-major',{
+                        mouseWheel : true,
+                        scrollbars : true,
+                        interactiveScrollbars : true
+                    });
+                }
+                else{
+                    scroll[6].refresh();
+                }
+                console.log(scroll[6])
             },
             error : function() {
                 base.notice('网络错误');
@@ -755,9 +752,12 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                         $('.major-info-direction .form-select-value').html($(this).html().substring(0,20)+'...');
                     }
                 });
-                if($('.major-email').html().length>20){
-                    $('.major-email').html($('.major-email').html().substring(0,20)+'...');
+                if ($('.major-email').html()) {
+                    if($('.major-email').html().length>20){
+                        $('.major-email').html($('.major-email').html().substring(0,20)+'...');
+                    }
                 }
+
                 $('.major-email').on('mouseenter',function(e){
                     e.stopPropagation();
                     $(this).find('.major-email-all').removeClass('hidden');
