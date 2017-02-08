@@ -35,7 +35,7 @@ router.get('/', function (req, res, next) {
     res.render('index', {
       show: true
     });
-    next();
+    // next();
 });
 
 router.get('/testindex', function (req, res, next) {
