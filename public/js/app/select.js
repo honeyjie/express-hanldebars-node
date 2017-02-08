@@ -321,8 +321,8 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                 base.testFail($(this),'请从下拉列表中选择专业');
                 return;
             }
-            base.testSuccess($(this));
-            select.pre_major = $(this).val();
+            base.testSuccess($('.select-major'));
+            select.pre_major = $('.select-major').val();
             if(select.pre_major=='法学'){
                 $('.select-form-lsat').removeClass('hidden');
                 $('.select-exam').addClass('hidden');
