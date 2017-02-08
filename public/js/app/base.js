@@ -300,8 +300,7 @@ define(['jquery'],function(jquery){
             var select = $(this);
             var value = $(this).find('.form-select-value');
             var option = $(this).find('.form-select-option');
-            select.on('click',function(e){
-                e.stopPropagation();
+            select.on('click',function(){
                 $('.form-select-option').addClass('hidden');
                 console.log(option.find('li').length);
                 if(option.hasClass('hidden') && option.find('li').length){
