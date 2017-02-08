@@ -64,6 +64,7 @@ define(['jquery'],function(jquery){
     }
     //检查邮箱是否重复
     function testEmail(dom){
+
         $.ajax({
             url:'/v1/account/valid_email.action',
             data:{
@@ -240,6 +241,7 @@ define(['jquery'],function(jquery){
 
     //发送验证邮件
     function sendTestEmail(){
+
         $.ajax({
             url:'/v1/user/sendvaildemail.action',
             data:{
@@ -249,7 +251,7 @@ define(['jquery'],function(jquery){
             cache:false,
             dataType:'json',
             success:function(data){
-                console.log("发送邮件成功：" + data);
+                console.log("发送邮件成功：",data, userInfo.email);
                 if(data.code==0){
                     console.log("发送邮件成功编码" + data.code);
                     notice('已向'+ userInfo.email+'发送了一封验证邮件，请查收');

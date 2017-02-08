@@ -85,27 +85,28 @@ router.get('/user-news', function(req, res, next) {
       qs: {system: req.query.system},
       url: "http://api.inner.utuotu.com/v1/User/getmsg.action"
   }, function(err, response, body) {
-      var getmsg = JSON.parse(body);
-      var urlPath = url.parse(req.url).path;
-      var query = url.parse(req.url).query;
+      console.log(body)
+      // var getmsg = JSON.parse(body);
+      // var urlPath = url.parse(req.url).path;
+      // var query = url.parse(req.url).query;
 
-      if (!query) {
-        urlPath = urlPath + "?page="
-      } else {
-        var query = query.page;
-        if (!query) {
-          urlPath = urlPath + "?page="
-        }
-      }
-      setTimeout(function(res) {
-        res.render('user-news', {
-                data: getmsg.data,
-                system: req.query.system,
-                urlPath :urlPath,
-                newsstate: newsstate,
-                usernews:true
-              })
-      }, 500, res);
+      // if (!query) {
+      //   urlPath = urlPath + "?page="
+      // } else {
+      //   var query = query.page;
+      //   if (!query) {
+      //     urlPath = urlPath + "?page="
+      //   }
+      // }
+      // setTimeout(function(res) {
+      //   res.render('user-news', {
+      //           data: getmsg.data,
+      //           system: req.query.system,
+      //           urlPath :urlPath,
+      //           newsstate: newsstate,
+      //           usernews:true
+      //         })
+      // }, 500, res);
   })
 });
 
