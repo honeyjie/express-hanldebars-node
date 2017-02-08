@@ -1,5 +1,4 @@
-define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,iscroll,base,common){
-    var scroll = [];
+define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpage,scrollbar,base,common){
     var type;
     var question;
     var helpTimer;
@@ -23,18 +22,10 @@ define(['jquery','fullpage','iscroll','base','common'],function(jquery,fullpage,
         });
         //模拟滚动条
         if($('#help-list')[0]){
-            scroll[0] =  new iscroll('#help-list',{
-                mouseWheel : true,
-                scrollbars : true,
-                interactiveScrollbars : true
-            });
+            $('#help-list').scrollbar();
         }
         if($('#help-article')[0]){
-            scroll[1] =  new iscroll('#help-article',{
-                mouseWheel : true,
-                scrollbars : true,
-                interactiveScrollbars : true
-            });
+            $('#help-article').scrollbar();
         }
 
         //七牛上传头像

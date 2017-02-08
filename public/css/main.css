@@ -1543,11 +1543,15 @@
 }
 .user .news-article{
     width: 450px;
+    height: 320px;
     top: 50%;
     left: 50%;
     margin-left: -225px;
     margin-top: -160px;
     background: #ffffff;
+}
+.user .scrollbar-macosx{
+    max-height: 320px;
 }
 .user .news-article-type{
     position: relative;
@@ -1707,6 +1711,9 @@
     height: 340px;
     overflow: hidden;
 }
+.help .help-list .scrollbar-macosx{
+    max-height: 340px;
+}
 .help .help-list li{
     display: table;
     height: 50px;
@@ -1743,6 +1750,9 @@
     padding: 0 20px;
     height: 340px;
     overflow: hidden;
+}
+.help .help-article-content .scrollbar-macosx{
+    max-height: 340px;
 }
 .help .help-article-content p{
     line-height: 30px;
