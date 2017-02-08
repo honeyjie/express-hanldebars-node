@@ -315,6 +315,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             for(var i=0;i<$('.select-info-major .form-select-option li').length;i++){
                 arr.push($('.select-info-major .form-select-option li').eq(i).html())
             }
+            console.log($('.select-major').val())
             if(arr.indexOf($('.select-major').val())==-1){
                 select.pre_major = null;
                 base.testFail($(this),'请从下拉列表中选择专业');
