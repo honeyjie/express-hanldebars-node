@@ -38,35 +38,35 @@ router.get('/', function (req, res, next) {
     // next();
 });
 
-router.get('/testindex', function (req, res, next) {
-  req.proxy.request({
-      method: "GET",
-      url: "http://api.inner.utuotu.com/v1/Login/redicturl.action",
-      qs: req.query
-  }, function(err, response, body) {
+// router.get('/testindex', function (req, res, next) {
+//   req.proxy.request({
+//       method: "GET",
+//       url: "http://api.inner.utuotu.com/v1/Login/redicturl.action",
+//       qs: req.query
+//   }, function(err, response, body) {
       
-      var data = JSON.parse(body);
-      for (var key in response.headers) {
-          res.set(key, response.headers[key])
-      }
-      if (data.code === 0) {
-        //从cookie中获取微信图像和昵称
-        if(!!data.data.login) {
-            //已经注册
-            console.log(req.cookies.wechatPath)
-            res.redirect(req.cookies.wechatPath)
-        }else {
-            //未注册
-            res.redirect('/register-complete?headImg='+ data.data.headImg +'&nickname='+data.data.nickname)
-        }
-      } else {
-        res.render("testindex", {
-            body: body
-        })
-      }
-  })
+//       var data = JSON.parse(body);
+//       for (var key in response.headers) {
+//           res.set(key, response.headers[key])
+//       }
+//       if (data.code === 0) {
+//         //从cookie中获取微信图像和昵称
+//         if(!!data.data.login) {
+//             //已经注册
+//             console.log(req.cookies.wechatPath)
+//             res.redirect(req.cookies.wechatPath)
+//         }else {
+//             //未注册
+//             res.redirect('/register-complete?headImg='+ data.data.headImg +'&nickname='+data.data.nickname)
+//         }
+//       } else {
+//         res.render("testindex", {
+//             body: body
+//         })
+//       }
+//   })
     
-});
+// });
 
 
 //用户
@@ -333,8 +333,6 @@ router.get('/school-majorlist-partial', function(req, res, next) {
 
 
 router.get('/school-screen', function (req, res) {
-  //初始页面渲染, 模糊接口，给一个默认路径
-    //将&page=3&置换
     req.proxy.request({
         method: "GET",
         url: "http://api.inner.utuotu.com/v1/schoolmajor/searchschool.action",
@@ -347,9 +345,11 @@ router.get('/school-screen', function (req, res) {
         urlPath = urlPath + "?search=&page="
       }
         var data = JSON.parse(body);
+        console.log(data)
         res.render('school-screen', {
             data: data.data,
-            urlPath: urlPath
+            urlPath: urlPath,
+            screen: true
         });
     })
 });
@@ -462,20 +462,23 @@ router.get('/select-school', function(req, res) {
         schoollist = JSON.parse(body).data;
         console.log(schoollist)
         res.render('select-school',{
-          schoollist: schoollist
+          schoollist: schoollist,
+          form: true
         })
     });        
 });
 router.get('/select-form', function(req, res) {
     var year =  (new Date()).getFullYear() + 1;
-
         res.render('select-form', {
-          year: year
+          year: year,
+          form: true
         })
 });
 
-router.get('/test', function(req, res) {
-  res.render('test')
+router.get('/addApply', function(req, res) {
+  res.render('addApply', {
+    addApply: true
+  })
 });
 
 router.get("/schoolmajor/filterschool.action", function(req, res) {

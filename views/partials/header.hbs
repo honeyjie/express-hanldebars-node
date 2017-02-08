@@ -9,9 +9,24 @@
                 <li><a href="/school-screen">院校库</a></li>
             </ul>
         </li> --}}
+        {{#if screen}}
+        <li class="active"><a href="/school-screen">院校库</a></li>
+        {{else}}
         <li><a href="/school-screen">院校库</a></li>
+        {{/if}}
+        
+        {{#if form}}
+        <li class="active"><a href="/select-form">智能选校</a></li>
+        {{else}}
         <li><a href="/select-form">智能选校</a></li>
-        <li><a href="#">申请管理</a></li>
+        {{/if}}
+        
+        {{#if addApply}}
+        <li class="active"><a href="/addApply">申请管理</a></li>
+        {{else}}
+        <li><a href="/addApply">申请管理</a></li>
+        {{/if}}
+        
 
  {{!--        <li><a href="#">网申插件</a></li> --}}
         {{#if partials.loginstate.data.headerImg}}

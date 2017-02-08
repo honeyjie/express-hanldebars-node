@@ -60,7 +60,8 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
         // });
         //顶部菜单
         // $('.header-nav li').on('click', function() {
-
+        //     $('.header-nav li').removeClass('active');
+        //     $(this).addClass('active');
         // })
         //个人中心下拉列表
         $('.header-user-info').on('mouseenter',function(){
