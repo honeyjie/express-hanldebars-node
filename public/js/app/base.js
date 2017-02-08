@@ -306,9 +306,6 @@ define(['jquery'],function(jquery){
                 if(option.hasClass('hidden') && option.find('li').length){
                     select.addClass('focus');
                     option.removeClass('hidden');
-                    if(scroll){
-                        scroll.refresh();
-                    }
                 }
                 else{
                     select.removeClass('focus');
