@@ -146,6 +146,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
                 rule : base.emailRule,
                 success : function(dom) {
                     base.userInfo.email = dom.val();
+                    base.testSuccess(dom);
                 },
                 fail : function(dom){
                     base.userInfo.email = '';
@@ -155,19 +156,23 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         });
 
         //忘记密码判断提交
-        $('.email-email').on('keyup', function() {
+        $('.email-email').on('input propertychange', function() {
             canResetpassword();
         })
 
         function canResetpassword() {
+            if (!$('.email-email').val()) {
+                $('.email-submit').removeClass('button-solid').addClass('button-solid-ban');
+                return;
+            }
             $('.email-submit').removeClass('button-solid-ban').addClass('button-solid');
         }
 
         //发送邮箱
         $('.email-submit').on('click',function(){
             var dom = $(this).parent().find('.email-email');
-            console.log(dom.text(), !dom.text())
-            if (dom.hasClass('error') || !dom.text()) {
+            console.log(dom.text(), dom.text())
+            if (dom.hasClass('error') || dom.text()) {
                 return;
             }
             forgettestEmail(dom);
@@ -297,6 +302,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
 
     //忘记密码邮箱验证
     function forgettestEmail(dom){
+        console.log("+++")
         $.ajax({
             url:'/v1/account/forget.action',
             data:{

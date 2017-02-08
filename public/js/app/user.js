@@ -183,6 +183,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             $('.set-form-phone').testInput({
                 rule : base.phoneRule,
                 success : function(dom){
+                    console.log(base.userInfo.phone )
                     base.userInfo.phone = dom.val();
                     if(base.userInfo.phone !== pre_phone) {
                         base.testPhone(dom);
@@ -214,10 +215,16 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
 
         // //个人信息判断提交
         $('.set-form-info input').on('input propertychange',function(){
-            //表单失去焦点后判断，如果修改信息且符合判断，则显示保存按钮
-            //当表单数据发生变化
-            console.log("1");
-            canSaveInfo();
+            // //表单失去焦点后判断，如果修改信息且符合判断，则显示保存按钮
+            // //当表单数据发生变化
+            // console.log("1");
+            // if () {
+
+            // }
+            // canSaveInfo();
+            if($('.set-form-email').val() !== pre_email || $('.set-form-phone').val() !== pre_phone) {
+                canSaveInfo();
+            }
         });
         $('.set-form-grade .form-select-option li').on('click',function(){
             base.userInfo.grade = $(this).html();
@@ -233,15 +240,20 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             }
         });
 
+        //邮箱、手机号有变化也可以
 
         //将之前的信息保存下来，当所填内容符合格式，且不相同时，可以保存
         function canSaveInfo(){
-            if(!$('.set-form-email').val() && !$('.set-form-phone').val() && !base.userInfo.school && !base.userInfo.major && !base.userInfo.grade && !base.userInfo.country && !base.userInfo.headerimg){
-                $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban');
-                console.log("0")
-                return;
-            }
-            console.log("2")
+            // if(!$('.set-form-email').val() && !$('.set-form-phone').val() && !base.userInfo.school && !base.userInfo.major && !base.userInfo.grade && !base.userInfo.country && !base.userInfo.headerimg){
+            //     $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban');
+            //     console.log("0")
+            //     return;
+            // }
+
+            // if () {
+
+            // }
+            // console.log("2")
             $('.set-info-save').removeClass('button-solid-ban').addClass('button-solid');
         };
 
@@ -656,13 +668,12 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             cache:false,
             dataType:'json',
             success:function(data){
+                console.log(data)
                 if(data.code == 0){
                     base.notice('信息已保存');
                    $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban'); 
-                   console.log(imgUrl, pre_Url)
-                   if (imgUrl !== pre_Url) {
-                        location.reload();
-                   }
+                    // location.reload();
+            
                 }
             },
             error : function() {
