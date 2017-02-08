@@ -70,7 +70,7 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                 }
                 $('.screen-form-state .form-select-option ul').append(dom);
             });
-
+            canSearch();
         });
 
         $('.screen-form-state .form-select-option').on('click','li',function(e){
@@ -104,34 +104,32 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
             canSearch();
         });
         //模拟单选
-        var preferenceFlag = false;
         $('.screen-form-preference button').on('click',function(){
-            console.log(preferenceFlag);
-            $('.screen-form-preference button').removeClass('active');
-            //确定点击的是哪一个tab
-            if (!preferenceFlag) { 
-                $(this).addClass('active');
+            if($(this).hasClass('active')) {
+                screen.preference = "";
+                $(this).removeClass('active')
+                canSearch();
+
+            } else {
+                $('.screen-form-preference button').removeClass('active');
+                $(this).addClass('active')
                 screen.preference = $(this).html();
                 canSearch();
-                preferenceFlag = true;
-            } else {
-                //若已经有active,则判断点击的是哪个元素
-                if($(this).hasClass('active')) {
-                    screen.preference = "";
-                    preferenceFlag = false;
-                } else {
-                    screen.preference = $(this).html();
-                    canSearch();
-                    preferenceFlag = false;
-                }
             }
-            console.log(screen.preference)
         });
+
         $('.screen-form-degree button').on('click',function(){
-            $('.screen-form-degree button').removeClass('active');
-            $(this).addClass('active');
-            screen.degree = $(this).html();
-            canSearch();
+            if($(this).hasClass('active')) {
+                screen.degree = "";
+                $(this).removeClass('active')
+                canSearch();
+            } else {
+                $('.screen-form-degree button').removeClass('active');
+                $(this).addClass('active')
+                screen.degree = $(this).html();
+                canSearch();
+            }
+            console.log(screen.degree);
         });
         //表单搜索院校
         $('.screen-side-form-search').on('click',function(){
@@ -527,9 +525,9 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
 
     //判断是否能搜索
     function canSearch(){
-        // if(!screen.country||!screen.state||!screen.preference||!screen.major||!screen.degree){
-        //     return;
-        // }
+        if(!screen.country && !screen.state && !screen.preference && !screen.major && !screen.degree){
+            return;
+        }
         $('.screen-side-search').removeClass('button-solid-ban').addClass('button-solid');
     }
 
