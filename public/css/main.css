@@ -121,6 +121,9 @@
     max-height: 520px;
     overflow: hidden;
 }
+.header-search-result .scrollbar-macosx{
+    max-height: 520px;
+}
 .header-search-result-title{
     height: 30px;
     line-height: 30px;
