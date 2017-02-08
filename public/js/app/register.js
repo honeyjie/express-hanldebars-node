@@ -166,6 +166,10 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         //发送邮箱
         $('.email-submit').on('click',function(){
             var dom = $(this).parent().find('.email-email');
+            console.log(dom.text(), !dom.text())
+            if (dom.hasClass('error') || !dom.text()) {
+                return;
+            }
             forgettestEmail(dom);
         });
 
