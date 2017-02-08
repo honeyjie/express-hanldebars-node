@@ -418,6 +418,7 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
         }
         //专业输入
         $('#school-content-page').on('input propertychange', '.recommend-major-form input', function(){
+            localStorage.removeItem("userMajor");
             selectMajor($(this).val());
             console.log($(this).val())
             canGet($(this).val());
@@ -425,34 +426,39 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
         //专业 选择
         $('#school-content-page').on('click','.recommend-major-form .form-select-option li',function(e){
             e.stopPropagation();
-            base.testSuccess($('.recommend-major-form input'));
+            // base.testSuccess($('.recommend-major-form input'));
             console.log($(this).html())
             userMajor = $(this).html();
             localStorage.setItem("userMajor", userMajor);
-            $('.recommend-major-form input').val($(this).html());
+            $('.recommend-major-form input').val(userMajor);
             $('.form-select-option').addClass('hidden');
             $('.recommend-major-get').removeClass('button-solid-ban').addClass('button-solid');
-        });
-        //专业 失去焦点
-        $('#school-content-page').on('blur', '.recommend-major-form input', function(){
-            $('.recommend-major-get').removeClass('button-solid').addClass('button-solid-ban');
             var arr = [];
             for(var i=0;i<$('.recommend-major-form .form-select-option li').length;i++){
                 arr.push($('.recommend-major-form .form-select-option li').eq(i).html())
             }
-            console.log(arr, $('.recommend-major-form input').val())
-            if(arr.indexOf($('.recommend-major-form input').val())==-1){
-                // userMajor = null;
+            console.log(arr, userMajor)
+            if(arr.indexOf(userMajor)==-1){
+                userMajor = null;
                 base.testFail($(this),'请从下拉列表中选择专业');
                 return;
             }
             base.testSuccess($(this));
+            $('.recommend-major-form input').focus();
         });
         //获取推荐
         $('#school-content-page').on('click', '.recommend-major-get', function(e){
+            if (!userMajor) {
+                return;
+            }
             console.log("1", userMajor, sid)
             getMajor(userMajor, sid);
-        });        $('#school-content-page').on('keydown', function(e){ 
+        });   
+
+        $('#school-content-page').on('keydown', function(e){
+            if (!userMajor) {
+                return;
+            } 
             var e = e || window.event;
             console.log(e.keyCode);
             if(e.keyCode === 13) {
