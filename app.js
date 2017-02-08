@@ -36,6 +36,13 @@ app.set('view cache', false);
 app.use(favicon(__dirname + '/public/img/favicon.ico'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(logger('dev'));
+
+app.use('/v1',newProxy('api.inner.utuotu.com', {
+    forwardPath: function(req, res) {
+    return '/v1' + require('url').parse(req.url).path;
+    }
+}));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: false
@@ -108,11 +115,7 @@ app.use( function(req, res, next) {
 
 app.use('/', index); 
 
-app.use('/v1',newProxy('api.inner.utuotu.com', {
-    forwardPath: function(req, res) {
-    return '/v1' + require('url').parse(req.url).path;
-    }
-}));
+
 //前端可以通过node向服务器发送请求，格式规定：/v1/login/opencode.action
 //前端也可以直接向PHP发送请求（本地服务器会出现跨域），格式规定：http://utuotu.com/v1/login/opencode.action
 // app.use(function(req, res, next) {
