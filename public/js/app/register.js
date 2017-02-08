@@ -92,10 +92,10 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         });
 
         //补全信息判断提交
-        $('.register.complete input').on('blur',function(){
-            console.log(base.userInfo.username, base.userInfo.password, base.userInfo.repassword, base.userInfo.email)
+        $('.register.complete input').on('input propertychange',function(){
+            // console.log(base.userInfo.username, base.userInfo.password, base.userInfo.repassword, base.userInfo.email)
 
-            if(!base.userInfo.username||!base.userInfo.password||!base.userInfo.repassword||!base.userInfo.email){
+            if(!$('.complete-username').val()||!$('.complete-password').val()||!$('.complete-repassword').val()||!$('.complete-email').val()){
                 $('.complete-submit').removeClass('button-solid').addClass('button-solid-ban');
                 return;
             }
