@@ -281,7 +281,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         $('.select-school').on('blur',function(){
             setTimeout(function(){
                 schoolBlur();
-            },500);
+            },300);
         });
         function schoolBlur(){
             var arr = [];
@@ -315,7 +315,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         $('.select-major').on('blur',function(){
             setTimeout(function(){
                 majorBlur();
-            },500)
+            },300)
         });
         function majorBlur(){
             var arr = [];
@@ -354,7 +354,9 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         });
         //毕业专业2 失去焦点
         $('.select-major2').on('blur',function(){
-            major2Blur();
+            setTimeout(function(){
+                major2Blur();
+            },300)
         });
         function major2Blur(){
             var arr = [];
