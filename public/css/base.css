@@ -321,6 +321,9 @@ img{
     z-index: 2;
     overflow: hidden;
 }
+.form-select-option .scrollbar-macosx{
+    max-height: 151px;
+}
 .form-select-option li{
     height: 30px;
     line-height: 30px;

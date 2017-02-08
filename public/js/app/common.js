@@ -1,4 +1,4 @@
-define(['jquery','base','iscroll'],function(jquery,base,iscroll){
+define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
     var scroll = [];
     var imageFieldName;
         //关闭所有弹出层
@@ -46,11 +46,7 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             }
         });
         //模拟滚动条
-        scroll[2] = new iscroll('#view-article-scroll',{
-            mouseWheel : true,
-            scrollbars : true,
-            interactiveScrollbars : true
-        });
+        $('#view-article-scroll').scrollbar();
         //选校定位下拉列表
         // $('.header-nav-school').on('mouseenter',function(){
         //     $('.header-nav-select').fadeIn(200);
@@ -200,14 +196,13 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
                 cache:false,
                 dataType:'html',
                 success:function(data){
-                    $('.header-search-result').html(data);
+                    $('.header-search-result-list').html(data);
                     console.log(data);
                     //模拟滚动条
-                    scroll[0] =  new iscroll('#search-scroll',{
-                        mouseWheel : true,
-                        scrollbars : true,
-                        interactiveScrollbars : true
-                    });
+                    $('#search-scroll').scrollbar();
+                    $('#search-scroll').on('wheel',function(e){
+                        e.stopPropagation();
+                    })
                 },
                 error : function() {
                     base.notice('网络错误');

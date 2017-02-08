@@ -590,17 +590,21 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
             success:function(data){
                 $('#select-major ul').html(data);
                 $('.recommend-major-form').find('.form-select-option').removeClass('hidden');
-                if(!scroll[6]){
-                    scroll[6] = new iscroll('#select-major',{
-                        mouseWheel : true,
-                        scrollbars : true,
-                        interactiveScrollbars : true
-                    });
-                }
-                else{
-                    scroll[6].refresh();
-                }
-                console.log(scroll[6])
+// <<<<<<< HEAD
+//                 if(!scroll[6]){
+//                     scroll[6] = new iscroll('#select-major',{
+//                         mouseWheel : true,
+//                         scrollbars : true,
+//                         interactiveScrollbars : true
+//                     });
+//                 }
+//                 else{
+//                     scroll[6].refresh();
+//                 }
+//                 console.log(scroll[6])
+// =======
+                $('#select-major').scrollbar();
+// >>>>>>> 722ba8025656e318992a8b91e1f95429d15edbc5
             },
             error : function() {
                 base.notice('网络错误');
