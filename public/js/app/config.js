@@ -8,8 +8,7 @@ requirejs.config({
         handlebars: 'handlebars',           //handlebar
         d3 : 'd3.min',                      //d3
         fullpage : 'jquery.fullPage.min',   //全屏滚动插件
-        iscroll : 'iscroll',                //滚动条插件
-        captcha : 'visualcaptcha.jquery',   //验证码插件
+        scrollbar : 'jquery.scrollbar.min', //滚动条插件
         clipboard : 'clipboard',            //复制插件
         base : '../app/base',               //基础模块
         common : '../app/common',           //公共模块
@@ -23,7 +22,7 @@ requirejs.config({
     },
     shim : {
         fullpage : ['jquery'],
-        iscroll : ['jquery'],
+        scrollbar : ['jquery'],
         captcha : ['jquery'],
         base : ['jquery'],
         countries: ['jquery'],
@@ -37,6 +36,6 @@ requirejs.config({
     }
 
 });
-requirejs(['jquery','fullpage','iscroll','d3','captcha','clipboard','base','common','index','register','user','school','select','help','countries','handlebars'],function(jquery,fullpage,iscroll,d3,captcha,clipboard,base,common,index,register,user,school,select,help,countries,handlebars){
+requirejs(['jquery','fullpage','scrollbar','d3','clipboard','base','common','index','register','user','school','select','help','countries','handlebars'],function(jquery,fullpage,scrollbar,d3,clipboard,base,common,index,register,user,school,select,help,countries,handlebars){
 
 });

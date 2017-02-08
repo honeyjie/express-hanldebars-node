@@ -2177,7 +2177,7 @@
     position: relative;
     width: 100%;
     height: 240px;
-    padding-left: 340px;
+    padding: 20px 0 20px 340px;
     overflow: hidden;
 }
 .school .school-brief-map{
@@ -2191,7 +2191,6 @@
 .school .school-brief-describe{
     width: 100%;
     height: 200px;
-    margin: 20px 0;
     overflow: hidden;
 }
 .school .school-brief-scroll{
@@ -2522,6 +2521,7 @@
     height: 30px;
     line-height: 30px;
     padding: 0 10px;
+    border-radius: 5px;
 }
 /*.school .major-info li:nth-child(3n){*/
     /*margin-right: 0;*/

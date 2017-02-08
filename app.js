@@ -9,6 +9,7 @@ var multer = require('multer');
 
 var index = require('./routes/index');
 var proxy = require("./proxy").proxy;
+var newProxy = require('express-http-proxy');
 var helpers = require('./lib/helpers');
 var Promise = global.Promise || require('promise');
 
@@ -107,29 +108,31 @@ app.use( function(req, res, next) {
 
 app.use('/', index); 
 
+app.use(newProxy('api.inner.utuotu.com'));
 //前端可以通过node向服务器发送请求，格式规定：/v1/login/opencode.action
 //前端也可以直接向PHP发送请求（本地服务器会出现跨域），格式规定：http://utuotu.com/v1/login/opencode.action
-app.use(function(req, res, next) {
-    var f = (/^(\/v1).*action$/).test(req.path);
-    if (!f) {
-        return;
-    }
-    req.proxy.request(null, function(err, response, body) {
-        if (!!err) {
-            next(err)
-        } else {
-            for (var key in response.headers) {
-                res.set(key, response.headers[key])
-            }
-            try {
-                body = JSON.parse(body)
-            } catch(e) {
-                console.log(e);
-            }
-            res.send(body); 
-        }
-    });
-});
+// app.use(function(req, res, next) {
+//     var f = (/^(\/v1).*action$/).test(req.path);
+//     if (!f) {
+//         return;
+//     }
+//     req.proxy.request(null, function(err, response, body) {
+//         if (!!err) {
+//             next(err)
+//         } else {
+//             for (var key in response.headers) {
+//                 res.set(key, response.headers[key])
+//             }
+//             try {
+//                 body = JSON.parse(body)
+//             } catch(e) {
+//                 console.log(e);
+//             }
+//             res.send(body); 
+//         }
+//     });
+// });
+
 
 // error handler
 app.use(function(err, req, res, next) {

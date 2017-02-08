@@ -1,5 +1,4 @@
-define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','common'],function(jquery,handlebars,d3,countries,fullpage,iscroll,base,common){
-    var scroll = []; //滚动条
+define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','common'],function(jquery,handlebars,d3,countries,fullpage,scrollbar,base,common){
     var screen = {};
         screen.country = '';
         screen.state = '';
@@ -20,41 +19,28 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
 
     $(function(){
         //模拟滚动条
-        if($('#screen-country')[0]){
-            scroll[0] =  new iscroll('#screen-country',{
-                mouseWheel: true,
-                scrollbars: true,
-                interactiveScrollbars : true
-            });
-        }
         if($('#screen-state')[0]){
-            scroll[1] =  new iscroll('#screen-state',{
-                mouseWheel: true,
-                scrollbars: true,
-                interactiveScrollbars : true
-            });
+            $('#screen-state').scrollbar();
         }
         if($('#screen-major')[0]){
-            scroll[2] =  new iscroll('#screen-major',{
-                mouseWheel: true,
-                scrollbars: true,
-                interactiveScrollbars : true
-            });
+            $('#screen-major').scrollbar();
         }
-        if($('#school-brief-describe')[0]){
-            scroll[5] =  new iscroll('#school-brief-describe',{
-                mouseWheel: true,
-                scrollbars: true,
-                interactiveScrollbars : true
-            });
+        if($('.school-brief-describe')[0]){
+            $('.school-brief-describe').scrollbar();
         }
 
 
         //模拟下拉
+<<<<<<< HEAD
         $('.screen-form-country').select(scroll[0]);
         $('.screen-form-major').select(scroll[2]);
         $('.screen-form-state').select(scroll[1]);
 
+=======
+        $('.screen-form-country').select();
+        $('.screen-form-state').select();
+        $('.screen-form-major').select();
+>>>>>>> a5a30a38b3c5d78fe50229934eaf6bb7fed6a4ec
 
         //下拉选择
         $('.screen-form-country .form-select-option li').on('click',function(){
@@ -72,12 +58,17 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 for(var i=0;i<data.length;i++){
                     dom = dom+'<li short_state="'+data[i].shortName+'">'+data[i].fullName+'</li>';
                 }
+                console.log(dom)
                 $('.screen-form-state .form-select-option ul').html(dom);
             });
+<<<<<<< HEAD
             // if (screen.country) {
             //     console.log(screen.country);
             //     $('.screen-form-state').select(scroll[1]);
             // }
+=======
+            
+>>>>>>> a5a30a38b3c5d78fe50229934eaf6bb7fed6a4ec
             canSearch();
         });
 
@@ -307,19 +298,11 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 //列表中含有这个属性值的高亮
                 
                 $('.help-icon').removeClass('hidden');
-                if($('.require-content')[0]){
-                    scroll[3] =  new iscroll('.require-content',{
-                        mouseWheel: true,
-                        scrollbars: true,
-                        interactiveScrollbars : true
-                    });
+                if($('.major-require-content')[0]){
+                    $('.major-require-content').scrollbar();
                 }
-                if($('.from-content')[0]){
-                    scroll[4] =  new iscroll('.from-content',{
-                        mouseWheel: true,
-                        scrollbars: true,
-                        interactiveScrollbars : true
-                    });
+                if($('.major-from-content')[0]){
+                    $('.major-from-content').scrollbar();
                 }
                 $('.major-info-start').select();
                 $('.major-info-direction').select();
@@ -328,8 +311,8 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                         $('.major-info-direction .form-select-value').html($(this).html().substring(0,20)+'...');
                     }
                 });
-                if($('.major-email-all').html().length>20){
-                    $('.major-email-all').html($('.major-email-all').html().substring(0,20)+'...');
+                if($('.major-email').html().length>20){
+                    $('.major-email').html($('.major-email').html().substring(0,20)+'...');
                 }
                 $('.major-email').on('mouseenter',function(e){
                     e.stopPropagation();
@@ -483,19 +466,11 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                     //$(target).addClass('active');
                     $('.help-icon').removeClass('hidden');
                     $(this).parents('.school-box').find('.majorDegree').addClass('animated fadeInDown').html(Math.random());
-                    if($('.require-content')[0]){
-                        scroll[3] =  new iscroll('.require-content',{
-                            mouseWheel: true,
-                            scrollbars: true,
-                            interactiveScrollbars : true
-                        });
+                    if($('.major-require-content')[0]){
+                        $('.major-require-content').scrollbar();
                     }
-                    if($('.from-content')[0]){
-                        scroll[4] =  new iscroll('.from-content',{
-                            mouseWheel: true,
-                            scrollbars: true,
-                            interactiveScrollbars : true
-                        });
+                    if($('.major-from-content')[0]){
+                        $('.major-from-content').scrollbar();
                     }
                     $('.major-info-start').select();
                     $('.major-info-direction').select();
@@ -504,8 +479,8 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                             $('.major-info-direction .form-select-value').html($(this).html().substring(0,20)+'...');
                         }
                     });
-                    if($('.major-email-all').html().length>20){
-                        $('.major-email-all').html($('.major-email-all').html().substring(0,20)+'...');
+                    if($('.major-email').html().length>20){
+                        $('.major-email').html($('.major-email').html().substring(0,20)+'...');
                     }
                     $('.major-email').on('mouseenter',function(e){
                         e.stopPropagation();
@@ -597,6 +572,7 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
             success:function(data){
                 $('#select-major ul').html(data);
                 $('.recommend-major-form').find('.form-select-option').removeClass('hidden');
+<<<<<<< HEAD
                 if(!scroll[6]){
                     scroll[6] = new iscroll('#select-major',{
                         mouseWheel : true,
@@ -607,6 +583,8 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                 else{
                     scroll[6].refresh();
                 }
+=======
+>>>>>>> a5a30a38b3c5d78fe50229934eaf6bb7fed6a4ec
             },
             error : function() {
                 base.notice('网络错误');
@@ -745,19 +723,11 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                     console.log($('.school-major').eq(i).find('.school-box-title img'));
                     $('.school-major').eq(i).find('.major-require-list li img').eq(0).trigger('click');
                 }
-                if($('.require-content')[0]){
-                    scroll[3] =  new iscroll('.require-content',{
-                        mouseWheel: true,
-                        scrollbars: true,
-                        interactiveScrollbars : true
-                    });
+                if($('.major-require-content')[0]){
+                    $('.major-require-content').scrollbar();
                 }
-                if($('.from-content')[0]){
-                    scroll[4] =  new iscroll('.from-content',{
-                        mouseWheel: true,
-                        scrollbars: true,
-                        interactiveScrollbars : true
-                    });
+                if($('.major-from-content')[0]){
+                    $('.major-from-content').scrollbar();
                 }
                 $('.major-info-start').select();
                 $('.major-info-direction').select();
@@ -766,8 +736,8 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
                         $('.major-info-direction .form-select-value').html($(this).html().substring(0,20)+'...');
                     }
                 });
-                if($('.major-email-all').html().length>20){
-                    $('.major-email-all').html($('.major-email-all').html().substring(0,20)+'...');
+                if($('.major-email').html().length>20){
+                    $('.major-email').html($('.major-email').html().substring(0,20)+'...');
                 }
                 $('.major-email').on('mouseenter',function(e){
                     e.stopPropagation();
@@ -788,7 +758,6 @@ define(['jquery','handlebars','d3','countries','fullpage','iscroll','base','comm
         _this.addClass('active');
         _this.parents('.major-require').find('.major-require-content-name').html(_this.find('.major-require-list-name').html());
         _this.parents('.major-require').find('.major-require-content-result').html(_this.find('.major-require-list-result').html());
-        // scroll[3].refresh();
     }
 
     return{

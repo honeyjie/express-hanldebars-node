@@ -117,9 +117,6 @@ img{
     -o-filter: blur(5px);
     filter: blur(5px);
 }
-.iScrollIndicator{
-    background: #dadee8 !important;
-}
 .list-page{
     margin: 20px auto;
     text-align: center;
