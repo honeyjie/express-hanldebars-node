@@ -302,7 +302,8 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             selectMajor($(this).val(),1);
         });
         //毕业专业1 选择
-        $('.select-info-major .form-select-option').on('click','li',function(){
+        $('.select-info-major .form-select-option').on('click','li',function(e){
+            e.stopPropagation();
             base.testSuccess($('.select-major'));
             $('.select-major').val($(this).html());
         });
@@ -310,7 +311,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         $('.select-major').on('blur',function(){
             var arr = [];
             for(var i=0;i<$('.select-info-major #select-major li').length;i++){
-                arr.push($('.select-info-major #select-major li').eq(i).html())
+                arr.push($('.select-info-major .form-select-option li').eq(i).html())
             }
             if(arr.indexOf($('.select-major').val())==-1){
                 select.pre_major = null;
