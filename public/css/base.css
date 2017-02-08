@@ -282,6 +282,9 @@ img{
     vertical-align:middle;
     line-height: 16px;
 }
+.form-select-not{
+    border: 1px solid #fff !important;
+}
 .form-select{
     position: relative;
     border: 1px solid #dcdcdc;

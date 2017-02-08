@@ -199,7 +199,6 @@ router.get('/user-set', function(req, res, next) {
         url: "http://api.inner.utuotu.com/v1/user/userinfo.action"
     }, function(err, response, body) {
         data = JSON.parse(body);
-
         res.render('user-set', {
             data: data.data,
             userset: true

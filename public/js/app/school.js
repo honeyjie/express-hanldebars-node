@@ -45,9 +45,12 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
         $('.screen-form-country .form-select-option li').on('click',function(){
             // $('#screen-state').addClass('hidden');
             if ($(this).text() === "全部") {
+                console.log($(this).text())
                 $('.screen-form-state .form-select-value').html('全部');
+                $('.screen-form-state').addClass('form-select-not');
                 $('#screen-state ul').html('');
             } else {
+                $('.screen-form-state').removeClass('form-select-not');
                 $('.screen-form-state .form-select-value').html('选择州(省)');
                 $('#screen-state ul').html('');
             }
