@@ -52,12 +52,16 @@ define(['jquery','base','iscroll'],function(jquery,base,iscroll){
             interactiveScrollbars : true
         });
         //选校定位下拉列表
-        $('.header-nav-school').on('mouseenter',function(){
-            $('.header-nav-select').fadeIn(200);
-        });
-        $('.header-nav-school').on('mouseleave',function(){
-            $('.header-nav-select').fadeOut(200);
-        });
+        // $('.header-nav-school').on('mouseenter',function(){
+        //     $('.header-nav-select').fadeIn(200);
+        // });
+        // $('.header-nav-school').on('mouseleave',function(){
+        //     $('.header-nav-select').fadeOut(200);
+        // });
+        //顶部菜单
+        // $('.header-nav li').on('click', function() {
+
+        // })
         //个人中心下拉列表
         $('.header-user-info').on('mouseenter',function(){
             $('.header-user-info-operation').fadeIn(200);

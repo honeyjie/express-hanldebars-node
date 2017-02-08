@@ -2,15 +2,19 @@
     <a href="/"><img class="header-logo" src="/img/logo.png" alt=""/></a>
     <a href="/"><img class="header-logo2" src="/img/logo2.png" alt=""/></a>
     <ul class="header-nav clear">
-        <li class="header-nav-school">
+{{!--         <li class="header-nav-school">
             <a href="#">选校定位</a>
             <ul class="header-nav-select hidden">
                 <li><a href="/select-form">智能选校</a></li>
                 <li><a href="/school-screen">院校库</a></li>
             </ul>
-        </li>
+        </li> --}}
+        <li><a href="/school-screen">院校库</a></li>
+        <li><a href="/select-form">智能选校</a></li>
         <li><a href="#">申请管理</a></li>
-        <li><a href="#">网申插件</a></li>
+
+ {{!--        <li><a href="#">网申插件</a></li> --}}
+        {{#if partials.loginstate.data.headerImg}}
         <li class="newsCenter">
             {{#if partials.systemState}}
             <a href="/user-news?system=1">消息中心</a>
@@ -26,6 +30,7 @@
             <div class="header-news-tab header-news-number">{{partials.newsCount}}</div>
             {{/if}}
         </li>
+        {{/if}}
     </ul>
     <div class="header-user">
         {{#if partials.loginstate.data.headerImg}}
