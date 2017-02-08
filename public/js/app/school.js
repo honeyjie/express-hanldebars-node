@@ -446,15 +446,15 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                 return;
             }
             console.log("1", userMajor, sid)
-            $('.school-recommend .loader').removeClass('hidden');
+            
             getMajor(userMajor, sid);
         });   
-
+        
         $('#school-content-page').on('keydown', function(e){
             if (!userMajor) {
                 return;
             }
-            $('.school-recommend .loader').removeClass('hidden');
+            
             var e = e || window.event;
             console.log(e.keyCode);
             if(e.keyCode === 13) {
@@ -702,6 +702,7 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
         dom.addClass('active')
     }
     function getMajor(val, id){
+        $('.school-recommend .loader').removeClass('hidden');
         //发送学校id和填写值
         if(!val){
              return;
