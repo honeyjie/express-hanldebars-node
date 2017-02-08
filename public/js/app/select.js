@@ -1492,16 +1492,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             success:function(data){
                 $('#select-school ul').html(data);
                 $('.select-info-school').find('.form-select-option').removeClass('hidden');
-                if(!scroll[0]){
-                    scroll[0] = new iscroll('#select-school',{
-                        mouseWheel : true,
-                        scrollbars : true,
-                        interactiveScrollbars : true
-                    });
-                }
-                else{
-                    scroll[0].refresh();
-                }
+                $('#select-school').scrollbar();
             },
             error : function() {
                 base.notice('网络错误');
@@ -1522,29 +1513,11 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                 if( n==1 ) {
                     $('#select-major ul').html(data);
                     $('.select-info-major').find('.form-select-option').removeClass('hidden');
-                    if(!scroll[1]){
-                        scroll[1] = new iscroll('#select-major',{
-                            mouseWheel : true,
-                            scrollbars : true,
-                            interactiveScrollbars : true
-                        });
-                    }
-                    else{
-                        scroll[1].refresh();
-                    }
+                    $('#select-major').scrollbar();
                 } else if(n==2) {
                     $('#select-major2 ul').html(data);
                     $('.select-info-major2').find('.form-select-option').removeClass('hidden');
-                    if(!scroll[2]){
-                        scroll[2] = new iscroll('#select-major2',{
-                            mouseWheel : true,
-                            scrollbars : true,
-                            interactiveScrollbars : true
-                        });
-                    }
-                    else{
-                        scroll[2].refresh();
-                    }
+                    $('#select-major2').scrollbar();
                 }
             },
             error : function() {
