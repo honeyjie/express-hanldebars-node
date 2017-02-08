@@ -185,10 +185,10 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                 success : function(dom){
                     console.log(base.userInfo.phone )
                     base.userInfo.phone = dom.val();
-                    if(base.userInfo.phone !== pre_phone) {
-                        base.testPhone(dom);
-                        canSaveInfo();
-                    }
+                    // if(base.userInfo.phone !== pre_phone) {
+                    //     base.testPhone(dom);
+                    //     canSaveInfo();
+                    // } else {}
                 },
                 fail : function(dom){
                     base.userInfo.phone = '';
@@ -200,8 +200,11 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         //学校验证
         $('.set-form-school').on('input propertychange',function(){
             base.userInfo.school = $('.set-form-school').val();
+            console.log(base.userInfo.school, pre_school)
             if (base.userInfo.school !== pre_school) {
                 canSaveInfo();
+            } else {
+                canotSaveInfo()
             }
         });
 
@@ -210,33 +213,43 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             base.userInfo.major = $('.set-form-major').val();
             if (base.userInfo.major !== pre_major) {
                 canSaveInfo();
+            } else {
+                canotSaveInfo()
             }
         });
 
         // //个人信息判断提交
-        $('.set-form-info input').on('input propertychange',function(){
-            // //表单失去焦点后判断，如果修改信息且符合判断，则显示保存按钮
-            // //当表单数据发生变化
-            // console.log("1");
-            // if () {
-
-            // }
-            // canSaveInfo();
-            if($('.set-form-email').val() !== pre_email || $('.set-form-phone').val() !== pre_phone) {
+        $('.set-form-email').on('input propertychange',function(){
+            if($('.set-form-email').val() !== pre_email) {
                 canSaveInfo();
+            } else {
+                canotSaveInfo()
             }
         });
+
+        $('.set-form-phone').on('input propertychange',function(){
+            if($('.set-form-phone').val() !== pre_phone) {
+                canSaveInfo();
+            } else {
+                canotSaveInfo()
+            }
+        });
+
         $('.set-form-grade .form-select-option li').on('click',function(){
             base.userInfo.grade = $(this).html();
             if (base.userInfo.grade !== pre_grade) {
                 canSaveInfo();
-            } 
+            } else {
+                canotSaveInfo()
+            }
         });
 
         $('.set-form-country .form-select-option li').on('click',function(){
             base.userInfo.country = $(this).html();
             if (base.userInfo.country !== pre_country) {
                 canSaveInfo();
+            } else {
+                canotSaveInfo()
             }
         });
 
@@ -244,17 +257,11 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
 
         //将之前的信息保存下来，当所填内容符合格式，且不相同时，可以保存
         function canSaveInfo(){
-            // if(!$('.set-form-email').val() && !$('.set-form-phone').val() && !base.userInfo.school && !base.userInfo.major && !base.userInfo.grade && !base.userInfo.country && !base.userInfo.headerimg){
-            //     $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban');
-            //     console.log("0")
-            //     return;
-            // }
-
-            // if () {
-
-            // }
-            // console.log("2")
             $('.set-info-save').removeClass('button-solid-ban').addClass('button-solid');
+        };
+
+        function canotSaveInfo(){
+            $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban');
         };
 
         //保存个人信息
@@ -656,13 +663,13 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         $.ajax({
             url:'/v1/User/saveuser.action',
             data:{
-                email : base.userInfo.email || pre_email,
-                phone : base.userInfo.phone || pre_phone,
-                school : base.userInfo.school || pre_school,
-                major : base.userInfo.major || pre_major,
-                nianji : base.userInfo.grade || pre_grade,
-                country : base.userInfo.country || pre_country,
-                headerimg : imgUrl || pre_Url
+                email : base.userInfo.email,
+                phone : base.userInfo.phone,
+                school : base.userInfo.school,
+                major : base.userInfo.major,
+                nianji : base.userInfo.grade,
+                country : base.userInfo.country,
+                headerimg : imgUrl
             },
             type:'post',
             cache:false,
@@ -671,7 +678,15 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                 console.log(data)
                 if(data.code == 0){
                     base.notice('信息已保存');
-                   $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban'); 
+                   $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban');
+                   if (imgUrl !== $('.set-avatar img').attr('src')) {
+                        $('.header-user-info-avatar img').attr('href', imgUrl) 
+                   }
+                   console.log(base.userInfo.email)
+                   if (base.userInfo.email !== $('.set-form-email').val()) {
+                        //验证
+                        $('.set-form-send').trigger('click');
+                   }
                     // location.reload();
             
                 }
