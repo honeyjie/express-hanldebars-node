@@ -3070,7 +3070,6 @@
 .select-form-noresult{
     position: fixed;
     width: 300px;
-    height: 100%;
     top: 50%;
     left: 50%;
     margin-top: -180px;
