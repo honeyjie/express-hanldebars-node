@@ -86,7 +86,7 @@ router.get('/user-news', function(req, res, next) {
       qs: {system: req.query.system},
       url: "http://api.inner.utuotu.com/v1/User/getmsg.action"
   }, function(err, response, body) {
-      console.log(body);
+      console.log(body, ")))0");
       var getmsg = JSON.parse(body);
       var urlPath = url.parse(req.url).path;
       var query = url.parse(req.url).query;
@@ -123,6 +123,7 @@ router.get('/user-point', function(req, res, next) {
         qs: req.query
     }, function(err, response, body) {
         currnetcredit = JSON.parse(body);
+        console.log(currnetcredit)
         return currnetcredit;
     })
     req.proxy.request({
@@ -131,6 +132,7 @@ router.get('/user-point', function(req, res, next) {
         qs: req.query
     }, function(err, response, body) {
         creditlog = JSON.parse(body).data;
+        console.log(creditlog, "___")
         return creditlog;
     })
     req.proxy.request({
@@ -139,6 +141,7 @@ router.get('/user-point', function(req, res, next) {
         qs: req.query
     }, function(err, response, body) {
         mission = JSON.parse(body);
+        console.log(mission, "___")
         return mission;
     })
     //有效邀请
@@ -193,7 +196,7 @@ router.get('/v1/User/msganswer.action', function(req, res, next) {
   })
 });
 
-router.get('/user-set', function(req, res, next) {
+router.get('/setting', function(req, res, next) {
   var data = "";
   var emailvalid = "";
     req.proxy.request({
@@ -202,7 +205,7 @@ router.get('/user-set', function(req, res, next) {
     }, function(err, response, body) {
         data = JSON.parse(body);
         console.log(data);
-        res.render('user-set', {
+        res.render('setting', {
             data: data.data,
             userset: true
         });

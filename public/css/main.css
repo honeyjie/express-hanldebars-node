@@ -1288,6 +1288,11 @@
     width: 215px;
     height: 110px;
 }
+.user .point-card-box a {
+    display: block;
+    width: 215px;
+    height: 110px;
+}
 .user .point-card-box img{
     position: absolute;
     width: 215px;

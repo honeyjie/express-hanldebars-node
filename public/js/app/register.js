@@ -318,7 +318,10 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
                 console.log(data);
                 if(data.code === 0){
                     base.testSuccess(dom);
-                    openForgetSend();
+                    base.notice('已向'+ $('.set-form-email').val()+'发送了一封验证邮件，请查收');
+                    setTimeout(function() {
+                        openForgetSend();
+                    }, 3000) 
                 }
                 else{
                     base.userInfo.email = '';

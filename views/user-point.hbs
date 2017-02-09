@@ -18,13 +18,22 @@
         <ul class="point-card clear">
             {{#each mission.data}}
             <li>
-                <a href="{{url}}">
+ 
                     <div class="point-card-box">
-                        <img src="{{icon}}" alt=""/>
+                        {{#ifEq id "ws"}}
+                        <a href="/setting">
+                            <img src="{{icon}}" alt=""/>
+                        </a>
+                        {{else}}
+                        <a href="/#">
+                            <img src="{{icon}}" alt=""/>
+                        </a>
+                        {{/ifEq}}
+                        
                         <span><p>{{value}}分</p></span>
                     </div>
                     <div class="point-card-name">{{key}}</div>
-                </a>
+
             </li>
             {{/each}}
         </ul>
@@ -84,7 +93,7 @@
                     <td>{{content}}</td>
                     <td><span>{{change}}</span></td>
                     <td>{{credit}}</td>
-                    <td>{{creditd_at}}</td>
+                    <td>{{showDate created_at}}</td>
                 </tr>
                 {{/each}}
             </table>
