@@ -3228,6 +3228,13 @@
     padding: 10px;
     margin-top: 40px;
 }
+.select-school .school-list-content.blur{
+    -webkit-filter: blur(1px);
+    -moz-filter: blur(1px);
+    -ms-filter: blur(1px);
+    -o-filter: blur(1px);
+    filter: blur(1px);
+}
 .select-school .school-list-logo{
     display: block;
     width: 100px;
@@ -3253,9 +3260,8 @@
     right: 10px;
     bottom: 10px;
     left: 10px;
-    border: 1px solid #333333;
     padding: 0 5px;
-    background: #fff;
+    background: #f5f5f5;
 }
 .select-school .school-list-mask{
     position: absolute;

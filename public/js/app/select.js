@@ -1196,6 +1196,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             $(this).animate({marginTop:0},200);
             $(this).find('.school-list-info').animate({height:40},200);
             $(this).find('.school-list-mask').fadeIn(200);
+            $(this).find('.school-list-content').addClass('blur');
         }).on('mouseleave',function(){
             if($(this).parent('li').hasClass('active')){
                 $(this).find('.school-list-mask').fadeOut(200);
@@ -1204,6 +1205,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             $(this).animate({marginTop:40},200);
             $(this).find('.school-list-info').animate({height:0},200);
             $(this).find('.school-list-mask').fadeOut(200);
+            $(this).find('.school-list-content').removeClass('blur');
         });
         //专业长度限定
         if($('.school-list-major span')[0]&&$('.school-list-major span').html().length>25){
@@ -1238,6 +1240,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             }
             $('.select-school-list li.active').find('.school-list-main').animate({marginTop:40},200);
             $('.select-school-list li.active').find('.school-list-info').animate({height:0},200);
+            $('.select-school-list li.active').find('.school-list-mask').fadeOut(200);
             $('.select-school-list li').removeClass('active');
             $(this).parent('li').addClass('active');
             console.log($(this).find('.school-list-rank').html())
