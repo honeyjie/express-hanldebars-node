@@ -327,8 +327,8 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                     }
                 });
                 if($('.major-email').html().length>20){
-                    console.log($('.major-email').html().slice(0,20))
-                    $('.major-email').html($('.major-email').html().slice(0,20)+'...');
+                    console.log($('.major-email').html())
+                    //$('.major-email').html($('.major-email').html().slice(0,20)+'...');
                 }
                 $('.major-email').on('mouseenter',function(e){
                     e.stopPropagation();
