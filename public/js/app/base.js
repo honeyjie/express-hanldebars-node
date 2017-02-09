@@ -240,27 +240,30 @@ define(['jquery'],function(jquery){
 
 
     //发送验证邮件
-    // function sendTestEmail(){
-    //     $.ajax({
-    //         url:'/v1/user/sendvaildemail.action',
-    //         data:{
+    function sendTestEmail(){
+        $.ajax({
+            url:'/v1/user/sendvaildemail.action',
+            data:{
 
-    //         },
-    //         type:'get',
-    //         cache:false,
-    //         dataType:'json',
-    //         success:function(data){
-    //             console.log("发送邮件成功：",data, userInfo.email);
-    //             if(data.code==0){
-    //                 console.log("发送邮件成功编码" + data.code);
-    //                 notice('已向'+ userInfo.email+'发送了一封验证邮件，请查收');
-    //             }
-    //         },
-    //         error : function() {
-    //             notice('网络错误');
-    //         }
-    //     });
-    // }
+            },
+            type:'get',
+            cache:false,
+            dataType:'json',
+            success:function(data){
+                console.log("发送邮件成功：",data, userInfo.email);
+                if(data.code==0){
+                    console.log("发送邮件成功编码" + data.code);
+                    console.log(userInfo.email)
+                    notice('已向'+ userInfo.email+'发送了一封验证邮件，请查收');
+                } else {
+                    console.log(data.msg)
+                }
+            },
+            error : function() {
+                notice('网络错误');
+            }
+        });
+    }
     //jquery方法扩展
     $.fn.extend({
         testInput:function(config){
@@ -364,6 +367,7 @@ define(['jquery'],function(jquery){
         notice : notice,
         noticeShort: noticeShort,
         openMask : openMask,
-        closeMask : closeMask
+        closeMask : closeMask,
+        sendTestEmail: sendTestEmail
     }
 });

@@ -250,7 +250,9 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
                 if (data.code === 0) {
                     openSend();
                     console.log("已注册");
-                    // localStorage.setItem("Register", "true");
+                    localStorage.setItem("registerEmail", base.userInfo.email);
+                    console.log(localStorage.getItem("registerEmail"));
+                    $('.noreceive-email').text(base.userInfo.email)
                 }
            },
            error : function() {
