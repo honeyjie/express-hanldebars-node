@@ -269,10 +269,9 @@ router.get('/validate-email', function(req, res, next) {
         done = false,
         invalid = false;
 
+    console.log(data.code);
     if (data.code == 0) {
-
       success = true;
-
     } else if (data.code === 111002002) {
       done = true;
     } else {
