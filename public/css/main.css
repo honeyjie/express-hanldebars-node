@@ -2211,8 +2211,11 @@
     width: 100%;
     height: 200px;
     padding-right: 20px;
-    margin: 10px 0;
+    margin: 20px 0;
     overflow: hidden;
+}
+.school .school-brief-describe .scroll-scrolly_visible{
+    margin: 0;
 }
 .school .school-brief-scroll{
     display: table;
