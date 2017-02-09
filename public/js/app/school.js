@@ -724,11 +724,14 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                 $('.school-all-page').removeClass('active');
                 $('.school-recommend-page').addClass('active');
                 $('#school-content-page').html(data);
-                //折叠学校详情
-                $('.school-brief-title img').click();
-                //仅展开第一个
-                for(var i= 1;i<$('.school-major').length;i++){
-                    $('.school-major').eq(i).find('.school-box-title img').trigger('click');
+
+                if($('.school-brief-content').height()>0){
+                    //折叠学校详情
+                    $('.school-brief-title img').click();
+                    //仅展开第一个
+                    for(var i= 1;i<$('.school-major').length;i++){
+                        $('.school-major').eq(i).find('.school-box-title img').trigger('click');
+                    }
                 }
                 if($('.major-require-content')[0]){
                     $('.major-require-content').scrollbar();
