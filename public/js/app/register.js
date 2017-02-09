@@ -318,7 +318,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
                 console.log(data);
                 if(data.code === 0){
                     base.testSuccess(dom);
-                    
+
                     base.notice('已向'+ base.userInfo.email+'发送了一封验证邮件，请查收');
                     setTimeout(function() {
                         openForgetSend();
@@ -353,7 +353,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
             return;
         }
         $.ajax({
-           url:'/v1/account/foget_reset_pwd.action',
+           url:'/v1/account/forget_reset_pwd.action',
            data:{
                password : base.userInfo.password,
                token: window.location.search.split('=')[1]
