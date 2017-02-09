@@ -254,6 +254,8 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
                     console.log(localStorage.getItem("registerEmail"));
                     $('.send-email').text(base.userInfo.email)
                     $('.noreceive-email').text(base.userInfo.email)
+                } else {
+                    return;
                 }
            },
            error : function() {

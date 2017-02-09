@@ -72,6 +72,7 @@ app.use(function(req, res, next) {
       if (!res.locals.partials) {
         res.locals.partials = {}
       }
+
       res.locals.partials.schooldetail = data.data;
       res.locals.partials.schoolid = req.query.sid;
       next();
@@ -88,6 +89,7 @@ app.use(function(req, res, next) {
       if (!res.locals.partials) {
         res.locals.partials = {}
       }
+      console.log(data)
       res.locals.partials.loginstate = data;
       next();
     });
