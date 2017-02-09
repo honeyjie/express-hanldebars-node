@@ -48,7 +48,7 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
         $('#view-article-scroll').scrollbar();
         $('#view-article-scroll').on('wheel',function(e){
             e.stopPropagation();
-            e.preventBubble();
+            e.preventDefault();
         });
         //选校定位下拉列表
         // $('.header-nav-school').on('mouseenter',function(){
