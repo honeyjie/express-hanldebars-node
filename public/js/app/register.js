@@ -361,12 +361,15 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
                    window.location.href = '/'
                } else if(data.code === 111001012) {
                   base.notice('新密码不能与旧密码相同');
-               } else if(data.code === 111001001) {
-                    if (data.data.type === 2) {
-                        base.notice('密码格式错误');
-                    } else {
-                        base.notice('无效链接')
-                    }
+               } else if(data.code === 111002002) {
+                    base.notice('无效链接');
+                    // if (data.data.type === 2) {
+                    //     base.notice('密码格式错误');
+                    // } else {
+                    //     base.notice('无效链接')
+                    // }
+               } else {
+                    base.notice(data.msg)
                }
            },
            error : function() {

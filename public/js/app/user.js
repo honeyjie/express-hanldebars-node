@@ -6,9 +6,8 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         pre_phone = $('.set-form-phone').val(),
         pre_school = $('.set-form-school').val(),
         pre_major = $('.set-form-major').val(),
-        pre_grade = $('.set-form-grade').val(),
-        pre_country = $('.set-form-country').val(),
-        pre_headering = $('.inputstyle').val();
+        pre_grade = $('.set-form-grade .form-select-value').text(),
+        pre_country = $('.set-form-country .form-select-value').text(),
         pre_Url = $('.set-avatar img').attr('src');
     $(function(){
 
@@ -185,6 +184,9 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                 success : function(dom){
                     console.log(base.userInfo.phone )
                     base.userInfo.phone = dom.val();
+                    base.testSuccess(dom);
+                    base.testPhone(dom);
+                    canSaveInfo();
                     // if(base.userInfo.phone !== pre_phone) {
                     //     base.testPhone(dom);
                     //     canSaveInfo();
@@ -237,6 +239,8 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
 
         $('.set-form-grade .form-select-option li').on('click',function(){
             base.userInfo.grade = $(this).html();
+            console.log(base.userInfo.grade, $('.set-form-grade .form-select-value').text(), pre_grade)
+            
             if (base.userInfo.grade !== pre_grade) {
                 canSaveInfo();
             } else {
@@ -266,9 +270,24 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
 
         //保存个人信息
         $('.set-info-save').on('click',function(){
-            saveInfo();
-        });
+            //当信息有变化时可以点击保存，否则点击没响应
+            //只要一个input中含有error就阻止提交
+            var input = $('.set-form-info').find('input');
+            console.log(input)
+            var inputs = Array.prototype.slice.call(input)
+            console.log(inputs)
 
+            var canSave = inputs.some(function(ele, i, arr){//当每一个都返回真值时
+                console.log($(ele).hasClass('error'), ele)
+                return $(ele).hasClass('error');
+            })
+            console.log(canSave);
+
+            if (!canSave && $(this).hasClass('button-solid')) {
+                saveInfo();
+            }
+            
+        });
 
         //原密码验证
         $('.set-form-oldpassword').on('blur',function(){
@@ -588,7 +607,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             var lists = dom.parent().children('li');
             var list = Array.prototype.slice.call(lists)
 
-            userCannotCancel = list.some(function(i, ele, arr){//当每一个都返回真值时
+            userCannotCancel = list.some(function(ele, i, arr){//当每一个都返回真值时
                 return $(ele).hasClass('noread');
             })
             console.log(userCannotCancel);
@@ -604,7 +623,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             var lists = dom.parent().children('li');
             var list = Array.prototype.slice.call(lists)
 
-            sysCannotCancel = list.some(function(i, ele, arr){//当每一个都返回真值时
+            sysCannotCancel = list.some(function(ele, i, arr){//当每一个都返回真值时
                 return $(ele).hasClass('noread')
             })
 
@@ -658,18 +677,27 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         });
     }
 
+        // var pre_email = $('.set-form-email').val(),
+        // pre_phone = $('.set-form-phone').val(),
+        // pre_school = $('.set-form-school').val(),
+        // pre_major = $('.set-form-major').val(),
+        // pre_grade = $('.set-form-grade').val(),
+        // pre_country = $('.set-form-country').val(),
+        // pre_Url = $('.set-avatar img').attr('src');
+
+
     //保存个人信息
     function saveInfo(){
         $.ajax({
             url:'/v1/User/saveuser.action',
             data:{
-                email : base.userInfo.email,
-                phone : base.userInfo.phone,
-                school : base.userInfo.school,
-                major : base.userInfo.major,
-                nianji : base.userInfo.grade,
-                country : base.userInfo.country,
-                headerimg : imgUrl
+                email : base.userInfo.email || $('.set-form-email').val(),
+                phone : base.userInfo.phone || $('.set-form-phone').val(),
+                school : base.userInfo.school || $('.set-form-school').val(),
+                major : base.userInfo.major || $('.set-form-major').val(),
+                nianji : base.userInfo.grade || $('.set-form-grade').val(),
+                country : base.userInfo.country || $('.set-form-country').val(),
+                headerimg : imgUrl || $('.set-avatar img').attr('src')
             },
             type:'post',
             cache:false,
@@ -680,15 +708,14 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                     base.notice('信息已保存');
                    $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban');
                    if (imgUrl !== $('.set-avatar img').attr('src')) {
-                        $('.header-user-info-avatar img').attr('href', imgUrl) 
+                        $('.header-user-info-avatar').attr('href', imgUrl) 
                    }
-                   console.log(base.userInfo.email)
-                   if (base.userInfo.email !== $('.set-form-email').val()) {
-                        //验证
+                   console.log(base.userInfo.email,  $('.set-form-email').val())
+                   if (base.userInfo.email && base.userInfo.email !== $('.set-form-email').val()) {
                         $('.set-form-send').trigger('click');
                    }
-                    // location.reload();
-            
+                } else {
+                    base.notice(data.msg);
                 }
             },
             error : function() {
@@ -713,6 +740,8 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                 if(data.code === 0){
                     $('.set-password-save').removeClass('button-solid').addClass('button-solid-ban');
                     base.notice('信息已保存');
+                } else {
+                    base.notice(data.msg);
                 }
             },
             error : function() {
