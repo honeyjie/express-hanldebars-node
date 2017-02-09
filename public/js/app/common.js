@@ -46,10 +46,10 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
         });
         //模拟滚动条
         $('#view-article-scroll').scrollbar();
-        $('#view-article-scroll').on('wheel',function(e){
+        $('html')[0].addEventListener('wheel',function(e){
             e.stopPropagation();
             e.preventDefault();
-        });
+        }.false);
         //选校定位下拉列表
         // $('.header-nav-school').on('mouseenter',function(){
         //     $('.header-nav-select').fadeIn(200);
