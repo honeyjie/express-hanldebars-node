@@ -259,7 +259,8 @@ router.get('/register-reset', function(req, res, next) {
 
 router.get('/validate-email', function(req, res, next) {
   req.proxy.request({
-    url: 'http://api.inner.utuotu.com/v1/msg/validemail.action', 
+    method: 'POST',
+    url: 'http://api.inner.utuotu.com/v1/account/validate_email.action', 
     qs: req.query
   }, function(err, response, body) {
 
@@ -272,7 +273,7 @@ router.get('/validate-email', function(req, res, next) {
 
       success = true;
 
-    } else if (data.code === 111001007) {
+    } else if (data.code === 111002002) {
       done = true;
     } else {
       invalid = true;

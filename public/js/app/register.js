@@ -349,7 +349,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
             return;
         }
         $.ajax({
-           url:'/v1/account/reset_pwd.action',
+           url:'/v1/account/foget_reset_pwd.action',
            data:{
                password : base.userInfo.password,
                token: window.location.search.split('=')[1]
