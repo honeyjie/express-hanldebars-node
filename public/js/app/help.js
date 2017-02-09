@@ -214,6 +214,7 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
 
     //智能选校结果页和院校详情页
     function openHelp(){
+        $('body').css('overflow','hidden');
         clearTimeout(helpTimer);
         $('.help-icon').addClass('hidden');
         $('.help-icon-pic').removeClass('animated infinite jump');
@@ -265,6 +266,7 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         }
     }
     base.closeAll.closeHelp = function(){
+        $('body').css('overflow','auto');
         $('.help-icon').removeClass('hidden');
         $('.help').addClass('animated fadeOutDown').one(base.animationend,function(){
             $('.help').removeClass('animated fadeOutDown').addClass('hidden');
