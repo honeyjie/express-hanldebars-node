@@ -107,17 +107,7 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
             e.stopPropagation();
             closeArticle();
         });
-        //文章区域阻止页面滚动
-        $('.view-article').on('mouseenter',function(){
-            window.addEventListener('DOMMouseScroll',function(e){
-                e.preventDefault;
-            },false)
-        });
-        $('.view-article').on('mouseleave',function(){
-            window.addEventListener('DOMMouseScroll',function(e){
 
-            },false)
-        });
         //打开登录
         $('.header-user-login-title').on('click',function(e){
             e.stopPropagation();
@@ -222,6 +212,7 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
     }
 
     function openArticle(id){
+        $('body').css('overflow','hidden');
         closeSearch();
         base.openMask();
         $('.view-article').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
@@ -247,6 +238,7 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
     }
 
     function closeArticle(){
+        $('body').css('overflow','auto');
         base.closeMask();
         $('.view-article').addClass('animated fadeOutUp').one(base.animationend,function(){
             $('.view-article').removeClass('animated fadeOutUp').addClass('hidden');
