@@ -3197,10 +3197,16 @@
     background: #25baf4;
     color: #ffffff;
 }
+.select-school .select-school-main .tab-box{
+    text-align: center;
+}
 .select-school .select-school-rank{
     padding-top: 20px;
     text-align: right;
     height: 20px;
+}
+.select-school .select-school-list{
+    display: inline-block;
 }
 .select-school .select-school-list li{
     float: left;
