@@ -472,7 +472,9 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             e.stopPropagation();
             $('.news-delete-content p').html('是否删除此消息');
             var $parent = $(this).parent().parent();
+
             var msgid = $parent.attr('data-msg_id');
+            console.log($parent, msgid)
             openNewsDelete(msgid, $parent);
             
         });
@@ -608,7 +610,9 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         var sysCannotCancel = true;
         var userCannotCancel = true;
         dom.removeClass('noread');
-        if (dom.parent().hasClass('news-user-list')) {
+        console.log(dom, $('.news-list').hasClass('news-user-list'), $('.news-list').hasClass('news-system-list'))
+        if ($('.news-list').hasClass('news-user-list')) {
+            console.log(userCannotCancel);
             //个人消息，都已读时
             var userlists = dom.parent().find('li');
             var userlist = Array.prototype.slice.call(userlists)
@@ -625,10 +629,10 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                 $('.user-tab span').removeClass('news-user-notice');
             }
 
-        } else if(dom.parent().hasClass('news-system-list')) {
+        } else if($('.news-list').hasClass('news-system-list')) {
             //系统消息，都已读时
             var syslists = dom.parent().find('li');
-            var syslist = Array.prototype.slice.call(lists)
+            var syslist = Array.prototype.slice.call(syslists)
 
             sysCannotCancel = syslist.some(function(ele, i, arr){//当每一个都返回真值时
                 return $(ele).hasClass('noread')
@@ -641,10 +645,8 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             }
 
         }
-
         console.log(sysCannotCancel, userCannotCancel)
-        if (!sysCannotCancel && !userCannotCancel) {
-            console.log(sysCannotCancel, userCannotCancel);
+        if (!$('.sys-tab span').hasClass('news-user-notice') && !$('.user-tab span').hasClass('news-user-notice')) {
             $('.newsCenter .header-news-tab').removeClass('header-news-number');
         }
     }
@@ -892,11 +894,11 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
     }
 //打开删除
     function openNewsDelete(id, el){
+        console.log(el);
         $('.news-delete').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
             $('.news-delete').removeClass('animated fadeInDown');
         });
-        var isempty = el.parent().html();
-        var parent = el.parent().parent();
+
         $('.news-delete-ensure').on('click', function(e) {
             //删除单个消息
             $.ajax({
@@ -909,8 +911,9 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                dataType:'json',
                success:function(data) {
                     if (data.code === 0 ) {
-                        el.remove();
+                        
                         closeNewsDelete()
+                        console.log(el.hasClass('noread'))
                         if (el.hasClass('noread')) {
                             var num = $('.header-news-tab').text()*1;
                             if (num >=2) {
@@ -919,18 +922,20 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                                 num ="";
                             }
                            $('.header-news-tab').text(num);
+                            //当为空时
                            canEveryCancel(el);
+                           
                         }
-                        
-
-                        //当为空时
-                        var isempty = el.parent().html();
-                        var parent = el.parent().parent();
+                        el.remove();
+                        var isempty = $('.news-list li').length
                         console.log(isempty)
                         if(!isempty) {
-                            parent.find('.list-button').addClass('hidden');
-                            parent.find('.news-list-none').removeClass('hidden') 
+                            console.log("1")
+                            $('.header-news-tab').text("");
+                            $('.news-tab .list-button').addClass('hidden');
+                            $('.news-tab .news-list-none').removeClass('hidden') 
                         }
+
                         
                     }
                },
@@ -1004,7 +1009,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                         }
 
                         if (!$('.sys-tab span').hasClass('news-user-notice') && !$('.user-tab span').hasClass('news-user-notice')) {
-                            
+                            $('.header-news-tab').text("");
                             $('.newsCenter div.header-news-tab').removeClass('header-news-number');
                         }
 
