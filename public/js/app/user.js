@@ -647,7 +647,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         }
         console.log(sysCannotCancel, userCannotCancel)
         if (!$('.sys-tab span').hasClass('news-user-notice') && !$('.user-tab span').hasClass('news-user-notice')) {
-            $('.newsCenter .header-news-tab').removeClass('header-news-number');
+            $('.newsCenter .header-news-tab').removeClass('header-news-number').text("");
         }
     }
     //邮件是否验证
@@ -1009,7 +1009,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                         }
 
                         if (!$('.sys-tab span').hasClass('news-user-notice') && !$('.user-tab span').hasClass('news-user-notice')) {
-                            $('.header-news-tab').text("");
+                            $('.newsCenter .header-news-tab').text("");
                             $('.newsCenter div.header-news-tab').removeClass('header-news-number');
                         }
 
