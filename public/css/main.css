@@ -3201,9 +3201,9 @@
     text-align: center;
 }
 .select-school .select-school-rank{
-    padding-top: 20px;
+    padding: 20px 0;
     text-align: right;
-    height: 20px;
+    height: 60px;
 }
 .select-school .select-school-list{
     display: inline-block;
