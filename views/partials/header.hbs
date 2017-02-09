@@ -30,21 +30,39 @@
 
  {{!--        <li><a href="#">网申插件</a></li> --}}
         {{#if partials.loginstate.data.headerImg}}
-        <li class="newsCenter">
-            {{#if partials.systemState}}
-            <a href="/user-news?system=1">消息中心</a>
-            {{else}}
-                {{#if partials.userState}}
-                <a href="/user-news">消息中心</a>
-                {{else}}
+            {{#if userCenter}}
+            <li class="newsCenter active">
+                {{#if partials.systemState}}
                 <a href="/user-news?system=1">消息中心</a>
+                {{else}}
+                    {{#if partials.userState}}
+                    <a href="/user-news">消息中心</a>
+                    {{else}}
+                    <a href="/user-news?system=1">消息中心</a>
+                    {{/if}}
                 {{/if}}
+                
+                {{#if partials.newsCount}}
+                <div class="header-news-tab header-news-number">{{partials.newsCount}}</div>
+                {{/if}}
+            </li>
+            {{else}}
+            <li class="newsCenter">
+                {{#if partials.systemState}}
+                <a href="/user-news?system=1">消息中心</a>
+                {{else}}
+                    {{#if partials.userState}}
+                    <a href="/user-news">消息中心</a>
+                    {{else}}
+                    <a href="/user-news?system=1">消息中心</a>
+                    {{/if}}
+                {{/if}}
+                
+                {{#if partials.newsCount}}
+                <div class="header-news-tab header-news-number">{{partials.newsCount}}</div>
+                {{/if}}
+            </li>
             {{/if}}
-            
-            {{#if partials.newsCount}}
-            <div class="header-news-tab header-news-number">{{partials.newsCount}}</div>
-            {{/if}}
-        </li>
         {{/if}}
     </ul>
     <div class="header-user">

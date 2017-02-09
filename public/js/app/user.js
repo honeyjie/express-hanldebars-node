@@ -520,43 +520,43 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                 if(sts) {
                     //系统消息
                     var n = $('.news-system-list li').length;
-                    var m = $('.newsCenter .header-news-tab').html();
+                    var m = $('.newsCenter .header-news-tab').text();
                     var num ;
                     $('.news-system-list li').removeClass('noread');
-                    $('.news-system-read').removeClass('button-hollow').addClass('button-hollow-ban');
+                    $('.news-system-read').removeClass('button-hollow').addClass('button-hollow-not');
 
                     if (m-n >= 1) {
                         num= m-n
                     } else {
                         num= ""
                     }
-                     $('.newsCenter .header-news-tab').html(num);  
+                     $('.newsCenter .header-news-tab').text(num);  
                     //去掉tab红点
                     $('.sys-tab span').removeClass('news-user-notice');
                 } else {
                     //个人消息
                     var n = $('.news-user-list li').length;
-                    var m = $('.newsCenter .header-news-tab').html();
+                    var m = $('.newsCenter .header-news-tab').text();
                     var num ;
                     $('.news-user-list li').removeClass('noread');
-                    $('.news-user-read').removeClass('button-hollow').addClass('button-hollow-ban');
-
+                    $('.user-tab span').removeClass('news-user-notice');
                     if (m-n >= 1) {
                         num= m-n
                     } else {
                         num= ""
                     }
-                     $('.newsCenter .header-news-tab').html(num); 
+                     $('.newsCenter .header-news-tab').text(num); 
 
                     $('.news-user-list li').removeClass('noread');
-                    $('.news-user-read').removeClass('button-hollow').addClass('button-hollow-ban')
+                    $('.news-user-read').removeClass('button-hollow').addClass('button-hollow-not')
                     //去掉tab红点
-                    $('.user-tab span').removeClass('news-user-notice');
+                    
                 }
-                //清楚数量
+                //清除数量
                 if (!$('.sys-tab span').hasClass('news-user-notice') && !$('.user-tab span').hasClass('news-user-notice')) {
+                    console.log($('.sys-tab span').hasClass('news-user-notice'), $('.user-tab span').hasClass('news-user-notice'))
                     $('.newsCenter .header-news-tab').removeClass('header-news-number');
-                    $('.newsCenter .header-news-tab').html(""); 
+                    $('.newsCenter .header-news-tab').text(""); 
                 }
             },
             error : function() {
@@ -578,18 +578,17 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             dataType:'json',
             success:function(data) {
                 if (dom.hasClass('noread')) {
-                    var num = $('.header-news-number').html()*1;
+                    var num = $('.header-news-number').text()*1;
                     if (num >=2) {
                        num = num -1; 
                    } else {
                         num = ""
                    }
                     
-                   $('.header-news-number').html(num);
+                   $('.header-news-number').text(num);
+                   //当前全部消息都已读时
+                    canEveryCancel(dom)
                 }
-                //当前全部消息都已读时
-                canEveryCancel(dom)
-                return;
             },
             error : function() {
                 base.notice('网络错误');
@@ -606,40 +605,37 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
     }
 
     function canEveryCancel(dom) {
-        var sysCannotCancel = false;
-        var userCannotCancel = false;
-        if (!dom.hasClass('noread')) {
-            return;
-        }
+        var sysCannotCancel = true;
+        var userCannotCancel = true;
         dom.removeClass('noread');
-
         if (dom.parent().hasClass('news-user-list')) {
             //个人消息，都已读时
-            var lists = dom.parent().children('li');
-            var list = Array.prototype.slice.call(lists)
+            var userlists = dom.parent().find('li');
+            var userlist = Array.prototype.slice.call(userlists)
 
-            userCannotCancel = list.some(function(ele, i, arr){//当每一个都返回真值时
+            userCannotCancel = userlist.some(function(ele, i, arr){//当每一个都返回真值时
+                console.log($(ele).hasClass('noread'), ele)
                 return $(ele).hasClass('noread');
             })
             console.log(userCannotCancel);
 
             if(!userCannotCancel) {
-                $('.news-user-read').removeClass('button-hollow').addClass('button-hollow-ban')
+                $('.news-user-read').removeClass('button-hollow').addClass('button-hollow-not')
                 //去掉tab红点
                 $('.user-tab span').removeClass('news-user-notice');
             }
 
         } else if(dom.parent().hasClass('news-system-list')) {
             //系统消息，都已读时
-            var lists = dom.parent().children('li');
-            var list = Array.prototype.slice.call(lists)
+            var syslists = dom.parent().find('li');
+            var syslist = Array.prototype.slice.call(lists)
 
-            sysCannotCancel = list.some(function(ele, i, arr){//当每一个都返回真值时
+            sysCannotCancel = syslist.some(function(ele, i, arr){//当每一个都返回真值时
                 return $(ele).hasClass('noread')
             })
 
             if(!sysCannotCancel) {
-                $('.news-system-read').removeClass('button-hollow').addClass('button-hollow-ban')
+                $('.news-system-read').removeClass('button-hollow').addClass('button-hollow-not')
                 //去掉tab红点
                 $('.sys-tab span').removeClass('news-system-notice');
             }
@@ -648,7 +644,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
 
         console.log(sysCannotCancel, userCannotCancel)
         if (!sysCannotCancel && !userCannotCancel) {
-            console.log("1");
+            console.log(sysCannotCancel, userCannotCancel);
             $('.newsCenter .header-news-tab').removeClass('header-news-number');
         }
     }
@@ -687,15 +683,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             }
         });
     }
-
-        // var pre_email = $('.set-form-email').val(),
-        // pre_phone = $('.set-form-phone').val(),
-        // pre_school = $('.set-form-school').val(),
-        // pre_major = $('.set-form-major').val(),
-        // pre_grade = $('.set-form-grade').val(),
-        // pre_country = $('.set-form-country').val(),
-        // pre_Url = $('.set-avatar img').attr('src');
-
 
     //保存个人信息
     function saveInfo(){
@@ -881,7 +868,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             $('.news-article').removeClass('animated fadeInDown');
         });
         $.ajax({
-            url:'/v1/User/msganswer.action',
+            url:'/User/msganswer.action',
             data:{
                 msg_id: id
             },
@@ -910,7 +897,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         });
         var isempty = el.parent().html();
         var parent = el.parent().parent();
-        console.log(isempty)
         $('.news-delete-ensure').on('click', function(e) {
             //删除单个消息
             $.ajax({
@@ -926,15 +912,16 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                         el.remove();
                         closeNewsDelete()
                         if (el.hasClass('noread')) {
-                            var num = $('.header-news-tab').html()*1;
+                            var num = $('.header-news-tab').text()*1;
                             if (num >=2) {
                                num = num -1  
                             } else {
                                 num ="";
                             }
-                           $('.header-news-tab').html(num);
+                           $('.header-news-tab').text(num);
+                           canEveryCancel(el);
                         }
-                        canEveryCancel(el);
+                        
 
                         //当为空时
                         var isempty = el.parent().html();

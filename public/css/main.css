@@ -1090,7 +1090,7 @@
     margin-bottom: 70px;
 }
 .user .user-main .news-tab {
-    height: 450px;
+    // height: 450px;
 }
 .user .set-tab .tab-title,.user .news-tab .tab-title{
     height: 50px;

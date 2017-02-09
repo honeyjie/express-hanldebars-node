@@ -329,7 +329,7 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
 
     function sendQuestion(urlImg){
         
-        question = $('.help-question textarea').val() + "<br/>"+ urlImg;
+        question = $('.help-question textarea').val() + urlImg;
         console.log(urlImg, question)
         if(!question){
             notice('您还没有录入问题');
