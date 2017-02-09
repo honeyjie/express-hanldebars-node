@@ -328,14 +328,14 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                 });
                 if($('.major-email-short').html().length>20){
                     $('.major-email-short').html($('.major-email-short').html().substring(0,20)+'...');
+                    $('.major-email').on('mouseenter',function(e){
+                        e.stopPropagation();
+                        $(this).find('.major-email-all').removeClass('hidden');
+                    }).on('mouseleave',function(e){
+                        e.stopPropagation();
+                        $(this).find('.major-email-all').addClass('hidden');
+                    });
                 }
-                $('.major-email').on('mouseenter',function(e){
-                    e.stopPropagation();
-                    $(this).find('.major-email-all').removeClass('hidden');
-                }).on('mouseleave',function(e){
-                    e.stopPropagation();
-                    $(this).find('.major-email-all').addClass('hidden');
-                });
             },
             error : function() {
                 base.notice('网络错误');
@@ -501,14 +501,14 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                     });
                     if($('.major-email-short').html().length>20){
                         $('.major-email-short').html($('.major-email-short').html().substring(0,20)+'...');
+                        $('.major-email').on('mouseenter',function(e){
+                            e.stopPropagation();
+                            $(this).find('.major-email-all').removeClass('hidden');
+                        }).on('mouseleave',function(e){
+                            e.stopPropagation();
+                            $(this).find('.major-email-all').addClass('hidden');
+                        });
                     }
-                    $('.major-email').on('mouseenter',function(e){
-                        e.stopPropagation();
-                        $(this).find('.major-email-all').removeClass('hidden');
-                    }).on('mouseleave',function(e){
-                        e.stopPropagation();
-                        $(this).find('.major-email-all').addClass('hidden');
-                    });
                     // console.log($('.major-require-list li:eq(0)'))
                     // requireTab('.major-require-list li:eq(0)');
                 },
@@ -748,15 +748,14 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                 });
                 if($('.major-email-short').html().length>20){
                     $('.major-email-short').html($('.major-email-short').html().substring(0,20)+'...');
+                    $('.major-email').on('mouseenter',function(e){
+                        e.stopPropagation();
+                        $(this).find('.major-email-all').removeClass('hidden');
+                    }).on('mouseleave',function(e){
+                        e.stopPropagation();
+                        $(this).find('.major-email-all').addClass('hidden');
+                    });
                 }
-
-                $('.major-email').on('mouseenter',function(e){
-                    e.stopPropagation();
-                    $(this).find('.major-email-all').removeClass('hidden');
-                }).on('mouseleave',function(e){
-                    e.stopPropagation();
-                    $(this).find('.major-email-all').addClass('hidden');
-                });
             },
             error : function() {
                 base.notice('网络错误');
