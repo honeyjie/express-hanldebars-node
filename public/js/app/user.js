@@ -131,7 +131,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                         isTestEmail();
                         $('.set-form-send').text('验证') ;
                         $(this).removeClass('warning');
-                        canSend = true;
+                        $('.set-form-send').addClass('button-hollow').removeClass('button-hollow-not')
                         canSaveInfo();
                     }
                 },
@@ -143,24 +143,32 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         });
 
         //发送验证邮件
-        var sendEmailClick = true;
+        // var sendEmailClick = true;
         // if (sendEmailClick) {
-            $('.set-form-send').on('click',function(){ 
-                if(!sendEmailClick) {
+            $('.set-form-send').on('click',function(){
+                //倒计时中不能再次点击
+                if ($(this).text() !== "验证") {
                     return;
                 }
-                sendEmailClick = false;
-                console.log("false")
-                if(!base.userInfo.email && !pre_email) {
+                // if(!sendEmailClick) {
+                //     return;
+                // }
+                // sendEmailClick = false;
+                //邮箱修改后可点击
+                console.log(base.userInfo.email, pre_email)
+                if(base.userInfo.email === pre_email) {
                     return;
                 }
-                $(this).addClass('focus');
-                $('.set-form-email').removeClass('warning');
-                console.log(canSend, "___")
-                if(canSend) {
-                    sendTestEmail();
-                    canSend = false;
-                }
+
+                $(this).removeClass('button-hollow').addClass('button-hollow-not');
+                // $(this).addClass('focus');
+                // $('.set-form-email').removeClass('warning');
+                // console.log(canSend, "___")
+                // if(canSend) {
+                //     $(this).removeClass('button-hollow').addClass('button-hollow-not');
+                sendTestEmail();
+                //     canSend = false;
+                // }
                 var time = 60;
                 setTime = setInterval(function() {
                     time = time -1;
@@ -168,11 +176,11 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                     if (time <= 0) {
                         clearInterval(setTime);
                         $('.set-form-send').text('验证') ;
-                        $(this).addClass('warning');
-                        $(this).removeClass('focus');
-                        canSend = true;  
-                        sendEmailClick = true;
-                        console.log("true")
+                        // $(this).addClass('warning');
+                        // $(this).removeClass('focus');
+                        // canSend = true;  
+                        // sendEmailClick = true;
+
                     } 
                 }, 1000) 
             }); 
@@ -295,6 +303,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                 rule : base.passwordRule,
                 success : function(dom){
                     base.userInfo.oldpassword = dom.val();
+                    base.testSuccess(dom)
                     //验证密码是否正确，如果不正确则清空密码
                 },
                 fail : function(dom){
@@ -688,6 +697,8 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
 
     //保存个人信息
     function saveInfo(){
+        clearInterval(setTime);
+        $('.set-form-send').text('验证') ;
         $.ajax({
             url:'/v1/User/saveuser.action',
             data:{
@@ -707,12 +718,15 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                 if(data.code == 0){
                     base.notice('信息已保存');
                    $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban');
+                   $('.set-form-send').removeClass('button-hollow').addClass('button-hollow-not')
                    if (imgUrl !== $('.set-avatar img').attr('src')) {
                         $('.header-user-info-avatar').attr('href', imgUrl) 
                    }
-                   console.log(base.userInfo.email,  $('.set-form-email').val())
-                   if (base.userInfo.email && base.userInfo.email !== $('.set-form-email').val()) {
+                   console.log(base.userInfo.email, pre_email)
+                   if (base.userInfo.email && base.userInfo.email !== pre_email) {
                         $('.set-form-send').trigger('click');
+                        pre_email = base.userInfo.email;
+                        console.log(base.userInfo.email, pre_email)
                    }
                 } else {
                     base.notice(data.msg);
@@ -764,6 +778,8 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                 if(data.code==0){
                     console.log("发送邮件成功编码" + data.code);
                     base.notice('已向'+ $('.set-form-email').val()+'发送了一封验证邮件，请查收');
+                } else {
+                    console.log(data.msg);
                 }
             },
             error : function() {

@@ -1168,7 +1168,7 @@
     padding: 10px;
     width: 300px;
     margin-left: 30px;
-    box-shadow: 0 0 5px rgba(220,220,220,0.5);
+    // box-shadow: 0 0 5px rgba(220,220,220,0.5);
     font-size: 14px;
 }
 .user .set-form .form-item-notice{
@@ -1189,8 +1189,9 @@
     width: 100px;
     height: 40px;
     line-height: 38px;
-    border: 1px solid #dcdcdc;
-    box-shadow: 0 0 5px rgba(220,220,220,0.5);
+    font-weight: 600;
+    // border: 1px solid #dcdcdc;
+    // box-shadow: 0 0 5px rgba(220,220,220,0.5);
     text-align: center;
     font-size: 14px;
     border-radius: 3px;

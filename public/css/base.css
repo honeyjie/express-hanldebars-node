@@ -228,6 +228,15 @@ img{
     color: #666666;
     box-shadow: none;
 }
+.button-hollow-not{
+    background: #ffffff;
+    border: 1px solid #dcdcdc;
+    color: #999999;
+    box-shadow: 0 0 5px rgba(220,220,220,0.5);
+    border-radius: 3px;
+    text-align: center;
+    cursor: pointer;
+}
 .form-item{
     position: relative;
 }
