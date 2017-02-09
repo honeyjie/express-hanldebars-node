@@ -326,8 +326,8 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                         $('.major-info-direction .form-select-value').html($(this).html().substring(0,20)+'...');
                     }
                 });
-                if($('.major-email-short').html().length>20){
-                    $('.major-email-short').html($('.major-email-short').html().substring(0,20)+'...');
+                if($('.major-email-short').html().length>25){
+                    $('.major-email-short').html($('.major-email-short').html().substring(0,25)+'...');
                     $('.major-email').on('mouseenter',function(e){
                         e.stopPropagation();
                         $(this).find('.major-email-all').removeClass('hidden');
@@ -499,8 +499,8 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                             $('.major-info-direction .form-select-value').html($(this).html().substring(0,20)+'...');
                         }
                     });
-                    if($('.major-email-short').html().length>20){
-                        $('.major-email-short').html($('.major-email-short').html().substring(0,20)+'...');
+                    if($('.major-email-short').html().length>25){
+                        $('.major-email-short').html($('.major-email-short').html().substring(0,25)+'...');
                         $('.major-email').on('mouseenter',function(e){
                             e.stopPropagation();
                             $(this).find('.major-email-all').removeClass('hidden');
@@ -746,8 +746,8 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                         $('.major-info-direction .form-select-value').html($(this).html().substring(0,20)+'...');
                     }
                 });
-                if($('.major-email-short').html().length>20){
-                    $('.major-email-short').html($('.major-email-short').html().substring(0,20)+'...');
+                if($('.major-email-short').html().length>25){
+                    $('.major-email-short').html($('.major-email-short').html().substring(0,25)+'...');
                     $('.major-email').on('mouseenter',function(e){
                         e.stopPropagation();
                         $(this).find('.major-email-all').removeClass('hidden');
