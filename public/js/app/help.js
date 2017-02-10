@@ -9,6 +9,7 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
             e.stopPropagation();
             $('.form-select-option').addClass('hidden');
             $('.form-select').removeClass('focus');
+
         });
         //tab切换
         $('.help-tab').tab(function(){
@@ -153,6 +154,7 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         //关闭帮助
         $('.help-close').on('click',function(e){
             e.stopPropagation();
+            $('.help').removeClass('hidden');
             base.closeAll.closeHelp();
         });
         //打开文章
