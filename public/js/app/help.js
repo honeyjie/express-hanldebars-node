@@ -14,19 +14,19 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         $('.help-tab').tab(function(){
             console.log("1")
             $('.help-send').addClass('hidden');
-            $('.help-close').removeClass('hidden');
-            restoreIntialHelp();
-            $('.help-ask').addClass('hidden');
             $('.help-file').addClass('hidden');
-            $('.help-result').addClass('hidden');
+            $('.help-close').removeClass('hidden');
+            // restoreIntialHelp();
+            // $('.help-ask').removeClass('hidden');
+            // $('.help-file').addClass('hidden');
+            // $('.help-result').addClass('hidden');
         },function(){
             console.log("2")
             $('.help-send').removeClass('hidden');
             $('.help-file').removeClass('hidden');
             $('.help-close').addClass('hidden');
             restoreIntialHelp();
-            $('.help-ask').addClass('hidden');
-            $('.help-file').addClass('hidden');
+            $('.help-ask').removeClass('hidden');
             $('.help-result').addClass('hidden');
 
         });
@@ -70,13 +70,10 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
                 // },
                 init: {
                     'FilesAdded': function(up, files) {
-                        if ($('.help-file img:eq(0)').hasClass('hidden')) {
-                            console.log("1")
-                            return;
-                        }
-                        plupload.each(files, function(file) {
+                            plupload.each(files, function(file) {
                             // 文件添加进队列后,处理相关的事情
-                        });
+                            });
+
                     },
                     'BeforeUpload': function(up, file) {
                         console.log(file.size, file.size > 5e6)
@@ -343,6 +340,8 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         $('.help-file img').eq(0).removeClass('hidden');
         $('.help-send img').addClass('hidden');
         $('.help-send img').eq(0).removeClass('hidden');
+        //id="helpFile" 
+        $('.help-file-icon').attr('id', "helpFile");
     }
 
     function notice(content){
@@ -432,11 +431,11 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         $('.help-file img').addClass('hidden');
         $('.help-file img').eq(1).removeClass('hidden');
         $('.help-send img').addClass('hidden');
-        // $('.help-send img').eq(2).removeClass('hidden');
+        $('.help-send img').eq(2).removeClass('hidden');
 
         $('.help-question .help-upload span').html('');
         $('.help-question .help-upload span').attr('data-href', '');
         $('.help-upload').addClass('hidden');
-
+        $('.help-file-icon').attr('id', '');
     }
 });
