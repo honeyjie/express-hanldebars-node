@@ -9,6 +9,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         pre_grade = $('.set-form-grade .form-select-value').text(),
         pre_country = $('.set-form-country .form-select-value').text(),
         pre_Url = $('.set-avatar img').attr('src');
+    var issaveMessage = false;
     $(function(){
 
         // localStorage.setItem("emailChange", "true");
@@ -18,7 +19,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         creditLine();
 
         // 判断邮箱是否验证
-        isTestEmail();
+        isValidEmail();
 
         // 获取邀请码
         // getCode();
@@ -132,7 +133,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                     if(base.userInfo.email !== pre_email) {
                         base.testEmail(dom);
                         clearInterval(setTime);
-                        isTestEmail();
+                        isValidEmail();
                         $('.set-form-send').text('验证') ;
                         $(this).removeClass('warning');
                         $('.set-form-send').addClass('button-hollow').removeClass('button-hollow-not')
@@ -159,8 +160,9 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                 // }
                 // sendEmailClick = false;
                 //邮箱修改后可点击
-                console.log(base.userInfo.email, pre_email)
-                if(base.userInfo.email === pre_email) {
+                console.log($('.set-form-email').val(), pre_email, base.userInfo.email)
+                if(base.userInfo.email == $('.set-form-email').val()) {
+                    console.log("1")
                     return;
                 }
 
@@ -170,9 +172,13 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                 // console.log(canSend, "___")
                 // if(canSend) {
                 //     $(this).removeClass('button-hollow').addClass('button-hollow-not');
-                // sendTestEmail();
-                //     canSend = false;
-                // }
+                if (issaveMessage) {
+                    console.log("1")
+                    base.notice('已向'+ $('.set-form-email').val()+'发送了一封验证邮件，请查收');
+                } else {
+                    sendTestEmail();
+                }
+                
                 var time = 60;
                 setTime = setInterval(function() {
                     time = time -1;
@@ -186,7 +192,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                         // $(this).removeClass('focus');
                         // canSend = true;  
                         // sendEmailClick = true;
-
                     } 
                 }, 1000) 
             }); 
@@ -662,7 +667,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
     //     }
     // }
     //邮件是否验证
-    function isTestEmail(){
+    function isValidEmail(){
         $.ajax({
             url:'/v1/user/isvalid.action',
             data:{
@@ -672,7 +677,8 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             cache:false,
             dataType:'json',
             success:function(data) {
-                if(data.code===111001013){
+                console.log(data);
+                if(data.code === 111001013){
                     //未激活
                     $('.set-form-send').removeClass('hidden');
                     if (!(localStorage.getItem('emailChange') === "true")) {
@@ -683,9 +689,8 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                     }
                     
                     base.userInfo.isValid = false;  
-                    
-                }
-                else{
+                }else if(data.code===0){
+                    console.log("未验证")
                     base.userInfo.isValid = true;
                     $('.set-form-send').addClass('hidden');
                 }
@@ -701,6 +706,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
     function saveInfo(){
         clearInterval(setTime);
         $('.set-form-send').text('验证') ;
+        console.log(base.userInfo.phone || $('.set-form-phone').val())
         $.ajax({
             url:'/v1/User/saveuser.action',
             data:{
@@ -718,7 +724,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             success:function(data){
                 console.log(data)
                 if(data.code == 0){
-                    base.notice('信息已保存');
+                    
                    $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban');
                    $('.set-form-send').removeClass('button-hollow').addClass('button-hollow-not')
                    if (imgUrl !== $('.set-avatar img').attr('src')) {
@@ -726,9 +732,19 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                    }
                    console.log(base.userInfo.email, pre_email)
                    if (base.userInfo.email && base.userInfo.email !== pre_email) {
+                        issaveMessage = true;
+                        console.log(issaveMessage)
+
                         $('.set-form-send').trigger('click');
+
+                        
+                        isValidEmail();
+                        console.log(base.userInfo.email, pre_email)
                         pre_email = base.userInfo.email;
                         console.log(base.userInfo.email, pre_email)
+                   } else {
+                       base.notice('信息已保存');
+                       pre_email = base.userInfo.email;
                    }
                 } else {
                     base.notice(data.msg);
@@ -766,51 +782,51 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         });
     }
 
-    // function sendTestEmail(){
-    //     $.ajax({
-    //         url:'/v1/account/send_valid_email.action',
-    //         data:{
+    function sendTestEmail(){
+        $.ajax({
+            url:'/v1/account/send_register_valid_email.action',
+            data:{
 
-    //         },
-    //         type:'POST',
-    //         cache:false,
-    //         dataType:'json',
-    //         success:function(data){
-    //             console.log("发送邮件成功：",data, $('.set-form-email').val());
-    //             if(data.code==0){
-    //                 console.log("发送邮件成功编码" + data.code);
-    //                 base.notice('已向'+ $('.set-form-email').val()+'发送了一封验证邮件，请查收');
-    //             } else {
-    //                 console.log(data.msg);
-    //             }
-    //         },
-    //         error : function() {
-    //             base.notice('网络错误');
-    //         }
-    //     });
-    // }
-    // //获取用户积分 无需单独请求获取，当不为0时，会添加到html中
-    // function getCredit(){
-    //     creditLine();
-    //     $.ajax({
-    //        url:'/v1/User/currnetcredit.action',
-    //        data:{
+            },
+            type:'POST',
+            cache:false,
+            dataType:'json',
+            success:function(data){
+                console.log("发送邮件成功：",data, $('.set-form-email').val());
+                if(data.code==0){
+                    console.log("发送邮件成功编码" + data.code);
+                    base.notice('已向'+ $('.set-form-email').val()+'发送了一封验证邮件，请查收');
+                } else {
+                    console.log(data.msg);
+                }
+            },
+            error : function() {
+                base.notice('网络错误');
+            }
+        });
+    }
+    //获取用户积分 无需单独请求获取，当不为0时，会添加到html中
+    function getCredit(){
+        creditLine();
+        $.ajax({
+           url:'/v1/User/currnetcredit.action',
+           data:{
         
-    //        },
-    //        type:'get',
-    //        cache:false,
-    //        dataType:'json',
-    //        success:function(data) {
-    //            if(data.code==0){
-    //                base.userInfo.credit = data.data.credit;  //base.userInfo.credit 积分
-    //                creditLine();
-    //            }
-    //        },
-    //        error : function() {
-    //            base.notice('网络错误');
-    //        }
-    //     });
-    // }
+           },
+           type:'get',
+           cache:false,
+           dataType:'json',
+           success:function(data) {
+               if(data.code==0){
+                   base.userInfo.credit = data.data.credit;  //base.userInfo.credit 积分
+                   creditLine();
+               }
+           },
+           error : function() {
+               base.notice('网络错误');
+           }
+        });
+    }
 //初始化积分条
     
     function creditLine(){

@@ -33,21 +33,21 @@
     {{#ifNotEq data.page.list.length 1}}
     <ul class="clear">
         {{#if data.page.pre}}
-        <li class="active"><a href="{{{getString @root.urlPath @root.data.page.pre}}}"><span class="list-page-pre">{{pre}}</span></a></li>
+        <li class="active"><a data-query="{{{getString @root.query @root.data.page.pre}}}"><span class="list-page-pre">{{pre}}</span></a></li>
         {{else}}
         <li><a href="#"><span class="list-page-pre"></span></a></li>
         {{/if}}
 
         {{#each data.page.list}}
             {{#ifEq this @root.data.page.index}}
-                <li class="active"><a href="{{{getString @root.urlPath this}}}">{{this}}</a></li>
+                <li class="active"><a data-query="{{{getString @root.query this}}}">{{this}}</a></li>
             {{else}}
-                <li><a href="{{{getString @root.urlPath this}}}">{{this}}</a></li>
+                <li><a data-query="{{{getString @root.query this}}}">{{this}}</a></li>
             {{/ifEq}}
         {{/each}}
 
         {{#if data.page.next}}
-        <li class="active"><a href="{{{getString @root.urlPath @root.data.page.next}}}"><span class="list-page-next"></span></a></li>
+        <li class="active"><a data-query="{{{getString @root.query @root.data.page.next}}}"><span class="list-page-next"></span></a></li>
         {{else}}
         <li><a href="#"><span class="list-page-next"></span></a></li>
         {{/if}}    

@@ -76,7 +76,6 @@ router.get('/user-news', function(req, res, next) {
       method: "GET",
       url: "http://api.inner.utuotu.com/v1/User/getmsgstatus.action"
   }, function(err, response, body) {
-    console.log(body, "++++");
       var data = JSON.parse(body);
       newsstate = data.data;
   }); 
@@ -86,7 +85,6 @@ router.get('/user-news', function(req, res, next) {
       qs: {system: req.query.system},
       url: "http://api.inner.utuotu.com/v1/User/getmsg.action"
   }, function(err, response, body) {
-      console.log(body, ")))0");
       var getmsg = JSON.parse(body);
       var urlPath = url.parse(req.url).path;
       var query = url.parse(req.url).query;
@@ -124,7 +122,6 @@ router.get('/user-point', function(req, res, next) {
         qs: req.query
     }, function(err, response, body) {
         currnetcredit = JSON.parse(body);
-        console.log(currnetcredit)
         return currnetcredit;
     })
     req.proxy.request({
@@ -133,7 +130,6 @@ router.get('/user-point', function(req, res, next) {
         qs: req.query
     }, function(err, response, body) {
         creditlog = JSON.parse(body).data;
-        console.log(creditlog, "___")
         return creditlog;
     })
     req.proxy.request({
@@ -142,7 +138,6 @@ router.get('/user-point', function(req, res, next) {
         qs: req.query
     }, function(err, response, body) {
         mission = JSON.parse(body);
-        console.log(mission, "___")
         return mission;
     })
     //有效邀请
@@ -190,7 +185,6 @@ router.get('/User/msganswer.action', function(req, res, next) {
       qs: req.query
   }, function(err, response, body) {
       var getmsg = JSON.parse(body);
-        console.log(getmsg, "[[[[")
         res.render('partials/msganswer', {
           data: getmsg.data,
           layout: "naked"
@@ -206,7 +200,6 @@ router.get('/setting', function(req, res, next) {
         url: "http://api.inner.utuotu.com/v1/user/userinfo.action"
     }, function(err, response, body) {
         data = JSON.parse(body);
-        console.log(data);
         res.render('setting', {
             data: data.data,
             userCenter: true,
@@ -237,7 +230,6 @@ router.get('/register-reset', function(req, res, next) {
         qs: req.query
     }, function(err, response, body) {
         var data = JSON.parse(body);  
-        console.log(data);
         var validsite;
         if (data.code === 0) {
             validsite = true
@@ -275,7 +267,6 @@ router.get('/validate-email', function(req, res, next) {
         done = false,
         invalid = false;
 
-    console.log(data.code);
     if (data.code == 0) {
       success = true;
     } else if (data.code === 111002002) {
@@ -367,20 +358,56 @@ router.get('/school-screen', function (req, res) {
         url: "http://api.inner.utuotu.com/v1/schoolmajor/searchschool.action",
         qs: req.query
     }, function(err, response, body) {
-      var urlPath = url.parse(req.url).path;
-      var query = url.parse(req.url).query;
+      // var query = url.parse(req.url).query;
+      // if (!req.query) {
+      //   query = 'search=&page='
+      // }
+      var query = "search=&page=0"
 
-      if (!query) {
-        urlPath = urlPath + "?search=&page="
-      }
         var data = JSON.parse(body);
-        console.log(data)
         res.render('school-screen', {
             data: data.data,
-            urlPath: urlPath,
+            query: query,
             screen: true
         });
     })
+    // if (req.query.search || req.query) {
+    //     req.proxy.request({
+    //         method: "GET",
+    //         url: "http://api.inner.utuotu.com/v1/schoolmajor/searchschool.action",
+    //         qs: req.query
+    //     }, function(err, response, body) {
+    //       // var query = url.parse(req.url).query;
+    //       if (!req.query) {
+    //         query = 'search=&page='
+    //       }
+    //       var urlPath = "/school-screen?" + req.query
+
+    //         var data = JSON.parse(body);
+    //         res.render('school-screen', {
+    //             data: data.data,
+    //             urlPath: urlPath,
+    //             screen: true
+    //         });
+    //     })
+    // } else {
+    //     req.proxy.request({
+    //         method: "GET",
+    //         url: "http://api.inner.utuotu.com/v1/schoolmajor/filterschool.action",
+    //         qs: req.query
+    //     }, function(err, response, body) {
+    //       // var query = url.parse(req.url).query;
+    //       // console.log(query);
+    //       var urlPath = "/school-screen?" + req.query
+    //         var data = JSON.parse(body);
+    //         console.log(data)
+    //         res.render('school-screen', {
+    //             data: data.data,
+    //             urlPath: urlPath,
+    //             screen: true
+    //         });
+    //     })
+    // }
 });
 
 //sid=2439&mid=1791
@@ -516,14 +543,17 @@ router.get("/schoolmajor/filterschool.action", function(req, res) {
         url: "http://api.inner.utuotu.com/v1/schoolmajor/filterschool.action",
     }, function(err, response, body) {
         var data = JSON.parse(body);
+        var query = url.parse(req.url).query.substring(0, url.parse(req.url).query.lastIndexOf('_')-1) || "search=&page=0";
+
+        console.log(query, "filterschool");
         if (!data) {
             return
         }
-        var urlPath = '/school-screen?search=&page=';
+        // var urlPath = '/school-screen?'+ ;
         res.render('partials/search-result', {
             data: data.data,
             layout: "naked",
-            urlPath: urlPath
+            query: query
         });
     });
 });
@@ -533,13 +563,17 @@ router.get("/schoolmajor/searchschool.action", function(req, res) {
         url: "http://api.inner.utuotu.com/v1/schoolmajor/searchschool.action",
     }, function(err, response, body) {
         var data = JSON.parse(body);
+
+        var query = url.parse(req.url).query.substring(0, url.parse(req.url).query.lastIndexOf('_')-1) || "search=&page=0";
+
+        console.log(query, "searchschool");
         if (!data) {
             return
         }
-        var urlPath = '/school-screen?search=&page=';
+        // var urlPath = '/school-screen?search=&page=';
         res.render('partials/search-result', {
             data: data.data,
-            urlPath: urlPath,
+            query: query,
             layout: "naked"
         });
     });

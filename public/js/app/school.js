@@ -546,6 +546,42 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
         $('.screen-side-search').removeClass('button-solid-ban').addClass('button-solid');
     }
 
+    $('#search-result').on('click', '.list-page li', function() {
+        //柱子链接默认跳转
+        var query = $(this).find('a').data('query')
+        if(query.indexOf('search')){
+            $.ajax({
+                url:'/schoolmajor/filterschool.action?'+ query,
+                data:{
+                },
+                type:'get',
+                cache:false,
+                dataType:'html',
+                success:function(data){
+                    $("#search-result").html(data);
+                },
+                error : function() {
+                    base.notice('网络错误');
+                }
+            });
+            return;
+        }
+        //表单搜索
+        $.ajax({
+            url:'/schoolmajor/searchschool.action?' + query,
+            data:{
+            },
+            type:'get',
+            cache:false,
+            dataType:'html',
+            success:function(data){
+                $("#search-result").html(data);
+            },
+            error : function() {
+                base.notice('网络错误');
+            }
+        });
+    })
     //搜索院校
     function searchSchool(school){
         if(!school){
@@ -563,6 +599,8 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                 cache:false,
                 dataType:'html',
                 success:function(data){
+                    //直接搜索清空
+                    $('.screen-form-school').val('')
                     $("#search-result").html(data);
                 },
                 error : function() {
@@ -582,6 +620,8 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
             cache:false,
             dataType:'html',
             success:function(data){
+                //条件搜索重置
+                $('.screen-side-reset').trigger('click')
                 $("#search-result").html(data);
             },
             error : function() {
