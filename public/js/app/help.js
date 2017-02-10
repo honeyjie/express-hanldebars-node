@@ -137,21 +137,26 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         //})
         //打开帮助
         $('.help-icon-pic').on('click',function(e){
+            $('.help').removeClass('hidden');
             console.log("1");
             e.stopPropagation();
             openHelp();
         });
         //关闭帮助
-        $('.help-close').on('click',function(){
+        $('.help-close').on('click',function(e){
+            e.stopPropagation();
             base.closeAll.closeHelp();
         });
         //打开文章
-        $('.help-list').on('click','li', function(){
+        $('.help-list').on('click','li', function(e){
+            e.stopPropagation();
             console.log($(this))
+            $('.help').removeClass('hidden');
             openArticle($(this));
         });
         //关闭文章
-        $('.help-back').on('click',function(){
+        $('.help-back').on('click',function(e){
+            e.stopPropagation();
             closeArticle();
         });
         //打开登录框
@@ -168,14 +173,15 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         $('.help .form-select-option li').on('click',function(){
             selectType($(this));
         });
+
         $('.help-send').on('mouseenter',function(){
-            if(!type){
+            if(!type && type !== 0){
                 return;
             }
             $(this).find('img').addClass('hidden');
             $(this).find('img').eq(1).removeClass('hidden');
         }).on('mouseleave',function(){
-            if(!type){
+            if(!type && type !== 0){
                 return;
             }
             $(this).find('img').addClass('hidden');
@@ -209,11 +215,6 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
             $('.help-question .help-upload span').attr('data-href', '');
             $('.help-upload').addClass('hidden');
         })
-        // if($('#help-file')[0]){
-        //     $('#help-file')[0].addEventListener('change',function(){
-        //         upLoadFile();
-        //     },false)
-        // }
     }
 
     //智能选校结果页和院校详情页
@@ -221,11 +222,12 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         $('body').css('overflow','hidden');
         clearTimeout(helpTimer);
         $('.help-icon').addClass('hidden');
-        $('.help-icon-pic').removeClass('animated infinite jump');
-        $('.help-icon-notice').addClass('hidden');
-        $('.help').removeClass('hidden').addClass('animated fadeInUp').one(base.animationend,function(){
-            $('.help').removeClass('animated fadeInUp');
-        });
+        // $('.help-icon-pic').removeClass('animated infinite jump');
+        // $('.help-icon-notice').addClass('hidden');
+        // $('.help').removeClass('hidden').addClass('animated fadeInUp').one(base.animationend,function(){
+        //     $('.help').removeClass('animated fadeInUp');
+        // });
+        $('.help').removeClass('hidden');
         //请求推荐文章
         var school_id = $('.school-info').data('sid');
         if (school_id) {
@@ -240,6 +242,8 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
                 success:function(data){
                     //补充内容
                     $('#help-list').html(data);
+                    $('.help-send img').eq(1).addClass('hidden');
+                    $('.help-list').removeClass('hidden');
                     return;
 
                 },
@@ -261,6 +265,7 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
                     console.log(data);
                     //补充内容
                     $('#help-list').html(data);
+                    $('.help-list').removeClass('hidden');
                     return;
                 },
                 error : function() {
@@ -270,11 +275,10 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         }
     }
     base.closeAll.closeHelp = function(){
+        console.log("2")
         $('body').css('overflow','auto');
-        $('.help-icon').removeClass('hidden');
-        $('.help').addClass('animated fadeOutDown').one(base.animationend,function(){
-            $('.help').removeClass('animated fadeOutDown').addClass('hidden');
-        });
+        
+
         $('.help-tab .tab-box:eq(0)').removeClass('hidden');
         $('.help-tab .tab-box:eq(1)').addClass('hidden');
         $('.help-tab .tab-box:eq(1) .help-ask').removeClass('hidden');
@@ -283,8 +287,18 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         $('.help-tab .tab-title li:eq(0)').addClass('active');
         $('.help-tab .tab-title li:eq(1)').removeClass('active');
 
-        $('.help-tab textarea').val('');
+        // $('.help-tab textarea').val('');
+        $('.help-list').addClass('hidden');
+        // $('.help').addClass('hidden');
+        $('.help').addClass('animated fadeOutDown').one(base.animationend,function(){
+            $('.help').removeClass('animated fadeOutDown').addClass('hidden');
+        });
+
+        $('.help-article').addClass('hidden');
+        $('.help-icon').removeClass('hidden');
     }
+
+    //回到提问初始状态
 
     function openArticle(dom){
         console.log("1")
@@ -304,6 +318,7 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         $('.help-article').addClass('animated slideOutLeft').one(base.animationend,function(){
             $('.help-article').removeClass('animated slideOutLeft').addClass('hidden');
         });
+        // $('.help-icon').removeClass('hidden');
     }
 
     function selectType(_this){
@@ -350,9 +365,6 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         $('.help-upload').removeClass('hidden');
     }
 
-    return{
-        
-    }
 
     //发送消息
     function sendMessage(msg, type){
@@ -369,18 +381,51 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
                 console.log(data);
                 if (data.code === 0) {
                     //弹出登录框
+                    // $('.help-select .form-select-value').text('选择问题类型');
+                    // $('.help-file img').eq(0).addClass('hidden');
+                    // $('.help-file img').eq(1).removeClass('hidden');
+                    // $('.help-question').removeClass('focus');
+                    // $('.help-ask').addClass('hidden');
+                    // $('.help-result').removeClass('hidden');
+                    // $('.help-upload').addClass('hidden');
+                    // console.log($('.help-send'), $('.help-file'))
+                    // $('.help .help-send').addClass('hidden');
+                    // $('.help-send img').addClass('hidden');
+                    // $('.help-send img').eq(1).addClass('hidden');
+                    // $('.help-send img').eq(2).removeClass('hidden');
+                    restoreIntialHelp()
+                    
+                   
                     $('.help-ask').addClass('hidden');
-                    $('.help-result').removeClass('hidden');
-                    $('.help-send').addClass('hidden');
-                    $('.help-file').addClass('hidden');
+                    
+                    $('.help .help-send').addClass('hidden');
+                    $('.help .help-file').addClass('hidden');
                     $('.help-close').removeClass('hidden');
+                    $('.help-result').removeClass('hidden');
                 }
-                return;
 
             },
             error : function() {
                 base.notice('网络错误');
             }
         });
+    }
+
+    function restoreIntialHelp() {
+        $('.help-select .form-select-value').text('选择问题类型');
+
+        $('.help-question textarea').attr('disabled',true).text('');
+        $('.help-question-placeholder').removeClass('hidden');
+        $('.help-question').removeClass('focus');
+
+        $('.help-file img').addClass('hidden');
+        $('.help-file img').eq(1).removeClass('hidden');
+        $('.help-send img').addClass('hidden');
+        $('.help-send img').eq(2).removeClass('hidden');
+
+        $('.help-question .help-upload span').html('');
+        $('.help-question .help-upload span').attr('data-href', '');
+        $('.help-upload').addClass('hidden');
+
     }
 });

@@ -66,16 +66,16 @@ define(['jquery'],function(jquery){
     function testEmail(dom){
 
         $.ajax({
-            url:'/v1/account/valid_email.action',
+            url:' /v1/account/check_email_valid.action',
             data:{
-                value : userInfo.email
+                email : userInfo.email
             },
             type:'get',
             cache:false,
             dataType:'json',
             success:function(data){
                 console.log(data);
-                if(!data.data.valid){//返回true表示系统已存在，不可以被注册
+                if(data.valid === 1){//返回true表示系统已存在，不可以被注册
                    testSuccess(dom);
                 }
                 else{
