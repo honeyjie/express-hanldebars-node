@@ -170,7 +170,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                 // console.log(canSend, "___")
                 // if(canSend) {
                 //     $(this).removeClass('button-hollow').addClass('button-hollow-not');
-                sendTestEmail();
+                // sendTestEmail();
                 //     canSend = false;
                 // }
                 var time = 60;
@@ -766,29 +766,29 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         });
     }
 
-    function sendTestEmail(){
-        $.ajax({
-            url:'/v1/account/send_valid_email.action',
-            data:{
+    // function sendTestEmail(){
+    //     $.ajax({
+    //         url:'/v1/account/send_valid_email.action',
+    //         data:{
 
-            },
-            type:'POST',
-            cache:false,
-            dataType:'json',
-            success:function(data){
-                console.log("发送邮件成功：",data, $('.set-form-email').val());
-                if(data.code==0){
-                    console.log("发送邮件成功编码" + data.code);
-                    base.notice('已向'+ $('.set-form-email').val()+'发送了一封验证邮件，请查收');
-                } else {
-                    console.log(data.msg);
-                }
-            },
-            error : function() {
-                base.notice('网络错误');
-            }
-        });
-    }
+    //         },
+    //         type:'POST',
+    //         cache:false,
+    //         dataType:'json',
+    //         success:function(data){
+    //             console.log("发送邮件成功：",data, $('.set-form-email').val());
+    //             if(data.code==0){
+    //                 console.log("发送邮件成功编码" + data.code);
+    //                 base.notice('已向'+ $('.set-form-email').val()+'发送了一封验证邮件，请查收');
+    //             } else {
+    //                 console.log(data.msg);
+    //             }
+    //         },
+    //         error : function() {
+    //             base.notice('网络错误');
+    //         }
+    //     });
+    // }
     // //获取用户积分 无需单独请求获取，当不为0时，会添加到html中
     // function getCredit(){
     //     creditLine();

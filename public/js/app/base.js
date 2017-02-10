@@ -243,7 +243,7 @@ define(['jquery'],function(jquery){
     //发送验证邮件
     function sendTestEmail(){
         $.ajax({
-            url:'/v1/account/send_valid_email.action',
+            url:'/v1/account/send_register_valid_email.action',
             data:{
 
             },

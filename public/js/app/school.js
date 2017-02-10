@@ -417,27 +417,39 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
             console.log($(this).val())
             canGet($(this).val());
         });
+
+        $('#school-content-page').on('blur', '.recommend-major-form input', function(){
+            var  majorMessage = $('.recommend-major-form input').val();
+
+            var arr = [];
+            for(var i=0;i<$('.recommend-major-form .form-select-option li').length;i++){
+                arr.push($('.recommend-major-form .form-select-option li').eq(i).html())
+            }
+            console.log(arr, majorMessage)
+
+            if(arr.indexOf(majorMessage)==-1){
+                majorMessage = null;
+                base.testFail($(this),'请从下拉列表中选择专业');
+                return;
+            }
+            base.testSuccess($(this));
+            // localStorage.removeItem("userMajor");
+            // selectMajor($(this).val());
+            // console.log($(this).val())
+            // canGet($(this).val());
+        });
+
         //专业 选择
         $('#school-content-page').on('click','.recommend-major-form .form-select-option li',function(e){
             e.stopPropagation();
-            // base.testSuccess($('.recommend-major-form input'));
+            base.testSuccess($('.recommend-major-form input'));
             console.log($(this).html())
             userMajor = $(this).html();
             localStorage.setItem("userMajor", userMajor);
             $('.recommend-major-form input').val(userMajor);
             $('.form-select-option').addClass('hidden');
             $('.recommend-major-get').removeClass('button-solid-ban').addClass('button-solid');
-            var arr = [];
-            for(var i=0;i<$('.recommend-major-form .form-select-option li').length;i++){
-                arr.push($('.recommend-major-form .form-select-option li').eq(i).html())
-            }
-            console.log(arr, userMajor)
-            if(arr.indexOf(userMajor)==-1){
-                userMajor = null;
-                base.testFail($(this),'请从下拉列表中选择专业');
-                return;
-            }
-            base.testSuccess($(this));
+
             $('.recommend-major-form input').focus();
         });
         //获取推荐
@@ -454,9 +466,8 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
             if (!userMajor) {
                 return;
             }
-            
             var e = e || window.event;
-            console.log(e.keyCode);
+            console.log(e.keyCode)
             if(e.keyCode === 13) {
                 getMajor(userMajor, sid);
             }  
