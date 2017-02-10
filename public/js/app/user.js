@@ -772,7 +772,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             data:{
 
             },
-            type:'get',
+            type:'POST',
             cache:false,
             dataType:'json',
             success:function(data){
