@@ -326,16 +326,16 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                         $('.major-info-direction .form-select-value').html($(this).html().substring(0,20)+'...');
                     }
                 });
-                if($('.major-email').html().length>20){
-                    $('.major-email').html($('.major-email').html().substring(0,20)+'...');
+                if($('.major-email-short').html().length>25){
+                    $('.major-email-short').html($('.major-email-short').html().substring(0,25)+'...');
+                    $('.major-email').on('mouseenter',function(e){
+                        e.stopPropagation();
+                        $(this).find('.major-email-all').removeClass('hidden');
+                    }).on('mouseleave',function(e){
+                        e.stopPropagation();
+                        $(this).find('.major-email-all').addClass('hidden');
+                    });
                 }
-                $('.major-email').on('mouseenter',function(e){
-                    e.stopPropagation();
-                    $(this).find('.major-email-all').removeClass('hidden');
-                }).on('mouseleave',function(e){
-                    e.stopPropagation();
-                    $(this).find('.major-email-all').addClass('hidden');
-                });
             },
             error : function() {
                 base.notice('网络错误');
@@ -499,16 +499,16 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                             $('.major-info-direction .form-select-value').html($(this).html().substring(0,20)+'...');
                         }
                     });
-                    if($('.major-email').html().length>20){
-                        $('.major-email').html($('.major-email').html().substring(0,20)+'...');
+                    if($('.major-email-short').html().length>25){
+                        $('.major-email-short').html($('.major-email-short').html().substring(0,25)+'...');
+                        $('.major-email').on('mouseenter',function(e){
+                            e.stopPropagation();
+                            $(this).find('.major-email-all').removeClass('hidden');
+                        }).on('mouseleave',function(e){
+                            e.stopPropagation();
+                            $(this).find('.major-email-all').addClass('hidden');
+                        });
                     }
-                    $('.major-email').on('mouseenter',function(e){
-                        e.stopPropagation();
-                        $(this).find('.major-email-all').removeClass('hidden');
-                    }).on('mouseleave',function(e){
-                        e.stopPropagation();
-                        $(this).find('.major-email-all').addClass('hidden');
-                    });
                     // console.log($('.major-require-list li:eq(0)'))
                     // requireTab('.major-require-list li:eq(0)');
                 },
@@ -724,14 +724,14 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                 $('.school-all-page').removeClass('active');
                 $('.school-recommend-page').addClass('active');
                 $('#school-content-page').html(data);
-                // $('.school-brief-title img').click();
 
-                //仅展开第一个
-                $('.school-major:not(:first)').find('.school-box-title img').trigger('click');
-                for(var i= 0;i<$('.school-major').length;i++){
-        
-                    console.log($('.school-major').eq(i).find('.school-box-title img'));
-                    $('.school-major').eq(i).find('.major-require-list li img').eq(0).trigger('click');
+                if($('.school-brief-content').height()>0){
+                    //折叠学校详情
+                    $('.school-brief-title img').click();
+                    //仅展开第一个
+                    for(var i= 1;i<$('.school-major').length;i++){
+                        $('.school-major').eq(i).find('.school-box-title img').trigger('click');
+                    }
                 }
                 if($('.major-require-content')[0]){
                     $('.major-require-content').scrollbar();
@@ -746,19 +746,18 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                         $('.major-info-direction .form-select-value').html($(this).html().substring(0,20)+'...');
                     }
                 });
-                if ($('.major-email').html()) {
-                    if($('.major-email').html().length>20){
-                        $('.major-email').html($('.major-email').html().substring(0,20)+'...');
+                if($('.major-email-short')[0]){
+                    if($('.major-email-short').html().length>25){
+                        $('.major-email-short').html($('.major-email-short').html().substring(0,25)+'...');
+                        $('.major-email').on('mouseenter',function(e){
+                            e.stopPropagation();
+                            $(this).find('.major-email-all').removeClass('hidden');
+                        }).on('mouseleave',function(e){
+                            e.stopPropagation();
+                            $(this).find('.major-email-all').addClass('hidden');
+                        });
                     }
                 }
-
-                $('.major-email').on('mouseenter',function(e){
-                    e.stopPropagation();
-                    $(this).find('.major-email-all').removeClass('hidden');
-                }).on('mouseleave',function(e){
-                    e.stopPropagation();
-                    $(this).find('.major-email-all').addClass('hidden');
-                });
             },
             error : function() {
                 base.notice('网络错误');

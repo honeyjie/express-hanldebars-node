@@ -1196,6 +1196,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             $(this).animate({marginTop:0},200);
             $(this).find('.school-list-info').animate({height:40},200);
             $(this).find('.school-list-mask').fadeIn(200);
+            $(this).find('.school-list-content').addClass('blur');
         }).on('mouseleave',function(){
             if($(this).parent('li').hasClass('active')){
                 $(this).find('.school-list-mask').fadeOut(200);
@@ -1204,18 +1205,19 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             $(this).animate({marginTop:40},200);
             $(this).find('.school-list-info').animate({height:0},200);
             $(this).find('.school-list-mask').fadeOut(200);
+            $(this).find('.school-list-content').removeClass('blur');
         });
         //专业长度限定
         if($('.school-list-major span')[0]&&$('.school-list-major span').html().length>25){
             $('.school-list-major span').html($('.school-list-major span').html().substring(0,25)+'...');
+            $('.school-list-info').on('mouseenter',function(e){
+                e.stopPropagation();
+                $(this).find('.school-list-major-all').removeClass('hidden');
+            }).on('mouseleave',function(e){
+                e.stopPropagation();
+                $(this).find('.school-list-major-all').addClass('hidden');
+            });
         }
-        $('.school-list-info').on('mouseenter',function(e){
-            e.stopPropagation();
-            $(this).find('.school-list-major-all').removeClass('hidden');
-        }).on('mouseleave',function(e){
-            e.stopPropagation();
-            $(this).find('.school-list-major-all').addClass('hidden');
-        });
         //加入取消申请
         $('.switch-box').on('click',function(){
             if($(this).hasClass('on')){
@@ -1236,10 +1238,12 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             if($(this).parent('li').hasClass('active')){
                 return;
             }
+            $(this).parents('li').addClass('active');
             $('.select-school-list li.active').find('.school-list-main').animate({marginTop:40},200);
             $('.select-school-list li.active').find('.school-list-info').animate({height:0},200);
+            $('.select-school-list li.active').find('.school-list-mask').fadeOut(200);
+            $('.select-school-list li.active').find('.school-list-content').removeClass('blur');
             $('.select-school-list li').removeClass('active');
-            $(this).parent('li').addClass('active');
             console.log($(this).find('.school-list-rank').html())
             $(this).parents('.tab-box').find('.select-school-rank').html($(this).parent('li').find('.school-list-rank').html());
             //请求接口获取图表

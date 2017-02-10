@@ -46,6 +46,9 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
         });
         //模拟滚动条
         $('#view-article-scroll').scrollbar();
+        $('#view-article-scroll').on('wheel',function(e){
+            e.stopPropagation();
+        });
         //选校定位下拉列表
         // $('.header-nav-school').on('mouseenter',function(){
         //     $('.header-nav-select').fadeIn(200);
@@ -212,6 +215,7 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
     }
 
     function openArticle(id){
+        $('body').css('overflow','hidden');
         closeSearch();
         base.openMask();
         $('.view-article').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
@@ -237,7 +241,8 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
     }
 
     function closeArticle(){
-        base.closeMask()
+        $('body').css('overflow','auto');
+        base.closeMask();
         $('.view-article').addClass('animated fadeOutUp').one(base.animationend,function(){
             $('.view-article').removeClass('animated fadeOutUp').addClass('hidden');
         });
