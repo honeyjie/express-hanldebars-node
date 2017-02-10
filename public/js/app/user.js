@@ -30,6 +30,9 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         if($('#country-option')[0]){
             $('#country-option').scrollbar();
         }
+        if($('#news-content')[0]){
+            $('#news-content').scrollbar();
+        }
         //tab切换
         $('.set-tab').tab();
         $('.news-tab').tab();
@@ -613,50 +616,50 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         }
     }
 
-    function canEveryCancel(dom) {
-        var sysCannotCancel = true;
-        var userCannotCancel = true;
-        dom.removeClass('noread');
-        console.log(dom, $('.news-list').hasClass('news-user-list'), $('.news-list').hasClass('news-system-list'))
-        if ($('.news-list').hasClass('news-user-list')) {
-            console.log(userCannotCancel);
-            //个人消息，都已读时
-            var userlists = dom.parent().find('li');
-            var userlist = Array.prototype.slice.call(userlists)
+    // function canEveryCancel(dom) {
+    //     var sysCannotCancel = true;
+    //     var userCannotCancel = true;
+    //     dom.removeClass('noread');
+    //     console.log(dom, $('.news-list').hasClass('news-user-list'), $('.news-list').hasClass('news-system-list'))
+    //     if ($('.news-list').hasClass('news-user-list')) {
+    //         console.log(userCannotCancel);
+    //         //个人消息，都已读时
+    //         var userlists = dom.parent().find('li');
+    //         var userlist = Array.prototype.slice.call(userlists)
 
-            userCannotCancel = userlist.some(function(ele, i, arr){//当每一个都返回真值时
-                console.log($(ele).hasClass('noread'), ele)
-                return $(ele).hasClass('noread');
-            })
-            console.log(userCannotCancel);
+    //         userCannotCancel = userlist.some(function(ele, i, arr){//当每一个都返回真值时
+    //             console.log($(ele).hasClass('noread'), ele)
+    //             return $(ele).hasClass('noread');
+    //         })
+    //         console.log(userCannotCancel);
 
-            if(!userCannotCancel) {
-                $('.news-user-read').removeClass('button-hollow').addClass('button-hollow-not')
-                //去掉tab红点
-                $('.user-tab span').removeClass('news-user-notice');
-            }
+    //         if(!userCannotCancel) {
+    //             $('.news-user-read').removeClass('button-hollow').addClass('button-hollow-not')
+    //             //去掉tab红点
+    //             $('.user-tab span').removeClass('news-user-notice');
+    //         }
 
-        } else if($('.news-list').hasClass('news-system-list')) {
-            //系统消息，都已读时
-            var syslists = dom.parent().find('li');
-            var syslist = Array.prototype.slice.call(syslists)
+    //     } else if($('.news-list').hasClass('news-system-list')) {
+    //         //系统消息，都已读时
+    //         var syslists = dom.parent().find('li');
+    //         var syslist = Array.prototype.slice.call(syslists)
 
-            sysCannotCancel = syslist.some(function(ele, i, arr){//当每一个都返回真值时
-                return $(ele).hasClass('noread')
-            })
+    //         sysCannotCancel = syslist.some(function(ele, i, arr){//当每一个都返回真值时
+    //             return $(ele).hasClass('noread')
+    //         })
 
-            if(!sysCannotCancel) {
-                $('.news-system-read').removeClass('button-hollow').addClass('button-hollow-not')
-                //去掉tab红点
-                $('.sys-tab span').removeClass('news-system-notice');
-            }
+    //         if(!sysCannotCancel) {
+    //             $('.news-system-read').removeClass('button-hollow').addClass('button-hollow-not')
+    //             //去掉tab红点
+    //             $('.sys-tab span').removeClass('news-system-notice');
+    //         }
 
-        }
-        console.log(sysCannotCancel, userCannotCancel)
-        if (!$('.sys-tab span').hasClass('news-user-notice') && !$('.user-tab span').hasClass('news-user-notice')) {
-            $('.newsCenter .header-news-tab').removeClass('header-news-number').text("");
-        }
-    }
+    //     }
+    //     console.log(sysCannotCancel, userCannotCancel)
+    //     if (!$('.sys-tab span').hasClass('news-user-notice') && !$('.user-tab span').hasClass('news-user-notice')) {
+    //         $('.newsCenter .header-news-tab').removeClass('header-news-number').text("");
+    //     }
+    // }
     //邮件是否验证
     function isTestEmail(){
         $.ajax({

@@ -74,6 +74,7 @@ define(['jquery'],function(jquery){
             cache:false,
             dataType:'json',
             success:function(data){
+                console.log(data);
                 if(!data.data.valid){//返回true表示系统已存在，不可以被注册
                    testSuccess(dom);
                 }

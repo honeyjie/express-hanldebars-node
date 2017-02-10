@@ -1580,11 +1580,15 @@
     text-align: right;
 }
 .user .news-article-title{
+    width: 450px;
     padding: 0 30px 10px;
     border-bottom: 1px solid #dcdcdc;
     font-size: 13px;
     max-height: 60px;
     overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 }
 .user .news-article-content{
     position: relative;
