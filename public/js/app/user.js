@@ -50,12 +50,12 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                 uptoken_url: '/v1/help/qiqiuauth.action',            //Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
                 domain: 'http://oi7kb12ow.bkt.clouddn.com/',   //bucket 域名，下载资源时用到，**必需**
                 get_new_uptoken: false,  //设置上传文件的时候是否每次都重新获取新的token
-                max_file_size: '5mb',           //最大文件体积限制
+                max_file_size: '100mb',           //最大文件体积限制
                 flash_swf_url: '//cdn.bootcss.com/plupload/2.1.9/Moxie.swf',  //引入flash,相对路径
                 max_retries: 3,                   //上传失败最大重试次数
                 dragdrop: true,                   //开启可拖曳上传
                 drop_element: 'container',        //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
-                chunk_size: '5mb',                //分块上传时，每片的体积
+                chunk_size: '4mb',                //分块上传时，每片的体积
                 auto_start: true,                 //选择文件后自动上传，若关闭需要自己绑定事件触发上传
                 multi_selection: false,
                 filters : {
@@ -78,6 +78,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                         // 每个文件上传时,处理相关的事情
                     },
                     'FileUploaded': function(up, file, info) {
+                        console.log(file.size, file)
                         if (file.size > 5e6) {
                             base.notice('上传图片大小不得超过5MB');
                             return;

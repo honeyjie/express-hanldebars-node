@@ -44,20 +44,20 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
                 uptoken_url: '/v1/help/qiqiuauth.action',            //Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
                 domain: 'http://oi7kb12ow.bkt.clouddn.com/',   //bucket 域名，下载资源时用到，**必需**
                 get_new_uptoken: false,  //设置上传文件的时候是否每次都重新获取新的token
-                max_file_size: '5mb',           //最大文件体积限制
+                max_file_size: '100mb',           //最大文件体积限制
                 flash_swf_url: '//cdn.bootcss.com/plupload/2.1.9/Moxie.swf',  //引入flash,相对路径
                 max_retries: 3,                   //上传失败最大重试次数
                 dragdrop: true,                   //开启可拖曳上传
                 drop_element: 'container',        //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
                 chunk_size: '4mb',                //分块上传时，每片的体积
                 auto_start: true,                 //选择文件后自动上传，若关闭需要自己绑定事件触发上传
-                filters : {
-                    prevent_duplicates: true,
-                    // Specify what files to browse for
-                    mime_types: [
-                        {title : "Image files", extensions : "jpg,gif,png"}, // 限定jpg,gif,png后缀上传
-                    ]
-                },
+                // filters : {
+                //     prevent_duplicates: true,
+                //     // Specify what files to browse for
+                //     // mime_types: [
+                //     //     {title : "Image files", extensions : "jpg,gif,png"}, // 限定jpg,gif,png后缀上传
+                //     // ]
+                // },
                 init: {
                     'FilesAdded': function(up, files) {
                         if ($('.help-file img:eq(0)').hasClass('hidden')) {
@@ -75,7 +75,10 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
                         // 每个文件上传时,处理相关的事情
                     },
                     'FileUploaded': function(up, file, info) {
-
+                        if (file.size > 5e6) {
+                            base.notice('上传文件大小不得超过5MB');
+                            return;
+                        }
                         var res = JSON.parse(info);
                         var imgUrl = up.getOption('domain') + res.key;
                         console.log(imgUrl, file, file.name);
