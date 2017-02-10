@@ -69,16 +69,17 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
                         });
                     },
                     'BeforeUpload': function(up, file) {
+                        console.log(file.size, file.size > 5e6)
+                        if (file.size > 5e6) {
+                            base.notice('上传文件大小不得超过5MB');
+                            return;
+                        }
                         // 每个文件上传前,处理相关的事情
                     },
                     'UploadProgress': function(up, file) {
                         // 每个文件上传时,处理相关的事情
                     },
                     'FileUploaded': function(up, file, info) {
-                        if (file.size > 5e6) {
-                            base.notice('上传文件大小不得超过5MB');
-                            return;
-                        }
                         var res = JSON.parse(info);
                         var imgUrl = up.getOption('domain') + res.key;
                         console.log(imgUrl, file, file.name);
