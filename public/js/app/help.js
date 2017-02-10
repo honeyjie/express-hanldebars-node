@@ -12,6 +12,7 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         });
         //tab切换
         $('.help-tab').tab(function(){
+            console.log("1")
             $('.help-send').addClass('hidden');
             $('.help-close').removeClass('hidden');
             restoreIntialHelp();
@@ -19,9 +20,14 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
             $('.help-file').addClass('hidden');
             $('.help-result').removeClass('hidden');
         },function(){
+            console.log("2")
             $('.help-send').removeClass('hidden');
             $('.help-file').removeClass('hidden');
             $('.help-close').addClass('hidden');
+            restoreIntialHelp();
+            $('.help-ask').addClass('hidden');
+            $('.help-file').addClass('hidden');
+            $('.help-result').removeClass('hidden');
 
         });
         //模拟滚动条
@@ -417,7 +423,8 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
 
     function restoreIntialHelp() {
         $('.help-select .form-select-value').text('选择问题类型');
-
+        $('.help-question').removeClass('hidden');
+        $('.help-result').removeClass('hidden');
         $('.help-question textarea').attr('disabled',true).val('');
         $('.help-question-placeholder').removeClass('hidden');
         $('.help-question').removeClass('focus');

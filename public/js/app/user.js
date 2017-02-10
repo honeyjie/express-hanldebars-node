@@ -768,7 +768,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
 
     function sendTestEmail(){
         $.ajax({
-            url:'/v1/user/sendvaildemail.action',
+            url:'/v1/account/send_valid_email.action',
             data:{
 
             },
