@@ -13,12 +13,16 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         //tab切换
         $('.help-tab').tab(function(){
             $('.help-send').addClass('hidden');
-            $('.help-file').addClass('hidden');
             $('.help-close').removeClass('hidden');
+            restoreIntialHelp();
+            $('.help-ask').addClass('hidden');
+            $('.help-file').addClass('hidden');
+            $('.help-result').removeClass('hidden');
         },function(){
             $('.help-send').removeClass('hidden');
             $('.help-file').removeClass('hidden');
             $('.help-close').addClass('hidden');
+
         });
         //模拟滚动条
         if($('#help-list')[0]){
@@ -414,14 +418,14 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
     function restoreIntialHelp() {
         $('.help-select .form-select-value').text('选择问题类型');
 
-        $('.help-question textarea').attr('disabled',true).text('');
+        $('.help-question textarea').attr('disabled',true).val('');
         $('.help-question-placeholder').removeClass('hidden');
         $('.help-question').removeClass('focus');
 
         $('.help-file img').addClass('hidden');
         $('.help-file img').eq(1).removeClass('hidden');
         $('.help-send img').addClass('hidden');
-        $('.help-send img').eq(2).removeClass('hidden');
+        // $('.help-send img').eq(2).removeClass('hidden');
 
         $('.help-question .help-upload span').html('');
         $('.help-question .help-upload span').attr('data-href', '');
