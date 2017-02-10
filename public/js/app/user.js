@@ -192,15 +192,10 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             $('.set-form-phone').testInput({
                 rule : base.phoneRule,
                 success : function(dom){
-                    console.log(base.userInfo.phone )
                     base.userInfo.phone = dom.val();
                     base.testSuccess(dom);
                     base.testPhone(dom);
                     canSaveInfo();
-                    // if(base.userInfo.phone !== pre_phone) {
-                    //     base.testPhone(dom);
-                    //     canSaveInfo();
-                    // } else {}
                 },
                 fail : function(dom){
                     base.userInfo.phone = '';
@@ -212,7 +207,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         //学校验证
         $('.set-form-school').on('input propertychange',function(){
             base.userInfo.school = $('.set-form-school').val();
-            console.log(base.userInfo.school, pre_school)
             if (base.userInfo.school !== pre_school) {
                 canSaveInfo();
             } else {
@@ -510,6 +504,9 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
     
     //标记全部已读
     function isAllread(sts) {
+        if ($('.list-button button').eq(0).hasClass('button-hollow-not')) {
+            return;
+        }
         $.ajax({
             url:'/v1/User/allread.action',
             data:{
@@ -519,47 +516,56 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             cache:false,
             dataType:'json',
             success:function(data) {
-                if(sts) {
-                    //系统消息
-                    var n = $('.news-system-list li').length;
-                    var m = $('.newsCenter .header-news-tab').text();
-                    var num ;
-                    $('.news-system-list li').removeClass('noread');
-                    $('.news-system-read').removeClass('button-hollow').addClass('button-hollow-not');
-
-                    if (m-n >= 1) {
-                        num= m-n
-                    } else {
-                        num= ""
-                    }
-                     $('.newsCenter .header-news-tab').text(num);  
-                    //去掉tab红点
-                    $('.sys-tab span').removeClass('news-user-notice');
+                var n = $('.news-list li.noread').length;
+                minusNum(n);
+                $('.list-button button').eq(0).removeClass('button-hollow').addClass('button-hollow-not');
+                $('.news-list li').removeClass('noread');
+                if($('.news-list').hasClass('news-user-list')) {
+                    $('.user-tab span').removeClass('news-user-notice')
                 } else {
-                    //个人消息
-                    var n = $('.news-user-list li').length;
-                    var m = $('.newsCenter .header-news-tab').text();
-                    var num ;
-                    $('.news-user-list li').removeClass('noread');
-                    $('.user-tab span').removeClass('news-user-notice');
-                    if (m-n >= 1) {
-                        num= m-n
-                    } else {
-                        num= ""
-                    }
-                     $('.newsCenter .header-news-tab').text(num); 
+                    $('.sys-tab span').removeClass('news-user-notice')
+                }
+                // if(sts) {
+                //     //系统消息
+                //     var n = $('.news-system-list li').length;
+                //     var m = $('.newsCenter .header-news-tab').text();
+                //     var num ;
+                //     $('.news-system-list li').removeClass('noread');
+                //     $('.news-system-read').removeClass('button-hollow').addClass('button-hollow-not');
 
-                    $('.news-user-list li').removeClass('noread');
-                    $('.news-user-read').removeClass('button-hollow').addClass('button-hollow-not')
-                    //去掉tab红点
+                //     if (m-n >= 1) {
+                //         num= m-n
+                //     } else {
+                //         num= ""
+                //     }
+                //      $('.newsCenter .header-news-tab').text(num);  
+                //     //去掉tab红点
+                //     $('.sys-tab span').removeClass('news-user-notice');
+                // } else {
+                //     //个人消息
+                //     var n = $('.news-user-list li').length;
+                //     var m = $('.newsCenter .header-news-tab').text();
+                //     var num ;
+                //     $('.news-user-list li').removeClass('noread');
+                //     $('.user-tab span').removeClass('news-user-notice');
+                //     if (m-n >= 1) {
+                //         num= m-n
+                //     } else {
+                //         num= ""
+                //     }
+                //      $('.newsCenter .header-news-tab').text(num); 
+
+                //     $('.news-user-list li').removeClass('noread');
+                //     $('.news-user-read').removeClass('button-hollow').addClass('button-hollow-not')
+                //     //去掉tab红点
                     
-                }
-                //清除数量
-                if (!$('.sys-tab span').hasClass('news-user-notice') && !$('.user-tab span').hasClass('news-user-notice')) {
-                    console.log($('.sys-tab span').hasClass('news-user-notice'), $('.user-tab span').hasClass('news-user-notice'))
-                    $('.newsCenter .header-news-tab').removeClass('header-news-number');
-                    $('.newsCenter .header-news-tab').text(""); 
-                }
+                // }
+                // //清除数量
+                // if (!$('.sys-tab span').hasClass('news-user-notice') && !$('.user-tab span').hasClass('news-user-notice')) {
+                //     console.log($('.sys-tab span').hasClass('news-user-notice'), $('.user-tab span').hasClass('news-user-notice'))
+                //     $('.newsCenter .header-news-tab').removeClass('header-news-number');
+                //     $('.newsCenter .header-news-tab').text(""); 
+                // }
             },
             error : function() {
                 base.notice('网络错误');
@@ -580,16 +586,17 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             dataType:'json',
             success:function(data) {
                 if (dom.hasClass('noread')) {
-                    var num = $('.header-news-number').text()*1;
-                    if (num >=2) {
-                       num = num -1; 
-                   } else {
-                        num = ""
-                   }
-                    
-                   $('.header-news-number').text(num);
-                   //当前全部消息都已读时
-                    canEveryCancel(dom)
+                   minusNum(1);
+                   dom.removeClass('noread');
+                    var canCancelDot = !notCancelDot(dom);
+                    if (canCancelDot) {
+                        if($('.news-list').hasClass('news-user-list')) {
+                            $('.user-tab span').removeClass('news-user-notice')
+                        } else {
+                            $('.sys-tab span').removeClass('news-user-notice')
+                        }
+                        $('.list-button button').eq(0).removeClass('button-hollow').addClass('button-hollow-not')
+                    }
                 }
             },
             error : function() {
@@ -894,7 +901,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
     }
 //打开删除
     function openNewsDelete(id, el){
-        console.log(el);
+    //     console.log(el);
         $('.news-delete').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
             $('.news-delete').removeClass('animated fadeInDown');
         });
@@ -915,28 +922,48 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                         closeNewsDelete()
                         console.log(el.hasClass('noread'))
                         if (el.hasClass('noread')) {
-                            var num = $('.header-news-tab').text()*1;
-                            if (num >=2) {
-                               num = num -1  
-                            } else {
-                                num ="";
+                            minusNum(1);
+                            el.removeClass('noread');
+                            var canCancelDot = !notCancelDot(el);
+                            if (canCancelDot) {
+                                if($('.news-list').hasClass('news-user-list')) {
+                                    $('.user-tab span').removeClass('news-user-notice')
+                                } else {
+                                    $('.sys-tab span').removeClass('news-user-notice')
+                                }
+                                $('.list-button button').eq(0).removeClass('button-hollow').addClass('button-hollow-not')
                             }
-                           $('.header-news-tab').text(num);
-                            //当为空时
-                           canEveryCancel(el);
-                           
-                        }
-                        el.remove();
-                        var isempty = $('.news-list li').length
-                        console.log(isempty)
-                        if(!isempty) {
-                            console.log("1")
-                            $('.header-news-tab').text("");
-                            $('.news-tab .list-button').addClass('hidden');
-                            $('.news-tab .news-list-none').removeClass('hidden') 
-                        }
+                            
+                            
 
-                        
+                        //     var num = $('.header-news-tab').text()*1;
+                        //     if (num >=2) {
+                        //        num = num -1  
+                        //     } else {
+                        //         num ="";
+                        //     }
+                        //    $('.header-news-tab').text(num);
+                        //     //当为空时
+                        //    canEveryCancel(el);
+                           
+                        // }
+                        // el.remove();
+                        // var isempty = $('.news-list li').length
+                        // console.log(isempty)
+                        // if(!isempty) {
+                        //     console.log("1")
+                        //     $('.news-tab .list-button').addClass('hidden');
+                        //     $('.news-tab .news-list-none').removeClass('hidden') 
+                        // }
+                        // if (!$('.sys-tab span').hasClass('news-user-notice') && !$('.user-tab span').hasClass('news-user-notice')) {
+                        //     $('.newsCenter .header-news-tab').text("");
+                        //     $('.newsCenter div.header-news-tab').removeClass('header-news-number');
+                            // }
+                        }; 
+                        el.remove(); 
+                        if ($('.news-list li').length === 0) {
+                            newsEmpty()
+                        }  
                     }
                },
                error : function() {
@@ -966,52 +993,63 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                success:function(data) {
                     if (data.code === 0) {
                         //清空该消息列表
-                        el.empty();
-                        $('.list-button').addClass('hidden');
-                        $('.news-list-none').removeClass('hidden')
+                        // el.empty();
+                        // $('.list-button').addClass('hidden');
+                        // $('.news-list-none').removeClass('hidden')
                         closeNewsDelete();
-                        if(system) {
-                            //去掉tab红点
-                            $('.sys-tab span').removeClass('news-user-notice');
-                             //当为空时
-                            var n = $('.news-system-list li').length;
-                            var m = $('.newsCenter .header-news-tab').html();
-                            var num ;
-
-                            if (m-n >= 1) {
-                                num= m-n
-                            } else {
-                                num= ""
-                            }
-                             $('.newsCenter .header-news-tab').html(num); 
-                            var parent = el.parent().parent();
-                                parent.find('.list-button').addClass('hidden');
-                                parent.find('.news-list-none').removeClass('hidden') 
-
+                        var n = $('.news-list li.noread').length;
+                        minusNum(n);
+                        $('.list-button button').eq(0).removeClass('button-hollow').addClass('button-hollow-not');
+                        $('.news-list li').removeClass('noread');
+                        if(!system) {
+                            $('.user-tab span').removeClass('news-user-notice')
                         } else {
-                            //去掉tab红点
-                            var n = $('.news-user-list li').length;
-                            var m = $('.newsCenter .header-news-tab').html();
-                            var num ;
-
-                            if (m-n >= 1) {
-                                num= m-n
-                            } else {
-                                num= ""
-                            }
-                             $('.newsCenter .header-news-tab').html(num); 
-                            $('.user-tab span').removeClass('news-user-notice');
-
-                            var parent = el.parent().parent();
-                            parent.find('.list-button').addClass('hidden');
-                            parent.find('.news-list-none').removeClass('hidden') 
-
+                            $('.sys-tab span').removeClass('news-user-notice')
                         }
+                        $('.news-list').empty();
+                        newsEmpty();
+                        // if(system) {
+                        //     //去掉tab红点
+                        //     $('.sys-tab span').removeClass('news-user-notice');
+                        //      //当为空时
+                        //     var n = $('.news-system-list li').length;
+                        //     var m = $('.newsCenter .header-news-tab').html();
+                        //     var num ;
 
-                        if (!$('.sys-tab span').hasClass('news-user-notice') && !$('.user-tab span').hasClass('news-user-notice')) {
-                            $('.newsCenter .header-news-tab').text("");
-                            $('.newsCenter div.header-news-tab').removeClass('header-news-number');
-                        }
+                        //     if (m-n >= 1) {
+                        //         num= m-n
+                        //     } else {
+                        //         num= ""
+                        //     }
+                        //      $('.newsCenter .header-news-tab').html(num); 
+                        //     var parent = el.parent().parent();
+                        //         parent.find('.list-button').addClass('hidden');
+                        //         parent.find('.news-list-none').removeClass('hidden') 
+
+                        // } else {
+                        //     //去掉tab红点
+                        //     var n = $('.news-user-list li').length;
+                        //     var m = $('.newsCenter .header-news-tab').html();
+                        //     var num ;
+
+                        //     if (m-n >= 1) {
+                        //         num= m-n
+                        //     } else {
+                        //         num= ""
+                        //     }
+                        //     $('.newsCenter .header-news-tab').html(num); 
+                        //     $('.user-tab span').removeClass('news-user-notice');
+
+                        //     var parent = el.parent().parent();
+                        //     parent.find('.list-button').addClass('hidden');
+                        //     parent.find('.news-list-none').removeClass('hidden') 
+
+                        // }
+
+                        // if (!$('.sys-tab span').hasClass('news-user-notice') && !$('.user-tab span').hasClass('news-user-notice')) {
+                        //     $('.newsCenter .header-news-tab').text("");
+                        //     $('.newsCenter div.header-news-tab').removeClass('header-news-number');
+                        // }
 
                         //显示空消息
                         return;
@@ -1025,7 +1063,31 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         })
 
     }
+//全部清空函数
+    function newsEmpty() {
+        $('.news-tab .list-button').addClass('hidden');
+        $('.news-tab .news-list-none').removeClass('hidden') 
+    }
 
+//数量变化函数
+    function minusNum(n) {
+        var $userTab = $('.newsCenter .header-news-tab');
+        var m = $userTab.text();
+        if (m -n >= 1) {
+            $userTab.text(m-n);
+        } else {
+            $userTab.removeClass('header-news-number').text("")
+        }
+    }
+
+//列表中是否不能取消红点
+function notCancelDot(dom) {
+    var userlists = dom.parent().find('li');
+    var userlist = Array.prototype.slice.call(userlists)
+    return userlist.some(function(ele, i, arr){//当每一个都返回真值时
+        return $(ele).hasClass('noread');
+    })
+}
 //关闭删除
     function closeNewsDelete(){
         $('.news-delete').addClass('animated fadeOutUp').one(base.animationend,function(){
