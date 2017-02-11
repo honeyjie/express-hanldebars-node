@@ -1236,10 +1236,8 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             if($(this).parent('li').hasClass('active')){
                 return;
             };
-            //if($('.select-school-list li').hasClass('active')){
-            //    $('.select-school-list li').animate({marginTop:40},200);
-            //    $('.select-school-list li').find('.school-list-info').animate({height:0},200);
-            //}
+            $('.select-school-list li.active').animate({marginTop:40},200);
+            $('.select-school-list li.active').find('.school-list-info').animate({height:0},200);
             $('.select-school-list li').removeClass('active');
             $('.select-school-list li').find('.school-list-mask').fadeOut(200);
             $('.select-school-list li').find('.school-list-logo').removeClass('blur');
