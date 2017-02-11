@@ -3232,18 +3232,18 @@
     padding: 10px;
     margin-top: 40px;
 }
-.select-school .school-list-content.blur{
-    -webkit-filter: blur(1px);
-    -moz-filter: blur(1px);
-    -ms-filter: blur(1px);
-    -o-filter: blur(1px);
-    filter: blur(1px);
-}
 .select-school .school-list-logo{
     display: block;
     width: 100px;
     height: 100px;
     margin: 10px auto;
+}
+.select-school .school-list-logo.blur{
+    -webkit-filter: blur(1px);
+    -moz-filter: blur(1px);
+    -ms-filter: blur(1px);
+    -o-filter: blur(1px);
+    filter: blur(1px);
 }
 .select-school .school-list-info{
     height: 0;

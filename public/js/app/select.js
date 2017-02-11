@@ -1236,14 +1236,13 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             if($(this).parent('li').hasClass('active')){
                 return;
             };
+            console.log($('.select-school-list li'))
             $('.select-school-list li').removeClass('active');
             $('.select-school-list li').animate({marginTop:40},200);
             $('.select-school-list li').find('.school-list-info').animate({height:0},200);
             $('.select-school-list li').find('.school-list-mask').fadeOut(200);
             $('.select-school-list li').find('.school-list-logo').removeClass('blur');
             $(this).parent('li').addClass('active');
-            $(this).animate({marginTop:0},200);
-            $(this).find('.school-list-info').animate({height:40},200);
             $(this).parents('.tab-box').find('.select-school-rank').html($(this).parent('li').find('.school-list-rank').html());
             //请求接口获取图表
 
