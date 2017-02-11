@@ -669,7 +669,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
     //邮件是否验证
     function isValidEmail(){
         $.ajax({
-            url:'/v1/user/is_email_valid.action',
+            url:'/v1/user/is_email_validated.action',
             data:{
 
             },
