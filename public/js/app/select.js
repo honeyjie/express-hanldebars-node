@@ -1797,29 +1797,29 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
     //生成图表
     function chart(){
         chartArea('.select-svg-gpa',gpaDate.before,gpaDate.now,4,gpaDate.now.max.y,function(){
-            console.log(gpaDate.before, gpaDate.now);
+            //console.log(gpaDate.before, gpaDate.now);
             gpaDate.before = gpaDate.now;
 
         });
         chartArea('.select-svg-tofel',tofelDate.before,tofelDate.now,120,tofelDate.now.max.y,function(){
-            console.log(gpaDate.before, gpaDate.now);
+            //console.log(gpaDate.before, gpaDate.now);
             tofelDate.before = tofelDate.now;
         });
         chartArea('.select-svg-gre',greDate.before,greDate.now,340,greDate.now.max.y,function(){
-            console.log(gpaDate.before, gpaDate.now);
+            //console.log(gpaDate.before, gpaDate.now);
             greDate.before = greDate.now;
         });
 
         chartRound('.select-svg-learning',learningDate.before,learningDate.now,function(){
-            console.log(gpaDate.before, gpaDate.now);
+            //console.log(gpaDate.before, gpaDate.now);
             learningDate.before = learningDate.now;
         });
         chartRound('.select-svg-recommend',recommendDate.before,recommendDate.now,function(){
-            console.log(gpaDate.before, gpaDate.now);
+            //console.log(gpaDate.before, gpaDate.now);
             recommendDate.before = recommendDate.now;
         });
         chartRound('.select-svg-prize',prizeDate.before,prizeDate.now,function(){
-            console.log(gpaDate.before, gpaDate.now);
+            //console.log(gpaDate.before, gpaDate.now);
             prizeDate.before = prizeDate.now;
         });
     }
