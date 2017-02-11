@@ -35,9 +35,6 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         if($('#help-list')[0]){
             $('#help-list').scrollbar();
         }
-        if($('#help-article')[0]){
-            $('#help-article').scrollbar();
-        }
 
         //七牛上传头像
         // var canLoad = false;
@@ -311,9 +308,9 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
     //回到提问初始状态
 
     function openArticle(dom){
-        console.log("1")
         $('.help-back').removeClass('hidden');
         $('.help-article').removeClass('hidden').addClass('animated slideInLeft').one(base.animationend,function(){
+            $('#help-article').scrollbar();
             $('.help-article').removeClass('animated slideInLeft');
             $('.help-list').addClass('hidden');
         });
