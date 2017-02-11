@@ -161,21 +161,22 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                 // sendEmailClick = false;
                 //邮箱修改后可点击
                 console.log($('.set-form-email').val(), pre_email, base.userInfo.email)
-                if(base.userInfo.email == $('.set-form-email').val()) {
+                if(base.userInfo.email === pre_email) {
                     console.log("1")
                     return;
-                }
-
+                } 
+                pre_email = base.userInfo.email;
                 $(this).removeClass('button-hollow').addClass('button-hollow-not');
                 // $(this).addClass('focus');
                 // $('.set-form-email').removeClass('warning');
                 // console.log(canSend, "___")
                 // if(canSend) {
                 //     $(this).removeClass('button-hollow').addClass('button-hollow-not');
+
                 if (issaveMessage) {
-                    console.log("1")
                     base.notice('已向'+ $('.set-form-email').val()+'发送了一封验证邮件，请查收');
                 } else {
+                    console.log("发送验证邮件")
                     sendTestEmail();
                 }
                 
@@ -187,7 +188,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                         clearInterval(setTime);
                         $('.set-form-send').removeClass('button-hollow-not').addClass('button-hollow');
                         $('.set-form-send').text('验证') ;
-                       
+                        
                         // $(this).addClass('warning');
                         // $(this).removeClass('focus');
                         // canSend = true;  
@@ -252,7 +253,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
 
         $('.set-form-grade .form-select-option li').on('click',function(){
             base.userInfo.grade = $(this).html();
-            console.log(base.userInfo.grade, $('.set-form-grade .form-select-value').text(), pre_grade)
             
             if (base.userInfo.grade !== pre_grade) {
                 canSaveInfo();
@@ -286,15 +286,11 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             //当信息有变化时可以点击保存，否则点击没响应
             //只要一个input中含有error就阻止提交
             var input = $('.set-form-info').find('input');
-            console.log(input)
             var inputs = Array.prototype.slice.call(input)
-            console.log(inputs)
 
             var canSave = inputs.some(function(ele, i, arr){//当每一个都返回真值时
-                console.log($(ele).hasClass('error'), ele)
                 return $(ele).hasClass('error');
             })
-            console.log(canSave);
 
             if (!canSave && $(this).hasClass('button-solid')) {
                 saveInfo();
@@ -354,7 +350,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
 
         //密码判断提交
         $('.set-tab-password input').on('input propertychange',function(){
-            console.log("____")
             if(!$('.set-form-oldpassword').val()|| !$('.set-form-password').val() || !$('.set-form-repassword').val()){
                 $('.set-password-save').removeClass('button-solid').addClass('button-solid-ban');
                 return;
@@ -455,7 +450,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             isAllread(1)
         })
         $('.news-user-read').on('click', function(e) {
-            console.log("1");
             e.stopPropagation();
             //无参数表示个人消息
             isAllread(0)
@@ -677,7 +671,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             cache:false,
             dataType:'json',
             success:function(data) {
-                console.log(data);
                 if(data.code === 111001013){
                     //未激活
                     $('.set-form-send').removeClass('hidden');
@@ -706,7 +699,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
     function saveInfo(){
         clearInterval(setTime);
         $('.set-form-send').text('验证') ;
-        console.log(base.userInfo.phone || $('.set-form-phone').val())
         $.ajax({
             url:'/v1/User/saveuser.action',
             data:{
@@ -722,7 +714,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             cache:false,
             dataType:'json',
             success:function(data){
-                console.log(data)
                 if(data.code == 0){
                     
                    $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban');
@@ -730,18 +721,11 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                    if (imgUrl !== $('.set-avatar img').attr('src')) {
                         $('.header-user-info-avatar').attr('href', imgUrl) 
                    }
-                   console.log(base.userInfo.email, pre_email)
                    if (base.userInfo.email && base.userInfo.email !== pre_email) {
                         issaveMessage = true;
-                        console.log(issaveMessage)
 
                         $('.set-form-send').trigger('click');
-
-                        
                         isValidEmail();
-                        console.log(base.userInfo.email, pre_email)
-                        pre_email = base.userInfo.email;
-                        console.log(base.userInfo.email, pre_email)
                    } else {
                        base.notice('信息已保存');
                        pre_email = base.userInfo.email;
@@ -758,7 +742,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
 
     //保存密码
     function savePassword(){
-        console.log(base.userInfo.password, base.userInfo.oldpassword);
         $.ajax({
             url:'/v1/User/saveuserbase.action',
             data:{
@@ -792,7 +775,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             cache:false,
             dataType:'json',
             success:function(data){
-                console.log("发送邮件成功：",data, $('.set-form-email').val());
                 if(data.code==0){
                     console.log("发送邮件成功编码" + data.code);
                     base.notice('已向'+ $('.set-form-email').val()+'发送了一封验证邮件，请查收');
@@ -921,7 +903,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
     }
 //打开删除
     function openNewsDelete(id, el){
-    //     console.log(el);
         $('.news-delete').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
             $('.news-delete').removeClass('animated fadeInDown');
         });
@@ -940,7 +921,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                     if (data.code === 0 ) {
                         
                         closeNewsDelete()
-                        console.log(el.hasClass('noread'))
                         if (el.hasClass('noread')) {
                             minusNum(1);
                             el.removeClass('noread');

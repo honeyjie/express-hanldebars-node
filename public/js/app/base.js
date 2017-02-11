@@ -245,7 +245,7 @@ define(['jquery'],function(jquery){
         $.ajax({
             url:'/v1/account/send_register_valid_email.action',
             data:{
-
+                
             },
             type:'post',
             cache:false,

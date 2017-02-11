@@ -402,3 +402,6 @@ text{
 .loader img {
     width: 10%;
 }
+.cursor-default {
+    cursor: default;
+}

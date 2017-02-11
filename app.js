@@ -89,7 +89,6 @@ app.use(function(req, res, next) {
       if (!res.locals.partials) {
         res.locals.partials = {}
       }
-      console.log(data)
       res.locals.partials.loginstate = data;
       next();
     });

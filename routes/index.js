@@ -211,7 +211,6 @@ router.get('/setting', function(req, res, next) {
 //注册
 
 router.get('/register-complete', function(req, res, next) {
-  console.log(req.cookies.code, req.cookie)
     res.render('register-complete', {
       headImg: req.query.headImg,
       nickname: req.query.nickname,
@@ -418,7 +417,6 @@ router.get('/school-major-partial', function(req, res, next) {
         qs: req.query
     }, function(err, response, body) {
         var data = JSON.parse(body);
-        console.log(data);
         res.render('partials/Inslibrary/school-major', {
             data: data.data,
             sid: req.query.sid,
@@ -516,7 +514,6 @@ router.get('/select-school', function(req, res) {
         url: "http://api.inner.utuotu.com/v1/completeform/intelligentselection.action",
     }, function(err, response, body) {
         schoollist = JSON.parse(body).data;
-        console.log(schoollist)
         res.render('select-school',{
           schoollist: schoollist,
           form: true
@@ -545,7 +542,7 @@ router.get("/schoolmajor/filterschool.action", function(req, res) {
         var data = JSON.parse(body);
         var query = url.parse(req.url).query.substring(0, url.parse(req.url).query.lastIndexOf('_')-1) || "search=&page=0";
 
-        console.log(query, "filterschool");
+        console.log(query, "filterschool", data);
         if (!data) {
             return
         }
@@ -646,7 +643,6 @@ router.get("/Help/selectschoolad.action", function(req, res) {
         method: "GET",
         url: "http://api.inner.utuotu.com/v1/Help/selectschoolad.action",
     }, function(err, response, body) {
-      console.log(body);
       var data = JSON.parse(body);
       res.render('partials/helplist', {
             article: data.data,
@@ -710,23 +706,22 @@ router.get("/captcha/try.action", function(req, res) {
 });
 
 //表单提交
-router.post("/completeform/saveform.action", function(req, res) { 
-    console.log(req.body.length);
-    req.proxy.request({
-        method: "POST",
-        url: "http://api.inner.utuotu.com/v1/completeform/saveform.action",
-    }, function(err, response, body) {
-      for (var key in response.headers) {
-           res.set(key, response.headers[key])
-       }
+// router.post("/completeform/saveform.action", function(req, res) { 
+//     req.proxy.request({
+//         method: "POST",
+//         url: "http://api.inner.utuotu.com/v1/completeform/saveform.action",
+//     }, function(err, response, body) {
+//       for (var key in response.headers) {
+//            res.set(key, response.headers[key])
+//        }
       
-      console.log("前端请求数据", req.body, req);
-      console.log("后端返回数据", body, response)
+//       console.log("前端请求数据", req.body, req);
+//       console.log("后端返回数据", body, response)
 
-      // var data = JSON.parse(body);
-      res.send(body);
-    });
-});
+//       // var data = JSON.parse(body);
+//       res.send(body);
+//     });
+// });
 
 
 //login/opencode.action

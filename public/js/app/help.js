@@ -3,6 +3,7 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
     var question;
     var helpTimer;
     var fileUrl;
+    var firstupload = true;
     if($('.help')[0]){
         //阻止冒泡
         $('.help').on('click',function(e){
@@ -17,16 +18,13 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
             $('.help-send').addClass('hidden');
             $('.help-file').addClass('hidden');
             $('.help-close').removeClass('hidden');
-            // restoreIntialHelp();
-            // $('.help-ask').removeClass('hidden');
-            // $('.help-file').addClass('hidden');
-            // $('.help-result').addClass('hidden');
         },function(){
             console.log("2")
             $('.help-send').removeClass('hidden');
             $('.help-file').removeClass('hidden');
             $('.help-close').addClass('hidden');
             restoreIntialHelp();
+
             $('.help-ask').removeClass('hidden');
             $('.help-result').addClass('hidden');
 
@@ -45,8 +43,8 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
 
         //     }
         // })
-
-            if($('.help-file-icon')){
+        function upLoadFileEvent() {
+            // if($('.help-file-icon')){
                 var uploader = Qiniu.uploader({
                     runtimes: 'html5,flash,html4',    //上传模式,依次退化
                     browse_button: 'helpFile',       //上传选择的点选按钮，**必需**
@@ -121,7 +119,9 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
                         }
                     }
                 });
-            }
+            // }
+        }
+
         
 
 
@@ -327,7 +327,7 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         });
         // $('.help-icon').removeClass('hidden');
     }
-
+var isFirstLoad = true
     function selectType(_this){
         type = _this.attr('data-type')*1;
         console.log(type)
@@ -340,7 +340,22 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         $('.help-file img').eq(0).removeClass('hidden');
         $('.help-send img').addClass('hidden');
         $('.help-send img').eq(0).removeClass('hidden');
-        //id="helpFile" 
+        // $('.help-file-icon').attr('id', 'helpFile')
+        //第一次加载函数，之后把id补上
+
+        // if(isFirstLoad) {
+        //     $('.help-file-icon').attr('id', 'helpFile')
+        //    upLoadFileEvent(); 
+
+        //    isFirstLoad = false;
+        // } else {
+        //     $('.help-file-icon').attr('id', 'helpFile')
+        // }
+        $('.help-file-icon').attr('id', 'helpFile')
+        if (isFirstLoad) {
+            upLoadFileEvent(); 
+            isFirstLoad = false;
+        }
     }
 
     function notice(content){
@@ -402,7 +417,6 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
                     // $('.help-send img').eq(1).addClass('hidden');
                     // $('.help-send img').eq(2).removeClass('hidden');
                     restoreIntialHelp()
-                    
                    
                     $('.help-ask').addClass('hidden');
                     
@@ -436,5 +450,6 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         $('.help-question .help-upload span').attr('data-href', '');
         $('.help-upload').addClass('hidden');
         $('.help-file-icon').attr('id', '');
+        
     }
 });

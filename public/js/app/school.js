@@ -425,9 +425,9 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
             for(var i=0;i<$('.recommend-major-form .form-select-option li').length;i++){
                 arr.push($('.recommend-major-form .form-select-option li').eq(i).html())
             }
-            console.log(arr, majorMessage)
+            console.log(arr.length, majorMessage)
 
-            if(arr.indexOf(majorMessage)==-1){
+            if(arr.length === 0 || !arr.indexOf(userMajor)==-1){
                 majorMessage = null;
                 base.testFail($(this),'请从下拉列表中选择专业');
                 return;
@@ -454,7 +454,8 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
         });
         //获取推荐
         $('#school-content-page').on('click', '.recommend-major-get', function(e){
-            if (!userMajor) {
+            if ($('.recommend-major-form .form-select-option li').length === 0) {
+                base.testFail($('.recommend-major-form input'),'请从下拉列表中选择专业');
                 return;
             }
             console.log("1", userMajor, sid)
@@ -463,12 +464,12 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
         });   
         
         $('#school-content-page').on('keydown', function(e){
-            if (!userMajor) {
-                return;
-            }
             var e = e || window.event;
-            console.log(e.keyCode)
             if(e.keyCode === 13) {
+                $('.recommend-major-form input').trigger('blur');
+                if ($('.recommend-major-form .form-select-option li').length === 0) {
+                    return;
+                }
                 getMajor(userMajor, sid);
             }  
         });
@@ -780,10 +781,13 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                     //折叠学校详情
                     $('.school-brief-title img').click();
                     //仅展开第一个
-                    for(var i= 1;i<$('.school-major').length;i++){
-                        $('.school-major').eq(i).find('.school-box-title img').trigger('click');
+                    for(var i= 0;i<$('.school-major').length;i++){
+                        $('.school-major:not(:first-child)').find('.school-box-title img').trigger('click');
+                        $('.major-require-list').eq(i).find('li').eq(0).trigger('click');
                     }
                 }
+
+
                 if($('.major-require-content')[0]){
                     $('.major-require-content').scrollbar();
                 }
