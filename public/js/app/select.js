@@ -1830,12 +1830,12 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             data1 = {};
             data1.data = [];
             data1.lessMe = [];
-            data1.dotMax = {};
-            data1.dotMe = {};
-            data1.dotMax.x = 0;
-            data1.dotMax.y = 0;
-            data1.dotMe.x = 0;
-            data1.dotMe.y = 0;
+            data1.max = {};
+            data1.user_data = {};
+            data1.max.x = 0;
+            data1.max.y = 0;
+            data1.user_data.x = 0;
+            data1.user_data.y = 0;
             data1.color = {
                 stroke : '#ffffff',
                 fill : '#ffffff'
@@ -1852,17 +1852,24 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             }
         }
         else{
-            data1.lessMe = lessArr(data1);
-            data1.dotMax = maxObj(data1);
-            data1.dotMe = meObj(data1);
+            data1.lessMe = lessArr(data1);//小于我的得分数组
+            data1.max = maxObj(data1);//最多人数处（已知）
+            data1.user_data = meObj(data1);//我的得分（已知）
             data1.color = color(data1);
+            data1.min = minObj(data1);//最低得分点
+            data1.maxScorex = maxScoreObj(data1);//最高得分点
         }
         data2.lessMe = lessArr(data2);
-        data2.dotMax = maxObj(data2);
-        data2.dotMe = meObj(data2);
+        // data2.max = maxObj(data2);
+        // data2.user_data = meObj(data2);
         data2.color = color(data2);
+        data2.min = minObj(data2)
+        data2.maxScorex = maxScoreObj(data2);
 
-
+        //最小的x和最小的y(0)
+        var minX;
+        var minNumber;
+        var maxX;
         //得分小于我的数据
         function lessArr(data){
             var less = [];
@@ -1873,7 +1880,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             }
             return less;
         }
-        //最高分数据
+        //最多人数的数据,峰值
         function maxObj(data){
             var max = [];
             for(var i=0;i<data.data.length;i++){
@@ -1894,22 +1901,47 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                 }
             }
         }
-
+        //最低得分
+        function minObj(data){
+            var min = [];
+            for(var i=0;i<data.data.length;i++){
+                min.push(data.data[i].x)
+            }
+            minX = d3.min(min);//最少得分
+            for(var n=0;n<data.data.length;n++){
+                if(data.data[n].x==minX){
+                    return data.data[n];
+                }
+            }
+        }
+        //最高得分
+        function maxScoreObj(data){
+            var maxScorex = [];
+            for(var i=0;i<data.data.length;i++){
+                maxScorex.push(data.data[i].x)
+            }
+            maxX = d3.max(maxScorex);//最少得分
+            for(var n=0;n<data.data.length;n++){
+                if(data.data[n].x==maxX){
+                    return data.data[n];
+                }
+            }
+        }
         //颜色
         function color(data){
             var color = {
                 stroke : '',
                 fill : ''
             };
-            if(data.myScore>parseInt(data.dotMax.x)+parseInt((maxScore-data.dotMax.x)/2)){
+            if(data.myScore>parseInt(data.max.x)+parseInt((maxScore-data.max.x)/2)){
                 color.stroke = '#55ccff';
                 color.fill = '#bdeafc';
             }
-            else if(data.myScore>data.dotMax.x&&data.myScore<=parseInt(data.dotMax.x)+parseInt((maxScore-data.dotMax.x)/2)){
+            else if(data.myScore>data.max.x&&data.myScore<=parseInt(data.max.x)+parseInt((maxScore-data.max.x)/2)){
                 color.stroke = '#72d38a';
                 color.fill = '#c7f6d5';
             }
-            else if(data.myScore<=data.dotMax.x){
+            else if(data.myScore<=data.max.x){
                 color.stroke = '#f14141';
                 color.fill = '#ffcccc';
             }
@@ -1929,7 +1961,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             .attr('transform','translate('+margin.left+','+margin.top+')');
         //缩放比例
         var x = d3.scaleLinear()
-            .domain([0,maxScore])
+            .domain([data2.min.x,data2.maxScorex.x])
             .range([0,g_width]);
         var y = d3.scaleLinear()
             .domain([0,maxNumber])
@@ -1974,40 +2006,40 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             .append('g')
             .append('circle')
             .style('fill',data1.color.fill)
-            .attr('cx', x(data1.dotMax.x))
-            .attr('cy', y(data1.dotMax.y))
+            .attr('cx', x(data1.max.x))
+            .attr('cy', y(data1.max.y))
             .transition()
             .duration(1000)
             .style('fill',data2.color.fill)
-            .attr('cx', x(data2.dotMax.x))
-            .attr('cy', y(data2.dotMax.y))
+            .attr('cx', x(data2.max.x))
+            .attr('cy', y(data2.max.y))
             .attr('r', 5);
         svg     //自己
             .append('g')
             .append('circle')
             .attr('class','svg-dot')
             .style('stroke',data1.color.stroke)
-            .attr('cx', x(data1.dotMe.x))
-            .attr('cy', y(data1.dotMe.y))
+            .attr('cx', x(data1.user_data.x))
+            .attr('cy', y(data1.user_data.y))
             .transition()
             .duration(1000)
             .style('stroke',data2.color.stroke)
-            .attr('cx', x(data2.dotMe.x))
-            .attr('cy', y(data2.dotMe.y))
+            .attr('cx', x(data2.user_data.x))
+            .attr('cy', y(data2.user_data.y))
             .attr('r', 4);
         svg     //最高点线
             .append('g')
             .append('line')
             .style('stroke','#ffffff')
             .style('stroke-width',1)
-            .attr('x1', x(data1.dotMax.x))
-            .attr('y1', y(data1.dotMax.y)+5)
-            .attr('x2', x(data1.dotMax.x))
+            .attr('x1', x(data1.max.x))
+            .attr('y1', y(data1.max.y)+5)
+            .attr('x2', x(data1.max.x))
             .transition()
             .duration(1000)
-            .attr('x1', x(data2.dotMax.x))
-            .attr('y1', y(data2.dotMax.y)+5)
-            .attr('x2', x(data2.dotMax.x))
+            .attr('x1', x(data2.max.x))
+            .attr('y1', y(data2.max.y)+5)
+            .attr('x2', x(data2.max.x))
             .attr('y2', g_height);
         svg     //底线
             .append('g')
@@ -2021,45 +2053,45 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         svg     //大多数人得分文字
             .append('g')
             .append('text')
-            .attr('x', x(data1.dotMax.x)-36)
-            .attr('y', y(data1.dotMax.y)-15)
+            .attr('x', x(data1.max.x)-36)
+            .attr('y', y(data1.max.y)-15)
             .transition()
             .duration(1000)
-            .attr('x', x(data2.dotMax.x)-36)
-            .attr('y', y(data2.dotMax.y)-15)
+            .attr('x', x(data2.max.x)-36)
+            .attr('y', y(data2.max.y)-15)
             .text('大多数人得分');
         svg     //我的得分文字
             .append('g')
             .append('text')
-            .attr('x', x(data1.dotMe.x)-24)
-            .attr('y', y(data1.dotMe.y)-15)
+            .attr('x', x(data1.user_data.x)-24)
+            .attr('y', y(data1.user_data.y)-15)
             .transition()
             .duration(1000)
-            .attr('x', x(data2.dotMe.x)-24)
-            .attr('y', y(data2.dotMe.y)-15)
+            .attr('x', x(data2.user_data.x)-24)
+            .attr('y', y(data2.user_data.y)-15)
             .text('我的得分');
         svg     //大多数人得分
             .append('g')
             .append('text')
-            .attr('x', x(data1.dotMax.x)-8)
+            .attr('x', x(data1.max.x)-8)
             .attr('y', g_height-5)
-            .text(data1.dotMax.x)
+            .text(data1.max.x)
             .transition()
             .duration(1000)
-            .attr('x', x(data2.dotMax.x)-8)
+            .attr('x', x(data2.max.x)-8)
             .attr('y', g_height-5)
-            .text(data2.dotMax.x);
+            .text(data2.max.x);
         svg     //我的得分
             .append('g')
             .append('text')
-            .attr('x', x(data1.dotMe.x)-8)
+            .attr('x', x(data1.user_data.x)-8)
             .attr('y', g_height-5)
-            .text(data1.dotMax.x)
+            .text(data1.max.x)
             .transition()
             .duration(1000)
-            .attr('x', x(data2.dotMe.x)-8)
+            .attr('x', x(data2.user_data.x)-8)
             .attr('y', g_height-5)
-            .text(data2.dotMe.x);
+            .text(data2.user_data.x);
 
         svg     //最低分文字
             .append('g')
@@ -2078,7 +2110,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             .append('text')
             .attr('x', g_width-8)
             .attr('y', g_height-5)
-            .text(maxScore);
+            .text(data2.maxScorex.x);
         if(cb){
             cb();
         }
