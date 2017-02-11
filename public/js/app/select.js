@@ -1238,6 +1238,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             };
             $('.select-school-list li').removeClass('active');
             $(this).parent('li').addClass('active');
+            console.log(!$('.select-school-list li').hasClass('active'))
             if(!$('.select-school-list li').hasClass('active')){
                 $('.select-school-list li').animate({marginTop:40},200);
                 $('.select-school-list li').find('.school-list-info').animate({height:0},200);
