@@ -108,7 +108,9 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
     //转换百分比
     function getRatio(num) {
         var str =  num*100
+        console.log(str)
         var dot = str.toString().indexOf(".") ;
+        console.log(dot)
         if (dot !== -1 ) {//有小数点
             return str.toString().slice(0, dot) + "%";
         } else { //整数
@@ -1258,7 +1260,6 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                     success:function(data){
                         console.log(data);
                         var chartData = data.data;
-                        console.log(chartData)
                         gpaDate = {
                             now : {
                                 data : chartData.gpa.data,  
@@ -1831,22 +1832,22 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             data1.lessMe = [];
             data1.dotMax = {};
             data1.dotMe = {};
-            data1.dotMax.score = 0;
-            data1.dotMax.number = 0;
-            data1.dotMe.score = 0;
-            data1.dotMe.number = 0;
+            data1.dotMax.x = 0;
+            data1.dotMax.y = 0;
+            data1.dotMe.x = 0;
+            data1.dotMe.y = 0;
             data1.color = {
                 stroke : '#ffffff',
                 fill : '#ffffff'
             };
             for(var i=0;i<data2.data.length;i++){
                 data1.data.push({
-                    score : 0,
-                    number : 0
+                    x : 0,
+                    y : 0
                 });
                 data1.lessMe.push({
-                    score : 0,
-                    number : 0
+                    x : 0,
+                    y : 0
                 })
             }
         }
@@ -1866,7 +1867,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         function lessArr(data){
             var less = [];
             for(var i=0;i<data.data.length;i++){
-                if(data.data[i].score<=data.myScore){
+                if(data.data[i].x<=data.myScore){
                     less.push(data.data[i])
                 }
             }
@@ -1876,11 +1877,11 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         function maxObj(data){
             var max = [];
             for(var i=0;i<data.data.length;i++){
-                max.push(data.data[i].number)
+                max.push(data.data[i].y)
             }
             var maxY = d3.max(max);
             for(var n=0;n<data.data.length;n++){
-                if(data.data[n].number==maxY){
+                if(data.data[n].y==maxY){
                     return data.data[n];
                 }
             }
@@ -1888,7 +1889,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         //我的得分数据
         function meObj(data){
             for(var i=0;i<data.data.length;i++){
-                if(data.data[i].score==data.myScore){
+                if(data.data[i].x==data.myScore){
                     return data.data[i];
                 }
             }
@@ -1900,15 +1901,15 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                 stroke : '',
                 fill : ''
             };
-            if(data.myScore>parseInt(data.dotMax.score)+parseInt((maxScore-data.dotMax.score)/2)){
+            if(data.myScore>parseInt(data.dotMax.x)+parseInt((maxScore-data.dotMax.x)/2)){
                 color.stroke = '#55ccff';
                 color.fill = '#bdeafc';
             }
-            else if(data.myScore>data.dotMax.score&&data.myScore<=parseInt(data.dotMax.score)+parseInt((maxScore-data.dotMax.score)/2)){
+            else if(data.myScore>data.dotMax.x&&data.myScore<=parseInt(data.dotMax.x)+parseInt((maxScore-data.dotMax.x)/2)){
                 color.stroke = '#72d38a';
                 color.fill = '#c7f6d5';
             }
-            else if(data.myScore<=data.dotMax.score){
+            else if(data.myScore<=data.dotMax.x){
                 color.stroke = '#f14141';
                 color.fill = '#ffcccc';
             }
@@ -1936,20 +1937,20 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         //面积生成器
         var area = d3.area()
             .x(function(d){
-                return x(d.score);
+                return x(d.x);
             })
             .y0(g_height)
             .y1(function(d){
-                return y(d.number);
+                return y(d.y);
             })
             .curve(d3.curveCatmullRom.alpha(0.5));
         //线条生成器
         var line = d3.line()
             .x(function(d){
-                return x(d.score);
+                return x(d.x);
             })
             .y(function(d) {
-                return y(d.number)-1;
+                return y(d.y)-1;
             })
             .curve(d3.curveCatmullRom.alpha(0.5));
 
@@ -1973,40 +1974,40 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             .append('g')
             .append('circle')
             .style('fill',data1.color.fill)
-            .attr('cx', x(data1.dotMax.score))
-            .attr('cy', y(data1.dotMax.number))
+            .attr('cx', x(data1.dotMax.x))
+            .attr('cy', y(data1.dotMax.y))
             .transition()
             .duration(1000)
             .style('fill',data2.color.fill)
-            .attr('cx', x(data2.dotMax.score))
-            .attr('cy', y(data2.dotMax.number))
+            .attr('cx', x(data2.dotMax.x))
+            .attr('cy', y(data2.dotMax.y))
             .attr('r', 5);
         svg     //自己
             .append('g')
             .append('circle')
             .attr('class','svg-dot')
             .style('stroke',data1.color.stroke)
-            .attr('cx', x(data1.dotMe.score))
-            .attr('cy', y(data1.dotMe.number))
+            .attr('cx', x(data1.dotMe.x))
+            .attr('cy', y(data1.dotMe.y))
             .transition()
             .duration(1000)
             .style('stroke',data2.color.stroke)
-            .attr('cx', x(data2.dotMe.score))
-            .attr('cy', y(data2.dotMe.number))
+            .attr('cx', x(data2.dotMe.x))
+            .attr('cy', y(data2.dotMe.y))
             .attr('r', 4);
         svg     //最高点线
             .append('g')
             .append('line')
             .style('stroke','#ffffff')
             .style('stroke-width',1)
-            .attr('x1', x(data1.dotMax.score))
-            .attr('y1', y(data1.dotMax.number)+5)
-            .attr('x2', x(data1.dotMax.score))
+            .attr('x1', x(data1.dotMax.x))
+            .attr('y1', y(data1.dotMax.y)+5)
+            .attr('x2', x(data1.dotMax.x))
             .transition()
             .duration(1000)
-            .attr('x1', x(data2.dotMax.score))
-            .attr('y1', y(data2.dotMax.number)+5)
-            .attr('x2', x(data2.dotMax.score))
+            .attr('x1', x(data2.dotMax.x))
+            .attr('y1', y(data2.dotMax.y)+5)
+            .attr('x2', x(data2.dotMax.x))
             .attr('y2', g_height);
         svg     //底线
             .append('g')
@@ -2020,45 +2021,45 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         svg     //大多数人得分文字
             .append('g')
             .append('text')
-            .attr('x', x(data1.dotMax.score)-36)
-            .attr('y', y(data1.dotMax.number)-15)
+            .attr('x', x(data1.dotMax.x)-36)
+            .attr('y', y(data1.dotMax.y)-15)
             .transition()
             .duration(1000)
-            .attr('x', x(data2.dotMax.score)-36)
-            .attr('y', y(data2.dotMax.number)-15)
+            .attr('x', x(data2.dotMax.x)-36)
+            .attr('y', y(data2.dotMax.y)-15)
             .text('大多数人得分');
         svg     //我的得分文字
             .append('g')
             .append('text')
-            .attr('x', x(data1.dotMe.score)-24)
-            .attr('y', y(data1.dotMe.number)-15)
+            .attr('x', x(data1.dotMe.x)-24)
+            .attr('y', y(data1.dotMe.y)-15)
             .transition()
             .duration(1000)
-            .attr('x', x(data2.dotMe.score)-24)
-            .attr('y', y(data2.dotMe.number)-15)
+            .attr('x', x(data2.dotMe.x)-24)
+            .attr('y', y(data2.dotMe.y)-15)
             .text('我的得分');
         svg     //大多数人得分
             .append('g')
             .append('text')
-            .attr('x', x(data1.dotMax.score)-8)
+            .attr('x', x(data1.dotMax.x)-8)
             .attr('y', g_height-5)
-            .text(data1.dotMax.score)
+            .text(data1.dotMax.x)
             .transition()
             .duration(1000)
-            .attr('x', x(data2.dotMax.score)-8)
+            .attr('x', x(data2.dotMax.x)-8)
             .attr('y', g_height-5)
-            .text(data2.dotMax.score);
+            .text(data2.dotMax.x);
         svg     //我的得分
             .append('g')
             .append('text')
-            .attr('x', x(data1.dotMe.score)-8)
+            .attr('x', x(data1.dotMe.x)-8)
             .attr('y', g_height-5)
-            .text(data1.dotMax.score)
+            .text(data1.dotMax.x)
             .transition()
             .duration(1000)
-            .attr('x', x(data2.dotMe.score)-8)
+            .attr('x', x(data2.dotMe.x)-8)
             .attr('y', g_height-5)
-            .text(data2.dotMe.score);
+            .text(data2.dotMe.x);
 
         svg     //最低分文字
             .append('g')
