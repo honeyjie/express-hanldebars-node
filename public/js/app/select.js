@@ -1196,7 +1196,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             $(this).animate({marginTop:0},200);
             $(this).find('.school-list-info').animate({height:40},200);
             $(this).find('.school-list-mask').fadeIn(200);
-            $(this).find('.school-list-content').addClass('blur');
+            $(this).find('.school-list-logo').addClass('blur');
         }).on('mouseleave',function(){
             if($(this).parent('li').hasClass('active')){
                 $(this).find('.school-list-mask').fadeOut(200);
@@ -1205,7 +1205,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             $(this).animate({marginTop:40},200);
             $(this).find('.school-list-info').animate({height:0},200);
             $(this).find('.school-list-mask').fadeOut(200);
-            $(this).find('.school-list-content').removeClass('blur');
+            $(this).find('.school-list-logo').removeClass('blur');
         });
         //专业长度限定
         if($('.school-list-major span')[0]&&$('.school-list-major span').html().length>25){
@@ -1237,14 +1237,13 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                 return;
             };
             $('.select-school-list li').removeClass('active');
-            $(this).parent('li').addClass('active');
-            console.log(!$('.select-school-list li').hasClass('active'))
-            if(!$('.select-school-list li').hasClass('active')){
-                $('.select-school-list li').animate({marginTop:40},200);
-                $('.select-school-list li').find('.school-list-info').animate({height:0},200);
-            }
+            $('.select-school-list li').animate({marginTop:40},200);
+            $('.select-school-list li').find('.school-list-info').animate({height:0},200);
             $('.select-school-list li').find('.school-list-mask').fadeOut(200);
-            $('.select-school-list li').find('.school-list-content').removeClass('blur');
+            $('.select-school-list li').find('.school-list-logo').removeClass('blur');
+            $(this).parent('li').addClass('active');
+            $(this).animate({marginTop:0},200);
+            $(this).find('.school-list-info').animate({height:40},200);
             $(this).parents('.tab-box').find('.select-school-rank').html($(this).parent('li').find('.school-list-rank').html());
             //请求接口获取图表
 
