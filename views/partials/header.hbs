@@ -76,6 +76,14 @@
             </ul>
         </div>
         {{else}}
+        <div class="header-user-info hidden">
+            <img class="header-user-info-avatar" src="{{partials.loginstate.data.headerImg}}" alt=""/>
+            <ul class="header-user-info-operation hidden">
+                <li><a href="/user-point">积分中心</a></li>
+                <li><a href="/setting">个人设置</a></li>
+                <li class="header-user-logout"><a href="#">退出登录</a></li>
+            </ul>
+        </div>
         <div class="header-user-login">
             <div class="header-user-login-title"><a href="#">注册</a>/<a href="#">登录</a></div>
         </div>

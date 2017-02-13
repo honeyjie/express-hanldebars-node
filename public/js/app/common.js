@@ -387,12 +387,12 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
             cache:false,
             dataType:'json',
             success:function(data){
-                console.log(data.code)
+                console.log(data)
                 if(data.code==0){
-                    if(data.data.headerImg){
+                    if(data.data.login){
                         //成功登陆后记录用户信息
-                        userInfo();
-                        window.location.href = "/";
+                        // userInfo();
+                        location.reload();
                     }
 
                 }else if(data.code==111001004){
