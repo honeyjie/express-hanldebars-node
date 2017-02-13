@@ -358,6 +358,7 @@ define(['jquery'],function(jquery){
         onlyFloat: /^([0-9][.]{1}[0-9]{1})?$/ ,  //只能一位小数
         isInt: /^[0-9]*[0-9][0-9]*$/ ,  //不能有小数
         isFloat:  /^[0-9]+([.]{1}[0-9]{1})?$/ ,  //最多一位小数
+        isOtherInput: /[^\a-\z\A-Z\u4E00-\u9FA5]/g, //除中英文以外的输入
         testSuccess : testSuccess,
         testFail : testFail,
         testUsername : testUsername,

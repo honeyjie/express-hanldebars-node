@@ -216,22 +216,59 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
 
         //学校验证
         $('.set-form-school').on('input propertychange',function(){
-            base.userInfo.school = $('.set-form-school').val();
-            if (base.userInfo.school !== pre_school) {
-                canSaveInfo();
-            } else {
-                canotSaveInfo()
-            }
+            // if (/[^\a-\z\A-Z\u4E00-\u9FA5]/g.test($(this).val())) {
+            //     base.
+            // }
+            //特殊输入判断
+            $('.set-form-school').testInput({
+                rule : base.isOtherInput,
+                success : function(dom){
+                    //特殊输入
+                    base.userInfo.school = '';
+                    base.testFail(dom,'请输入正确的学校名称');
+                },
+                fail : function(dom){
+                    //不是特殊输入
+                    // base.userInfo.phone = '';
+                    base.testSuccess(dom);
+                    base.userInfo.school = dom.val();
+                    if (base.userInfo.school !== pre_school) {
+                        canSaveInfo();
+                    } else {
+                        canotSaveInfo()
+                    }
+                }
+            });      
         });
 
         //专业验证
         $('.set-form-major').on('input propertychange',function(){
-            base.userInfo.major = $('.set-form-major').val();
-            if (base.userInfo.major !== pre_major) {
-                canSaveInfo();
-            } else {
-                canotSaveInfo()
-            }
+            //特殊输入判断
+            $('.set-form-major').testInput({
+                rule : base.isOtherInput,
+                success : function(dom){
+                    //特殊输入
+                    base.userInfo.major = '';
+                    base.testFail(dom,'请输入正确的专业名称');
+                },
+                fail : function(dom){
+                    //不是特殊输入
+                    // base.userInfo.phone = '';
+                    base.testSuccess(dom);
+                    base.userInfo.major = dom.val();
+                    if (base.userInfo.major !== pre_school) {
+                        canSaveInfo();
+                    } else {
+                        canotSaveInfo()
+                    }
+                }
+            });
+            // base.userInfo.major = $('.set-form-major').val();
+            // if (base.userInfo.major !== pre_major) {
+            //     canSaveInfo();
+            // } else {
+            //     canotSaveInfo()
+            // }
         });
 
         // //个人信息判断提交
