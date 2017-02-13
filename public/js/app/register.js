@@ -227,7 +227,36 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
     });
 
     // localStorage.setItem('userInfoEmail', base.userInfo.email);
+    $('.agreeBox img').on('click', function(e) {
+        e.stopPropagation();
+        $('.agreeBox img').removeClass('hidden');
+        $(this).addClass('hidden');
+    })
+    $('.agreeBox label span').on('click', function(e) {
+        e.stopPropagation();
+        $('body').css('overflow','hidden');
+        base.openMask();
+        $('.view-article').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
+            $('.view-article').removeClass('animated fadeInDown');
+        });
+        $('.view-article-title').text("隐私协议");
+        $('.view-article-title').append("<img class='view-article-close' src='/img/icon-close.png'>")
+        $('.view-article-content p').html($('.help-article-content').html())
+
+    })
+
+    $('.view-article-title').on('click', '.view-article-close', function(e) {
+        e.stopPropagation();
+        common.closeArticle();
+        $('.view-article-title').text("文章");
+        $('.view-article-content p').html('');
+        $('.view-article-title').append("<img class='view-article-close' src='/img/icon-close.png'>")
+    })
     function register(){
+        if ($('agreeBox img').eq(0).hasClass('hidden')) {
+            base.notice('请阅读并同意网站隐私协议')
+            return;
+        }
         if(!base.userInfo.username||!base.userInfo.password||!base.userInfo.repassword||!base.userInfo.email){
             return;
         }

@@ -809,7 +809,7 @@
     line-height: 30px;
     color: #999999;
 }
-.register input{
+.register input:not([type=checkbox]){
     float: left;
     margin-left: 20px;
     width: 250px;
@@ -817,6 +817,18 @@
     line-height: 18px;
     padding: 5px 10px;
     font-size: 14px;
+}
+.register .agreeBox {
+    text-align: center;
+    margin-top: -10px;
+}
+.register .agreeBox label {
+    text-align: center;
+    color: #999;
+    font-size: 12px;
+}
+.register .agreeBox label span {
+    color: #ff6060;
 }
 .register .form-item.complete-title{
     text-align: center;
@@ -830,7 +842,7 @@
     width: 280px;
     height: 40px;
     line-height: 40px;
-    margin: 30px auto 0;
+    margin: 14px auto 0;
     font-size: 18px;
     font-weight: 600;
 }

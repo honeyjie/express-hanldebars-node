@@ -106,11 +106,16 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
             openArticle( $(this).attr('article-id'));
         });
         //关闭文章
-        $('.view-article-close').on('click',function(e){
+        // $('.view-article-close').on('click',function(e){
+        //     e.stopPropagation();
+        //     closeArticle();
+        // });
+        $('.view-article-title').on('click', '.view-article-close', function(e) {
             e.stopPropagation();
             closeArticle();
-        });
-
+            // $('.view-article-title').text("文章");
+            // $('.view-article-content p').html('')
+        })
         //打开登录
         $('.header-user-login-title').on('click',function(e){
             e.stopPropagation();
@@ -454,6 +459,7 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
     return {
         openLogin : openLogin,
         closeLogin : closeLogin,
-        openIndexLogin: openIndexLogin
+        openIndexLogin: openIndexLogin,
+        closeArticle: closeArticle
     }
 });

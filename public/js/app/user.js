@@ -261,6 +261,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                     //特殊输入
                     base.userInfo.major = '';
                     base.testFail(dom,'请输入正确的专业名称');
+                    canSaveInfo();
                 },
                 fail : function(dom){
                     //不是特殊输入
@@ -315,8 +316,9 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         //将之前的信息保存下来，当所填内容符合格式，且不相同时，可以保存
         function canSaveInfo(){
             //有信息改变
-            console.log($('.set-form-email').val() !== pre_email, $('.set-form-phone').val() !== pre_phone, $('.set-form-grade .form-select-value').text() !== pre_grade, $('.set-form-country .form-select-value').text() !== pre_country, base.userInfo.school !== pre_school, base.userInfo.major !== pre_major, $('.set-avatar img').attr('src')!== pre_Url, $('.set-avatar img').attr('src'), pre_Url)
-            if ($('.set-form-email').val() !== pre_email || $('.set-form-phone').val() !== pre_phone || base.userInfo.grade !== pre_grade || base.userInfo.country !== pre_country || base.userInfo.school !== pre_school || base.userInfo.major !== pre_major || imgUrl !== pre_Url) {
+            console.log($('.set-form-email').val(), pre_email, $('.set-form-grade .form-select-value').text(), pre_grade, $('.set-form-country .form-select-value').text(), pre_country, base.userInfo.major,pre_major )
+            console.log($('.set-form-email').val() !== pre_email, $('.set-form-phone').val() !== pre_phone, $('.set-form-grade .form-select-value').text() !== pre_grade, $('.set-form-country .form-select-value').text() !== pre_country, $('.set-form-school').val() !== pre_school, $('.set-form-major').val() !== pre_major, $('.set-avatar img').attr('src')!== pre_Url, $('.set-avatar img').attr('src'), pre_Url)
+            if ($('.set-form-email').val() !== pre_email || $('.set-form-phone').val() !== pre_phone || $('.set-form-grade .form-select-value').text() !== pre_grade || $('.set-form-country .form-select-value').text() !== pre_country || $('.set-form-school').val() !== pre_school || $('.set-form-major').val() !== pre_major || $('.set-avatar img').attr('src') !== pre_Url) {
                 $('.set-info-save').removeClass('button-solid-ban').addClass('button-solid');  
             } else {
                 $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban');
@@ -744,10 +746,11 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
 
     //保存个人信息
     function saveInfo(){
+        console.log(base.userInfo.email,$('.set-form-email').val(), base.userInfo.email || $('.set-form-email').val())
         $.ajax({
             url:'/v1/User/saveuser.action',
             data:{
-                email : base.userInfo.phone || $('.set-form-phone').val(),
+                email : base.userInfo.email || $('.set-form-email').val(),
                 phone : base.userInfo.phone || $('.set-form-phone').val(),
                 school : base.userInfo.school || $('.set-form-school').val(),
                 major : base.userInfo.major || $('.set-form-major').val(),
@@ -777,18 +780,19 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                     pre_phone = base.userInfo.phone || $('.set-form-phone').val();
                     pre_school = base.userInfo.school || $('.set-form-school').val();
                     pre_major = base.userInfo.major || $('.set-form-major').val();
-                    pre_grade = base.userInfo.grade || $('.set-form-grade').val();
-                    pre_country = base.userInfo.country || $('.set-form-country').val();
+                    pre_grade = base.userInfo.grade || $('.set-form-grade').text();
+                    pre_country = base.userInfo.country || $('.set-form-country').text();
                     pre_Url = imgUrl || $('.set-avatar img').attr('src');
               
-
+                    console.log(base.userInfo.email, pre_email, base.userInfo.email || $('.set-form-email').val() )
                    if (base.userInfo.email && base.userInfo.email !== pre_email) {
                         issaveMessage = true;
                         $('.set-form-send').trigger('click');
                         isValidEmail();
                    } else {
                        base.notice('信息已保存');
-                       pre_email = base.userInfo.email;
+                       isValidEmail();
+                       pre_email = base.userInfo.email || $('.set-form-email').val();
                    }
                 } else {
                     base.notice(data.msg);
