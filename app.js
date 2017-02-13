@@ -44,7 +44,7 @@ app.use('/v1',newProxy('api.inner.utuotu.com', {
     decorateRequest: function(proxyReq, originalReq) {
         // you can update headers
         var originalHost = originalReq.get('HOST').split(":")[0];
-        proxyReq.headers['HTTP_X_ORIGINAL_HOST'] = originalHost;
+        proxyReq.headers['X-ORIGINAL-HOST'] = originalHost;
         return proxyReq;
     }
 }));
