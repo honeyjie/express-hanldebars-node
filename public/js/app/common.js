@@ -278,37 +278,38 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
         _this.parents('.login-box').addClass('hidden');
     }
     //获取用户信息
-    function userInfo(){
-        $.ajax({
-            url:'/v1/user/cache.action',
-            data:{
-            },
-            type:'get',
-            cache:false,
-            dataType:'json',
-            success:function(data){
-                if(data.code==0){
-                    base.userInfo.login = true;
-                    base.userInfo.id = data.data.id;
-                    base.userInfo.username = data.data.name;
-                    base.userInfo.headerImg = data.data.headerImg;
-                    // $('.header-user-info-avatar').attr('src',base.userInfo.headerImg);
-                    // $('.header-user-login').addClass('hidden');
-                    // $('.header-user-info').removeClass('hidden');
-                }
-                else if(data.code==111001006){
-                    base.userInfo = {};
-                    base.userInfo.login = false;
-                    // $('.header-user-info').addClass('hidden');
-                    // $('.header-user-login').removeClass('hidden');
-                }
-                $('.impowerBox .title').remove();
-            },
-            error : function() {
-                base.notice('网络错误');
-            }
-        });
-    }
+    // function userInfo(){
+    //     $.ajax({
+    //         url:'/v1/user/cache.action',
+    //         data:{
+    //         },
+    //         type:'get',
+    //         cache:false,
+    //         dataType:'json',
+    //         success:function(data){
+    //             console.log(data)
+    //             if(data.code==0){
+    //                 base.userInfo.login = true;
+    //                 base.userInfo.id = data.data.id;
+    //                 base.userInfo.username = data.data.name;
+    //                 base.userInfo.headerImg = data.data.headerImg;
+    //                 // $('.header-user-info-avatar').attr('src',base.userInfo.headerImg);
+    //                 // $('.header-user-login').addClass('hidden');
+    //                 // $('.header-user-info').removeClass('hidden');
+    //             }
+    //             else if(data.code==111001006){
+    //                 base.userInfo = {};
+    //                 base.userInfo.login = false;
+    //                 // $('.header-user-info').addClass('hidden');
+    //                 // $('.header-user-login').removeClass('hidden');
+    //             }
+    //             $('.impowerBox .title').remove();
+    //         },
+    //         error : function() {
+    //             base.notice('网络错误');
+    //         }
+    //     });
+    // }
     //验证码start
     function captchaStart(){
         $('.login-captcha').removeClass('hidden');
@@ -433,6 +434,7 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
             cache:false,
             dataType:'json',
             success:function(data){
+                console.log(data)
                 if(data.code==0){
                     window.location.href = "/";
                 }

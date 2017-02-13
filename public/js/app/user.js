@@ -125,20 +125,26 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         //keyup时验证邮箱有效性
         // base.userInfo.email = 
         $('.set-form-email').on('blur',function(){
+
             $('.set-form-email').testInput({
                 rule : base.emailRule,
                 success : function(dom){
                     base.userInfo.email = dom.val();
-                    console.log(base.userInfo.email)
+                    console.log(base.userInfo.email, pre_email);
                     if(base.userInfo.email !== pre_email) {
                         base.testEmail(dom);
                         clearInterval(setTime);
-                        isValidEmail();
-                        $('.set-form-send').text('验证') ;
+                        // isValidEmail();
+                        $('.set-form-send').text('验证').removeClass('hidden') ;
                         $(this).removeClass('warning');
-                        $('.set-form-send').addClass('button-hollow').removeClass('button-hollow-not')
+                        $('.set-form-send').addClass('button-hollow-not').removeClass('button-hollow')
                         canSaveInfo();
                     }
+                     // else {
+                        // $('.set-form-send').addClass('button-hollow').removeClass('button-hollow-not')
+                    //     // clearInterval(setTime);
+                    // }
+
                 },
                 fail : function(dom){
                     base.userInfo.email = '';
@@ -152,7 +158,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         // if (sendEmailClick) {
             $('.set-form-send').on('click',function(){
                 //倒计时中不能再次点击
-                if ($(this).text() !== "验证") {
+                if ($(this).hasClass('button-hollow-not')) {
                     return;
                 }
                 // if(!sendEmailClick) {
@@ -161,11 +167,11 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                 // sendEmailClick = false;
                 //邮箱修改后可点击
                 console.log($('.set-form-email').val(), pre_email, base.userInfo.email)
-                if(base.userInfo.email === pre_email) {
-                    console.log("1")
-                    return;
-                } 
-                pre_email = base.userInfo.email;
+                // if(base.userInfo.email === pre_email) {
+                //     console.log("1")
+                //     return;
+                // } 
+                
                 $(this).removeClass('button-hollow').addClass('button-hollow-not');
                 // $(this).addClass('focus');
                 // $('.set-form-email').removeClass('warning');
@@ -175,11 +181,13 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
 
                 if (issaveMessage) {
                     base.notice('已向'+ $('.set-form-email').val()+'发送了一封验证邮件，请查收');
+                    issaveMessage = false;
+                    pre_email = base.userInfo.email;
                 } else {
                     console.log("发送验证邮件")
                     sendTestEmail();
                 }
-                
+                // pre_email = base.userInfo.email;
                 var time = 60;
                 setTime = setInterval(function() {
                     time = time -1;
@@ -202,10 +210,12 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             $('.set-form-phone').testInput({
                 rule : base.phoneRule,
                 success : function(dom){
-                    base.userInfo.phone = dom.val();
-                    base.testSuccess(dom);
-                    base.testPhone(dom);
-                    canSaveInfo();
+                    if(base.userInfo.phone !== pre_phone) {
+                        base.userInfo.phone = dom.val();
+                        base.testSuccess(dom);
+                        base.testPhone(dom);
+                        canSaveInfo();
+                    }
                 },
                 fail : function(dom){
                     base.userInfo.phone = '';
@@ -232,11 +242,10 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                     // base.userInfo.phone = '';
                     base.testSuccess(dom);
                     base.userInfo.school = dom.val();
-                    if (base.userInfo.school !== pre_school) {
-                        canSaveInfo();
-                    } else {
-                        canotSaveInfo()
-                    }
+                    canSaveInfo();
+                    // if (base.userInfo.school !== pre_school) {
+                    //     canSaveInfo();
+                    // }
                 }
             });      
         });
@@ -256,11 +265,10 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                     // base.userInfo.phone = '';
                     base.testSuccess(dom);
                     base.userInfo.major = dom.val();
-                    if (base.userInfo.major !== pre_school) {
-                        canSaveInfo();
-                    } else {
-                        canotSaveInfo()
-                    }
+                    canSaveInfo();
+                    // if (base.userInfo.major !== pre_major) {
+                    //     canSaveInfo();
+                    // } 
                 }
             });
             // base.userInfo.major = $('.set-form-major').val();
@@ -272,51 +280,50 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         });
 
         // //个人信息判断提交
-        $('.set-form-email').on('input propertychange',function(){
-            if($('.set-form-email').val() !== pre_email) {
-                canSaveInfo();
-            } else {
-                canotSaveInfo()
-            }
-        });
+        // $('.set-form-email').on('input propertychange',function(){
+        //     // if($('.set-form-email').val() !== pre_email) {
+        //     //     canSaveInfo();
+        //     // } 
+        // });
 
-        $('.set-form-phone').on('input propertychange',function(){
-            if($('.set-form-phone').val() !== pre_phone) {
-                canSaveInfo();
-            } else {
-                canotSaveInfo()
-            }
-        });
+        // $('.set-form-phone').on('input propertychange',function(){
+        //     // if($('.set-form-phone').val() !== pre_phone) {
+        //     //     canSaveInfo();
+        //     // } 
+        // });
 
         $('.set-form-grade .form-select-option li').on('click',function(){
             base.userInfo.grade = $(this).html();
-            
-            if (base.userInfo.grade !== pre_grade) {
-                canSaveInfo();
-            } else {
-                canotSaveInfo()
-            }
+            canSaveInfo();
+            // if (base.userInfo.grade !== pre_grade) {
+            //     canSaveInfo();
+            // }
         });
 
         $('.set-form-country .form-select-option li').on('click',function(){
             base.userInfo.country = $(this).html();
-            if (base.userInfo.country !== pre_country) {
-                canSaveInfo();
-            } else {
-                canotSaveInfo()
-            }
+            canSaveInfo();
+            // if (base.userInfo.country !== pre_country) {
+            //     canSaveInfo();
+            // } 
         });
 
         //邮箱、手机号有变化也可以
 
         //将之前的信息保存下来，当所填内容符合格式，且不相同时，可以保存
         function canSaveInfo(){
-            $('.set-info-save').removeClass('button-solid-ban').addClass('button-solid');
+            //有信息改变
+            if ($('.set-form-email').val() !== pre_email || $('.set-form-phone').val() !== pre_phone || base.userInfo.grade !== pre_grade || base.userInfo.country !== pre_country || base.userInfo.major !== pre_school || base.userInfo.major !== pre_major || imgUrl !== pre_Url) {
+                $('.set-info-save').removeClass('button-solid-ban').addClass('button-solid');  
+            } else {
+                $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban');
+            }
+            
         };
 
-        function canotSaveInfo(){
-            $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban');
-        };
+        // function canotSaveInfo(){
+            
+        // };
 
         //保存个人信息
         $('.set-info-save').on('click',function(){
@@ -395,7 +402,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         });
 
         $('.set-password-save').on('click',function(){
-            if(!base.userInfo.oldpassword||!base.userInfo.password||!base.userInfo.repassword){
+            if(!base.userInfo.oldpassword||!base.userInfo.password||!base.userInfo.repassword || $('.set-tab-password input').hasClass('error')){
                 return;
             }
             savePassword();
@@ -720,7 +727,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                     
                     base.userInfo.isValid = false;  
                 }else if(data.code===0){
-                    console.log("未验证")
+                    console.log("已验证")
                     base.userInfo.isValid = true;
                     $('.set-form-send').addClass('hidden');
                 }
@@ -734,12 +741,10 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
 
     //保存个人信息
     function saveInfo(){
-        clearInterval(setTime);
-        $('.set-form-send').text('验证') ;
         $.ajax({
             url:'/v1/User/saveuser.action',
             data:{
-                email : base.userInfo.email || $('.set-form-email').val(),
+                email : base.userInfo.phone || $('.set-form-phone').val(),
                 phone : base.userInfo.phone || $('.set-form-phone').val(),
                 school : base.userInfo.school || $('.set-form-school').val(),
                 major : base.userInfo.major || $('.set-form-major').val(),
@@ -752,15 +757,30 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             dataType:'json',
             success:function(data){
                 if(data.code == 0){
-                    
+                   clearInterval(setTime);
+                   $('.set-form-send').text('验证') ;
                    $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban');
-                   $('.set-form-send').removeClass('button-hollow').addClass('button-hollow-not')
+                   $('.set-form-send').removeClass('button-hollow-not').addClass('button-hollow');
                    if (imgUrl !== $('.set-avatar img').attr('src')) {
                         $('.header-user-info-avatar').attr('href', imgUrl) 
                    }
+                   // if (base.userInfo.phone !== pre_phone) {
+                   //      pre_email = base.userInfo.email;
+                   // }
+                   // pre_email = base.userInfo.phone || $('.set-form-phone').val()
+                   // pre_phone = base.userInfo.phone || $('.set-form-phone').val()
+                   // pre_Url
+                    // pre_email = base.userInfo.phone || $('.set-form-phone').val();
+                    pre_phone = base.userInfo.phone || $('.set-form-phone').val();
+                    pre_school = base.userInfo.school || $('.set-form-school').val();
+                    pre_major = base.userInfo.major || $('.set-form-major').val();
+                    pre_grade = base.userInfo.grade || $('.set-form-grade').val();
+                    pre_country = base.userInfo.country || $('.set-form-country').val();
+                    pre_Url = imgUrl || $('.set-avatar img').attr('src');
+              
+
                    if (base.userInfo.email && base.userInfo.email !== pre_email) {
                         issaveMessage = true;
-
                         $('.set-form-send').trigger('click');
                         isValidEmail();
                    } else {
@@ -792,6 +812,10 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                 if(data.code === 0){
                     $('.set-password-save').removeClass('button-solid').addClass('button-solid-ban');
                     base.notice('信息已保存');
+                } else if(data.code === 111002005) {
+                    base.notice('原密码输入错误');
+                } else if(data.code === 111002004) {
+                    base.notice('新密码不能与旧密码相同');
                 } else {
                     base.notice(data.msg);
                 }
