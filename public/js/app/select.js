@@ -402,6 +402,14 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                 $(this).val(value.substring(0,value.indexOf(".") + 3));
             }
         });
+        //强制小数点位数
+        function onlynum(dom, n) {
+            var value = dom.val();
+            var reg = /.*\..*/;
+            if(reg.test(value)){
+                dom.val(value.substring(0,value.indexOf(".") + n + 1));
+            }
+        }
         //GPA 失去焦点
         $('.select-gpa').on('blur',function(){
             $(this).testInput({
@@ -471,9 +479,12 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                 });
             }
             else if(select.language=='ielts'){
+                onlynum($(this), 1);
+                // console.log(/^[0-9]+([.]{1}[0-9]{1})?$/.test($(this).val()))
                 $(this).testInput({
                     rule : base.isFloat,
                     success : function(dom){
+                        // console.log(dom.val()<0, dom.val()>9, dom.val())
                         if(dom.val()<0||dom.val()>9){
                             select.ielts = null;
                             base.testFail(dom,'IELTS有效分值为0~9分');
@@ -510,6 +521,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                 });
             }
             else if(select.language=='ielts'){
+                onlynum($(this), 1);
                 $(this).testInput({
                     rule : base.isFloat,
                     success : function(dom){
@@ -549,6 +561,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                 });
             }
             else if(select.language=='ielts'){
+                onlynum($(this), 1);
                 $(this).testInput({
                     rule : base.isFloat,
                     success : function(dom){
@@ -588,6 +601,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                 });
             }
             else if(select.language=='ielts'){
+                onlynum($(this), 1);
                 $(this).testInput({
                     rule : base.isFloat,
                     success : function(dom){
@@ -627,6 +641,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                 });
             }
             else if(select.language=='ielts'){
+                onlynum($(this), 1);
                 $(this).testInput({
                     rule : base.isFloat,
                     success : function(dom){
@@ -812,6 +827,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
 
         //标准化考试 AW
         $('.select-exam-aw').on('input propertychange',function(){
+            onlynum($(this), 1);
             if(select.exam=='gre'){
                 $(this).testInput({
                     rule : base.isFloat,
@@ -1771,26 +1787,49 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         }
 
         $.ajax({
-            url:'/completeform/saveform.action',
+            url:'/v1/completeform/saveform.action',
             data: formdata,
             type:'post',
             cache:false,
             dataType:'json',
             success:function(data){
-                console.log("提交数据", formdata);
-                console.log("返回数据", data);
-                // localStorage.removeItem("formdata", formdata);
-                // console.log("清除数据", formdata);
-                // localStorage.setItem("formdata", formdata);
-                // console.log("存储数据", formdata);
-                window.location.href = "/select-school";
+                //未登录情况下打开登录框
+                if(data.code === 111001006) {
+                    common.openIndexLogin();
+                } else if(data.code === 0) {
+                    //请求结果，当无推荐学校时不跳转
+                    $.ajax({
+                        url:'/v1/completeform/intelligentselection.action',
+                        type:'GET',
+                        cache:false,
+                        dataType:'json',
+                        success: function(result) {
+                            if (result.data.Sprint[0] && result.data.Middle[0] && result.data.Bottom[0]) {
+                               window.location.href = "/select-school"; 
+                            } else {
+                                $('.select-form-noresult').removeClass('hidden');
+                                $('.mask').removeClass('hidden');
+                            }
+                        },
+                        error: function() {
+                            base.notice('网络错误');
+                        }
+                    })
+                }
+
             },
             error : function() {
                 base.notice('网络错误');
             }
         });
-
     }
+
+    $('.select-form-noresult-info').on('click', function(e) {
+        e.stopPropagation();
+        $('.select-form-noresult').addClass('hidden');
+        $('.mask').addClass('hidden');
+
+    })
     //生成图表
     function chart(){
         chartArea('.select-svg-gpa',gpaDate.before,gpaDate.now,4,gpaDate.now.max.y,function(){

@@ -707,26 +707,32 @@ define(['jquery','fullpage','iscroll','base','common','d3'], function(jquery,ful
         });
         //标准化考试 AW
         $('.select-exam-aw').on('input propertychange',function(){
-            onlynum($(this), 1);
+            
+            console.log($(this).val())
+            // if(/^(\d)(\.)$/.test($(this).val()){
+                onlynum($(this), 1);
+            // };
+
             if(select.exam_score.gre){
-                $(this).testInput({
-                    rule : base.isFloat,
-                    success : function(dom){
-                        if(dom.val()<0||dom.val()>6){
+                // if (!/^(\d)(\.)$/.test($(this).val()) {
+                    $(this).testInput({
+                        rule : base.isFloat,
+                        success : function(dom){
+                            if(dom.val()<0||dom.val()>6){
+                                exam.AW = null;
+                                base.testFail(dom,'AW有效成绩分值为0~6');
+                                return;
+                            }
+                            exam.AW = dom.val();
+                            base.testSuccess(dom);
+                        },
+                        fail : function(dom){
                             exam.AW = null;
                             base.testFail(dom,'AW有效成绩分值为0~6');
-                            return;
                         }
-                        exam.AW = dom.val();
-                        base.testSuccess(dom);
-                    },
-                    fail : function(dom){
-                        exam.AW = null;
-                        base.testFail(dom,'AW有效成绩分值为0~6');
-                    }
-                });
-            }
-            else if(select.exam_score.gmat){
+                    });
+                // }
+            }else if(select.exam_score.gmat){
                 $(this).testInput({
                     rule : base.isFloat,
                     success : function(dom){
