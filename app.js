@@ -39,7 +39,13 @@ app.use(logger('dev'));
 
 app.use('/v1',newProxy('api.inner.utuotu.com', {
     forwardPath: function(req, res) {
-    return '/v1' + require('url').parse(req.url).path;
+        return '/v1' + require('url').parse(req.url).path;
+    },
+    decorateRequest: function(proxyReq, originalReq) {
+        // you can update headers
+        var originalHost = originalReq.get('HOST').split(":")[0];
+        proxyReq.headers['X-ORIGINAL-HOST'] = originalHost;
+        return proxyReq;
     }
 }));
 
