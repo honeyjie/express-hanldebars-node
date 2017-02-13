@@ -812,6 +812,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                 if(data.code === 0){
                     $('.set-password-save').removeClass('button-solid').addClass('button-solid-ban');
                     base.notice('信息已保存');
+                    $('.set-tab-password input').val('');
                 } else if(data.code === 111002005) {
                     base.notice('原密码输入错误');
                 } else if(data.code === 111002004) {
