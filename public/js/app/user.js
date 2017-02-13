@@ -236,6 +236,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                     //特殊输入
                     base.userInfo.school = '';
                     base.testFail(dom,'请输入正确的学校名称');
+                    canSaveInfo();
                 },
                 fail : function(dom){
                     //不是特殊输入
@@ -243,6 +244,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                     base.testSuccess(dom);
                     base.userInfo.school = dom.val();
                     canSaveInfo();
+                    
                     // if (base.userInfo.school !== pre_school) {
                     //     canSaveInfo();
                     // }
@@ -313,7 +315,8 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         //将之前的信息保存下来，当所填内容符合格式，且不相同时，可以保存
         function canSaveInfo(){
             //有信息改变
-            if ($('.set-form-email').val() !== pre_email || $('.set-form-phone').val() !== pre_phone || base.userInfo.grade !== pre_grade || base.userInfo.country !== pre_country || base.userInfo.major !== pre_school || base.userInfo.major !== pre_major || imgUrl !== pre_Url) {
+            console.log($('.set-form-email').val() !== pre_email, $('.set-form-phone').val() !== pre_phone, $('.set-form-grade .form-select-value').text() !== pre_grade, $('.set-form-country .form-select-value').text() !== pre_country, base.userInfo.school !== pre_school, base.userInfo.major !== pre_major, $('.set-avatar img').attr('src')!== pre_Url, $('.set-avatar img').attr('src'), pre_Url)
+            if ($('.set-form-email').val() !== pre_email || $('.set-form-phone').val() !== pre_phone || base.userInfo.grade !== pre_grade || base.userInfo.country !== pre_country || base.userInfo.school !== pre_school || base.userInfo.major !== pre_major || imgUrl !== pre_Url) {
                 $('.set-info-save').removeClass('button-solid-ban').addClass('button-solid');  
             } else {
                 $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban');
