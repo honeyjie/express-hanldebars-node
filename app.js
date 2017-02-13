@@ -40,13 +40,13 @@ app.use(logger('dev'));
 app.use('/v1',newProxy('api.inner.utuotu.com', {
     forwardPath: function(req, res) {
         return '/v1' + require('url').parse(req.url).path;
-    },
-    decorateRequest: function(proxyReq, originalReq) {
-        // you can update headers
-        let originalHost = originalReq.get('HOST').split(":")[0];
-        proxyReq.headers['X_ORIGINAL_HOST'] = originalHost;
-        return proxyReq;
-  }
+    }//,
+    // decorateRequest: function(proxyReq, originalReq) {
+    //     // you can update headers
+    //     let originalHost = originalReq.get('HOST').split(":")[0];
+    //     proxyReq.headers['X_ORIGINAL_HOST'] = originalHost;
+    //     return proxyReq;
+    // }
 }));
 
 app.use(bodyParser.json());
