@@ -139,7 +139,6 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
             if (!$('.help-icon-notice').hasClass('hidden')) {
                $('.help-icon-notice').addClass('hidden'); 
             }
-            
         }, 30000)
         //打开帮助
         $('.help-icon-pic').on('click',function(e){

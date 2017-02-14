@@ -1,4 +1,5 @@
 define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,fullpage,scrollbar,base,common,d3){
+
     var gpaDate,tofelDate,greDate,learningDate,recommendDate,prizeDate;
     var formdata;
     function getChartData(id) {
@@ -200,10 +201,16 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         $('.select-work').check();
         $('.select-prize').check();
 
-        //浮层
-        if($('.select-form-view')[0]){
-            openSelectView();
+        //未登录
+        if ($('.select-form')[0] && $('.header-user-info').hasClass('hidden')) {
+            common.openIndexLogin();
+        } else {
+            //浮层
+            if($('.select-form-view')[0] && !localStorage.getItem('completedForm')){
+                openSelectView();
+            }
         }
+
         $('.select-form-view').on('click',function(e){
             e.stopPropagation();
         });
@@ -1794,9 +1801,12 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             dataType:'json',
             success:function(data){
                 //未登录情况下打开登录框
-                if(data.code === 111001006) {
-                    common.openIndexLogin();
-                } else if(data.code === 0) {
+                // if(data.code === 111001006) {
+                //     common.openIndexLogin();
+                // } else 
+                if(data.code === 0) {
+                    // completedForm = true;
+                    localStorage.setItem('completedForm', true);
                     //请求结果，当无推荐学校时不跳转
                     $.ajax({
                         url:'/v1/completeform/intelligentselection.action',

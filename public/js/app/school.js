@@ -17,8 +17,7 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
     if (localStorage.getItem("userMajor")) {
         getMajor(localStorage.getItem("userMajor"), sid);
     }
-
-
+    
     $(function(){
         //模拟滚动条
         if($('#screen-state')[0]){

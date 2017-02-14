@@ -224,8 +224,6 @@ define(['jquery'],function(jquery){
             },200);
         });
     }
-
-
     //打开遮罩层
     function openMask(){
         $('.mask').removeClass('hidden').addClass('animated fadeIn').one(animationend,function(){
@@ -239,7 +237,13 @@ define(['jquery'],function(jquery){
         });
     }
 
-
+    //未登录状态
+    function openIndexLogin(){
+        base.openMask();
+        // $('.index-mask').removeClass('hidden');
+        $('.login').addClass('index');
+        coommon.openLogin();
+    }
     //发送验证邮件
     function sendTestEmail(){
         $.ajax({
@@ -370,6 +374,7 @@ define(['jquery'],function(jquery){
         noticeShort: noticeShort,
         openMask : openMask,
         closeMask : closeMask,
-        sendTestEmail: sendTestEmail
+        sendTestEmail: sendTestEmail,
+        openIndexLogin: openIndexLogin
     }
 });
