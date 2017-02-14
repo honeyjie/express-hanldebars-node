@@ -3,7 +3,7 @@
     <div class="user-main news">
         <div class="news-tab">
             <ul class="tab-title clear">
-                <a href="/user-news?system=1">
+                <a href="/notifications?system=1">
                     {{#if system}}
                     <li class="active sys-tab">系统消息
                     {{else}}
@@ -17,7 +17,7 @@
                     {{/if}}
                     </li>
                 </a>
-                <a href="/user-news">
+                <a href="/notifications">
                     {{#unless system}}
                     <li class="active user-tab">个人消息
                     {{else}}

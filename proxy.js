@@ -7,7 +7,6 @@ function Proxy() {
 }
 
 Proxy.prototype.request = function(options, callback) {
-
     var _options = {
         form: this.req.body,
         qs: this.req.query,

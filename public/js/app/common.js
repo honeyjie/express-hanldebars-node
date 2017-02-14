@@ -6,7 +6,10 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
             closeSearch();
             //关闭登录
             if($('.login')[0]&&!$('.login').hasClass('hidden')){
-                closeLogin();
+                if($('.select-form')[0]) {
+                    return;
+                }
+                closeLogin(); 
             }
             //关闭下拉
             $('.form-select').removeClass('focus');
@@ -77,22 +80,10 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
         $('.header-search input').on('input propertychange',function(){
             var searchVal = $(this).val();
             search(searchVal);
-            console.log(searchVal)
             setTimeout(function() {
-                $('.searchmore').attr('href', '/school-screen?value='+ searchVal + '&page=0'); 
-                console.log($('.searchmore'), $('.searchmore').attr('href'));
+                $('.searchmore').attr('href', '/school-list?value='+ searchVal + '&page=0'); 
             }, 500);
-
-            //跳转到school-screen 页面，将选中值填入，并搜索
-   
         });
-
-
-
-        // $('.screen-side-form-search').on('click',function(){
-        //     var school = $('.screen-form-school').val();
-        //     searchSchool(school);
-        // });
 
         //搜索框阻止冒泡
         $('.header-search').on('click',function(e){
@@ -102,7 +93,6 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
         $('#search-scroll').on('click', '.header-search-result-article ul li', function(e){
             e.preventDefault()
             e.stopPropagation();
-            console.log($(this).attr('article-id'));
             openArticle( $(this).attr('article-id'));
         });
         //关闭文章
@@ -113,8 +103,6 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
         $('.view-article-title').on('click', '.view-article-close', function(e) {
             e.stopPropagation();
             closeArticle();
-            // $('.view-article-title').text("文章");
-            // $('.view-article-content p').html('')
         })
         //打开登录
         $('.header-user-login-title').on('click',function(e){
@@ -138,12 +126,6 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
         $('.login-captcha-refresh').on('click',function(){
             captchaStart();
         });
-        //验证码验证
-        // $('.login-captcha-pics').on('click','img',function( e, imageFiledName){
-        //     console.log($(this).data('value'));
-        //     captchaTry($(this).data('value'), imageFiledName);
-        // });
-
 
         //登录
         $('.login').on('click',function(e){
@@ -204,7 +186,6 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
                 dataType:'html',
                 success:function(data){
                     $('.header-search-result-list').html(data);
-                    console.log(data);
                     //模拟滚动条
                     $('#search-scroll').scrollbar();
                     $('#search-scroll').on('wheel',function(e){
@@ -236,7 +217,6 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
             cache:false,
             dataType:'json',
             success:function(data){
-                console.log(data);
                 $('.view-article-content p').html(data.data.content);
             },
             error : function() {
@@ -281,39 +261,6 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
         $('.login-box').removeClass('hidden');
         _this.parents('.login-box').addClass('hidden');
     }
-    //获取用户信息
-    // function userInfo(){
-    //     $.ajax({
-    //         url:'/v1/user/cache.action',
-    //         data:{
-    //         },
-    //         type:'get',
-    //         cache:false,
-    //         dataType:'json',
-    //         success:function(data){
-    //             console.log(data)
-    //             if(data.code==0){
-    //                 base.userInfo.login = true;
-    //                 base.userInfo.id = data.data.id;
-    //                 base.userInfo.username = data.data.name;
-    //                 base.userInfo.headerImg = data.data.headerImg;
-    //                 // $('.header-user-info-avatar').attr('src',base.userInfo.headerImg);
-    //                 // $('.header-user-login').addClass('hidden');
-    //                 // $('.header-user-info').removeClass('hidden');
-    //             }
-    //             else if(data.code==111001006){
-    //                 base.userInfo = {};
-    //                 base.userInfo.login = false;
-    //                 // $('.header-user-info').addClass('hidden');
-    //                 // $('.header-user-login').removeClass('hidden');
-    //             }
-    //             $('.impowerBox .title').remove();
-    //         },
-    //         error : function() {
-    //             base.notice('网络错误');
-    //         }
-    //     });
-    // }
     //验证码start
     function captchaStart(){
         $('.login-captcha').removeClass('hidden');
@@ -392,11 +339,8 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
             cache:false,
             dataType:'json',
             success:function(data){
-                console.log(data)
                 if(data.code==0){
                     if(data.data.login){
-                        //成功登陆后记录用户信息
-                        // userInfo();
                         location.reload();
                     }
 
@@ -417,8 +361,6 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
                     //验证失败
                     $('.login-message').removeClass('hidden').html('请点击图标进行验证');
                     captchaStart();
-                }else{
-                    console.log('登陆出错');
                 }
             },
             error : function() {
@@ -438,7 +380,6 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
             cache:false,
             dataType:'json',
             success:function(data){
-                console.log(data)
                 if(data.code==0){
                     window.location.href = "/";
                 }

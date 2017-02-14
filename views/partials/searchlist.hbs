@@ -4,11 +4,11 @@
             <div class="header-search-result-title">学校名称</div>
             <ul class="header-search-list header-search-list-school">
                 {{#each data.school}}
-                    <li><a href="/school-recommend?sid={{id}}">{{zh_school_name}}({{en_school_name}})</a></li>
+                    <li><a href="/school-detail?sid={{id}}">{{zh_school_name}}({{en_school_name}})</a></li>
                 {{/each}}
             </ul>
             {{#ifNews 5 data.school.length}}
-                <a href="/school-screen" class="searchmore"><p>更多...</p></a>
+                <a href="/school-list" class="searchmore"><p>更多...</p></a>
             {{/ifNews}}
 
         </div>

@@ -6,19 +6,19 @@
             <a href="#">选校定位</a>
             <ul class="header-nav-select hidden">
                 <li><a href="/select-form">智能选校</a></li>
-                <li><a href="/school-screen">院校库</a></li>
+                <li><a href="/school-list">院校库</a></li>
             </ul>
         </li> --}}
         {{#if screen}}
-        <li class="active"><a href="/school-screen">院校库</a></li>
+        <li class="active"><a href="/school-list">院校库</a></li>
         {{else}}
-        <li><a href="/school-screen">院校库</a></li>
+        <li><a href="/school-list">院校库</a></li>
         {{/if}}
         
         {{#if form}}
-        <li class="active"><a href="/select-form">智能选校</a></li>
+        <li class="active"><a href="/form">智能选校</a></li>
         {{else}}
-        <li><a href="/select-form">智能选校</a></li>
+        <li><a href="/form">智能选校</a></li>
         {{/if}}
         
         {{#if addApply}}
@@ -33,10 +33,10 @@
             {{#if userCenter}}
             <li class="newsCenter active">
                 {{#if partials.systemState}}
-                <a href="/user-news?system=1">消息中心</a>
+                <a href="/notifications?system=1">消息中心</a>
                 {{else}}
                     {{#if partials.userState}}
-                    <a href="/user-news">消息中心</a>
+                    <a href="/notifications">消息中心</a>
                     {{else}}
                     <a href="/user-news?system=1">消息中心</a>
                     {{/if}}
@@ -49,12 +49,12 @@
             {{else}}
             <li class="newsCenter">
                 {{#if partials.systemState}}
-                <a href="/user-news?system=1">消息中心</a>
+                <a href="/notifications?system=1">消息中心</a>
                 {{else}}
                     {{#if partials.userState}}
                     <a href="/user-news">消息中心</a>
                     {{else}}
-                    <a href="/user-news?system=1">消息中心</a>
+                    <a href="/notifications?system=1">消息中心</a>
                     {{/if}}
                 {{/if}}
                 
@@ -70,7 +70,7 @@
         <div class="header-user-info">
             <img class="header-user-info-avatar" src="{{partials.loginstate.data.headerImg}}" alt=""/>
             <ul class="header-user-info-operation hidden">
-                <li><a href="/user-point">积分中心</a></li>
+                <li><a href="/points">积分中心</a></li>
                 <li><a href="/setting">个人设置</a></li>
                 <li class="header-user-logout"><a href="#">退出登录</a></li>
             </ul>
@@ -79,7 +79,7 @@
         <div class="header-user-info hidden">
             <img class="header-user-info-avatar" src="{{partials.loginstate.data.headerImg}}" alt=""/>
             <ul class="header-user-info-operation hidden">
-                <li><a href="/user-point">积分中心</a></li>
+                <li><a href="/points">积分中心</a></li>
                 <li><a href="/setting">个人设置</a></li>
                 <li class="header-user-logout"><a href="#">退出登录</a></li>
             </ul>

@@ -11,8 +11,7 @@ var index = require('./routes/index');
 var proxy = require("./proxy").proxy;
 var newProxy = require('express-http-proxy');
 var helpers = require('./lib/helpers');
-var Promise = global.Promise || require('promise');
-
+var compression = express('compression');
 var app = express();
 
 //设置视图位置
@@ -33,6 +32,7 @@ app.engine('hbs', hbs.engine);
 app.set('port', process.env.PORT || 3000);
 
 app.set('view cache', false);
+
 app.use(favicon(__dirname + '/public/img/favicon.ico'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(logger('dev'));
@@ -54,10 +54,6 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 app.use(cookieParser());
-
-// 文件上传中间件。注意：
-// 1. 名字一定为 "file", <input type="file" name="file">
-// 2. method一定要为 post
 app.use(multer({
     dest: "/tmp/upload"
 }).single("file"));
@@ -119,6 +115,7 @@ app.use( function(req, res, next) {
     });
     
 });
+
 
 app.use('/', index); 
 

@@ -49,13 +49,6 @@ define(['jquery'],function(jquery){
                 else{
                     testSuccess(dom);
                 }
-                // if(!data.data.valid){
-                //     testSuccess(dom);
-                // }
-                // else{
-                //     userInfo.username = '';
-                //     testFail(dom,'该用户名已注册');
-                // }
             },
             error : function() {
                 notice('网络错误');
@@ -74,7 +67,6 @@ define(['jquery'],function(jquery){
             cache:false,
             dataType:'json',
             success:function(data){
-                console.log(data);
                 if(data.data.valid){//返回true表示系统已存在，不可以被注册
                    testSuccess(dom);
                 }
@@ -102,7 +94,6 @@ define(['jquery'],function(jquery){
             cache:false,
             dataType:'json',
             success:function(data){
-                console.log("手机验证成功" + data)
                 if(data.valid){
                     userInfo.phone = '';
                     testFail(dom,'该手机号已注册'); 
@@ -127,7 +118,6 @@ define(['jquery'],function(jquery){
             cache:false,
             dataType:'json',
             success:function(data){
-                console.log(data);
                 if(data.code === 0){
                     testSuccess(dom);
                 }

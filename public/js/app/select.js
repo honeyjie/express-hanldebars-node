@@ -101,7 +101,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
     }
 
     $('.select-school-buttons button').eq(0).click(function() {
-        window.location.href = "/select-form";
+        window.location.href = "/form";
     })
     $('.select-school-buttons button').eq(1).click(function() {
         window.location.href = "/addApply";
@@ -212,7 +212,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         }
         //已登录已提交
         if (!$('.header-user-info').hasClass('hidden') && localStorage.getItem('completedForm')) {
-            $('.header-nav li').eq(1).find('a').attr('href', '/select-school');
+            $('.header-nav li').eq(1).find('a').attr('href', '/recommendation');
         }
 
         $('.select-form-view').on('click',function(e){
@@ -1819,7 +1819,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                         dataType:'json',
                         success: function(result) {
                             if (result.data.Sprint || result.data.Middle || result.data.Bottom) {
-                               window.location.href = "/select-school"; 
+                               window.location.href = "/recommendation"; 
                             } else {
                                 $('.select-form-noresult').removeClass('hidden');
                                 $('.mask').removeClass('hidden');

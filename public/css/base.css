@@ -159,13 +159,13 @@ img{
 .list-page li:hover a,.list-page li.active a{
     border: 1px solid #dddddd;
     line-height: 24px;
-    background: #ffffff;
+    background: #c3c3c5;
     color: #666666;
 }
-.list-page li:hover .list-page-pre{
+.list-page li.active:hover .list-page-pre{
     border-right: 10px solid #666666;
 }
-.list-page li:hover .list-page-next{
+.list-page li.active:hover .list-page-next{
     border-left: 10px solid #666666;
 }
 .list-page-total{
@@ -291,7 +291,8 @@ img{
     line-height: 16px;
 }
 .form-select-not{
-    border: 1px solid #fff !important;
+    border: 1px solid #f7f7f7 !important;
+    color: #999999;
 }
 .form-select{
     position: relative;
@@ -313,6 +314,10 @@ img{
     border-top: 10px solid #999999;
     margin-top: -5px;
 }
+.form-select-arrow-not {
+    border-top: 10px solid #c8c8c8 !important;
+}
+
 .form-select-option{
     position: absolute;
     top: 100%;

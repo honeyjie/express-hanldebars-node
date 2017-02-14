@@ -1,7 +1,5 @@
 'use strict';
 
-var Promise = global.Promise || require('promise');
-
 var express = require('express');
 var app = express();
 var router = express.Router();
@@ -70,7 +68,7 @@ router.get('/', function (req, res, next) {
 
 
 //用户
-router.get('/user-news', function(req, res, next) {
+router.get('/notifications', function(req, res, next) {
   var newsstate;
   req.proxy.request({
       method: "GET",
@@ -98,7 +96,7 @@ router.get('/user-news', function(req, res, next) {
         }
       }
       setTimeout(function(res) {
-        res.render('user-news', {
+        res.render('notifications', {
                 data: getmsg.data,
                 system: req.query.system,
                 urlPath :urlPath,
@@ -110,7 +108,7 @@ router.get('/user-news', function(req, res, next) {
   })
 });
 
-router.get('/user-point', function(req, res, next) {
+router.get('/points', function(req, res, next) {
   var currnetcredit,
       creditlog,
       mission,
@@ -164,7 +162,7 @@ router.get('/user-point', function(req, res, next) {
             urlPath = urlPath + "?page="
           }
           setTimeout(function(res) {//异步执行，传递参数
-            res.render('user-point', {
+            res.render('points', {
               currnetcredit: currnetcredit,
               creditlog: creditlog,
               mission: mission,
@@ -187,7 +185,7 @@ router.get('/User/msganswer.action', function(req, res, next) {
       var getmsg = JSON.parse(body);
         res.render('partials/msganswer', {
           data: getmsg.data,
-          layout: "naked"
+          layout: null
         })
   })
 });
@@ -306,7 +304,7 @@ router.get('/school-all-partial', function(req, res, next) {
         data: data.data,
         sid: req.query.sid,
         showAll: true, 
-        layout: "naked" 
+        layout: null 
         });
   });
 });
@@ -319,7 +317,7 @@ router.get('/school-academylist-partial', function(req, res, next) {
         data: data.data,
         sid: req.query.sid,
         showAll: true, 
-        layout: "naked" 
+        layout: null
         });
   });
 });
@@ -345,13 +343,13 @@ router.get('/school-majorlist-partial', function(req, res, next) {
         acMajors: acMajors,
         sid: req.query.sid,
         showAll: false, 
-        layout: "naked"
+        layout: null
       });
   });
 });
 
 
-router.get('/school-screen', function (req, res) {
+router.get('/school-list', function (req, res) {
     req.proxy.request({
         method: "GET",
         url: "http://api.inner.utuotu.com/v1/schoolmajor/searchschool.action",
@@ -364,7 +362,7 @@ router.get('/school-screen', function (req, res) {
       var query = "search=&page=0"
 
         var data = JSON.parse(body);
-        res.render('school-screen', {
+        res.render('school-list', {
             data: data.data,
             query: query,
             screen: true
@@ -380,10 +378,10 @@ router.get('/school-screen', function (req, res) {
     //       if (!req.query) {
     //         query = 'search=&page='
     //       }
-    //       var urlPath = "/school-screen?" + req.query
+    //       var urlPath = "/school-list?" + req.query
 
     //         var data = JSON.parse(body);
-    //         res.render('school-screen', {
+    //         res.render('school-list', {
     //             data: data.data,
     //             urlPath: urlPath,
     //             screen: true
@@ -397,10 +395,10 @@ router.get('/school-screen', function (req, res) {
     //     }, function(err, response, body) {
     //       // var query = url.parse(req.url).query;
     //       // console.log(query);
-    //       var urlPath = "/school-screen?" + req.query
+    //       var urlPath = "/school-list?" + req.query
     //         var data = JSON.parse(body);
     //         console.log(data)
-    //         res.render('school-screen', {
+    //         res.render('school-list', {
     //             data: data.data,
     //             urlPath: urlPath,
     //             screen: true
@@ -420,7 +418,7 @@ router.get('/school-major-partial', function(req, res, next) {
         res.render('partials/Inslibrary/school-major', {
             data: data.data,
             sid: req.query.sid,
-            layout: "naked",
+            layout: null,
             modifyMajor: true,
             majorDegree: req.query.majorDegree,
             mid: req.query.mid
@@ -460,7 +458,7 @@ router.get('/school-mjlist-partial', function(req, res, next) {
           res.render('partials/Inslibrary/school-majorlist', {
                 dataList: dataList,
                 sid: req.query.sid,
-                layout: "naked",
+                layout: null,
                 modifyMajor: true,
                 value: req.query.value
           }) }, 1000) 
@@ -468,7 +466,7 @@ router.get('/school-mjlist-partial', function(req, res, next) {
         
 });
 
-router.get('/school-recommend-partial', function(req, res) {
+router.get('/school-detail-partial', function(req, res) {
     req.proxy.request({
         method: "GET",
         url: "http://api.inner.utuotu.com/v1/schoolInfo/hot.action",
@@ -477,18 +475,18 @@ router.get('/school-recommend-partial', function(req, res) {
 
         var data = JSON.parse(body);
         if (!data) {return}
-        res.render('partials/Inslibrary/school-recommend', {
+        res.render('partials/Inslibrary/school-detail', {
             data: data.data,
             total: data.data.Count.master + data.data.Count.doctor,
             sid: req.query.sid,
             button: true,
-            layout: "naked"
+            layout: null
         });
     });
 });
 
 //直接进入到推荐专业
-router.get('/school-recommend', function(req, res) {
+router.get('/school-detail', function(req, res) {
     req.proxy.request({
         method: "GET",
         url: "http://api.inner.utuotu.com/v1/schoolInfo/hot.action",
@@ -497,7 +495,7 @@ router.get('/school-recommend', function(req, res) {
 
         var data = JSON.parse(body);
         if (!data) {return}
-        res.render('school-recommend', {
+        res.render('school-detail', {
               data: data.data,
               total: data.data.Count.master + data.data.Count.doctor,
               sid: req.query.sid,
@@ -506,7 +504,7 @@ router.get('/school-recommend', function(req, res) {
     });
 });
 
-router.get('/select-school', function(req, res) {
+router.get('/recommendation', function(req, res) {
     //请求推荐学校
     var schoollist;
     req.proxy.request({
@@ -514,15 +512,15 @@ router.get('/select-school', function(req, res) {
         url: "http://api.inner.utuotu.com/v1/completeform/intelligentselection.action",
     }, function(err, response, body) {
         schoollist = JSON.parse(body).data;
-        res.render('select-school',{
+        res.render('recommendation',{
           schoollist: schoollist,
           form: true
         })
     });        
 });
-router.get('/select-form', function(req, res) {
+router.get('/form', function(req, res) {
     var year =  (new Date()).getFullYear() + 1;
-        res.render('select-form', {
+        res.render('form', {
           year: year,
           form: true
         })
@@ -546,10 +544,10 @@ router.get("/schoolmajor/filterschool.action", function(req, res) {
         if (!data) {
             return
         }
-        // var urlPath = '/school-screen?'+ ;
+        // var urlPath = '/school-list?'+ ;
         res.render('partials/search-result', {
             data: data.data,
-            layout: "naked",
+            layout: null,
             query: query
         });
     });
@@ -567,11 +565,11 @@ router.get("/schoolmajor/searchschool.action", function(req, res) {
         if (!data) {
             return
         }
-        // var urlPath = '/school-screen?search=&page=';
+        // var urlPath = '/school-list?search=&page=';
         res.render('partials/search-result', {
             data: data.data,
             query: query,
-            layout: "naked"
+            layout: null
         });
     });
 });
@@ -588,7 +586,7 @@ router.post("/completeform/chinaschool.action", function(req, res) {
         }
         res.render('partials/school-list', {
             data: data.data,
-            layout: "naked"
+            layout: null
         });
     });
 });
@@ -605,7 +603,7 @@ router.post("/completeform/chinamajor.action", function(req, res) {
         }
         res.render('partials/major-list', {
             data: data.data,
-            layout: "naked"
+            layout: null
         });
     });
 });
@@ -618,7 +616,7 @@ router.get("/Help/search.action", function(req, res) {
       var data = JSON.parse(body);
       res.render('partials/searchlist', {
             data: data.data,
-            layout: "naked"
+            layout: null
       });
     });
 });
@@ -632,7 +630,7 @@ router.get("/schoolinfo/ad.action", function(req, res) {
       var data = JSON.parse(body);
       res.render('partials/helplist', {
             article: data.data,
-            layout: "naked"
+            layout: null
       });
     });
 });
@@ -646,7 +644,7 @@ router.get("/Help/selectschoolad.action", function(req, res) {
       var data = JSON.parse(body);
       res.render('partials/helplist', {
             article: data.data,
-            layout: "naked"
+            layout: null
       });
     });
 });

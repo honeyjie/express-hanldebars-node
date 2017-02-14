@@ -43,9 +43,11 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                 console.log($(this).text())
                 $('.screen-form-state .form-select-value').html('全部');
                 $('.screen-form-state').addClass('form-select-not');
+                $('.screen-form-state .form-select-arrow').addClass('form-select-arrow-not');
                 $('#screen-state ul').html('');
             } else {
                 $('.screen-form-state').removeClass('form-select-not');
+                $('.screen-form-state .form-select-arrow').removeClass('form-select-arrow-not');
                 $('.screen-form-state .form-select-value').html('选择州(省)');
                 $('#screen-state ul').html('');
             }
@@ -345,7 +347,7 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
     //推荐填写页面
     function getRecommendMajor(sid) {
         $.ajax({
-            url: '/school-recommend-partial',
+            url: '/school-detail-partial',
             data: {
                 sid: sid
             },
@@ -782,9 +784,6 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                     //仅展开第一个
                     for(var i= 0;i<$('.school-major').length;i++){
                         $('.school-major:not(:first-child)').find('.school-box-title img').trigger('click');
-                        //触发第一个要求
-                        // console.log($('.major-require-list').eq(i).find('li img').eq(0))
-                        // $('.major-require-list').eq(i).find('li img').eq(0).trigger('click');
                     }
                 }
 
