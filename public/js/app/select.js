@@ -1804,7 +1804,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                         cache:false,
                         dataType:'json',
                         success: function(result) {
-                            if (result.data.Sprint[0] && result.data.Middle[0] && result.data.Bottom[0]) {
+                            if (result.data.Sprint || result.data.Middle || result.data.Bottom) {
                                window.location.href = "/select-school"; 
                             } else {
                                 $('.select-form-noresult').removeClass('hidden');
