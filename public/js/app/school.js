@@ -17,7 +17,7 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
     if (localStorage.getItem("userMajor")) {
         getMajor(localStorage.getItem("userMajor"), sid);
     }
-    
+
     $(function(){
         //模拟滚动条
         if($('#screen-state')[0]){
@@ -775,14 +775,16 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
                 $('.school-all-page').removeClass('active');
                 $('.school-recommend-page').addClass('active');
                 $('#school-content-page').html(data);
-
+                $('.major-require-list li:first-child img').trigger('click');
                 if($('.school-brief-content').height()>0){
                     //折叠学校详情
                     $('.school-brief-title img').click();
                     //仅展开第一个
                     for(var i= 0;i<$('.school-major').length;i++){
                         $('.school-major:not(:first-child)').find('.school-box-title img').trigger('click');
-                        $('.major-require-list').eq(i).find('li').eq(0).trigger('click');
+                        //触发第一个要求
+                        // console.log($('.major-require-list').eq(i).find('li img').eq(0))
+                        // $('.major-require-list').eq(i).find('li img').eq(0).trigger('click');
                     }
                 }
 
