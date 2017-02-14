@@ -957,7 +957,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             dataType:'html',
             success:function(data) {
                 $('#msganswer').html(data);
-                $('#msganswer').scrollbar();
+                $('#news-content').scrollbar();
             },
             error : function() {
                 base.notice('网络错误');

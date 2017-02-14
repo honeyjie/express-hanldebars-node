@@ -1604,13 +1604,13 @@
 }
 .user .news-article-content{
     position: relative;
-    margin: 20px 30px;
     height: 120px;
     overflow: hidden;
 }
 .user .news-article-content p{
     font-size: 13px;
     line-height: 30px;
+    margin: 20px 30px;
 }
 .user .news-article-close{
     width: 100%;
