@@ -1681,16 +1681,18 @@
 .help-icon{
     position: fixed;
     bottom: 100px;
-    right: 100px;
+    right: 8px;
     cursor: pointer;
 }
 .help-icon-pic {
     display: block;
+    zoom: 50%;
 }
 .help-icon-notice{
     position: absolute;
-    bottom: 50px;
-    left: -71px;
+    bottom: -20px;
+    right: 110px;
+    zoom: 50%;
 }
 .help{
     bottom: 100px;

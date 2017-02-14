@@ -135,10 +135,17 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         //$(document).on("click", function(e) {
         //    console.log("1" + e.target);
         //})
+        hideNotice = setTimeout(function(){
+            if (!$('.help-icon-notice').hasClass('hidden')) {
+               $('.help-icon-notice').addClass('hidden'); 
+            }
+            
+        }, 30000)
         //打开帮助
         $('.help-icon-pic').on('click',function(e){
             e.stopPropagation();
             $('.help').removeClass('hidden');
+            $('.help-icon-notice').addClass('hidden');
             clearTimeout(helpTimer);
             console.log("1");
             e.stopPropagation();
