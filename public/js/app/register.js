@@ -253,11 +253,12 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         $('.view-article-title').append("<img class='view-article-close' src='/img/icon-close.png'>")
     })
     function register(){
-        if ($('agreeBox img').eq(0).hasClass('hidden')) {
-            base.notice('请阅读并同意网站隐私协议')
+
+        if(!base.userInfo.username||!base.userInfo.password||!base.userInfo.repassword||!base.userInfo.email){
             return;
         }
-        if(!base.userInfo.username||!base.userInfo.password||!base.userInfo.repassword||!base.userInfo.email){
+        if ($('.agreeBox img').eq(1).hasClass('hidden')) {
+            base.notice('请阅读并同意网站隐私协议')
             return;
         }
         console.log(base.userInfo.username,base.userInfo.password,base.userInfo.email, base.userInfo.phone, base.userInfo.code)
