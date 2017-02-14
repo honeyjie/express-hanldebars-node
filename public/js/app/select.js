@@ -204,11 +204,15 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         //未登录
         if ($('.select-form')[0] && $('.header-user-info').hasClass('hidden')) {
             common.openIndexLogin();
-        } else {
+        } else if($('.select-form-view')[0]){
             //浮层
-            if($('.select-form-view')[0] && !localStorage.getItem('completedForm')){
+            if(!localStorage.getItem('completedForm')){
                 openSelectView();
             }
+        }
+        //已登录已提交
+        if (!$('.header-user-info').hasClass('hidden') && localStorage.getItem('completedForm')) {
+            $('.header-nav li').eq(1).find('a').attr('href', '/select-school');
         }
 
         $('.select-form-view').on('click',function(e){
