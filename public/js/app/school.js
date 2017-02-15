@@ -1,4 +1,4 @@
-define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','common','iscroll'],function(jquery,handlebars,d3,countries,fullpage,scrollbar,base,common, iscroll){
+define(['jquery','handlebars','d3','fullpage','scrollbar','base','common','iscroll'],function(jquery,handlebars,d3,fullpage,scrollbar,base,common, iscroll){
     var screen = {};
         screen.country = '';
         screen.state = '';
@@ -821,6 +821,9 @@ define(['jquery','handlebars','d3','countries','fullpage','scrollbar','base','co
 
     }
     function requireTab(_this){
+        // _this..find('img').eq(0).addClass('hidden');
+        _this.parents('.major-require-list li img').eq(0).addClass('hidden');
+        _this.find('img').eq(1).removeClass('hidden');
         _this.parents('.major-require-list').find('li').removeClass('active');
         _this.addClass('active');
         _this.parents('.major-require').find('.major-require-content-name').html(_this.find('.major-require-list-name').html());

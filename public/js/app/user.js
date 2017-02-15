@@ -298,17 +298,11 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         $('.set-form-grade .form-select-option li').on('click',function(){
             base.userInfo.grade = $(this).html();
             canSaveInfo();
-            // if (base.userInfo.grade !== pre_grade) {
-            //     canSaveInfo();
-            // }
         });
 
         $('.set-form-country .form-select-option li').on('click',function(){
             base.userInfo.country = $(this).html();
             canSaveInfo();
-            // if (base.userInfo.country !== pre_country) {
-            //     canSaveInfo();
-            // } 
         });
 
         //邮箱、手机号有变化也可以
@@ -325,10 +319,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             }
             
         };
-
-        // function canotSaveInfo(){
-            
-        // };
 
         //保存个人信息
         $('.set-info-save').on('click',function(){
@@ -577,47 +567,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                 } else {
                     $('.sys-tab span').removeClass('news-user-notice')
                 }
-                // if(sts) {
-                //     //系统消息
-                //     var n = $('.news-system-list li').length;
-                //     var m = $('.newsCenter .header-news-tab').text();
-                //     var num ;
-                //     $('.news-system-list li').removeClass('noread');
-                //     $('.news-system-read').removeClass('button-hollow').addClass('button-hollow-not');
-
-                //     if (m-n >= 1) {
-                //         num= m-n
-                //     } else {
-                //         num= ""
-                //     }
-                //      $('.newsCenter .header-news-tab').text(num);  
-                //     //去掉tab红点
-                //     $('.sys-tab span').removeClass('news-user-notice');
-                // } else {
-                //     //个人消息
-                //     var n = $('.news-user-list li').length;
-                //     var m = $('.newsCenter .header-news-tab').text();
-                //     var num ;
-                //     $('.news-user-list li').removeClass('noread');
-                //     $('.user-tab span').removeClass('news-user-notice');
-                //     if (m-n >= 1) {
-                //         num= m-n
-                //     } else {
-                //         num= ""
-                //     }
-                //      $('.newsCenter .header-news-tab').text(num); 
-
-                //     $('.news-user-list li').removeClass('noread');
-                //     $('.news-user-read').removeClass('button-hollow').addClass('button-hollow-not')
-                //     //去掉tab红点
-                    
-                // }
-                // //清除数量
-                // if (!$('.sys-tab span').hasClass('news-user-notice') && !$('.user-tab span').hasClass('news-user-notice')) {
-                //     console.log($('.sys-tab span').hasClass('news-user-notice'), $('.user-tab span').hasClass('news-user-notice'))
-                //     $('.newsCenter .header-news-tab').removeClass('header-news-number');
-                //     $('.newsCenter .header-news-tab').text(""); 
-                // }
             },
             error : function() {
                 base.notice('网络错误');
@@ -664,51 +613,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             openNewsArticle(msg_id);
         }
     }
-
-    // function canEveryCancel(dom) {
-    //     var sysCannotCancel = true;
-    //     var userCannotCancel = true;
-    //     dom.removeClass('noread');
-    //     console.log(dom, $('.news-list').hasClass('news-user-list'), $('.news-list').hasClass('news-system-list'))
-    //     if ($('.news-list').hasClass('news-user-list')) {
-    //         console.log(userCannotCancel);
-    //         //个人消息，都已读时
-    //         var userlists = dom.parent().find('li');
-    //         var userlist = Array.prototype.slice.call(userlists)
-
-    //         userCannotCancel = userlist.some(function(ele, i, arr){//当每一个都返回真值时
-    //             console.log($(ele).hasClass('noread'), ele)
-    //             return $(ele).hasClass('noread');
-    //         })
-    //         console.log(userCannotCancel);
-
-    //         if(!userCannotCancel) {
-    //             $('.news-user-read').removeClass('button-hollow').addClass('button-hollow-not')
-    //             //去掉tab红点
-    //             $('.user-tab span').removeClass('news-user-notice');
-    //         }
-
-    //     } else if($('.news-list').hasClass('news-system-list')) {
-    //         //系统消息，都已读时
-    //         var syslists = dom.parent().find('li');
-    //         var syslist = Array.prototype.slice.call(syslists)
-
-    //         sysCannotCancel = syslist.some(function(ele, i, arr){//当每一个都返回真值时
-    //             return $(ele).hasClass('noread')
-    //         })
-
-    //         if(!sysCannotCancel) {
-    //             $('.news-system-read').removeClass('button-hollow').addClass('button-hollow-not')
-    //             //去掉tab红点
-    //             $('.sys-tab span').removeClass('news-system-notice');
-    //         }
-
-    //     }
-    //     console.log(sysCannotCancel, userCannotCancel)
-    //     if (!$('.sys-tab span').hasClass('news-user-notice') && !$('.user-tab span').hasClass('news-user-notice')) {
-    //         $('.newsCenter .header-news-tab').removeClass('header-news-number').text("");
-    //     }
-    // }
     //邮件是否验证
     function isValidEmail(){
         $.ajax({
@@ -732,7 +636,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                     
                     base.userInfo.isValid = false;  
                 }else if(data.code===0){
-                    console.log("已验证")
                     base.userInfo.isValid = true;
                     $('.set-form-send').addClass('hidden');
                 }
@@ -770,13 +673,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                    if (imgUrl !== $('.set-avatar img').attr('src')) {
                         $('.header-user-info-avatar').attr('href', imgUrl) 
                    }
-                   // if (base.userInfo.phone !== pre_phone) {
-                   //      pre_email = base.userInfo.email;
-                   // }
-                   // pre_email = base.userInfo.phone || $('.set-form-phone').val()
-                   // pre_phone = base.userInfo.phone || $('.set-form-phone').val()
-                   // pre_Url
-                    // pre_email = base.userInfo.phone || $('.set-form-phone').val();
                     pre_phone = base.userInfo.phone || $('.set-form-phone').val();
                     pre_school = base.userInfo.school || $('.set-form-school').val();
                     pre_major = base.userInfo.major || $('.set-form-major').val();
@@ -784,7 +680,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                     pre_country = base.userInfo.country || $('.set-form-country').text();
                     pre_Url = imgUrl || $('.set-avatar img').attr('src');
               
-                    console.log(base.userInfo.email, pre_email, base.userInfo.email || $('.set-form-email').val() )
                    if (base.userInfo.email && base.userInfo.email !== pre_email) {
                         issaveMessage = true;
                         $('.set-form-send').trigger('click');
@@ -845,7 +740,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             dataType:'json',
             success:function(data){
                 if(data.code==0){
-                    console.log("发送邮件成功编码" + data.code);
                     base.notice('已向'+ $('.set-form-email').val()+'发送了一封验证邮件，请查收');
                 } else {
                     console.log(data.msg);
@@ -883,7 +777,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
     function creditLine(){
         //渲染时将当前积分自动填充，仅当不为0时才显示
         base.userInfo.credit = $('.point-line-number2').html() || 0;
-        // base.userInfo.totalCredit = $('.point-line-number3').html();
         var tw = $('.point-line').innerWidth();
         var nw = tw*base.userInfo.credit/base.userInfo.totalCredit;
         $('.point-line-now').css('width',nw);
@@ -1002,32 +895,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                                 }
                                 $('.list-button button').eq(0).removeClass('button-hollow').addClass('button-hollow-not')
                             }
-                            
-                            
-
-                        //     var num = $('.header-news-tab').text()*1;
-                        //     if (num >=2) {
-                        //        num = num -1  
-                        //     } else {
-                        //         num ="";
-                        //     }
-                        //    $('.header-news-tab').text(num);
-                        //     //当为空时
-                        //    canEveryCancel(el);
-                           
-                        // }
-                        // el.remove();
-                        // var isempty = $('.news-list li').length
-                        // console.log(isempty)
-                        // if(!isempty) {
-                        //     console.log("1")
-                        //     $('.news-tab .list-button').addClass('hidden');
-                        //     $('.news-tab .news-list-none').removeClass('hidden') 
-                        // }
-                        // if (!$('.sys-tab span').hasClass('news-user-notice') && !$('.user-tab span').hasClass('news-user-notice')) {
-                        //     $('.newsCenter .header-news-tab').text("");
-                        //     $('.newsCenter div.header-news-tab').removeClass('header-news-number');
-                            // }
                         }; 
                         el.remove(); 
                         if ($('.news-list li').length === 0) {
@@ -1061,10 +928,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                dataType:'json',
                success:function(data) {
                     if (data.code === 0) {
-                        //清空该消息列表
-                        // el.empty();
-                        // $('.list-button').addClass('hidden');
-                        // $('.news-list-none').removeClass('hidden')
                         closeNewsDelete();
                         var n = $('.news-list li.noread').length;
                         minusNum(n);
@@ -1077,51 +940,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                         }
                         $('.news-list').empty();
                         newsEmpty();
-                        // if(system) {
-                        //     //去掉tab红点
-                        //     $('.sys-tab span').removeClass('news-user-notice');
-                        //      //当为空时
-                        //     var n = $('.news-system-list li').length;
-                        //     var m = $('.newsCenter .header-news-tab').html();
-                        //     var num ;
-
-                        //     if (m-n >= 1) {
-                        //         num= m-n
-                        //     } else {
-                        //         num= ""
-                        //     }
-                        //      $('.newsCenter .header-news-tab').html(num); 
-                        //     var parent = el.parent().parent();
-                        //         parent.find('.list-button').addClass('hidden');
-                        //         parent.find('.news-list-none').removeClass('hidden') 
-
-                        // } else {
-                        //     //去掉tab红点
-                        //     var n = $('.news-user-list li').length;
-                        //     var m = $('.newsCenter .header-news-tab').html();
-                        //     var num ;
-
-                        //     if (m-n >= 1) {
-                        //         num= m-n
-                        //     } else {
-                        //         num= ""
-                        //     }
-                        //     $('.newsCenter .header-news-tab').html(num); 
-                        //     $('.user-tab span').removeClass('news-user-notice');
-
-                        //     var parent = el.parent().parent();
-                        //     parent.find('.list-button').addClass('hidden');
-                        //     parent.find('.news-list-none').removeClass('hidden') 
-
-                        // }
-
-                        // if (!$('.sys-tab span').hasClass('news-user-notice') && !$('.user-tab span').hasClass('news-user-notice')) {
-                        //     $('.newsCenter .header-news-tab').text("");
-                        //     $('.newsCenter div.header-news-tab').removeClass('header-news-number');
-                        // }
-
-                        //显示空消息
-                        return;
                     }
                 },
                error : function() {

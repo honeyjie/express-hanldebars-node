@@ -245,10 +245,7 @@ define(['jquery'],function(jquery){
             cache:false,
             dataType:'json',
             success:function(data){
-                console.log("发送邮件成功：",data, userInfo.email);
                 if(data.code==0){
-                    console.log("发送邮件成功编码" + data.code);
-                    console.log(userInfo.email)
                     notice('已向'+ userInfo.email+'发送了一封验证邮件，请查收');
                 } else {
                     console.log(data.msg)
@@ -274,7 +271,6 @@ define(['jquery'],function(jquery){
             var title = tab.find('.tab-title li');
             var box = tab.find('.tab-box');
             title.on('click',function(){
-                console.log($(this));
                 if ($(this).hasClass('none')) {
                     return;
                 }
@@ -302,7 +298,6 @@ define(['jquery'],function(jquery){
             select.on('click',function(e){
                 e.stopPropagation();
                 $('.form-select-option').addClass('hidden');
-                console.log(option.find('li').length);
                 if(option.hasClass('hidden') && option.find('li').length){
                     select.addClass('focus');
                     option.removeClass('hidden');
@@ -342,9 +337,7 @@ define(['jquery'],function(jquery){
         closeAll : closeAll,
         animationend : animationend,
         usernameRule : /^[0-9a-zA-Z]{3,}$/,   //用户名正则
-        // passwordRule : /^(?![a-zA-Z]+$)(?![a-z\d]+$)(?![A-Z\d]+$)(?![!#$%^&*]+$)(?![!#$%^&*\d]+$)(?![!#$%^&*\da-z]+$)(?![!#$%^&*\dA-Z]+$)[\da-zA-Z!#$%^&*]{8,}$/, //密码正则
         passwordRule : /^(?![a-zA-Z]+$)(?![a-z\d]+$)(?![A-Z\d]+$)(?![!#$%^&.?*@]+$)(?![!#$%^&*@.?\d]+$)(?![!#$%^&*@.?\da-z]+$)(?![!#$%^&*@.?\dA-Z]+$)[\da-zA-Z!#$%^&*@.?]{8,}$/, //密码正则
-        // passwordRule: /^([\w]?.?[A-Z]+[\w]?.?[a-z]+[\w]?.?[\d]+[\w]?.?){8}$/
         emailRule : /^[\w\.\_\-]+@(\w-?)+(\.\w{2,})$/, //邮箱正则
         phoneRule : /^(|1\d{10})$/,  //手机号正则
         codeRule : /^(|[0-9a-zA-Z]{4})$/,  //邀请码正则

@@ -42,7 +42,8 @@ img{
     border:none;
     margin:0;
     padding:0;
-    vertical-align: bottom;
+    vertical-align: middle;
+    zoom: 50%;
 }
 
 .clear:after{

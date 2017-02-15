@@ -88,6 +88,7 @@
                         {{#ifNotEq ps -1}}
                         <li class="active">
                             <img src="/img/require1.png" alt=""/>
+                            <img src="/img/require1-1.png" class="hidden" alt=""/>
                             <div class="major-require-list-name">个人称述</div>
                             <div class="major-require-list-result hidden">
                               <p>{{showRequest ps '需要提交个人称述（SOP），但无具体要求' '' ''}}<p> 
@@ -99,6 +100,7 @@
                         {{#ifNotEq resume -1}}
                         <li>
                             <img src="/img/require2.png" alt=""/>
+                            <img src="/img/require2-1.png" class="hidden" alt=""/>
                             <div class="major-require-list-name">个人简历</div>
                             <div class="major-require-list-result hidden">
                               <p>{{showRequest  resume '需要提交个人简历，但无具体要求' '' ''}}<p>  
@@ -110,6 +112,7 @@
                         {{#ifNotEq recommend_number -1}}
                         <li>
                             <img src="/img/require3.png" alt=""/>
+                            <img src="/img/require3-1.png" class="hidden" alt=""/>
                             <div class="major-require-list-name">推荐信</div>
                             <div class="major-require-list-result hidden">
                                 <p>{{showRequest recommend_number '' '推荐信最低' '封'}}
@@ -123,6 +126,7 @@
                         {{#ifNotEq transcripts -1}}
                         <li>
                             <img src="/img/require4.png" alt=""/>
+                            <img src="/img/require4-1.png" class="hidden" alt=""/>
                             <div class="major-require-list-name">成绩单</div>
                             <div class="major-require-list-result hidden">
                              <p>{{showRequest transcripts '' '成绩单要求: ' '' ''}} </p>
@@ -134,6 +138,7 @@
                         {{#noneShow language}}
                         <li>
                             <img src="/img/require5.png" alt=""/>
+                            <img src="/img/require5-1.png" class="hidden" alt=""/>
                             <div class="major-require-list-name">语言成绩</div>
                             <div class="major-require-list-result hidden">
                             <p>
@@ -204,6 +209,7 @@
                         {{#noneShow exam}}
                         <li>
                             <img src="/img/require6.png" alt=""/>
+                            <img src="/img/require6-1.png" class="hidden" alt=""/>
                             <div class="major-require-list-name">标准化考试</div>
                             <div class="major-require-list-result hidden">
                             <p>
@@ -271,6 +277,7 @@
                         {{#ifNotEq additional_requirements -1}}
                         <li>
                             <img src="/img/require7.png" alt=""/>
+                            <img src="/img/require7-1.png" class="hidden" alt=""/>
                             <div class="major-require-list-name">附加要求</div>
                             <div class="major-require-list-result hidden">
                                 <p>{{showRequest additional_requirements '' '' ''}} </p>

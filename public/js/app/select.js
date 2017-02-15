@@ -1253,7 +1253,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                 $(this).parent('.school-list-switch').find('span').html('点击加入申请');
             }
             else if($(this).hasClass('off')){
-                $(this).find('img').animate({left:26},100);
+                $(this).find('img').animate({left:30},100);
                 $(this).removeClass('off').addClass('on');
                 $(this).parent('.school-list-switch').find('span').html('点击取消申请');
             }
