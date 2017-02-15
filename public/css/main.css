@@ -350,9 +350,8 @@
 }
 .login-icon{
     position: absolute;
-    height: 20px;
-    top: 10px;
-    right: 10px;
+    top: 22px;
+    right: 22px;
 }
 .login-forget{
     display: block;
