@@ -822,7 +822,7 @@ define(['jquery','handlebars','d3','fullpage','scrollbar','base','common','iscro
     }
     function requireTab(_this){
         // _this..find('img').eq(0).addClass('hidden');
-        _this.parents('.major-require-list li img').eq(0).addClass('hidden');
+        _this.parents('.major-require-list li img').addClass('hidden');
         _this.find('img').eq(1).removeClass('hidden');
         _this.parents('.major-require-list').find('li').removeClass('active');
         _this.addClass('active');
