@@ -219,16 +219,21 @@ define(['jquery'],function(jquery){
         $('.mask').removeClass('hidden').addClass('animated fadeIn').one(animationend,function(){
             $('.mask').removeClass('animated fadeIn');
         });
-        $.fn.fullpage.setAllowScrolling(false);
-        $.fn.fullpage.setKeyboardScrolling(false);
+        if ($('.fullpage-wrapper')[0]) {
+            $.fn.fullpage.setAllowScrolling(false);
+            $.fn.fullpage.setKeyboardScrolling(false);
+        }
+
     }
     //关闭遮罩层
     function closeMask(){
         $('.mask').addClass('animated fadeOut').one(animationend,function(){
             $('.mask').removeClass('animated fadeOut').addClass('hidden');
         });
-        $.fn.fullpage.setAllowScrolling(true);
-        $.fn.fullpage.setKeyboardScrolling(true);
+        if ($('.fullpage-wrapper')[0]) {
+            $.fn.fullpage.setAllowScrolling(true);
+            $.fn.fullpage.setKeyboardScrolling(true);
+        }
     }
 
     //未登录状态

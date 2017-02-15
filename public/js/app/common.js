@@ -275,8 +275,10 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
         $('.login').addClass('animated fadeOutUp').one(base.animationend,function(){
             $('.login').removeClass('animated fadeOutUp index').addClass('hidden');
         });
-        $.fn.fullpage.setMouseWheelScrolling(true);
-        $.fn.fullpage.setAllowScrolling(true);
+        if ($('.fullpage-wrapper')[0]) {
+            $.fn.fullpage.setMouseWheelScrolling(true);
+            $.fn.fullpage.setAllowScrolling(true);
+        }
     }
     function tabLogin(_this){
         $('.login-box').removeClass('hidden');
