@@ -1648,9 +1648,10 @@
 .user .news-delete-close{
     position: absolute;
     height: 14px;
-    top: 13px;
+    top: 10px;
     right: 0;
     cursor: pointer;
+    zoom:1;
 }
 .user .news-delete-content{
     display: table;
@@ -1790,6 +1791,7 @@
 .help .help-article-content p{
     line-height: 30px;
     font-size: 14px;
+    word-break: break-all;
 }
 .help .help-login img{
     display: block;

@@ -169,7 +169,7 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
         $('.view-article-title').append("<img class='view-article-close' src='/img/icon-close.png'>")
         $('.view-article-content p').html($('.agreement-content').html())
     })
-    
+
     function openSearch(){
         $('.header-search-icon').fadeOut(200);
         $('.header-search input').fadeIn(200);
@@ -256,7 +256,13 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
                 style: "black",
                 href: "https://www.utuotu.com/css/wechat.css"
             });
+            if ($('.fullpage-wrapper')[0]) {
+                $.fn.fullpage.setMouseWheelScrolling(false);
+                $.fn.fullpage.setAllowScrolling(false);
+            }
+
         });
+
         $('.login').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
             $('.login').removeClass('animated fadeInDown');
         });
@@ -269,6 +275,8 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
         $('.login').addClass('animated fadeOutUp').one(base.animationend,function(){
             $('.login').removeClass('animated fadeOutUp index').addClass('hidden');
         });
+        $.fn.fullpage.setMouseWheelScrolling(true);
+        $.fn.fullpage.setAllowScrolling(true);
     }
     function tabLogin(_this){
         $('.login-box').removeClass('hidden');

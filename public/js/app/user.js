@@ -9,6 +9,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         pre_grade = $('.set-form-grade .form-select-value').text(),
         pre_country = $('.set-form-country .form-select-value').text(),
         pre_Url = $('.set-avatar img').attr('src');
+        console.log(pre_Url);
     var issaveMessage = false;
     $(function(){
 
@@ -88,8 +89,10 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                         imgUrl = up.getOption('domain') + res.key;
                         base.userInfo.headerimg = imgUrl;
 
-                        canSaveInfo();
+                        
                         $('.user-main .set-avatar img').attr('src', imgUrl);
+                        canSaveInfo();
+                        key =""
                         // 每个文件上传成功后,处理相关的事情
                         // 其中 info 是文件上传成功后，服务端返回的json，形式如
                         // {
@@ -649,7 +652,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
 
     //保存个人信息
     function saveInfo(){
-        console.log(base.userInfo.email,$('.set-form-email').val(), base.userInfo.email || $('.set-form-email').val())
+        console.log(imgUrl || $('.set-avatar img').attr('src'),imgUrl,  $('.set-avatar img').attr('src'), pre_Url)
         $.ajax({
             url:'/v1/User/saveuser.action',
             data:{
@@ -670,8 +673,9 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                    $('.set-form-send').text('验证') ;
                    $('.set-info-save').removeClass('button-solid').addClass('button-solid-ban');
                    $('.set-form-send').removeClass('button-hollow-not').addClass('button-hollow');
-                   if (imgUrl !== $('.set-avatar img').attr('src')) {
-                        $('.header-user-info-avatar').attr('href', imgUrl) 
+                   console.log(imgUrl!== pre_Url, imgUrl, pre_Url)
+                   if (imgUrl !== pre_Url) {
+                        $('.header-user-info-avatar').attr('src', imgUrl) 
                    }
                     pre_phone = base.userInfo.phone || $('.set-form-phone').val();
                     pre_school = base.userInfo.school || $('.set-form-school').val();

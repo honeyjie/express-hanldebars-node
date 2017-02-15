@@ -29,7 +29,9 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         });
         //模拟滚动条
         if($('#help-list')[0]){
-            $('#help-list').scrollbar();
+            $('#help-list').scrollbar({
+                disableBodyScroll: true
+            });
         }
 
         //七牛上传头像

@@ -237,7 +237,7 @@ img{
     color: #999999;
     border-radius: 3px;
     text-align: center;
-    cursor: pointer;
+    cursor: text;
 }
 .form-item{
     position: relative;

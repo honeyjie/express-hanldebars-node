@@ -228,7 +228,12 @@
 .scrollbar-outer > .scroll-element.scroll-x.scroll-scrolly_visible .scroll-element_size { left: -14px; }
 .scrollbar-outer > .scroll-element.scroll-y.scroll-scrollx_visible .scroll-element_size { top: -14px; }
 
-
+// .scroll-element.scroll-x {
+//     display: none !important;
+// }
+.scroll-element.scroll-scrollx {
+    display: none !important;
+}
 
 
 

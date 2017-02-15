@@ -219,12 +219,16 @@ define(['jquery'],function(jquery){
         $('.mask').removeClass('hidden').addClass('animated fadeIn').one(animationend,function(){
             $('.mask').removeClass('animated fadeIn');
         });
+        $.fn.fullpage.setAllowScrolling(false);
+        $.fn.fullpage.setKeyboardScrolling(false);
     }
     //关闭遮罩层
     function closeMask(){
         $('.mask').addClass('animated fadeOut').one(animationend,function(){
             $('.mask').removeClass('animated fadeOut').addClass('hidden');
         });
+        $.fn.fullpage.setAllowScrolling(true);
+        $.fn.fullpage.setKeyboardScrolling(true);
     }
 
     //未登录状态
@@ -232,7 +236,7 @@ define(['jquery'],function(jquery){
         base.openMask();
         // $('.index-mask').removeClass('hidden');
         $('.login').addClass('index');
-        coommon.openLogin();
+        common.openLogin();
     }
     //发送验证邮件
     function sendTestEmail(){
