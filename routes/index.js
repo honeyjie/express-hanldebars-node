@@ -642,6 +642,7 @@ router.get("/Help/selectschoolad.action", function(req, res) {
         url: "http://api.inner.utuotu.com/v1/Help/selectschoolad.action",
     }, function(err, response, body) {
       var data = JSON.parse(body);
+      console.log(data, "]]]");
       res.render('partials/helplist', {
             article: data.data,
             layout: null

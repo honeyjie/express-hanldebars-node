@@ -850,6 +850,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             dataType:'html',
             success:function(data) {
                 $('#msganswer').html(data);
+                $('body').css('overflow', 'hidden');
                 $('#news-content').scrollbar();
             },
             error : function() {

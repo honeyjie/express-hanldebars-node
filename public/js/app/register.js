@@ -241,8 +241,7 @@ define(['jquery','fullpage','base','common'],function(jquery,fullpage,base,commo
         });
         $('.view-article-title').text("隐私协议");
         $('.view-article-title').append("<img class='view-article-close' src='/img/icon-close.png'>")
-        $('.view-article-content p').html($('.help-article-content').html())
-
+        $('.view-article-content p').html($('.agreement-content').html())
     })
 
     $('.view-article-title').on('click', '.view-article-close', function(e) {

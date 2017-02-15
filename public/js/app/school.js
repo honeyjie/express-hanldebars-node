@@ -275,7 +275,10 @@ define(['jquery','handlebars','d3','fullpage','scrollbar','base','common','iscro
         //绑定专业详情页
         $('#school-content-page').on("click",  ".all-list li", function(e){
             e.stopPropagation();
-            var mid = $(this).attr("data-mid");
+            var mid = $(this).attr("data-mid")
+            if(!mid) {
+                return;
+            }
             var target = e.target;
             $(target).addClass('active');
             getOneMajor(sid, mid)

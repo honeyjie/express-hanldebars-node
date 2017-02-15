@@ -157,7 +157,19 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
             e.stopPropagation();
             logout();
         });
-
+    //隐私协议
+    $('.footer-agreement a').on('click', function(e) {
+        e.stopPropagation();
+        $('body').css('overflow','hidden');
+        base.openMask();
+        $('.view-article').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
+            $('.view-article').removeClass('animated fadeInDown');
+        });
+        $('.view-article-title').text("隐私协议");
+        $('.view-article-title').append("<img class='view-article-close' src='/img/icon-close.png'>")
+        $('.view-article-content p').html($('.agreement-content').html())
+    })
+    
     function openSearch(){
         $('.header-search-icon').fadeOut(200);
         $('.header-search input').fadeIn(200);
@@ -248,6 +260,7 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
         $('.login').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
             $('.login').removeClass('animated fadeInDown');
         });
+        $('body').css('overflow', 'hidden');
     }
     //关闭登录
     function closeLogin(){

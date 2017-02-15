@@ -29,7 +29,11 @@
                 <div class="form-select-option hidden">
                     <ul>
                         <li data-type="10001">院校/专业相关</li>
+                        {{#if form}}
+                        <li data-type="10002">选校分析</li>
+                        {{else}}
                         <li data-type="10002">文书写作</li>
+                        {{/if}}
                         <li data-type="10003">申请流程</li>
                         <li data-type="0">其他</li>
                     </ul>

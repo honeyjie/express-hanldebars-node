@@ -214,7 +214,7 @@ img{
     box-shadow: 0 0 5px rgba(220,220,220,0.5);
     border-radius: 3px;
     text-align: center;
-    cursor: default;
+    cursor: text;
 }
 .button-hollow-ban{
     background: #ffffff;
@@ -296,6 +296,7 @@ img{
 .form-select-not{
     border: 1px solid #f7f7f7 !important;
     color: #999999;
+    cursor: text !important;
 }
 .form-select{
     position: relative;
@@ -411,5 +412,5 @@ text{
     width: 10%;
 }
 .cursor-default {
-    cursor: default;
+    cursor: text;
 }
