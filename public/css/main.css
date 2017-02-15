@@ -1121,7 +1121,6 @@
 .user .set-tab .tab-title li:hover,.user .set-tab .tab-title li.active,.user .news-tab .tab-title li:hover,.user .news-tab .tab-title li.active{
     position: relative;
     height: 50px;
-    color: #25baf4;
     border-bottom: 2px solid #25baf4;
 }
 .user .set-tab .tab-box{

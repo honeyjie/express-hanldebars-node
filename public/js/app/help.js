@@ -29,9 +29,7 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         });
         //模拟滚动条
         if($('#help-list')[0]){
-            $('#help-list').scrollbar({
-                disableBodyScroll: true
-            });
+            $('#help-list').scrollbar();
         }
 
         //七牛上传头像
@@ -148,7 +146,6 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
             $('.help').removeClass('hidden');
             $('.help-icon-notice').addClass('hidden');
             clearTimeout(helpTimer);
-            console.log("1");
             e.stopPropagation();
             openHelp();
         });
@@ -220,8 +217,7 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
                 return;
             }
             var imgUrl = $('.help-question .help-upload span').attr('data-href');
-            console.log(imgUrl)
-              var imgUrl = imgUrl || ""
+            var imgUrl = imgUrl || ""
             sendQuestion(imgUrl); 
         });
         //删除附件
@@ -235,7 +231,7 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
 
     //智能选校结果页和院校详情页
     function openHelp(){
-        $('body').css('overflow','hidden');
+        // $('body').css('overflow','hidden');
         clearTimeout(helpTimer);
         $('.help-icon').addClass('hidden');
         // $('.help-icon-pic').removeClass('animated infinite jump');
