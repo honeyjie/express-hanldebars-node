@@ -777,7 +777,7 @@ define(['jquery','handlebars','d3','fullpage','scrollbar','base','common','iscro
                 $('.school-all-page').removeClass('active');
                 $('.school-recommend-page').addClass('active');
                 $('#school-content-page').html(data);
-                $('.major-require-list li:first-child img').trigger('click');
+                $('.major-require-list li:first-child').trigger('click');
                 if($('.school-brief-content').height()>0){
                     //折叠学校详情
                     $('.school-brief-title img').click();
@@ -821,9 +821,12 @@ define(['jquery','handlebars','d3','fullpage','scrollbar','base','common','iscro
 
     }
     function requireTab(_this){
-        // _this..find('img').eq(0).addClass('hidden');
-        _this.parents('.major-require-list li img').addClass('hidden');
+
+        //每个li中展示第一个图片，隐藏第二个
+        _this.parent().find('li img').addClass('hidden');
+        _this.parent().find('li img:first-child').removeClass('hidden'); 
         _this.find('img').eq(1).removeClass('hidden');
+        _this.find('img').eq(0).addClass('hidden');
         _this.parents('.major-require-list').find('li').removeClass('active');
         _this.addClass('active');
         _this.parents('.major-require').find('.major-require-content-name').html(_this.find('.major-require-list-name').html());

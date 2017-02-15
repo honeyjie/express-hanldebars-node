@@ -45,7 +45,9 @@ img{
     vertical-align: middle;
     zoom: 50%;
 }
-
+.index-main img {
+    zoom: 1;
+}
 .clear:after{
      clear:both;
      content:'';
