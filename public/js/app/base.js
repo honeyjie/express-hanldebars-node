@@ -234,6 +234,9 @@ define(['jquery'],function(jquery){
             $.fn.fullpage.setAllowScrolling(true);
             $.fn.fullpage.setKeyboardScrolling(true);
         }
+        if($('.fullpage-wrapper')[0]) {
+            $('body').css('overflow','hidden');
+        }
     }
 
     //未登录状态

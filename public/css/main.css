@@ -465,6 +465,9 @@
     margin-right: 5px;
     color: #ffffff;
 }
+.footer-agreement a:hover{
+    color: #25baf4;
+}
 .footer-agreement span{
     margin-left: 5px;
 }

@@ -29,7 +29,7 @@
         
 
  {{!--        <li><a href="#">网申插件</a></li> --}}
-        {{#if partials.loginstate.data.headerImg}}
+        {{#if partials.loginstate.data.id}}
             {{#if userCenter}}
             <li class="newsCenter active">
                 {{#if partials.systemState}}
@@ -77,7 +77,7 @@
         </div>
         {{else}}
         <div class="header-user-info hidden">
-            <img class="header-user-info-avatar" src="{{partials.loginstate.data.headerImg}}" alt=""/>
+            <img class="header-user-info-avatar" src="" alt=""/>
             <ul class="header-user-info-operation hidden">
                 <li><a href="/points">积分中心</a></li>
                 <li><a href="/setting">个人设置</a></li>

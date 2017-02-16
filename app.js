@@ -92,6 +92,7 @@ app.use(function(req, res, next) {
         res.locals.partials = {}
       }
       res.locals.partials.loginstate = data;
+
       next();
     });
     
