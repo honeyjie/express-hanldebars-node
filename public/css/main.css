@@ -2646,6 +2646,11 @@
     background: #25baf4;
     color: #ffffff;
 }
+.major-require-box {
+    padding-bottom: 20px;
+    background: #eeeeee;
+    border-radius: 5px;
+}
 .school .major-require-title{
     margin-top: 20px;
     font-size: 16px;
@@ -2687,8 +2692,9 @@
 .school .major-require-content{
     position: relative;
     margin-top: 20px;
-    background: #eeeeee;
-    border-radius: 5px;
+    // margin-bottom: 20px;
+    // background: #eeeeee;
+    
     padding: 0 20px;
     height: 200px;
     overflow: hidden;
@@ -2696,7 +2702,6 @@
 .school .major-require-content-name{
     font-size: 16px;
     font-weight: 600;
-    margin-top: 20px;
 }
 .school .major-require-content p{
     padding: 15px 0 20px;

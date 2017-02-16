@@ -372,44 +372,46 @@ define(['jquery','handlebars','d3','fullpage','scrollbar','base','common','iscro
     }
 
         //box展开收缩
-        $('.school').on('click','.school-major .school-box-title',function(e){
+        $('.school').on('click','.school-box .school-box-title',function(e){
             e.stopPropagation();
             var content = $(this).parents('.school-box').find('.school-box-content');
             var index = $('.school-box').index($(this).parents('.school-box'));
-            if(!height[index]){
+            console.log(index, height[index], content.innerHeight())
+            if(!height[index]){//未被点击的，定义高度
                 height[index] = content.innerHeight();
             }
-            else if(height[index]&&content.innerHeight()!== 0){
+            else if(height[index]&&content.innerHeight()!== 0){//已经被点击过且展开的
                 height[index] = content.innerHeight();
             }
+            //高度为0
             if(content.css('height') == '0px'){
                 $(this).find('img').removeClass('animated rotateDown').addClass('animated rotateUp');
                 content.animate({height:height[index]},200);
             }
-            else{
+            else{//高度不为0
                 $(this).find('img').removeClass('animated rotateUp').addClass('animated rotateDown');
                 content.animate({height:0},200);
             }
         });
-        $('.school').on('click', '.school-box-title img', function(e){
-             e.stopPropagation();
-            var content = $(this).parents('.school-box').find('.school-box-content');
-            var index = $('.school-box').index($(this).parents('.school-box'));
-            if(!height[index]){
-                height[index] = content.innerHeight();
-            }
-            else if(height[index]&&content.innerHeight()!== 0){
-                height[index] = content.innerHeight();
-            }
-            if(content.css('height') == '0px'){
-                $(this).removeClass('animated rotateDown').addClass('animated rotateUp');
-                content.animate({height:height[index]},200);
-            }
-            else{
-                $(this).removeClass('animated rotateUp').addClass('animated rotateDown');
-                content.animate({height:0},200);
-            }
-        });
+        // $('.school').on('click', '.school-box-title img', function(e){
+        //      e.stopPropagation();
+        //     var content = $(this).parents('.school-box').find('.school-box-content');
+        //     var index = $('.school-box').index($(this).parents('.school-box'));
+        //     if(!height[index]){
+        //         height[index] = content.innerHeight();
+        //     }
+        //     else if(height[index]&&content.innerHeight()!== 0){
+        //         height[index] = content.innerHeight();
+        //     }
+        //     if(content.css('height') == '0px'){
+        //         $(this).removeClass('animated rotateDown').addClass('animated rotateUp');
+        //         content.animate({height:height[index]},200);
+        //     }
+        //     else{
+        //         $(this).removeClass('animated rotateUp').addClass('animated rotateDown');
+        //         content.animate({height:0},200);
+        //     }
+        // });
         //生成地图
         if($('.school-brief-map')[0]){
             schoolMap();
@@ -783,11 +785,11 @@ define(['jquery','handlebars','d3','fullpage','scrollbar','base','common','iscro
                 $('.major-require-list li:first-child').trigger('click');
                 if($('.school-brief-content').height()>0){
                     //折叠学校详情
-                    $('.school-brief-title img').click();
+                    $('.school-brief-title').click();
                     //仅展开第一个
-                    for(var i= 0;i<$('.school-major').length;i++){
-                        $('.school-major:not(:first-child)').find('.school-box-title img').trigger('click');
-                    }
+                    // for(var i= 0;i<$('.school-major').length;i++){
+                        $('.school-major:not(:first-child)').find('.school-box-title').trigger('click');
+                    // }
                 }
 
 
