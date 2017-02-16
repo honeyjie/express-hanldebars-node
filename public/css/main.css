@@ -1613,7 +1613,7 @@
 }
 .user .news-article-content{
     position: relative;
-    height: 200px;
+    height: 160px;
     overflow: hidden;
 }
 .user .news-article-content p{

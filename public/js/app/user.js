@@ -187,10 +187,9 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                     issaveMessage = false;
                     pre_email = base.userInfo.email;
                 } else {
-                    console.log("发送验证邮件")
                     sendTestEmail();
                 }
-                // pre_email = base.userInfo.email;
+
                 var time = 60;
                 setTime = setInterval(function() {
                     time = time -1;
@@ -199,16 +198,10 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                         clearInterval(setTime);
                         $('.set-form-send').removeClass('button-hollow-not').addClass('button-hollow');
                         $('.set-form-send').text('验证') ;
-                        
-                        // $(this).addClass('warning');
-                        // $(this).removeClass('focus');
-                        // canSend = true;  
-                        // sendEmailClick = true;
                     } 
                 }, 1000) 
             }); 
-        // }
-        //手机号验证
+
         $('.set-form-phone').on('blur',function(){
             $('.set-form-phone').testInput({
                 rule : base.phoneRule,
@@ -229,9 +222,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
 
         //学校验证
         $('.set-form-school').on('input propertychange',function(){
-            // if (/[^\a-\z\A-Z\u4E00-\u9FA5]/g.test($(this).val())) {
-            //     base.
-            // }
             //特殊输入判断
             $('.set-form-school').testInput({
                 rule : base.isOtherInput,
@@ -242,15 +232,9 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                     canSaveInfo();
                 },
                 fail : function(dom){
-                    //不是特殊输入
-                    // base.userInfo.phone = '';
                     base.testSuccess(dom);
                     base.userInfo.school = dom.val();
                     canSaveInfo();
-                    
-                    // if (base.userInfo.school !== pre_school) {
-                    //     canSaveInfo();
-                    // }
                 }
             });      
         });
@@ -272,31 +256,9 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                     base.testSuccess(dom);
                     base.userInfo.major = dom.val();
                     canSaveInfo();
-                    // if (base.userInfo.major !== pre_major) {
-                    //     canSaveInfo();
-                    // } 
                 }
             });
-            // base.userInfo.major = $('.set-form-major').val();
-            // if (base.userInfo.major !== pre_major) {
-            //     canSaveInfo();
-            // } else {
-            //     canotSaveInfo()
-            // }
         });
-
-        // //个人信息判断提交
-        // $('.set-form-email').on('input propertychange',function(){
-        //     // if($('.set-form-email').val() !== pre_email) {
-        //     //     canSaveInfo();
-        //     // } 
-        // });
-
-        // $('.set-form-phone').on('input propertychange',function(){
-        //     // if($('.set-form-phone').val() !== pre_phone) {
-        //     //     canSaveInfo();
-        //     // } 
-        // });
 
         $('.set-form-grade .form-select-option li').on('click',function(){
             base.userInfo.grade = $(this).html();
@@ -499,6 +461,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
 
         //关闭消息
         $('.news-article').on('click','news-article-close',function(){
+            console.log("e")
             closeNewsArticle();
         });
         base.closeAll.closeNewsArticle = closeNewsArticle;
@@ -515,7 +478,6 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
             var msgid = $parent.attr('data-msg_id');
             console.log($parent, msgid)
             openNewsDelete(msgid, $parent);
-            
         });
         //删除系统消息
         $('.news-system-delete').on('click',function(e){
@@ -844,6 +806,8 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         $('.news-article').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
             $('.news-article').removeClass('animated fadeInDown');
         });
+        $('.user-main').addClass('disabled');
+        // $('.news-article').removeClass('disabled').addClass('auto')
         $.ajax({
             url:'/User/msganswer.action',
             data:{
@@ -867,13 +831,16 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         $('.news-article').addClass('animated fadeOutUp').one(base.animationend,function(){
             $('.news-article').removeClass('animated fadeOutUp').addClass('hidden');
         });
+        $('.user-main').removeClass('disabled');
+        // $('.news-article').removeClass('disabled').addClass('auto');
     }
 //打开删除
     function openNewsDelete(id, el){
         $('.news-delete').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
             $('.news-delete').removeClass('animated fadeInDown');
         });
-
+        $('.user-main').addClass('disabled');
+        // $('.news-delete').removeClass('disabled').addClass('auto');
         $('.news-delete-ensure').on('click', function(e) {
             //删除单个消息
             $.ajax({
@@ -885,8 +852,7 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
                cache:false,
                dataType:'json',
                success:function(data) {
-                    if (data.code === 0 ) {
-                        
+                    if (data.code === 0 ) {   
                         closeNewsDelete()
                         if (el.hasClass('noread')) {
                             minusNum(1);
@@ -920,6 +886,8 @@ define(['jquery','fullpage','scrollbar','clipboard','base','common'],function(jq
         $('.news-delete').removeClass('hidden').addClass('animated fadeInDown').one(base.animationend,function(){
             $('.news-delete').removeClass('animated fadeInDown');
         });
+        $('.user-main').addClass('disabled');
+        // $('.news-delete').removeClass('disabled').addClass('auto');
         //当点击了确认删除后再发送删除请求
         $('.news-delete-ensure').on('click', function(e) {
             //删除消息
@@ -985,6 +953,7 @@ function notCancelDot(dom) {
         $('.news-delete').addClass('animated fadeOutUp').one(base.animationend,function(){
             $('.news-delete').removeClass('animated fadeOutUp').addClass('hidden');
         });
+        $('.user-main').removeClass('disabled')
     }
     return{
         

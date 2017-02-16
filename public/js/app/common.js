@@ -1,12 +1,13 @@
 define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
     var imageFieldName;
         //关闭所有弹出层
-        $(document).on('click',function(){
+        $(document).on('click',function(e){
             //关闭搜索
             closeSearch();
             //关闭登录
             if($('.login')[0]&&!$('.login').hasClass('hidden')){
                 if($('.select-form')[0]) {
+                    $('.select-form').addClass('disabled');
                     return;
                 }
                 closeLogin(); 
@@ -20,10 +21,16 @@ define(['jquery','base','scrollbar'],function(jquery,base,scrollbar){
             }
             //关闭消息
             if($('.news-article')[0]&&!$('.news-article').hasClass('hidden')){
-                base.closeAll.closeNewsArticle();
+                console.log("1", $(e.target).parent().parent().hasClass('view'))
+                if ($('.user-main').hasClass('disabled') && !$(e.target).parent().parent().hasClass('view')) {
+                    return;
+                } else {
+                    base.closeAll.closeNewsArticle();
+                }
             }
             //关闭删除
             if($('.select-form-view')[0]&&!$('.select-form-view').hasClass('hidden')){
+
                 base.closeAll.closeSelectView();
             }
             //关闭帮助

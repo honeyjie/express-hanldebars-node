@@ -17,10 +17,12 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
             $('.help-send').addClass('hidden');
             $('.help-file').addClass('hidden');
             $('.help-close').removeClass('hidden');
+            $('.help-back').addClass('hidden');
         },function(){
             $('.help-send').removeClass('hidden');
             $('.help-file').removeClass('hidden');
             $('.help-close').addClass('hidden');
+            $('.help-back').addClass('hidden');
             restoreIntialHelp();
 
             $('.help-ask').removeClass('hidden');
@@ -121,8 +123,8 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         }
         //帮助提示显示
         helpTimer = setTimeout(function(){
-            $('.help-icon-notice').removeClass('hidden').addClass('animated fadeInUp').one(base.animationend,function(){
-                $('.help-icon-notice').removeClass('animated fadeInUp');
+            $('.help-icon-notice').removeClass('hidden').addClass('animated fadeInRright').one(base.animationend,function(){
+                $('.help-icon-notice').removeClass('fadeInRight');
                 setTimeout(function(){
                     $('.help-icon-pic').addClass('animated infinite jump');
                     setTimeout(function(){
@@ -132,22 +134,22 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
             });
         },3000);
 
-        //$(document).on("click", function(e) {
-        //    console.log("1" + e.target);
-        //})
         hideNotice = setTimeout(function(){
             if (!$('.help-icon-notice').hasClass('hidden')) {
-               $('.help-icon-notice').addClass('hidden'); 
+               $('.help-icon-notice').addClass('animated fadeOutRight').addClass('hidden').one(base.animationend, function() {
+                    $('.help-icon-notice').removeClass('animated fadeOutRight');
+               })
             }
         }, 30000)
         //打开帮助
         $('.help-icon-pic').on('click',function(e){
-            e.stopPropagation();
-            $('.help').removeClass('hidden');
-            $('.help-icon-notice').addClass('hidden');
             clearTimeout(helpTimer);
             e.stopPropagation();
             openHelp();
+            $('.help').removeClass('hidden').addClass('animated fadeInRight').one(base.animationed, function() {
+                    $('.help').removeClass('animated fadeInRight');
+            })
+            $('.help-icon-notice').addClass('hidden');
         });
         //关闭帮助
         $('.help-close').on('click',function(e){
@@ -157,14 +159,11 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         //打开文章
         $('.help-list').on('click','li', function(e){
             e.stopPropagation();
-            console.log($(this))
-            $('.help').removeClass('hidden');
             openArticle($(this));
         });
         //关闭文章
         $('.help-back').on('click',function(e){
             e.stopPropagation();
-            $('.help').removeClass('hidden');
             closeArticle();
         });
         //打开登录框
@@ -288,8 +287,6 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
     }
     base.closeAll.closeHelp = function(){
         $('body').css('overflow','auto');
-        
-
         $('.help-tab .tab-box:eq(0)').removeClass('hidden');
         $('.help-tab .tab-box:eq(1)').addClass('hidden');
         $('.help-tab .tab-box:eq(1) .help-ask').removeClass('hidden');
@@ -300,24 +297,26 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
 
         // $('.help-tab textarea').val('');
         $('.help-list').addClass('hidden');
-        $('.help').addClass('hidden');
-        // $('.help').addClass('animated fadeOutDown').one(base.animationend,function(){
-        //     $('.help').removeClass('animated fadeOutDown').addClass('hidden');
-        // });
 
         $('.help-article').addClass('hidden');
         $('.help-icon').removeClass('hidden');
+        $('.help-back').addClass('hidden');
+
+        $('.help').addClass('hidden')
+        // $('.help').addClass('animated fadeOutRight').one(base.animationend,function(){
+        //     $('.help').removeClass('animated fadeOutRight').addClass('hidden')
+        // });
     }
 
     //回到提问初始状态
 
     function openArticle(dom){
         $('.help-back').removeClass('hidden');
-        // $('.help-article').removeClass('hidden').addClass('animated slideInLeft').one(base.animationend,function(){
-            $('#help-article').scrollbar();
-            $('.help-article').removeClass('hidden');
-            $('.help-list').addClass('hidden');
-        // });
+        $('.help-article').removeClass('hidden').addClass('animated slideInRight').one(base.animationend,function(){
+            $('.help-article').removeClass('slideInRight');
+        });
+        $('#help-article').scrollbar();
+        $('.help-list').addClass('hidden');
 
         //填写内容和标题
         $('.help-article-title').html(dom.find('p').eq(0).html());
@@ -326,10 +325,9 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
     function closeArticle(){
         $('.help-list').removeClass('hidden');
         $('.help-back').addClass('hidden');
-        // $('.help-article').addClass('animated slideOutLeft').one(base.animationend,function(){
-            $('.help-article').addClass('hidden');
-        // });
-        // $('.help-icon').removeClass('hidden');
+        $('.help-article').addClass('animated slideOutLeft').one(base.animationend,function(){
+            $('.help-article').addClass('hidden').removeClass('animated slideOutLeft');
+        });
     }
 var isFirstLoad = true
     function selectType(_this){

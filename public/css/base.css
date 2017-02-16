@@ -414,3 +414,11 @@ text{
 .cursor-default {
     cursor: text;
 }
+.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+.auto{
+    pointer-events: auto !important;
+    cursor: auto;
+}

@@ -224,7 +224,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         //模块收缩初始化
         boxSlideUp();
         //模块展开/收缩
-        $('.select-title-control').on('click',function(){
+        $('.select-title').on('click',function(){
             if(!boxCanClick){
                 return;
             }
@@ -238,13 +238,13 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                 height[index] = content.innerHeight();
             }
             if(content.css('height') == '0px'){
-                $(this).removeClass('animated rotateDown').addClass('animated rotateUp');
+                $(this).find('img').removeClass('animated rotateDown').addClass('animated rotateUp');
                 content.animate({height:height[index]},200,function(){
                     boxCanClick = true;
                 });
             }
             else{
-                $(this).removeClass('animated rotateUp').addClass('animated rotateDown');
+                $(this).find('img').removeClass('animated rotateUp').addClass('animated rotateDown');
                 content.animate({height:0},200,function(){
                     boxCanClick = true;
                 });

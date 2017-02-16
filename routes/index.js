@@ -27,7 +27,6 @@ var hbs = exphbs.create({
 
 //渲染页面
 router.get('/', function (req, res, next) {
-    console.log(res.locals.partials.loginstate.id,"]]]]", !res.locals.partials.loginstate.id, res.locals.partials.loginstate.code === 0)
     if(req.query.code) {
         res.cookie('code', req.query.code);
     }
