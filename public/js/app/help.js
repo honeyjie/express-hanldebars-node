@@ -183,13 +183,13 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         });
 
         $('.help-send').on('mouseenter',function(){
-            if(!type && type !== 0){
+            if(!type && type !== 0 || !$(this).find('img').eq(2).hasClass('hidden')){
                 return;
             }
             $(this).find('img').addClass('hidden');
             $(this).find('img').eq(1).removeClass('hidden');
         }).on('mouseleave',function(){
-            if(!type && type !== 0){
+            if(!type && type !== 0 || !$(this).find('img').eq(2).hasClass('hidden')){
                 return;
             }
             $(this).find('img').addClass('hidden');
@@ -295,14 +295,36 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         $('.help-tab .tab-title li:eq(0)').addClass('active');
         $('.help-tab .tab-title li:eq(1)').removeClass('active');
 
-        // $('.help-tab textarea').val('');
         $('.help-list').addClass('hidden');
 
         $('.help-article').addClass('hidden');
         $('.help-icon').removeClass('hidden');
-        $('.help-back').addClass('hidden');
 
         $('.help').addClass('hidden')
+
+        $('.help-close').addClass('hidden');
+        $('.help-back').addClass('hidden');
+        restoreIntialHelp();
+        $('.help-send').addClass('hidden');
+        $('.help-file').addClass('hidden');
+        $('.help-ask').removeClass('hidden');
+        $('.help-result').addClass('hidden');
+        // $('.help-select .form-select-value').text('选择问题类型');
+        // $('.help-question').removeClass('hidden');
+        // $('.help-result').addClass('hidden');
+        // $('.help-question textarea').attr('disabled',true).val('');
+        // $('.help-question-placeholder').removeClass('hidden');
+        // $('.help-question').removeClass('focus');
+
+        // $('.help-file img').addClass('hidden');
+        // $('.help-file img').eq(1).removeClass('hidden');
+        // $('.help-send img').addClass('hidden');
+        // $('.help-send img').eq(2).removeClass('hidden');
+
+        // $('.help-question .help-upload span').html('');
+        // $('.help-question .help-upload span').attr('data-href', '');
+        // $('.help-upload').addClass('hidden');
+        // $('.help-file-icon').attr('id', '');
         // $('.help').addClass('animated fadeOutRight').one(base.animationend,function(){
         //     $('.help').removeClass('animated fadeOutRight').addClass('hidden')
         // });

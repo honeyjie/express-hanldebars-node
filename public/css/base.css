@@ -414,6 +414,9 @@ text{
 .cursor-default {
     cursor: text;
 }
+.cursor-none {
+    cursor: default;
+}
 .disabled {
     pointer-events: none;
     cursor: default;

@@ -1932,6 +1932,7 @@
 }
 .help .help-file-icon {
     opacity: 0;
+    cursor: default;
 }
 .help .help-file img,.help .help-send img{
     position: absolute;
@@ -1960,6 +1961,9 @@
 .help .help-not-login img {
     width: 150px;
     display: block;
+}
+.help .form-select {
+   cursor: pointer;
 }
 .school{
     padding-top: 80px;
