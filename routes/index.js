@@ -27,7 +27,7 @@ var hbs = exphbs.create({
 
 //渲染页面
 router.get('/', function (req, res, next) {
-    console.log(res.locals.partials.loginstate.id)
+    console.log(res.locals.partials.loginstate.id,"]]]]", !res.locals.partials.loginstate.id, res.locals.partials.loginstate.code === 0)
     if(req.query.code) {
         res.cookie('code', req.query.code);
     }
@@ -37,7 +37,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/notifications', function(req, res, next) {
-  if (!res.locals.partials.loginstate.id) {
+  if (res.locals.partials.loginstate.code !== 0) {
     res.redirect('/');
     return;
   }
@@ -81,7 +81,7 @@ router.get('/notifications', function(req, res, next) {
 });
 
 router.get('/points', function(req, res, next) {
-  if (!res.locals.partials.loginstate.id) {
+  if (res.locals.partials.loginstate.code !== 0) {
     res.redirect('/');
     return;
   }
@@ -167,7 +167,7 @@ router.get('/User/msganswer.action', function(req, res, next) {
 });
 
 router.get('/setting', function(req, res, next) {
-  if (!res.locals.partials.loginstate.id) {
+  if (res.locals.partials.loginstate.code !== 0) {
     res.redirect('/');
     return;
   }
@@ -423,7 +423,7 @@ router.get('/school-detail', function(req, res) {
 });
 
 router.get('/recommendation', function(req, res) {
-  if (!res.locals.partials.loginstate.id) {
+  if (res.locals.partials.loginstate.code !== 0) {
     res.redirect('/');
     return;
   }
