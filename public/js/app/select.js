@@ -1283,6 +1283,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                     cache:false,
                     dataType:'json',
                     success:function(data){
+                        console.log(data)
                         $('.select-dis-gpa span').html(getRatio(data.data.gpa.user_data.y));
                         $('.select-dis-tofel span').html(getRatio(data.data.toefl.user_data.y));
                         $('.select-dis-gre span').html(getRatio(data.data.gre.user_data.y));
