@@ -1808,8 +1808,6 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         var color = colorData(data); //颜色
         var lessBefore = [{x:0,y:0}];
         var dataBefore = [{x:0,y:0}];
-
-
         //得分小于我的数据
         function lessArr(data){
             var less = [];
