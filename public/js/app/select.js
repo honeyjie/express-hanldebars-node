@@ -1283,9 +1283,18 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                     cache:false,
                     dataType:'json',
                     success:function(data){
+                        console.log(data)
+                        $('.select-dis-gpa span').html(getRatio(data.data.gpa.user_data.y));
+                        $('.select-dis-tofel span').html(getRatio(data.data.toefl.user_data.y));
+                        $('.select-dis-gre span').html(getRatio(data.data.gre.user_data.y));
                         chartArea('.select-svg-gpa',data.data.gpa.data,data.data.gpa.max,data.data.gpa.user_data);
-                        //chartArea('.select-svg-tofel',data.data.tofel.data,data.data.tofel.max,data.data.tofel.user_data);
-                        //chartArea('.select-svg-gre',data.data.gre.data,data.data.gre.max,data.data.gre.user_data);
+                        chartArea('.select-svg-tofel',data.data.toefl.data,data.data.toefl.max,data.data.toefl.user_data);
+                        chartArea('.select-svg-gre',data.data.gre.data,data.data.gre.max,data.data.gre.user_data);
+                        $('.select-school-chart .hardrate span').html(getRatio(data.data.hard));
+                        $('.select-school-chart .softrate span').html(getRatio(data.data.soft));
+                        $('.select-chart-summary .countrate span').html(getRatio(data.data.count));
+                        $('.select-chart-summary .match span').html(data.data.match);
+
                     },
                     error : function() {
                         base.notice('网络错误');
@@ -1766,36 +1775,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         $('.select-form-noresult').addClass('hidden');
         $('.mask').addClass('hidden');
 
-    })
-    //生成图表
-    function chart(){
-        chartArea('.select-svg-gpa',gpaDate.before,gpaDate.now,4,gpaDate.now.max.y,function(){
-            //console.log(gpaDate.before, gpaDate.now);
-            gpaDate.before = gpaDate.now;
-
-        });
-        chartArea('.select-svg-tofel',tofelDate.before,tofelDate.now,120,tofelDate.now.max.y,function(){
-            //console.log(gpaDate.before, gpaDate.now);
-            tofelDate.before = tofelDate.now;
-        });
-        chartArea('.select-svg-gre',greDate.before,greDate.now,340,greDate.now.max.y,function(){
-            //console.log(gpaDate.before, gpaDate.now);
-            greDate.before = greDate.now;
-        });
-
-        chartRound('.select-svg-learning',learningDate.before,learningDate.now,function(){
-            //console.log(gpaDate.before, gpaDate.now);
-            learningDate.before = learningDate.now;
-        });
-        chartRound('.select-svg-recommend',recommendDate.before,recommendDate.now,function(){
-            //console.log(gpaDate.before, gpaDate.now);
-            recommendDate.before = recommendDate.now;
-        });
-        chartRound('.select-svg-prize',prizeDate.before,prizeDate.now,function(){
-            //console.log(gpaDate.before, gpaDate.now);
-            prizeDate.before = prizeDate.now;
-        });
-    }
+    });
 
 
     function chartArea(dom,data,maxY,user){  //dom 数据 大多数人得分 我的得分
@@ -1806,6 +1786,9 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         var maxX = maxData(data);    //最低分坐标
         var minX = minData(data);    //最高分坐标
         var color = colorData(data); //颜色
+        var lessBefore = zeroY(less);
+        var dataBefore = zeroY(data);
+
         //得分小于我的数据
         function lessArr(data){
             var less = [];
@@ -1846,8 +1829,10 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         function zeroY(data){
             var zeroYArr = [];
             for(var i=0;i<data.length;i++){
-                data[i].y = 0;
-                zeroYArr.push(data[i])
+                var newData = {};
+                newData.x = data[i].x;
+                newData.y = 0;
+                zeroYArr.push(newData)
             }
             return zeroYArr;
         };
@@ -1913,40 +1898,40 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         svg.append('path')  //画面
             .attr('class','svg-area')
             .style('fill',color.fill)
-            //.attr('d',area(zeroY(less)))
-            //.transition()
-            //.duration(1000)
+            .attr('d',area(lessBefore))
+            .transition()
+            .duration(1000)
             .attr('d',area(less));
         svg.append('path')  //画线
             .attr('class','svg-line')
             .style('stroke',color.stroke)
-            //.attr('d',line(zeroY(data)))
-            //.transition()
-            //.duration(1000)
+            .attr('d',line(dataBefore))
+            .transition()
+            .duration(1000)
             .attr('d',line(data));
-        svg    //最高点
+        svg    //大多数人得分
             .append('g')
             .append('circle')
             .style('fill',color.fill)
             .attr('cx', x(maxY.x))
-            .attr('cy', 0)
+            .attr('cy', g_height)
             .transition()
             .duration(1000)
             .attr('cx', x(maxY.x))
             .attr('cy', y(maxY.y))
             .attr('r', 5);
-        svg     //自己
+        svg     //我的得分
             .append('g')
             .append('circle')
             .attr('class','svg-dot')
             .style('stroke',color.stroke)
             .attr('cx', x(user.x))
-            .attr('cy', 0)
+            .attr('cy', g_height)
             .transition()
             .duration(1000)
             .attr('cx', x(user.x))
             .attr('cy', y(user.y))
-            .attr('r', 4);
+            .attr('r', 5);
         svg     //最高点线
             .append('g')
             .append('line')
@@ -1958,7 +1943,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             .attr('y2', g_height)
             .transition()
             .duration(1000)
-            .attr('y2', 0);
+            .attr('y2', 5);
         svg     //底线
             .append('g')
             .append('line')
@@ -1972,40 +1957,28 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             .append('g')
             .append('text')
             .attr('x', x(maxY.x)-36)
-            .attr('y', 0)
+            .attr('y', g_height)
             .transition()
             .duration(1000)
-            .attr('x', x(maxY.x)-36)
             .attr('y', y(maxY.y)-15)
             .text('大多数人得分');
         svg     //我的得分文字
             .append('g')
             .append('text')
             .attr('x', x(user.x)-24)
-            .attr('y', 0)
+            .attr('y', g_height)
             .transition()
             .duration(1000)
-            .attr('x', x(user.x)-24)
             .attr('y', y(user.y)-15)
             .text('我的得分');
         svg     //大多数人得分
             .append('g')
             .append('text')
             .attr('x', x(maxY.x)-8)
-            .attr('y', 0)
-            .text(maxY.x)
-            .transition()
-            .duration(1000)
-            .attr('x', x(maxY.x)-8)
             .attr('y', g_height-5);
         svg     //我的得分
             .append('g')
             .append('text')
-            .attr('x', x(user.x)-8)
-            .attr('y', 0)
-            .text(user.x)
-            .transition()
-            .duration(1000)
             .attr('x', x(user.x)-8)
             .attr('y', g_height-5);
         svg     //最低分文字
