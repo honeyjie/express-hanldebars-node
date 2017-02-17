@@ -1914,6 +1914,8 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                 y:0
             }
         ];
+
+
         //得分小于我的数据
         function lessArr(data){
             var less = [];
