@@ -1960,7 +1960,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             .attr('x1', x(maxY.x))
             .attr('y1', y(maxY.y)+5)
             .attr('x2', x(maxY.x))
-            .attr('y2', 2);
+            .attr('y2', 50);
         svg     //底线
             .append('g')
             .append('line')
