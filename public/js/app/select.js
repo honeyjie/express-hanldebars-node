@@ -2070,6 +2070,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             }
         }
 
+
         var svg = d3.select(dom).append('svg')
             .attr('width', width)
             .attr('height', height)
