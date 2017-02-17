@@ -1300,8 +1300,6 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                         chartRound('.select-svg-recommend',data.data.recommend);
                         chartRound('.select-svg-prize',data.data.prize);
 
-
-
                     },
                     error : function() {
                         base.notice('网络错误');
@@ -2028,22 +2026,22 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         var angle = 2*Math.PI*toPoint(data);
         var color = color(toPoint(data));
 
-        var chartNumber = parseInt(toPoint(data)*100);
-        var chartNumberBefore = parseInt(dom.find('.select-svg-number'))?parseInt(dom.find('.select-svg-number')):0;
-        var numberTimer = setInterval(function(){
-            chartNumber = chartNumber+(chartNumber-chartNumberBefore)/10;
-            $(dom).find('.select-svg-number').html(chartNumber+'%');
-            if(chartNumber>=parseInt(toPoint(data)*100)){
-                clearInterval(numberTimer);
-                chartNumber = parseInt(toPoint(data)*100);
-            }
-            $(dom).find('.select-svg-number').html(chartNumber+'%');
-            if(chartNumber<=0){
-                clearInterval(numberTimer);
-                $(dom).find('.select-svg-number').html('有待提升');
-            }
-            $(dom).find('.select-svg-number').css('color',color(toPoint(data.ratio)));
-        },100);
+        //var chartNumber = parseInt(toPoint(data)*100);
+        //var chartNumberBefore = parseInt(dom.find('.select-svg-number'))?parseInt(dom.find('.select-svg-number')):0;
+        //var numberTimer = setInterval(function(){
+        //    chartNumber = chartNumber+(chartNumber-chartNumberBefore)/10;
+        //    $(dom).find('.select-svg-number').html(chartNumber+'%');
+        //    if(chartNumber>=parseInt(toPoint(data)*100)){
+        //        clearInterval(numberTimer);
+        //        chartNumber = parseInt(toPoint(data)*100);
+        //    }
+        //    $(dom).find('.select-svg-number').html(chartNumber+'%');
+        //    if(chartNumber<=0){
+        //        clearInterval(numberTimer);
+        //        $(dom).find('.select-svg-number').html('有待提升');
+        //    }
+        //    $(dom).find('.select-svg-number').css('color',color(toPoint(data.ratio)));
+        //},100);
 
         function toPoint(percent){
             if(percent=='0'){
