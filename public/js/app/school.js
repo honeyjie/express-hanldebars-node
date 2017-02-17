@@ -330,15 +330,28 @@ define(['jquery','handlebars','d3','fullpage','scrollbar','base','common','iscro
                         $('.major-info-direction .form-select-value').html($(this).html().substring(0,20)+'...');
                     }
                 });
-                if($('.major-email-short').html().length>25){
-                    $('.major-email-short').html($('.major-email-short').html().substring(0,25)+'...');
-                    $('.major-email').on('mouseenter',function(e){
-                        e.stopPropagation();
-                        $(this).find('.major-email-all').removeClass('hidden');
-                    }).on('mouseleave',function(e){
-                        e.stopPropagation();
-                        $(this).find('.major-email-all').addClass('hidden');
-                    });
+                // if($('.major-email-short').text().length>23){
+                //     $('.major-email-short').text($('.major-email-short').text().substring(0,23)+'...');
+                //     $('.major-email').on('mouseenter',function(e){
+                //         // e.stopPropagation();
+                //         $(this).find('.major-email-all').removeClass('hidden');
+                //     }).on('mouseleave',function(e){
+                //         // e.stopPropagation();
+                //         $(this).find('.major-email-all').addClass('hidden');
+                //     });
+                // }
+                var $majorShorts = $('.major-email-short')
+                for (var i = 0; i <$majorShorts.length; i++) {
+                    if($majorShorts.eq(i).text().length>23){
+                        $majorShorts.eq(i).text($majorShorts.eq(i).text().substring(0,23)+'...');
+                        $majorShorts.eq(i).parent().on('mouseenter',function(e){
+                            e.stopPropagation();
+                            $(this).find('.major-email-all').removeClass('hidden');
+                        }).on('mouseleave',function(e){
+                            e.stopPropagation();
+                            $(this).find('.major-email-all').addClass('hidden');
+                        });
+                    }
                 }
             },
             error : function() {
@@ -376,7 +389,6 @@ define(['jquery','handlebars','d3','fullpage','scrollbar','base','common','iscro
             e.stopPropagation();
             var content = $(this).parents('.school-box').find('.school-box-content');
             var index = $('.school-box').index($(this).parents('.school-box'));
-            console.log(index, height[index], content.innerHeight())
             if(!height[index]){//未被点击的，定义高度
                 height[index] = content.innerHeight();
             }
@@ -420,7 +432,6 @@ define(['jquery','handlebars','d3','fullpage','scrollbar','base','common','iscro
         $('#school-content-page').on('input propertychange', '.recommend-major-form input', function(){
             localStorage.removeItem("userMajor");
             selectMajor($(this).val());
-            console.log($(this).val())
             canGet($(this).val());
         });
 
@@ -431,7 +442,6 @@ define(['jquery','handlebars','d3','fullpage','scrollbar','base','common','iscro
             for(var i=0;i<$('.recommend-major-form .form-select-option li').length;i++){
                 arr.push($('.recommend-major-form .form-select-option li').eq(i).html())
             }
-            console.log(arr.length, majorMessage)
 
             if(arr.length === 0 || !arr.indexOf(userMajor)==-1){
                 majorMessage = null;
@@ -439,10 +449,6 @@ define(['jquery','handlebars','d3','fullpage','scrollbar','base','common','iscro
                 return;
             }
             base.testSuccess($(this));
-            // localStorage.removeItem("userMajor");
-            // selectMajor($(this).val());
-            // console.log($(this).val())
-            // canGet($(this).val());
         });
 
         //专业 选择
@@ -464,8 +470,6 @@ define(['jquery','handlebars','d3','fullpage','scrollbar','base','common','iscro
                 base.testFail($('.recommend-major-form input'),'请从下拉列表中选择专业');
                 return;
             }
-            console.log("1", userMajor, sid)
-            
             getMajor(userMajor, sid);
         });   
         
@@ -517,16 +521,21 @@ define(['jquery','handlebars','d3','fullpage','scrollbar','base','common','iscro
                             $('.major-info-direction .form-select-value').html($(this).html().substring(0,20)+'...');
                         }
                     });
-                    if($('.major-email-short').html().length>25){
-                        $('.major-email-short').html($('.major-email-short').html().substring(0,25)+'...');
-                        $('.major-email').on('mouseenter',function(e){
-                            e.stopPropagation();
-                            $(this).find('.major-email-all').removeClass('hidden');
-                        }).on('mouseleave',function(e){
-                            e.stopPropagation();
-                            $(this).find('.major-email-all').addClass('hidden');
-                        });
+                    var $majorShorts = $('.major-email-short')
+                    for (var i = 0; i <$majorShorts.length; i++) {
+                        if($majorShorts.eq(i).text().length>23){
+                            $majorShorts.eq(i).text($majorShorts.eq(i).text().substring(0,23)+'...');
+                            $majorShorts.eq(i).parent().on('mouseenter',function(e){
+                                e.stopPropagation();
+                                $(this).find('.major-email-all').removeClass('hidden');
+                            }).on('mouseleave',function(e){
+                                e.stopPropagation();
+                                $(this).find('.major-email-all').addClass('hidden');
+                            });
+                        }
                     }
+
+
                     // console.log($('.major-require-list li:eq(0)'))
                     // requireTab('.major-require-list li:eq(0)');
                 },
@@ -537,8 +546,7 @@ define(['jquery','handlebars','d3','fullpage','scrollbar','base','common','iscro
         });
 
         //查看申请要求 school-major
-        
-
+    
         $('#school-content-page').on('click', '.major-require-list li', function(e){
             e.stopPropagation();
             requireTab($(this));
@@ -760,11 +768,13 @@ define(['jquery','handlebars','d3','fullpage','scrollbar','base','common','iscro
         dom.addClass('active')
     }
     function getMajor(val, id){
+
         $('.school-recommend .loader').removeClass('hidden');
         //发送学校id和填写值
         if(!val){
              return;
         }
+        console.log(val,id)
         $.ajax({
             url:'/school-mjlist-partial',
             data:{
@@ -806,10 +816,38 @@ define(['jquery','handlebars','d3','fullpage','scrollbar','base','common','iscro
                         $('.major-info-direction .form-select-value').html($(this).html().substring(0,20)+'...');
                     }
                 });
-                if($('.major-email-short')[0]){
-                    if($('.major-email-short').html().length>25){
-                        $('.major-email-short').html($('.major-email-short').html().substring(0,25)+'...');
-                        $('.major-email').on('mouseenter',function(e){
+                // if($('.major-email-short')[0]){
+                //     console.log("1", $('.major-email-short').text().length)
+                //     if($('.major-email-short').text().length>23){
+                //         console.log("2")
+                //         $('.major-email-short').text($('.major-email-short').html().substring(0,23)+'...');
+                //         $('.major-email').on('mouseenter',function(e){
+                //             // e.stopPropagation();
+                //             $(this).find('.major-email-all').removeClass('hidden');
+                //         }).on('mouseleave',function(e){
+                //             // e.stopPropagation();
+                //             $(this).find('.major-email-all').addClass('hidden');
+                //         });
+                //     }
+                // }
+                // var majorShorts = $('.major-email-short')
+                // for (var i = 0; i < majorShorts.length; i++) {
+                //     if(majorShorts[i].text().length>23){
+                //         $('.major-email-short')[i].text($('.major-email-short')[i].text().substring(0,23)+'...');
+                //         $('.major-email').on('mouseenter',function(e){
+                //             e.stopPropagation();
+                //             $(this).find('.major-email-all').removeClass('hidden');
+                //         }).on('mouseleave',function(e){
+                //             e.stopPropagation();
+                //             $(this).find('.major-email-all').addClass('hidden');
+                //         });
+                //     }
+                // }
+                var $majorShorts = $('.major-email-short')
+                for (var i = 0; i <$majorShorts.length; i++) {
+                    if($majorShorts.eq(i).text().length>23){
+                        $majorShorts.eq(i).text($majorShorts.eq(i).text().substring(0,23)+'...');
+                        $majorShorts.eq(i).parent().on('mouseenter',function(e){
                             e.stopPropagation();
                             $(this).find('.major-email-all').removeClass('hidden');
                         }).on('mouseleave',function(e){

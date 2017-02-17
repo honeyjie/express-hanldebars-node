@@ -2592,6 +2592,15 @@
     padding: 0 10px;
     border-radius: 5px;
     z-index: 2;
+    overflow: auto;
+    word-break: break-all;
+    width: 200px;
+    cursor: text;
+}
+.school .major-email-all p {
+    line-height: 30px;
+    height: 30px;
+    width: 250px;
 }
 /*.school .major-info li:nth-child(3n){*/
     /*margin-right: 0;*/
@@ -2604,6 +2613,16 @@
     font-size: 13px;
     margin-left: 10px;
 }
+.school .major-info .major-email-short {
+    overflow: hidden;
+    word-break: break-all;
+    height: 20px;
+}
+// .school .major-info .major-email-all {
+//     overflow: scroll;
+//     word-break: break-all;
+//     height: 20px;
+// }
 .school .major-info a{
     display: inline-block;
     height: 20px;
