@@ -1283,9 +1283,10 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                     cache:false,
                     dataType:'json',
                     success:function(data){
+                        console.log(data)
                         chartArea('.select-svg-gpa',data.data.gpa.data,data.data.gpa.max,data.data.gpa.user_data);
-                        //chartArea('.select-svg-tofel',data.data.tofel.data,data.data.tofel.max,data.data.tofel.user_data);
-                        //chartArea('.select-svg-gre',data.data.gre.data,data.data.gre.max,data.data.gre.user_data);
+                        chartArea('.select-svg-tofel',data.data.tofel.data,data.data.tofel.max,data.data.tofel.user_data);
+                        chartArea('.select-svg-gre',data.data.gre.data,data.data.gre.max,data.data.gre.user_data);
                     },
                     error : function() {
                         base.notice('网络错误');
@@ -1766,36 +1767,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         $('.select-form-noresult').addClass('hidden');
         $('.mask').addClass('hidden');
 
-    })
-    //生成图表
-    function chart(){
-        chartArea('.select-svg-gpa',gpaDate.before,gpaDate.now,4,gpaDate.now.max.y,function(){
-            //console.log(gpaDate.before, gpaDate.now);
-            gpaDate.before = gpaDate.now;
-
-        });
-        chartArea('.select-svg-tofel',tofelDate.before,tofelDate.now,120,tofelDate.now.max.y,function(){
-            //console.log(gpaDate.before, gpaDate.now);
-            tofelDate.before = tofelDate.now;
-        });
-        chartArea('.select-svg-gre',greDate.before,greDate.now,340,greDate.now.max.y,function(){
-            //console.log(gpaDate.before, gpaDate.now);
-            greDate.before = greDate.now;
-        });
-
-        chartRound('.select-svg-learning',learningDate.before,learningDate.now,function(){
-            //console.log(gpaDate.before, gpaDate.now);
-            learningDate.before = learningDate.now;
-        });
-        chartRound('.select-svg-recommend',recommendDate.before,recommendDate.now,function(){
-            //console.log(gpaDate.before, gpaDate.now);
-            recommendDate.before = recommendDate.now;
-        });
-        chartRound('.select-svg-prize',prizeDate.before,prizeDate.now,function(){
-            //console.log(gpaDate.before, gpaDate.now);
-            prizeDate.before = prizeDate.now;
-        });
-    }
+    });
 
 
     function chartArea(dom,data,maxY,user){  //dom 数据 大多数人得分 我的得分
@@ -1808,8 +1780,6 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         var color = colorData(data); //颜色
         var lessBefore = zeroY(less);
         var dataBefore = zeroY(data);
-        console.log(zeroY(less))
-
 
         //得分小于我的数据
         function lessArr(data){
