@@ -1806,8 +1806,14 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         var maxX = maxData(data);    //最低分坐标
         var minX = minData(data);    //最高分坐标
         var color = colorData(data); //颜色
-        var lessBefore = [{x:0,y:0}];
-        var dataBefore = [{x:0,y:0}];
+        var lessBefore = less;
+        var dataBefore = data;
+        for(var i=0;i<lessBefore.length;i++){
+            lessBefore[i].y = 0;
+        }
+        for(var i=0;i<dataBefore.length;i++){
+            dataBefore[i].y = 0;
+        }
         //得分小于我的数据
         function lessArr(data){
             var less = [];
@@ -1844,15 +1850,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                 }
             }
         };
-        //Y轴清0
-        function zeroY(data){
-            var zeroYArr = [];
-            for(var i=0;i<data.length;i++){
-                data[i].y = 2;
-                zeroYArr.push(data[i])
-            }
-            return zeroYArr;
-        };
+
         //颜色
         function colorData(data){
             var colorObj = {
