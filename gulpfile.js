@@ -7,8 +7,6 @@ var gulp = require('gulp'),
     concat = require("gulp-concat"),
     imagemin = require('gulp-imagemin'),
     pump = require('pump');
-    // sourcemaps = require('gulp-sourcemaps'),
-    // autoprefixer = require('gulp-autoprefixer');
 
 //gulp-rename gulp-jshint gulp-concat gulp-uglify gulp-minify-css gulp-minify-html gulp-imagemin gulp-livereload gulp-sourcemaps gulp-autoprefixer 
 //重命名
@@ -19,10 +17,6 @@ gulp.task('minify-js', function () {
         uglify(),
         gulp.dest('./dist/js/app')
         ])
-    // gulp.src('./public/js/*.js') // 要压缩的js文件
-    // .pipe(uglify())  //使用uglify进行压缩,更多配置请参考：
-    // .pipe(gulp.dest('./dist/js')); //压缩后的路径
-    
 });
 //css压缩
 gulp.task('minify-css', function () {

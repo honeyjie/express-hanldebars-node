@@ -31,7 +31,7 @@ app.set('view engine', 'hbs');
 app.engine('hbs', hbs.engine);
 app.set('port', process.env.PORT || 3000);
 
-app.set('view cache', false);
+app.set('view cache', true);
 
 app.use(favicon(__dirname + '/dist/img/favicon.ico'));
 app.use(express.static(path.join(__dirname, 'dist')));
