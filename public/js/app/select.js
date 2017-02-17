@@ -1929,19 +1929,19 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             .append('circle')
             .style('fill',color.fill)
             .attr('cx', x(maxY.x))
-            .attr('y', g_height)
+            .attr('cy', g_height)
             .transition()
             .duration(1000)
             .attr('cx', x(maxY.x))
             .attr('cy', y(maxY.y))
             .attr('r', 5);
-        svg     //自己的得分
+        svg     //我的得分
             .append('g')
             .append('circle')
             .attr('class','svg-dot')
             .style('stroke',color.stroke)
             .attr('cx', x(user.x))
-            .attr('y', g_height)
+            .attr('cy', g_height)
             .transition()
             .duration(1000)
             .attr('cx', x(user.x))
