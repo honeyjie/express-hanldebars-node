@@ -2097,7 +2097,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             .duration(1000)
             .attrTween('d',function(){
                 return function(t){
-                    return arc2(t*data);
+                    return arc2(t*angle);
                 };
             });
     }
