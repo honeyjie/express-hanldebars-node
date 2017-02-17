@@ -1806,6 +1806,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         var maxX = maxData(data);    //最低分坐标
         var minX = minData(data);    //最高分坐标
         var color = colorData(data); //颜色
+        var before = zeroY(less);
         //得分小于我的数据
         function lessArr(data){
             var less = [];
@@ -1913,7 +1914,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         svg.append('path')  //画面
             .attr('class','svg-area')
             .style('fill',color.fill)
-            .attr('d',area(zeroY(less)))
+            .attr('d',area(before))
             .transition()
             .duration(1000)
             .attr('d',area(less));
