@@ -1924,7 +1924,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             //.transition()
             //.duration(1000)
             .attr('d',line(data));
-        svg    //最高点
+        svg    //大多数人得分
             .append('g')
             .append('circle')
             .style('fill',color.fill)
@@ -1935,7 +1935,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             .attr('cx', x(maxY.x))
             .attr('cy', y(maxY.y))
             .attr('r', 5);
-        svg     //自己
+        svg     //自己的得分
             .append('g')
             .append('circle')
             .attr('class','svg-dot')
