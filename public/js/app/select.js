@@ -1958,7 +1958,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             .attr('y2', g_height)
             .transition()
             .duration(1000)
-            .attr('y2', 0);
+            .attr('y2', 5);
         svg     //底线
             .append('g')
             .append('line')
@@ -1972,40 +1972,28 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             .append('g')
             .append('text')
             .attr('x', x(maxY.x)-36)
-            .attr('y', 0)
+            .attr('y', g_height)
             .transition()
             .duration(1000)
-            .attr('x', x(maxY.x)-36)
             .attr('y', y(maxY.y)-15)
             .text('大多数人得分');
         svg     //我的得分文字
             .append('g')
             .append('text')
             .attr('x', x(user.x)-24)
-            .attr('y', 0)
+            .attr('y', g_height)
             .transition()
             .duration(1000)
-            .attr('x', x(user.x)-24)
             .attr('y', y(user.y)-15)
             .text('我的得分');
         svg     //大多数人得分
             .append('g')
             .append('text')
             .attr('x', x(maxY.x)-8)
-            .attr('y', 0)
-            .text(maxY.x)
-            .transition()
-            .duration(1000)
-            .attr('x', x(maxY.x)-8)
             .attr('y', g_height-5);
         svg     //我的得分
             .append('g')
             .append('text')
-            .attr('x', x(user.x)-8)
-            .attr('y', 0)
-            .text(user.x)
-            .transition()
-            .duration(1000)
             .attr('x', x(user.x)-8)
             .attr('y', g_height-5);
         svg     //最低分文字
