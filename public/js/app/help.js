@@ -44,7 +44,7 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
         //     }
         // })
         function upLoadFileEvent() {
-            // if($('.help-file-icon')){
+            console.log("1")
                 var uploader = Qiniu.uploader({
                     runtimes: 'html5,flash,html4',    //上传模式,依次退化
                     browse_button: 'helpFile',       //上传选择的点选按钮，**必需**
@@ -58,6 +58,7 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
                     drop_element: 'container',        //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
                     chunk_size: '4mb',                //分块上传时，每片的体积
                     auto_start: true,                 //选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                    qiniu_can_overwrite: true,
                     // filters : {
                     //     prevent_duplicates: true,
                     //     // Specify what files to browse for
@@ -67,7 +68,7 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
                     // },
                     init: {
                         'FilesAdded': function(up, files) {
-
+                                console.log("2")
                                 plupload.each(files, function(file) {
                                 // 文件添加进队列后,处理相关的事情
                                 });
@@ -86,12 +87,15 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
                         },
                         'FileUploaded': function(up, file, info) {
                             var res = JSON.parse(info);
-                            var imgUrl = up.getOption('domain') + res.key;
-                            console.log(imgUrl, file, file.name);
+                            console.log(res.key);
                             // base.userInfo.headerimg = imgUrl
                             upLoadFile();
-                            $('.help-question .help-upload span').html(file.name);
+                            // // var name = file.name;
+                            
+                            var imgUrl = up.getOption('domain') + res.key;
+                            console.log(imgUrl, file, info);
                             $('.help-question .help-upload span').attr('data-href', imgUrl);
+                            $('.help-question .help-upload span').html(file.name);
                             // 每个文件上传成功后,处理相关的事情
                             // 其中 info 是文件上传成功后，服务端返回的json，形式如
                             // {
@@ -109,6 +113,8 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
                         },
                         'UploadComplete': function() {
                             //队列文件处理完毕后,处理相关的事情
+                            
+                            
                         },
                         'Key': function(up, file) {
                             // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
@@ -284,6 +290,7 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
                 }
             });
         }
+
     }
     base.closeAll.closeHelp = function(){
         $('body').css('overflow','auto');
@@ -351,10 +358,11 @@ define(['jquery','fullpage','scrollbar','base','common'],function(jquery,fullpag
             $('.help-article').addClass('hidden').removeClass('animated slideOutLeft');
         });
     }
-var isFirstLoad = true
+    var isFirstLoad = true
     function selectType(_this){
         type = _this.attr('data-type')*1;
         console.log(type)
+        $('.help-file-icon').addClass('button-hollow');
         $('.help-question textarea').attr('disabled',false);
         $('.help-question-placeholder').addClass('hidden');
         $('.help-question').addClass('focus');
@@ -376,6 +384,7 @@ var isFirstLoad = true
         //     $('.help-file-icon').attr('id', 'helpFile')
         // }
         $('.help-file-icon').attr('id', 'helpFile')
+        console.log(isFirstLoad)
         if (isFirstLoad) {
             upLoadFileEvent(); 
             isFirstLoad = false;
@@ -474,6 +483,7 @@ var isFirstLoad = true
         $('.help-question .help-upload span').attr('data-href', '');
         $('.help-upload').addClass('hidden');
         $('.help-file-icon').attr('id', '');
-        
+
+        $('.help-file-icon').removeClass('button-hollow');
     }
 });

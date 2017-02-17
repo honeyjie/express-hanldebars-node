@@ -33,7 +33,6 @@ a{
 }
 button{
     background: none;
-    cursor: pointer;
 }
 button:focus,input:focus,textarea:focus{
     outline: none;
@@ -417,6 +416,9 @@ text{
 .cursor-none {
     cursor: default;
 }
+.cursor-pointer {
+    cursor: pointer !important;
+}
 .disabled {
     pointer-events: none;
     cursor: default;
@@ -424,4 +426,7 @@ text{
 .auto{
     pointer-events: auto !important;
     cursor: auto;
+}
+.index-up {
+    z-index: 2;
 }

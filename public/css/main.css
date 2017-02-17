@@ -1882,7 +1882,6 @@
 }
 .help .help-upload-delete{
     position: absolute;
-    width: 16px;
     top: 2px;
     right: -26px;
     cursor: pointer;
@@ -1928,16 +1927,12 @@
     height: 30px;
     right: 60px;
     bottom: 18px;
-    cursor: pointer;
 }
 .help .help-file-icon {
     opacity: 0;
-    cursor: default;
 }
 .help .help-file img,.help .help-send img{
     position: absolute;
-    // width: 100%;
-    // height: 100%;
     top: 0;
     left: 0;
 }
