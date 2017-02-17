@@ -1806,114 +1806,9 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         var maxX = maxData(data);    //最低分坐标
         var minX = minData(data);    //最高分坐标
         var color = colorData(data); //颜色
-        var lessBefore = [
-            {
-                x:3.7,
-                y:0
-            },
-            {
-                x:3.78,
-                y:0
-            },
-            {
-                x:3.78533125,
-                y:0
-            },
-            {
-                x:3.79,
-                y:0
-            },
-            {
-                x:3.8,
-                y:0
-            },
-            {
-                x:3.8125,
-                y:0
-            },
-            {
-                x:3.82,
-                y:0
-            },
-            {
-                x:3.834325,
-                y:0
-            },
-            {
-                x:3.84,
-                y:0
-            },
-            {
-                x:3.85,
-                y:0
-            },
-            {
-                x:3.87,
-                y:0
-            },
-            {
-                x:3.9,
-                y:0
-            },
-            {
-                x:"4",
-                y:0
-            }
-        ];
-        var dataBefore = [
-            {
-                x:3.7,
-                y:0
-            },
-            {
-                x:3.78,
-                y:0
-            },
-            {
-                x:3.78533125,
-                y:0
-            },
-            {
-                x:3.79,
-                y:0
-            },
-            {
-                x:3.8,
-                y:0
-            },
-            {
-                x:3.8125,
-                y:0
-            },
-            {
-                x:3.82,
-                y:0
-            },
-            {
-                x:3.834325,
-                y:0
-            },
-            {
-                x:3.84,
-                y:0
-            },
-            {
-                x:3.85,
-                y:0
-            },
-            {
-                x:3.87,
-                y:0
-            },
-            {
-                x:3.9,
-                y:0
-            },
-            {
-                x:"4",
-                y:0
-            }
-        ];
+        var lessBefore = zeroY(less);
+        var dataBefore = zeroY(data);
+        console.log(zeroY(less))
 
 
         //得分小于我的数据
@@ -1956,8 +1851,10 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         function zeroY(data){
             var zeroYArr = [];
             for(var i=0;i<data.length;i++){
-                data[i].y = 2;
-                zeroYArr.push(data[i])
+                var newData = {};
+                newData.x = data[i].x;
+                newData.y = 0;
+                zeroYArr.push(newData)
             }
             return zeroYArr;
         };
