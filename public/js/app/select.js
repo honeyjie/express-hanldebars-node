@@ -1283,10 +1283,17 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                     cache:false,
                     dataType:'json',
                     success:function(data){
-                        console.log(data)
+                        $('.select-dis-gpa span').html(getRatio(data.data.gpa.user_data.y));
+                        $('.select-dis-tofel span').html(getRatio(data.data.toefl.user_data.y));
+                        $('.select-dis-gre span').html(getRatio(data.data.gre.user_data.y));
                         chartArea('.select-svg-gpa',data.data.gpa.data,data.data.gpa.max,data.data.gpa.user_data);
                         chartArea('.select-svg-tofel',data.data.toefl.data,data.data.toefl.max,data.data.toefl.user_data);
                         chartArea('.select-svg-gre',data.data.gre.data,data.data.gre.max,data.data.gre.user_data);
+                        $('.select-school-chart .hardrate span').html(getRatio(data.data.hard));
+                        $('.select-school-chart .softrate span').html(getRatio(data.data.soft));
+                        $('.select-chart-summary .countrate span').html(getRatio(data.data.count));
+                        $('.select-chart-summary .match span').html(data.data.match);
+
                     },
                     error : function() {
                         base.notice('网络错误');
