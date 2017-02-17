@@ -1913,16 +1913,16 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         svg.append('path')  //画面
             .attr('class','svg-area')
             .style('fill',color.fill)
-            .attr('d',area(zeroY(less)))
-            .transition()
-            .duration(1000)
+            //.attr('d',area(zeroY(less)))
+            //.transition()
+            //.duration(1000)
             .attr('d',area(less));
         svg.append('path')  //画线
             .attr('class','svg-line')
             .style('stroke',color.stroke)
-            .attr('d',line(zeroY(data)))
-            .transition()
-            .duration(1000)
+            //.attr('d',line(zeroY(data)))
+            //.transition()
+            //.duration(1000)
             .attr('d',line(data));
         svg    //最高点
             .append('g')
