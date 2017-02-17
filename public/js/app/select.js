@@ -1811,9 +1811,11 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         for(var i=0;i<lessBefore.length;i++){
             lessBefore[i].y = 0;
         }
-        for(var i=0;i<dataBefore.length;i++){
-            dataBefore[i].y = 0;
+        for(var j=0;j<dataBefore.length;j++){
+            dataBefore[j].y = 0;
         }
+        console.log(lessBefore)
+        console.log(dataBefore)
         //得分小于我的数据
         function lessArr(data){
             var less = [];
