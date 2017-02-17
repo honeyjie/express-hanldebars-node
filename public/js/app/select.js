@@ -1290,10 +1290,15 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                         chartArea('.select-svg-gpa',data.data.gpa.data,data.data.gpa.max,data.data.gpa.user_data);
                         chartArea('.select-svg-tofel',data.data.toefl.data,data.data.toefl.max,data.data.toefl.user_data);
                         chartArea('.select-svg-gre',data.data.gre.data,data.data.gre.max,data.data.gre.user_data);
+
                         $('.select-school-chart .hardrate span').html(getRatio(data.data.hard));
                         $('.select-school-chart .softrate span').html(getRatio(data.data.soft));
                         $('.select-chart-summary .countrate span').html(getRatio(data.data.count));
                         $('.select-chart-summary .match span').html(data.data.match);
+
+                        chartRound('.select-svg-learning',data.data.science_paper);
+                        chartRound('.select-svg-recommend',data.data.recommend);
+                        chartRound('.select-svg-prize',data.data.prize);
 
                     },
                     error : function() {
@@ -2007,7 +2012,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             .text(maxX.x);
     }
 
-    function chartRound(dom,data1,data2,cb){
+    function chartRound(dom,data){  //dom 胜出率
         if($(dom).find('svg')){
             $(dom).find('svg').remove();
         }
@@ -2017,39 +2022,30 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         var r_height = 180;
         var center_x = width/2;
         var center_y = height/2+20;
-        if(!data1){
-            data1 = {
-                angle : 0,
-                color : '#f2f2f2'
-            }
-        }
-        else{
-            data1.angle = 2*Math.PI*toPoint(data1.ratio);
-            data1.color = color(toPoint(data1.ratio));
-        }
-        data2.angle = 2*Math.PI*toPoint(data2.ratio);
-        data2.color = color(toPoint(data2.ratio));
 
-        var chartNumber = parseInt(toPoint(data1.ratio)*100);
-        var numberTimer = setInterval(function(){
-            if(data2.angle>data1.angle){
-                chartNumber = chartNumber+5;
-            }
-            else if(data2.angle<data1.angle){
-                chartNumber = chartNumber-5;
-            }
-            $(dom).find('.select-svg-number').html(chartNumber+'%');
-            if(chartNumber>=parseInt(toPoint(data2.ratio)*100)){
-                clearInterval(numberTimer);
-                chartNumber = parseInt(toPoint(data2.ratio)*100);
-            }
-            $(dom).find('.select-svg-number').html(chartNumber+'%');
-            if(chartNumber<=0){
-                clearInterval(numberTimer);
-                $(dom).find('.select-svg-number').html('有待提升');
-            }
-            $(dom).find('.select-svg-number').css('color',color(toPoint(data2.ratio)));
-        },100);
+        var angle = 2*Math.PI*toPoint(data);
+        var color = color(toPoint(data));
+
+        var chartNumber = parseInt(toPoint(data)*100);
+        //var numberTimer = setInterval(function(){
+        //    if(data2.angle>data1.angle){
+        //        chartNumber = chartNumber+5;
+        //    }
+        //    else if(data2.angle<data1.angle){
+        //        chartNumber = chartNumber-5;
+        //    }
+        //    $(dom).find('.select-svg-number').html(chartNumber+'%');
+        //    if(chartNumber>=parseInt(toPoint(data2.ratio)*100)){
+        //        clearInterval(numberTimer);
+        //        chartNumber = parseInt(toPoint(data2.ratio)*100);
+        //    }
+        //    $(dom).find('.select-svg-number').html(chartNumber+'%');
+        //    if(chartNumber<=0){
+        //        clearInterval(numberTimer);
+        //        $(dom).find('.select-svg-number').html('有待提升');
+        //    }
+        //    $(dom).find('.select-svg-number').css('color',color(toPoint(data2.ratio)));
+        //},100);
 
         function toPoint(percent){
             if(percent=='0'){
@@ -2095,19 +2091,15 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             .style('fill','#f2f2f2')
             .attr('d',arc1);
         svg.append('path')  //画面
-            .style('fill',data1.color)
-            .attr('d',arc2(data1.angle))
+            .style('fill',color)
+            .attr('d',arc2(0))
             .transition()
             .duration(1000)
-            .style('fill',data2.color)
             .attrTween('d',function(){
                 return function(t){
-                    return arc2(t*data2.angle);
+                    return arc2(t*data);
                 };
             });
-        if(cb){
-            cb();
-        }
     }
 
 }) ;
