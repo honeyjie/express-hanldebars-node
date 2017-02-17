@@ -1953,7 +1953,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             .style('stroke','#ffffff')
             .style('stroke-width',1)
             .attr('x1', x(maxY.x))
-            .attr('y1', y(maxY.y)+5)
+            .attr('y1', -1*y(maxY.y))
             .attr('x2', x(maxY.x))
             .transition()
             .duration(1000)
