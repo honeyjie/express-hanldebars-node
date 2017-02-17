@@ -1,0 +1,54 @@
+[
+{
+"fullName": "Alberta",
+"shortName": "AB"
+},
+{
+"fullName": "British Columbia",
+"shortName": "BC"
+},
+{
+"fullName": "Manitoba",
+"shortName": "MB"
+},
+{
+"fullName": "New Brunswick",
+"shortName": "NB"
+},
+{
+"fullName": "Newfoundland and Labrador",
+"shortName": "NL"
+},
+{
+"fullName": "Northwest Territories",
+"shortName": "NT"
+},
+{
+"fullName": "Nova Scotia",
+"shortName": "NS"
+},
+{
+"fullName": "Nunavut",
+"shortName": "NU"
+},
+{
+"fullName": "Ontario",
+"shortName": "ON"
+},
+{
+"fullName": "Prince Edward Island",
+"shortName": "PE"
+},
+{
+"fullName": "Quebec",
+"shortName": "QC"
+},
+{
+"fullName": "Saskatchewan",
+"shortName": "SK"
+},
+{
+"fullName": "Yukon",
+"shortName": "YT"
+}
+]

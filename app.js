@@ -15,14 +15,14 @@ var compression = express('compression');
 var app = express();
 
 //设置视图位置
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'dist/html'));
 var hbs = exphbs.create({
     defaultLayout: 'main',
     extname: "hbs",
     helpers: helpers,
     partialsDir: [
         'main',
-        'views/partials/',
+        'dist/html/partials/',
     ]
 });
 
@@ -33,8 +33,8 @@ app.set('port', process.env.PORT || 3000);
 
 app.set('view cache', false);
 
-app.use(favicon(__dirname + '/public/img/favicon.ico'));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(favicon(__dirname + '/dist/img/favicon.ico'));
+app.use(express.static(path.join(__dirname, 'dist')));
 app.use(logger('dev'));
 
 app.use('/v1',newProxy('api.inner.utuotu.com', {

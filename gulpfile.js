@@ -17,7 +17,7 @@ gulp.task('minify-js', function () {
     pump([
         gulp.src('./public/js/app/*.js'),
         uglify(),
-        gulp.dest('./dist/js')
+        gulp.dest('./dist/js/app')
         ])
     // gulp.src('./public/js/*.js') // 要压缩的js文件
     // .pipe(uglify())  //使用uglify进行压缩,更多配置请参考：
@@ -39,7 +39,21 @@ gulp.task('minify-html', function () {
         minifyHtml(),
         gulp.dest('./dist/html')
         ])
-
+    pump([
+        gulp.src('./views/partials/*.hbs'),
+        minifyHtml(),
+        gulp.dest('./dist/html/partials')
+    ])
+    pump([
+        gulp.src('./views/partials/Inslibrary/*.hbs'),
+        minifyHtml(),
+        gulp.dest('./dist/html/partials/Inslibrary')
+    ])
+    pump([
+        gulp.src('./views/layouts/*.hbs'),
+        minifyHtml(),
+        gulp.dest('./dist/html/layouts')
+    ])
 });
 //js代码检查
 gulp.task('jsLint', function () {
@@ -48,7 +62,6 @@ gulp.task('jsLint', function () {
         jshint(),
         jshint.reporter(),
         ])
-
 });
 //文件合并
 gulp.task('concat', function () {
