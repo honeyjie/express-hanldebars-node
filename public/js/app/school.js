@@ -10,8 +10,6 @@ define(['jquery','handlebars','d3','fullpage','scrollbar','base','common','iscro
     var sid = $('.school-info').data('sid');
 
     var userMajor;
-
-    console.log(localStorage.getItem("userMajor"));
     var major_empty;
 
     if (localStorage.getItem("userMajor")) {
@@ -152,10 +150,7 @@ define(['jquery','handlebars','d3','fullpage','scrollbar','base','common','iscro
         }
         //条件搜索院校
         $('.screen-side-search').on('click',function(){
-            // canSearch();
-
             if(screen.country||screen.state||screen.preference||screen.major||screen.degree){
-                console.log(screen.country)
                 searchSchool();
             }
         });
