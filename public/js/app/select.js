@@ -2031,9 +2031,6 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             .attr('x', g_width-8)
             .attr('y', g_height-5)
             .text(maxX.x);
-        if(cb){
-            cb();
-        }
     }
 
     function chartRound(dom,data1,data2,cb){
