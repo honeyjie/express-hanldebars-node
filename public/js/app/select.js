@@ -1929,7 +1929,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             .append('circle')
             .style('fill',color.fill)
             .attr('cx', x(maxY.x))
-            .attr('cy', 0)
+            .attr('y', g_height)
             .transition()
             .duration(1000)
             .attr('cx', x(maxY.x))
@@ -1941,12 +1941,12 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             .attr('class','svg-dot')
             .style('stroke',color.stroke)
             .attr('cx', x(user.x))
-            .attr('cy', 0)
+            .attr('y', g_height)
             .transition()
             .duration(1000)
             .attr('cx', x(user.x))
             .attr('cy', y(user.y))
-            .attr('r', 4);
+            .attr('r', 5);
         svg     //最高点线
             .append('g')
             .append('line')
