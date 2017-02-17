@@ -1284,8 +1284,8 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                     dataType:'json',
                     success:function(data){
                         chartArea('.select-svg-gpa',data.data.gpa.data,data.data.gpa.max,data.data.gpa.user_data);
-                        chartArea('.select-svg-tofel',data.data.tofel.data,data.data.tofel.max,data.data.tofel.user_data);
-                        chartArea('.select-svg-gre',data.data.gre.data,data.data.gre.max,data.data.gre.user_data);
+                        //chartArea('.select-svg-tofel',data.data.tofel.data,data.data.tofel.max,data.data.tofel.user_data);
+                        //chartArea('.select-svg-gre',data.data.gre.data,data.data.gre.max,data.data.gre.user_data);
                     },
                     error : function() {
                         base.notice('网络错误');
