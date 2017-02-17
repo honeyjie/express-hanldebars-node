@@ -1802,7 +1802,10 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         if($(dom).find('svg')){
             $(dom).find('svg').remove();
         }
-        data.less = lessArr(data);
+        var less = lessArr(data);    //小于平均分的坐标
+        var maxX = maxData(data);    //最低分坐标
+        var minX = minData(data);    //最高分坐标
+        var color = colorData(data); //颜色
         //得分小于我的数据
         function lessArr(data){
             var less = [];
@@ -1812,9 +1815,9 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                 }
             }
             return less;
-        }
+        };
         //最高分坐标
-        var maxX = function(data){
+        function maxData(data){
             var max = [];
             for(var i=0;i<data.length;i++){
                 max.push(data[i].x)
@@ -1827,7 +1830,7 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             }
         };
         //最低分坐标
-        var minX = function(data){
+        function minData(data){
             var min = [];
             for(var i=0;i<data.length;i++){
                 min.push(data[i].x)
@@ -1849,24 +1852,24 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
             return zeroYArr;
         };
         //颜色
-        var color = function(data){
-            var colorData = {
+        function colorData(data){
+            var colorObj = {
                 stroke : '',
                 fill : ''
             };
             if(user.x>parseInt(maxY.x)+parseInt((user.x-maxY.x)/2)){
-                colorData.stroke = '#55ccff';
-                colorData.fill = '#bdeafc';
+                colorObj.stroke = '#55ccff';
+                colorObj.fill = '#bdeafc';
             }
             else if(user.x>maxY.x&&user.x<=parseInt(maxY.x)+parseInt((user.x-maxY.x)/2)){
-                colorData.stroke = '#72d38a';
-                colorData.fill = '#c7f6d5';
+                colorObj.stroke = '#72d38a';
+                colorObj.fill = '#c7f6d5';
             }
             else if(user.x<=maxY.x){
-                colorData.stroke = '#f14141';
-                colorData.fill = '#ffcccc';
+                colorObj.stroke = '#f14141';
+                colorObj.fill = '#ffcccc';
             }
-            return color;
+            return colorObj;
         }
 
         var width = 500;
@@ -1910,10 +1913,10 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
         svg.append('path')  //画面
             .attr('class','svg-area')
             .style('fill',color.fill)
-            .attr('d',area(zeroY(data.less)))
+            .attr('d',area(zeroY(less)))
             .transition()
             .duration(1000)
-            .attr('d',area(data.less));
+            .attr('d',area(less));
         svg.append('path')  //画线
             .attr('class','svg-line')
             .style('stroke',color.stroke)
