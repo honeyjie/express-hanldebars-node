@@ -1300,6 +1300,8 @@ define(['jquery','fullpage','scrollbar','base','common','d3'], function(jquery,f
                         chartRound('.select-svg-recommend',data.data.recommend);
                         chartRound('.select-svg-prize',data.data.prize);
 
+
+
                     },
                     error : function() {
                         base.notice('网络错误');
