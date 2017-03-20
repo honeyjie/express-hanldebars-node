@@ -1,0 +1,46 @@
+
+article h2 {
+    margin-bottom: 16px;
+}
+article p {
+    text-indent: 2em;
+    font-size: 12px;
+}
+.fa-heart-o {
+    color: #036!important;
+}
+span + em {
+    display: none;
+}
+.wrap-art {
+    margin: 40px;
+    height: auto;
+}
+.wrap-art li {
+    margin: 0 0 20px 0;
+    background: #FFF;
+    padding: 40px;
+    line-height: 2.0em;
+}
+.wrap-art li h2 {
+    margin: 0 0 20px 0;
+}
+.list-footer .more{
+    color: #CCC;
+    font-size: 8px!important;
+    margin: 16px 0;
+    font-weight: lighter;
+}
+.list-footer .more:hover {
+    color: #69c;
+}
+.list-footer span {
+    color: #CCC;
+}
+.list-footer span+em {
+    font-size: 12px;
+}
+.list-footer span:hover {
+    color: #369;
+}
+
