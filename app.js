@@ -1,158 +1,95 @@
 var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var exphbs = require('express-handlebars');
-var multer = require('multer');
-
+var path = require('path');//路径
+var favicon = require('serve-favicon');//图标
+var logger = require('morgan');//日志
+var cookieParser = require('cookie-parser');//cookie
+var bodyParser = require('body-parser');//解析
+var exphbs = require('express-handlebars');//模板
+var request = require('request');//与服务器交换数据模块
 var index = require('./routes/index');
 var proxy = require("./proxy").proxy;
 var newProxy = require('express-http-proxy');
-var helpers = require('./lib/helpers');
-var compression = express('compression');
+var helpers = require('./lib/helpers');//模板中使用的帮助器函数
+var errorhandler = require('errorhandler');//错误处理模块
 var app = express();
 
-//设置视图位置
-app.set('views', path.join(__dirname, 'dist/html'));
+//设置视图文件位置
+app.set('views', path.join(__dirname, 'views'));
+
+//设置模板,默认的布局,帮助器位置，局部文件位置
 var hbs = exphbs.create({
     defaultLayout: 'main',
     extname: "hbs",
     helpers: helpers,
     partialsDir: [
         'main',
-        'dist/html/partials/',
+        'views/partials/',
     ]
 });
-
-
 app.set('view engine', 'hbs');
 app.engine('hbs', hbs.engine);
-app.set('port', process.env.PORT || 3000);
 
-app.set('view cache', true);
+//设定端口
+app.set('port', process.env.PORT || 8000);
 
-app.use(favicon(__dirname + '/dist/img/favicon.ico'));
-app.use(express.static(path.join(__dirname, 'dist')));
-app.use(logger('dev'));
+//是否缓存，在开发环境下设置false
+app.set('view cache', false);
 
-app.use('/v1',newProxy('api.inner.utuotu.com', {
-    forwardPath: function(req, res) {
-        return '/v1' + require('url').parse(req.url).path;
-    },
-    decorateRequest: function(proxyReq, originalReq) {
-        // you can update headers
-        var originalHost = originalReq.get('HOST').split(":")[0];
-        proxyReq.headers['X-ORIGINAL-HOST'] = originalHost;
-        return proxyReq;
-    }
-}));
+//中间件
+app.use(favicon(__dirname + '/public/img/favicon.ico'));//图标
+app.use(express.static(path.join(__dirname, 'public')));//在每个静态文件请求前加上"public"，以便指向正确的地址
+app.use(logger('dev'));//记录日志
 
-app.use(bodyParser.json());
+//指定某种特征接口请求而非静态文件采用自动转发
+// apps
+
+app.use(bodyParser.json());//解析json
 app.use(bodyParser.urlencoded({
     extended: false
 }));
-app.use(cookieParser());
-app.use(multer({
-    dest: "/tmp/upload"
-}).single("file"));
 
-app.use(function(req, res, next) {
+//拦截转发中携带头部信息的处理
+app.use(function (req, res, next) {
     req.proxy = new proxy();
     req.proxy.req = req;
     next();
 });
 
-app.use(function(req, res, next) {
-    req.proxy.request({
-        method: "GET",
-        url: "http://api.inner.utuotu.com/v1/schoolinfo/getschoolbase.action",
-        qs: req.query
-    }, function(err, response, body) {
-      var data = JSON.parse(body);
-      if (!res.locals.partials) {
-        res.locals.partials = {}
-      }
-
-      res.locals.partials.schooldetail = data.data;
-      res.locals.partials.schoolid = req.query.sid;
-      next();
-    });
-});
-
-app.use(function(req, res, next) {
-    req.proxy.request({
-        method: "GET",
-        url: "http://api.inner.utuotu.com/v1/user/cache.action",
-        qs: req.query
-    },function(err, response, body) {
-      var  data = JSON.parse(body);
-      if (!res.locals.partials) {
-        res.locals.partials = {}
-      }
-      res.locals.partials.loginstate = data;
-      next();
-    });
-    
-});
-
-//请求消息状态
-app.use( function(req, res, next) {
-    req.proxy.request({
-        method: "GET",
-        url: "http://api.inner.utuotu.com/v1/User/getmsgstatus.action",
-        qs: req.query
-    },function(err, response, body) {
-        var  data = JSON.parse(body).data;
-        if (!res.locals.partials) {
-            res.locals.partials = {}
-        }
-        res.locals.partials.newsCount = data.count;
-        res.locals.partials.systemState = data.system;
-        res.locals.partials.userState = data.man;
-        next();
-    });
-    
-});
-
-
-app.use('/', index); 
-
-
-//前端可以通过node向服务器发送请求，格式规定：/v1/login/opencode.action
-//前端也可以直接向PHP发送请求（本地服务器会出现跨域），格式规定：http://utuotu.com/v1/login/opencode.action
-// app.use(function(req, res, next) {
-//     var f = (/^(\/v1).*action$/).test(req.path);
-//     if (!f) {
-//         return;
-//     }
-//     req.proxy.request(null, function(err, response, body) {
-//         if (!!err) {
-//             next(err)
-//         } else {
-//             for (var key in response.headers) {
-//                 res.set(key, response.headers[key])
-//             }
-//             try {
-//                 body = JSON.parse(body)
-//             } catch(e) {
-//                 console.log(e);
-//             }
-//             res.send(body); 
+//全局变量
+// app.use(function (req, res, next) {
+//     request({
+//         method: "GET",
+//         url: "...",
+//         qs: req.query
+//     }, function (err, response, body) {
+//         var data = body;
+//         try {
+//             data = JSON.parse(body);
+//         } catch (e) {
+//             next(e)
 //         }
+
+//         if (!res.locals.partials) {
+//             res.locals.partials = {}
+//         }
+//         res.locals.partials.schooldetail = data.data;
+//         res.locals.partials.schoolid = req.query.sid;
+//         next();
 //     });
 // });
 
+app.use('/', index);
 
-// error handler
-app.use(function(err, req, res, next) {
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-    res.status(err.status || 500)
-    res.render('error');
-});
+// app.use(function (err, req, res, next) {
+//     res.render('error', {
+//         err: err,
+//         url: req.originalUrl
+//     });
 
+// })
+
+//监听端口
 app.listen(app.get('port'), function () {
     console.log('express-handlebars example server listening on:' + app.get('port'));
 });
+

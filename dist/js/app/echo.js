@@ -1,1 +1,0 @@
-"use strict";!function(){var e=document.getElementById("say");e.addEventListener("click",function(e){var t=prompt("Say Something:","Yo yo"),n=document.getElementById("ec");n.innerHTML=Handlebars.templates.echo({message:t}),document.body.appendChild(n)},!1)}();

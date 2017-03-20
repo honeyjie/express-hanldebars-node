@@ -6,6 +6,7 @@ function Proxy() {
     this.host = "api.inner.utuotu.com";
 }
 
+//拦截信息的转发逻辑,将浏览器传给node的参数，头部，方法，路径等信息原封不动转给request
 Proxy.prototype.request = function(options, callback) {
     var _options = {
         form: this.req.body,
